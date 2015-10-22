@@ -10,7 +10,7 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/newEvents', function(req, res){
+router.post('/newEvents', function(req, res){
   res.json(
       {"events":[
           {"category" : "Lunch", "timeString" : "Today at 2:00 PM", "people" : "3 spots left", "distance" : "0.3 mi away"},
