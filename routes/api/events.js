@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var dbFolderLocation = "../../db/";
-var Event = require(dbFolderLocation + 'Event.js');
+var Soiree = require(dbFolderLocation + 'Soiree.js');
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 
 /* GET home page. */
