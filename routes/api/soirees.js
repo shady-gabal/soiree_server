@@ -10,7 +10,7 @@ var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-//var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -144,16 +144,35 @@ router.post('/soireesNear', function(req, res){
 });
 
 router.get('/soireesNear', function(req, res){
-    Soiree.find({}, function(err, soirees){
+    Soiree.find({}).populate("_business").exec(function(err, soirees){
         if (err){
             console.log("Error finding soirees near you");
             res.status('404').send("Error");
         }
         else {
-            res.json(soirees);
+            var dataToSend = [];
+            for (var i = 0; i < soirees.length; i++){
+                var soiree = soirees[i];
+                dataToSend.push(soiree.createDataObjectToSend());
+            }
+            res.json(dataToSend);
         }
     });
 });
+
+
+
+//var soireeSchema = new Schema({
+//    soireeType : {type: String, required: true, enum: soireeTypes},
+//    numUsersAttending : {type: Number, default: 0},
+//    numUsersMax: {type : Number, required: true},
+//    soireeId: {type: String, unique: true, default: shortid.generate},
+//    date: {type : Date, required: [true, "A date for the Soiree is required"]},
+//    //timeAtString : {type : String},
+//    _usersAttending : [{type : ObjectId, ref : "User"}],
+//    _business: {type: ObjectId, ref:"Business", required :[true, "A business that will host is required to create this Soiree"]},
+//    dateCreated : {type: Date, default: Date.now()}
+//});
 
 
 router.post('/soireeWithId', function(req, res) {

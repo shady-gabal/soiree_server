@@ -61,6 +61,20 @@ soireeSchema.statics.timeAtStringFromDate = function(date){
 	return timeAtString;
 };
 
+soireeSchema.methods.createDataObjectToSend = function(){
+	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
+
+	var obj = {
+		"soireeType": this.soireeType,
+		"numUsersAttending": this.numUsersAttending,
+		"numUsersMax": this.numUsersMax,
+		"date": timeIntervalSince1970InSeconds,
+		"soireeId": this.soireeId,
+		"businessName": this._business.businessName
+	};
+	return obj;
+};
+
 //soireeSchema.statics.createSoiree = function(type, date, business){
 //
 //}
