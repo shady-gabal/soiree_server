@@ -132,17 +132,21 @@ var soireeSchema = new Schema({
 */
 
 router.post('/soireesNear', function(req, res){
-    Soiree.find({}, function(err, soirees){
+    Soiree.find({}).populate("_business").exec(function(err, soirees){
         if (err){
             console.log("Error finding soirees near you");
             res.status('404').send("Error");
         }
         else {
-            res.json(soirees);
+            var dataToSend = [];
+            for (var i = 0; i < soirees.length; i++){
+                var soiree = soirees[i];
+                dataToSend.push(soiree.createDataObjectToSend());
+            }
+            res.json(dataToSend);
         }
     });
 });
-
 router.get('/soireesNear', function(req, res){
     Soiree.find({}).populate("_business").exec(function(err, soirees){
         if (err){
