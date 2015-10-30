@@ -70,7 +70,8 @@ soireeSchema.methods.createDataObjectToSend = function(){
 		"numUsersMax": this.numUsersMax,
 		"date": timeIntervalSince1970InSeconds,
 		"soireeId": this.soireeId,
-		"businessName": this._business.businessName
+		"businessName": this._business.businessName,
+		"coordinates" : this._business.location.coordinates
 	};
 	return obj;
 };
