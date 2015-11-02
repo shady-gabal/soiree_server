@@ -31,7 +31,9 @@ router.get('/createSoirees', function(req, res){
 
         }
 
-        var date = new Date(2015, 10, 1, 13);
+        var todaysDate = new Date();
+
+        var date = new Date(todaysDate.getTime() + (1 * 24 * 60 * 60 * 1000));
         var soiree = new Soiree({
             soireeType: "Lunch",
             //numUsersAttending : {type: Number, default: 0},
@@ -51,7 +53,7 @@ router.get('/createSoirees', function(req, res){
 
 
 
-        var date2 = new Date(2015, 9, 30, 20);
+        var date2 = new Date(todaysDate.getTime() + (3 * 60 * 60 * 1000));
         var soiree2 = new Soiree({
             soireeType: "Lunch",
             //numUsersAttending : {type: Number, default: 0},
@@ -69,7 +71,7 @@ router.get('/createSoirees', function(req, res){
 
 
 
-        var date3 = new Date(2015, 10, 29, 19);
+        var date3 = new Date(todaysDate.getTime() + (3 * 24 * 60 * 60 * 1000));
         var soiree3 = new Soiree({
             soireeType: "Dinner",
             //numUsersAttending : {type: Number, default: 0},
@@ -88,7 +90,7 @@ router.get('/createSoirees', function(req, res){
 
 
 
-        var date4 = new Date(2015, 9, 31, 22);
+        var date4 = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
         var soiree4 = new Soiree({
             soireeType: "Drinks",
             //numUsersAttending : {type: Number, default: 0},

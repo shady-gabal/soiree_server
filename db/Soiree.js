@@ -76,9 +76,9 @@ soireeSchema.methods.createDataObjectToSend = function(){
 	return obj;
 };
 
-//soireeSchema.statics.createSoiree = function(type, date, business){
-//
-//}
+soireeSchema.statics.soireeTypes = function(){
+	return soireeTypes;
+};
 
 
 
