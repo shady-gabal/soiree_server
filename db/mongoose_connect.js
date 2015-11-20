@@ -17,15 +17,16 @@ var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000
 var mongodbUri = process.env.MONGOLAB_URI;
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 
-console.log('connecting to mongodb');
-
+console.log(process.env.MONGOLAB_URI);
 //for local dev
 if (process.env.LOCAL_DEVELOPMENT){
-	mongoose.connect("mongodb://localhost/untitledRevDB", options);
+	console.log('connecting to local mongodb...');
+	mongoose.connect("mongodb://localhost/soireedb", options);
 }
 
 else{
 	//for remote dev
+	console.log('connecting to remote mongodb...');
 	mongoose.connect(mongooseUri, options);
 }
 

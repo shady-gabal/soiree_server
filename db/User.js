@@ -13,11 +13,18 @@ var Soiree = require('./Soiree.js');
 var shortid = require('shortid');
 
 /* Schema Specific */
+var genders = ["male", "female"];
+var interestedIn = ["male", "female", "both"];
 
 var userSchema = new Schema({
 	firstName : {type: String, required: true},
 	lastName : {type: String},
-	facebookId : {type: String, index: true},
+	gender : {type: String, required : true, enum: genders},
+	email : {type: String},
+	birthday : {type: String},
+	age: {type: Number},
+	interested_in : [{type: String, required : true, enum: interestedIn}],
+	facebookUserId : {type: String, index: true},
 	userId: {type: String, unique: true, default: shortid.generate},
 	phoneNumber : {type : String},
 	numEventsAttended : {type: Number, default: 0},
@@ -29,9 +36,29 @@ var userSchema = new Schema({
 });
 
 userSchema.pre('save', function(next){
+	//determine age
+	var birthdate = new Date(this.birthday);
+	var age = (Date.now() - birthdate) / (1000 * 60 * 60 * 24 * 365.25);
+	this.age = parseInt(age);
+	//set date updated
 	this.dateUpdated = new Date();
 	next();
 });
+
+userSchema.methods.createDataObjectToSend = function(){
+	var obj = {
+		"firstName" : this.firstName,
+		"lastName" : this.lastName,
+		"gender" : this.gender,
+		"email" : this.email,
+		"age" : this.age,
+		"birthday" : this.birthday,
+		"userId" : this.userId,
+		"finishedSignUp" : this.finishedSignUp,
+		"interestedIn" : this.interested_in
+	};
+	return obj;
+};
 
 module.exports = mongoose.model('User', userSchema);
 
