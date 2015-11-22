@@ -12,10 +12,8 @@ var User = require(dbFolderLocation + 'User.js');
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
-});
+
+
 
 router.get('/findUser', function(req, res){
   var facebookUserId = req.query.facebookUserId;
@@ -57,7 +55,11 @@ router.get('/createUser', function(req, res){
   });
 
 
+});
 
+
+router.get('/test', function(req, res){
+  res.send("Works");
 });
 
 function createUser(req, res){
@@ -71,25 +73,31 @@ function createUser(req, res){
   var profilePictureUrl = req.query.profilePictureUrl;
 
   var newUser = new User({
-    "facebookUserId" : facebookUserId,
-    "first_name" : firstName,
-    "last_name" : lastName,
-    "email" : email,
-    "gender" : gender,
-    "interested_in" : interestedIn,
-    "birthday" : birthday,
-    "profile_picture_url" : profilePictureUrl
+    facebookUserId : facebookUserId,
+    firstName : firstName,
+    lastName : lastName,
+    email : email,
+    gender : gender,
+    interestedIn : interestedIn,
+    birthday : birthday,
+    profilePictureUrl : profilePictureUrl,
+    verified: false
   });
 
-  newUser.save(function(err){
-    if (err)
-      return res.status('404').send("Error creating user");
+  newUser.save(function(err, user){
+    if (err) {
+      console.log("Error saving user: " + err);
+      return res.status('404').send("Error saving user");
+    }
 
-    sendUser(res, newUser, true);
+    sendUser(res, user, true);
   });
 }
 
 function sendUser(res, user, firstSignUp){
+  if (!firstSignUp)
+    firstSignUp = false;
+
   var obj = {
     "firstSignUp" : firstSignUp,
     "user" : user.createDataObjectToSend()

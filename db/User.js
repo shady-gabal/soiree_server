@@ -19,12 +19,13 @@ var interestedIn = ["male", "female", "both"];
 var userSchema = new Schema({
 	firstName : {type: String, required: true},
 	lastName : {type: String},
+	verified: {type: Boolean, default: false},
 	gender : {type: String, required : true, enum: genders},
 	email : {type: String},
 	birthday : {type: String},
-	interested_in : [{type: String, required : true, enum: interestedIn}],
+	interestedIn : [{type: String, required : true, enum: interestedIn}],
 	facebookUserId : {type: String, index: true},
-	profile_picture_url : {type: String},
+	profilePictureUrl : {type: String},
 	userId: {type: String, unique: true, default: shortid.generate},
 	phoneNumber : {type : String},
 	numEventsAttended : {type: Number, default: 0},
@@ -52,8 +53,9 @@ userSchema.methods.createDataObjectToSend = function(){
 		"birthday" : this.birthday,
 		"userId" : this.userId,
 		"finishedSignUp" : this.finishedSignUp,
-		"interestedIn" : this.interested_in,
-		"profile_picture_url" : this.profile_picture_url
+		"interestedIn" : this.interestedIn,
+		"profilePictureUrl" : this.profilePictureUrl,
+		"facebookUserId" : this.facebookUserId
 	};
 	return obj;
 };
