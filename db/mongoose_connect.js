@@ -17,7 +17,6 @@ var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000
 var mongodbUri = process.env.MONGOLAB_URI;
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 
-console.log(process.env.MONGOLAB_URI);
 //for local dev
 if (process.env.LOCAL_DEVELOPMENT){
 	console.log('connecting to local mongodb...');

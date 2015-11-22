@@ -25,6 +25,7 @@ var userSchema = new Schema({
 	age: {type: Number},
 	interested_in : [{type: String, required : true, enum: interestedIn}],
 	facebookUserId : {type: String, index: true},
+	profile_picture_url : {type: String},
 	userId: {type: String, unique: true, default: shortid.generate},
 	phoneNumber : {type : String},
 	numEventsAttended : {type: Number, default: 0},
@@ -55,7 +56,8 @@ userSchema.methods.createDataObjectToSend = function(){
 		"birthday" : this.birthday,
 		"userId" : this.userId,
 		"finishedSignUp" : this.finishedSignUp,
-		"interestedIn" : this.interested_in
+		"interestedIn" : this.interested_in,
+		"profile_picture_url" : this.profile_picture_url
 	};
 	return obj;
 };
