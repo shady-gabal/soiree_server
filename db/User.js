@@ -14,24 +14,25 @@ var shortid = require('shortid');
 
 /* Schema Specific */
 var genders = ["male", "female"];
-var interestedIn = ["male", "female", "both"];
+//var interestedIn = ["male", "female"];
 
 var userSchema = new Schema({
 	firstName : {type: String, required: true},
 	lastName : {type: String},
-	verified: {type: Boolean, default: false},
+	verified : {type: Boolean, default: false},
+	pendingVerification : {type: Boolean, default: false},
 	gender : {type: String, required : true, enum: genders},
 	email : {type: String},
 	birthday : {type: String},
-	interestedIn : [{type: String, required : true, enum: interestedIn}],
+	interestedIn : [{type: String, required : true, enum: genders}],
 	facebookUserId : {type: String, index: true},
 	profilePictureUrl : {type: String},
 	userId: {type: String, unique: true, default: shortid.generate},
 	phoneNumber : {type : String},
-	numEventsAttended : {type: Number, default: 0},
 	finishedSignUp : {type : Boolean, default: false},
 	dateSignedUp: {type : Date, default: Date.now()},
 	dateLastSignedIn : {type: Date, default: Date.now()},
+	_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
 	_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
 	dateUpdated : {type: Date, default: Date.now()}
 });
@@ -50,12 +51,15 @@ userSchema.methods.createDataObjectToSend = function(){
 		"lastName" : this.lastName,
 		"gender" : this.gender,
 		"email" : this.email,
+		"age" : this.age,
 		"birthday" : this.birthday,
 		"userId" : this.userId,
 		"finishedSignUp" : this.finishedSignUp,
 		"interestedIn" : this.interestedIn,
 		"profilePictureUrl" : this.profilePictureUrl,
-		"facebookUserId" : this.facebookUserId
+		"facebookUserId" : this.facebookUserId,
+		"verified" : this.verified,
+		"pendingVerification" : this.pendingVerification
 	};
 	return obj;
 };
