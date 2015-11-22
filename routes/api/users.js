@@ -68,6 +68,7 @@ function createUser(req, res){
   var gender = req.query.gender;
   var interestedIn = req.query.interestedIn;
   var birthday = req.query.birthday;
+  var profilePictureUrl = req.query.profilePictureUrl;
 
   var newUser = new User({
     "facebookUserId" : facebookUserId,
@@ -76,7 +77,8 @@ function createUser(req, res){
     "email" : email,
     "gender" : gender,
     "interested_in" : interestedIn,
-    "birthday" : birthday
+    "birthday" : birthday,
+    "profile_picture_url" : profilePictureUrl
   });
 
   newUser.save(function(err){

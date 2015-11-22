@@ -22,7 +22,6 @@ var userSchema = new Schema({
 	gender : {type: String, required : true, enum: genders},
 	email : {type: String},
 	birthday : {type: String},
-	age: {type: Number},
 	interested_in : [{type: String, required : true, enum: interestedIn}],
 	facebookUserId : {type: String, index: true},
 	profile_picture_url : {type: String},
@@ -38,9 +37,7 @@ var userSchema = new Schema({
 
 userSchema.pre('save', function(next){
 	//determine age
-	var birthdate = new Date(this.birthday);
-	var age = (Date.now() - birthdate) / (1000 * 60 * 60 * 24 * 365.25);
-	this.age = parseInt(age);
+
 	//set date updated
 	this.dateUpdated = new Date();
 	next();
@@ -52,7 +49,6 @@ userSchema.methods.createDataObjectToSend = function(){
 		"lastName" : this.lastName,
 		"gender" : this.gender,
 		"email" : this.email,
-		"age" : this.age,
 		"birthday" : this.birthday,
 		"userId" : this.userId,
 		"finishedSignUp" : this.finishedSignUp,
@@ -61,6 +57,12 @@ userSchema.methods.createDataObjectToSend = function(){
 	};
 	return obj;
 };
+
+userSchema.virtual('age').get(function(){
+	var birthdate = new Date(this.birthday);
+	var age = (Date.now() - birthdate) / (1000 * 60 * 60 * 24 * 365.25);
+	return parseInt(age);
+});
 
 module.exports = mongoose.model('User', userSchema);
 
