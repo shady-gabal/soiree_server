@@ -55,10 +55,11 @@ router.get('/createUser', function(req, res){
   });
 });
 
-router.get('/photoForVerification', function(req, res){
+router.post('/verifyWithPhoto', function(req, res){
   User.verifyUser(req.user, function(user){
     console.log("User verified");
   }, function(err){
+    res.status('404').send("Error finding user");
     console.log("Error verifying user");
   });
 });
