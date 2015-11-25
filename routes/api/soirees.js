@@ -157,7 +157,7 @@ router.post('/soireesNear', function(req, res){
             }
         });
     }, function(err){
-
+        res.status('404').send("Error finding user");
     });
 
 });

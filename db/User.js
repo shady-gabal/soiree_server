@@ -73,6 +73,8 @@ userSchema.virtual('age').get(function(){
 });
 
 userSchema.statics.verifyUser = function(user, successCallback, failureCallback){
+	console.log("Verifying " + user + "...");
+
 	if (user.facebookUserId) {
 		User.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, user) {
 			if (err || !user) {
