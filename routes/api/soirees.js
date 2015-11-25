@@ -115,24 +115,6 @@ router.get('/createSoirees', function(req, res){
 });
 
 
-
-
-/* DATE FUNCTIONS */
-
-/*
-var soireeSchema = new Schema({
-    soireeType : {type: String, required: true},
-    numUsersAttending : {type: Number, default: 0},
-    numUsersMax: {type : Number, required: true},
-    soireeId: {type: ObjectId, default: function () { return new ObjectId()}},
-    date: {type : Date, required: true},
-    timeAtString : {type : String, required : true},
-    usersAttending : [{type:User}],
-    business: {type: Business},
-    dateCreated : {type: Date, default: Date.now()}
-});
-*/
-
 //Coupon.find({ location : { $near : coors}}).skip(numCouponsAlreadyLoaded).limit(numResultsRequested).exec(function(err, data){
 
 router.post('/soireesNear', function(req, res){
