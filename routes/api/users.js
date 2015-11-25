@@ -53,13 +53,14 @@ router.get('/createUser', function(req, res){
       }
     }
   });
-
-
 });
 
-
-router.get('/test', function(req, res){
-  res.send("Works");
+router.get('/photoForVerification', function(req, res){
+  User.verifyUser(req.user, function(user){
+    console.log("User verified");
+  }, function(err){
+    console.log("Error verifying user");
+  });
 });
 
 function createUser(req, res){

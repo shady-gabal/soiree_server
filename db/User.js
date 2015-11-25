@@ -29,6 +29,7 @@ var userSchema = new Schema({
 	profilePictureUrl : {type: String},
 	userId: {type: String, unique: true, default: shortid.generate},
 	phoneNumber : {type : String},
+	secretKey : {type: String, unique: true, default: shortid.generate},
 	finishedSignUp : {type : Boolean, default: false},
 	dateSignedUp: {type : Date, default: Date.now()},
 	dateLastSignedIn : {type: Date, default: Date.now()},
@@ -59,6 +60,7 @@ userSchema.methods.createDataObjectToSend = function(){
 		"profilePictureUrl" : this.profilePictureUrl,
 		"facebookUserId" : this.facebookUserId,
 		"verified" : this.verified,
+		"secretKey" : this.secretKey,
 		"pendingVerification" : this.pendingVerification
 	};
 	return obj;
@@ -69,6 +71,33 @@ userSchema.virtual('age').get(function(){
 	var age = (Date.now() - birthdate) / (1000 * 60 * 60 * 24 * 365.25);
 	return parseInt(age);
 });
+
+userSchema.statics.verifyUser = function(user, successCallback, failureCallback){
+	if (user.facebookUserId) {
+		User.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, user) {
+			if (err || !user) {
+				failureCallback(err);
+			}
+			else {
+				successCallback(user);
+			}
+		});
+
+	}
+	else if (user.userId) {
+		User.findOne({"user": user.userId, "secretKey": user.secretKey}).exec(function (err, user) {
+			if (err || !user) {
+				failureCallback();
+			}
+			else {
+				successCallback(user);
+			}
+		});
+	}
+	else {
+		failureCallback();
+	}
+};
 
 module.exports = mongoose.model('User', userSchema);
 
