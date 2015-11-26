@@ -5,6 +5,8 @@ var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
+var multiparty = require('multiparty');
+
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
@@ -63,7 +65,14 @@ router.get('/deleteUsers', function(req, res){
 
 router.post('/verifyWithPhoto', function(req, res){
   console.log(req.body);
+  
+  var form = new multiparty.Form();
 
+  form.parse(req, function(err, fields, files) {
+    res.writeHead(200, {'content-type': 'text/plain'});
+    res.write('received upload:\n\n');
+    res.end(util.inspect({fields: fields, files: files}));
+  });
   //User.verifyUser(req.body.user, function(user){
   //  console.log("User verified");
   //}, function(err){
