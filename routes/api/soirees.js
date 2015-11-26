@@ -145,7 +145,6 @@ router.post('/soireesNear', function(req, res){
 });
 
 router.get('/soireesNear', function(req, res){
-    console.log(req.query);
     User.verifyUser(req.query.user, function(user){
 
         var longitude = req.query.user.longitude;
