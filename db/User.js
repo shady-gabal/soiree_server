@@ -82,20 +82,20 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 
 	if (user.facebookUserId) {
 		this.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, userFound) {
-			if (err || !user) {
+			if (err || !userFound) {
 				console.log("User not found " + err);
 				failureCallback(err);
 			}
 			else {
 				console.log("User found " + userFound);
-				successCallback(user);
+				successCallback(userFound);
 			}
 		});
 
 	}
 	else if (user.userId) {
 		this.findOne({"userId": user.userId, "secretKey": user.secretKey}).exec(function (err, userFound) {
-			if (err || !user) {
+			if (err || !userFound) {
 				console.log("User not found " + err);
 				failureCallback();
 			}
