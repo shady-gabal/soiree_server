@@ -64,11 +64,11 @@ router.get('/deleteUsers', function(req, res){
 
 
 router.post('/verifyWithPhoto', function(req, res){
-  console.log(req.body);
-
   var form = new multiparty.Form();
 
   form.parse(req, function(err, fields, files) {
+    console.log(fields);
+    console.log(files);
     res.json({"message" : "Finished"});
     res.end(util.inspect({fields: fields, files: files}));
   });
