@@ -14,7 +14,6 @@ var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 
 
 
-
 router.get('/findUser', function(req, res){
   var facebookUserId = req.query.facebookUserId;
   if (!facebookUserId){
@@ -54,6 +53,13 @@ router.get('/createUser', function(req, res){
     }
   });
 });
+
+router.get('/deleteUsers', function(req, res){
+  User.remove({}, function(){
+    res.send("Done");
+  }) ;
+});
+
 
 router.post('/verifyWithPhoto', function(req, res){
   console.log(req.body.user);
