@@ -87,7 +87,7 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 				failureCallback(err);
 			}
 			else {
-				console.log("User found " + userFound);
+				console.log("User found " + userFound.userId);
 				successCallback(userFound);
 			}
 		});
