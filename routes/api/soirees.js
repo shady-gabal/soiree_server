@@ -118,10 +118,10 @@ router.get('/createSoirees', function(req, res){
 //Coupon.find({ location : { $near : coors}}).skip(numCouponsAlreadyLoaded).limit(numResultsRequested).exec(function(err, data){
 
 router.get('/soireesNear', function(req, res){
-    User.verifyUser(req.body.user, function(user){
+    User.verifyUser(req.query.user, function(user){
 
-        var longitude = req.body.user.longitude;
-        var latitude = req.body.user.latitude;
+        var longitude = req.query.user.longitude;
+        var latitude = req.query.user.latitude;
         var coors = {type: "Point", coordinates: [longitude, latitude]};
 
         Soiree.find({ location: { $near : coors }}).populate("_business").exec(function(err, soirees){
