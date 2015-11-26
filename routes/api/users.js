@@ -1,18 +1,22 @@
 var express = require('express');
 var router = express.Router();
 
-var dbFolderLocation = "../../db/";
-var helpersFolderLocation = "../../helpers/";
-
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var multiparty = require('multiparty');
+var fs = require('fs');
+
+
+var dbFolderLocation = "../../db/";
+var helpersFolderLocation = "../../helpers/";
 
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
+var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+
 
 
 
@@ -64,14 +68,36 @@ router.get('/deleteUsers', function(req, res){
 
 
 router.post('/verifyWithPhoto', function(req, res){
-  var form = new multiparty.Form();
+  User.verifyUser(req.body.user, function(user){
+    var form = new multiparty.Form();
 
-  form.parse(req, function(err, fields, files) {
-    console.log(fields);
-    console.log(files);
-    res.json({"message" : "Finished"});
-    res.end(util.inspect({fields: fields, files: files}));
+    form.parse(req, function(err, fields, files) {
+      console.log(files);
+      var photo = files["photo"][0];
+      var imagePath = photo.path;
+      console.log(photo);
+      var userVerification = new UserVerification({
+        _user : user._id
+      });
+      userVerification.image.data = fs.readFileSync(imagePath);
+
+      
+      userVerification.save(function(err){
+        if (err){
+          res.status('404').send("Error saving photo");
+        }
+        else{
+          res.json({"message" : "Finished"});
+          console.log("Saved photo");
+        }
+      });
+
+      //res.end(util.inspect({fields: fields, files: files}));
+    });
+  }, function(err){
+    res.status('404').send("Error finding user");
   });
+
   //User.verifyUser(req.body.user, function(user){
   //  console.log("User verified");
   //}, function(err){
