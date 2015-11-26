@@ -117,7 +117,7 @@ router.get('/createSoirees', function(req, res){
 
 //Coupon.find({ location : { $near : coors}}).skip(numCouponsAlreadyLoaded).limit(numResultsRequested).exec(function(err, data){
 
-router.post('/soireesNear', function(req, res){
+router.get('/soireesNear', function(req, res){
     User.verifyUser(req.body.user, function(user){
 
         var longitude = req.body.user.longitude;
@@ -144,22 +144,22 @@ router.post('/soireesNear', function(req, res){
 
 });
 
-router.get('/soireesNear', function(req, res){
-    Soiree.find({}).populate("_business").exec(function(err, soirees){
-        if (err){
-            console.log("Error finding soirees near you");
-            res.status('404').send("Error");
-        }
-        else {
-            var dataToSend = [];
-            for (var i = 0; i < soirees.length; i++){
-                var soiree = soirees[i];
-                dataToSend.push(soiree.createDataObjectToSend());
-            }
-            res.json(dataToSend);
-        }
-    });
-});
+//router.get('/soireesNear', function(req, res){
+//    Soiree.find({}).populate("_business").exec(function(err, soirees){
+//        if (err){
+//            console.log("Error finding soirees near you");
+//            res.status('404').send("Error");
+//        }
+//        else {
+//            var dataToSend = [];
+//            for (var i = 0; i < soirees.length; i++){
+//                var soiree = soirees[i];
+//                dataToSend.push(soiree.createDataObjectToSend());
+//            }
+//            res.json(dataToSend);
+//        }
+//    });
+//});
 
 
 
