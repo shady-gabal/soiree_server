@@ -67,14 +67,14 @@ router.get('/deleteUsers', function(req, res){
 
 
 router.post('/verifyWithPhoto', function(req, res){
-  console.log(req.body);
-  console.log(req.query);
-  User.verifyUser(req.body.user, function(user){
-    console.log("In user");
-    var form = new multiparty.Form();
+  var form = new multiparty.Form();
 
-    form.parse(req, function(err, fields, files) {
-      console.log(files);
+  form.parse(req, function(err, fields, files) {
+    console.log(fields);
+
+    User.verifyUser(fields.user, function(user) {
+      console.log("In user");
+
       var photo = files["photo"][0];
       var imagePath = photo.path;
       console.log(photo);
@@ -94,11 +94,41 @@ router.post('/verifyWithPhoto', function(req, res){
         }
       });
 
-      //res.end(util.inspect({fields: fields, files: files}));
+    }, function(err){
+      res.status('404').send("Error finding user");
     });
-  }, function(err){
-    res.status('404').send("Error finding user");
   });
+
+  //  User.verifyUser(req.body.user, function(user){
+  //  console.log("In user");
+  //  var form = new multiparty.Form();
+  //
+  //  form.parse(req, function(err, fields, files) {
+  //    console.log(files);
+  //    var photo = files["photo"][0];
+  //    var imagePath = photo.path;
+  //    console.log(photo);
+  //    var userVerification = new UserVerification({
+  //      _user : user._id
+  //    });
+  //    userVerification.image.data = fs.readFileSync(imagePath);
+  //
+  //
+  //    userVerification.save(function(err){
+  //      if (err){
+  //        res.status('404').send("Error saving photo");
+  //      }
+  //      else{
+  //        res.json({"message" : "Finished"});
+  //        console.log("Saved photo");
+  //      }
+  //    });
+  //
+  //    //res.end(util.inspect({fields: fields, files: files}));
+  //  });
+  //}, function(err){
+  //  res.status('404').send("Error finding user");
+  //});
 
   //User.verifyUser(req.body.user, function(user){
   //  console.log("User verified");
