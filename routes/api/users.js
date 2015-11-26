@@ -31,7 +31,7 @@ router.get('/findUser', function(req, res){
         res.json({});
       }
       else{
-        res.json(user);
+        res.json({"user" : user});
       }
     }
   });
