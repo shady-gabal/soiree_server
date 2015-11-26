@@ -124,7 +124,7 @@ router.post('/soireesNear', function(req, res){
         var latitude = req.body.user.latitude;
         var coors = {type: "Point", coordinates: [longitude, latitude]};
 
-        Soiree.find({ location : { $near : coors }}).populate("_business").exec(function(err, soirees){
+        Soiree.find({}).populate("_business").exec(function(err, soirees){
             if (err){
                 console.log("Error finding soirees near you");
                 res.status('404').send("Error");
