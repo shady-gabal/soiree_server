@@ -29,7 +29,7 @@ var userSchema = new Schema({
 	profilePictureUrl : {type: String},
 	userId: {type: String, unique: true, default: shortid.generate},
 	phoneNumber : {type : String},
-	secretKey : {type: String, unique: true, default: shortid.generate},
+	secretKey : {type: String, index:true, unique: true, default: shortid.generate},
 	finishedSignUp : {type : Boolean, default: false},
 	dateSignedUp: {type : Date, default: Date.now()},
 	dateLastSignedIn : {type: Date, default: Date.now()},
@@ -77,6 +77,8 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 
 	if (!user)
 		return failureCallback();
+	
+	console.log(user.facebookUserId + " " + user.userId + " " + user.secretKey);
 
 	if (user.facebookUserId) {
 		this.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, user) {
@@ -90,7 +92,7 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 
 	}
 	else if (user.userId) {
-		this.findOne({"user": user.userId, "secretKey": user.secretKey}).exec(function (err, user) {
+		this.findOne({"userId": user.userId, "secretKey": user.secretKey}).exec(function (err, user) {
 			if (err || !user) {
 				failureCallback();
 			}
