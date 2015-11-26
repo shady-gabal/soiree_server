@@ -68,6 +68,7 @@ router.get('/deleteUsers', function(req, res){
 
 router.post('/verifyWithPhoto', function(req, res){
   User.verifyUser(req.body.user, function(user){
+    console.log("In user");
     var form = new multiparty.Form();
 
     form.parse(req, function(err, fields, files) {

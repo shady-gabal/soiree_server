@@ -73,8 +73,10 @@ userSchema.virtual('age').get(function(){
 });
 
 userSchema.statics.verifyUser = function(user, successCallback, failureCallback){
-	if (!user)
+	if (!user){
+		console.log("No user passed to verifyUser");
 		return failureCallback();
+	}
 
 	console.log(user.facebookUserId + " " + user.userId + " " + user.secretKey);
 
