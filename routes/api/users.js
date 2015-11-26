@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+var dbFolderLocation = "../../db/";
+var helpersFolderLocation = "../../helpers/";
+
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var multiparty = require('multiparty');
 var fs = require('fs');
-
-
-var dbFolderLocation = "../../db/";
-var helpersFolderLocation = "../../helpers/";
 
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
@@ -81,7 +80,7 @@ router.post('/verifyWithPhoto', function(req, res){
       });
       userVerification.image.data = fs.readFileSync(imagePath);
 
-      
+
       userVerification.save(function(err){
         if (err){
           res.status('404').send("Error saving photo");
