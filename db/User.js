@@ -79,7 +79,7 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 		return failureCallback();
 
 	if (user.facebookUserId) {
-		User.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, user) {
+		this.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, user) {
 			if (err || !user) {
 				failureCallback(err);
 			}
@@ -90,7 +90,7 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 
 	}
 	else if (user.userId) {
-		User.findOne({"user": user.userId, "secretKey": user.secretKey}).exec(function (err, user) {
+		this.findOne({"user": user.userId, "secretKey": user.secretKey}).exec(function (err, user) {
 			if (err || !user) {
 				failureCallback();
 			}
