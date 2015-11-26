@@ -65,12 +65,11 @@ router.get('/deleteUsers', function(req, res){
 
 router.post('/verifyWithPhoto', function(req, res){
   console.log(req.body);
-  
+
   var form = new multiparty.Form();
 
   form.parse(req, function(err, fields, files) {
-    res.writeHead(200, {'content-type': 'text/plain'});
-    res.write('received upload:\n\n');
+    res.json({"message" : "Finished"});
     res.end(util.inspect({fields: fields, files: files}));
   });
   //User.verifyUser(req.body.user, function(user){
