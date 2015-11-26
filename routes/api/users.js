@@ -62,14 +62,14 @@ router.get('/deleteUsers', function(req, res){
 
 
 router.post('/verifyWithPhoto', function(req, res){
-  console.log(req.body.user);
+  console.log(req.body);
 
-  User.verifyUser(req.body.user, function(user){
-    console.log("User verified");
-  }, function(err){
-    res.status('404').send("Error finding user");
-    console.log("Error verifying user");
-  });
+  //User.verifyUser(req.body.user, function(user){
+  //  console.log("User verified");
+  //}, function(err){
+  //  res.status('404').send("Error finding user");
+  //  console.log("Error verifying user");
+  //});
 });
 
 function createUser(req, res){

@@ -73,8 +73,6 @@ userSchema.virtual('age').get(function(){
 });
 
 userSchema.statics.verifyUser = function(user, successCallback, failureCallback){
-	console.log("Verifying " + user + "...");
-
 	if (!user)
 		return failureCallback();
 
