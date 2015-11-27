@@ -8,7 +8,10 @@ var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var multiparty = require('multiparty');
 var fs = require('fs');
 var multer = require('multer');
-var upload = multer({ dest: 'public/images/' })
+var storage = multer.memoryStorage();
+
+//var upload = multer({ dest: 'public/images/' })
+var upload = multer({ storage: storage })
 
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
@@ -108,19 +111,38 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
     console.log(req.file);
       var userVerification = new UserVerification({
         _user : user._id,
-        image : req.file.buffer
+        image: req.file.buffer
       });
-      //userVerification.image.data = fs.readFileSync(imagePath);
 
-      userVerification.save(function(err){
-        if (err){
+      userVerification.save(function(err) {
+        if (err) {
           res.status('404').send("Error saving photo");
         }
-        else{
-          res.json({"message" : "Finished", "fileName" : req.file.fileName});
+        else {
+          res.json({"message": "Finished"});
           console.log("Saved photo");
         }
       });
+
+
+      //var imagePath = req.file.path;
+      //fs.readFile(imagePath, function(data){
+      //  userVerification.image.data = data;
+      //
+      //  userVerification.save(function(err){
+      //    if (err){
+      //      res.status('404').send("Error saving photo");
+      //    }
+      //    else{
+      //      res.json({"message" : "Finished", "fileName" : req.file.filename});
+      //      console.log("Saved photo");
+      //    }
+      //
+      //
+      //  });
+      //});
+
+
 
     }, function(err){
       res.status('404').send("Error finding user");
