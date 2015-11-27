@@ -8,7 +8,7 @@ var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var multiparty = require('multiparty');
 var fs = require('fs');
 var multer = require('multer');
-var upload = multer({ dest: 'uploads/images/' })
+var upload = multer({ dest: 'public/images/' })
 
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
@@ -78,7 +78,7 @@ router.get('/verificationPhoto', function(req, res){
           res.status('404').send("No verification found");
         }
         else{
-          res.send(verification.image);
+          res.send(verification);
         }
       });
     }
@@ -112,7 +112,7 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
           res.status('404').send("Error saving photo");
         }
         else{
-          res.json({"message" : "Finished"});
+          res.json({"message" : "Finished", "fileName" : req.file.fileName});
           console.log("Saved photo");
         }
       });
