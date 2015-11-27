@@ -104,12 +104,8 @@ router.get('/deleteUsers', function(req, res){
 
 
 router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
-  console.log("Verify with photo");
-  console.log(req.body);
-
   User.verifyUser(req.body.user, function(user) {
-
-      console.log("In user");
+    console.log(req.file);
       var userVerification = new UserVerification({
         _user : user._id,
         image : req.file.buffer
