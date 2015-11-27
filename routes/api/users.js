@@ -78,7 +78,7 @@ router.get('/verificationPhoto', function(req, res){
           res.status('404').send("No verification found");
         }
         else{
-          res.send("Found");
+          res.send(verification.image);
         }
       });
     }
