@@ -62,6 +62,13 @@ router.get('/createUser', function(req, res){
   });
 });
 
+router.get('/deleteUsers', function(req, res){
+  User.remove({}, function(){
+    res.send("Done");
+  });
+});
+
+
 router.get('/verificationPhoto', function(req, res){
   var userId = req.query.userId;
 
@@ -98,12 +105,6 @@ router.get('/deleteVerifications', function(req, res){
   });
 });
 
-router.get('/deleteUsers', function(req, res){
-  User.remove({}, function(){
-    res.send("Done");
-  });
-});
-
 
 
 router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
@@ -111,8 +112,8 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
     console.log(req.file);
       var userVerification = new UserVerification({
         _user : user._id,
-        image: req.file.buffer
       });
+      userVerification.image.data = req.file.buffer;
 
       userVerification.save(function(err) {
         if (err) {
