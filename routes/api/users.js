@@ -60,9 +60,9 @@ router.get('/createUser', function(req, res){
 });
 
 router.get('/verificationPhoto', function(req, res){
-  var userId = req.userId;
+  var userId = req.query.userId;
 
-  User.findOne({userId : userId}).exec(function(err, user){
+  User.findOne({"userId" : userId}).exec(function(err, user){
     if (err){
       res.status('404').send("Error fetching user");
     }

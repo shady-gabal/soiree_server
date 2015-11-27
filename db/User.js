@@ -78,7 +78,7 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 		return failureCallback();
 	}
 
-	console.log("fb id" + user.facebookUserId + " user id " + user.userId + " sk " + user.secretKey);
+	console.log("fbid " + user.facebookUserId + " userid " + user.userId + " sk " + user.secretKey);
 
 	if (user.facebookUserId) {
 		this.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, userFound) {
