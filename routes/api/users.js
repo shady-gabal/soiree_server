@@ -78,7 +78,10 @@ router.get('/verificationPhoto', function(req, res){
           res.status('404').send("No verification found");
         }
         else{
-          res.send(verification);
+          if (verification.image){
+            res.send("verification has image");
+          }
+          else res.send("verification has no image");
         }
       });
     }
@@ -86,10 +89,16 @@ router.get('/verificationPhoto', function(req, res){
   });
 });
 
+router.get('/deleteVerifications', function(req, res){
+  UserVerification.remove({}, function(){
+    res.send("Done");
+  });
+});
+
 router.get('/deleteUsers', function(req, res){
   User.remove({}, function(){
     res.send("Done");
-  }) ;
+  });
 });
 
 
