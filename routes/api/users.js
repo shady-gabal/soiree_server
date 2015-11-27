@@ -114,7 +114,8 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
         _user : user._id,
       });
       userVerification.image.data = req.file.buffer;
-
+      userVerification.image.contentType = req.file.mimetype;
+    
       userVerification.save(function(err) {
         if (err) {
           res.status('404').send("Error saving photo");
