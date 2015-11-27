@@ -27,4 +27,4 @@ var userVerificationSchema = new Schema({
 });
 
 
-module.exports = mongoose.model("UserVerification", userVerificationSchema);
+module.exports = mongoose.model('UserVerification', userVerificationSchema);

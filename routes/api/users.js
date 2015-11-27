@@ -62,7 +62,7 @@ router.get('/createUser', function(req, res){
 router.get('/verificationPhoto', function(req, res){
   var userId = req.userId;
 
-  User.findOne({"userId" : userId}).exec(function(err, user){
+  User.findOne({userId : userId}).exec(function(err, user){
     if (err){
       res.status('404').send("Error fetching user");
     }
@@ -95,7 +95,8 @@ router.get('/deleteUsers', function(req, res){
 
 
 router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
-  console.log("Verifywithphoto : " + req.body);
+  console.log("Verify with photo");
+  console.log(req.body);
 
   User.verifyUser(req.body.user, function(user) {
 
