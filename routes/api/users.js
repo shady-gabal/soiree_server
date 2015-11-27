@@ -7,6 +7,8 @@ var helpersFolderLocation = "../../helpers/";
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var multiparty = require('multiparty');
 var fs = require('fs');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/images/' })
 
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
@@ -15,8 +17,6 @@ var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
-
-
 
 
 router.get('/findUser', function(req, res){
@@ -59,6 +59,33 @@ router.get('/createUser', function(req, res){
   });
 });
 
+router.get('/verificationPhoto', function(req, res){
+  var userId = req.userId;
+
+  User.findOne({"userId" : userId}).exec(function(err, user){
+    if (err){
+      res.status('404').send("Error fetching user");
+    }
+    else if (!user){
+      res.status('404').send("No user found");
+    }
+    else{
+      UserVerification.find({_user : user._id}).exec(function(err, verification){
+        if (err){
+          res.status('404').send("Error finding verification");
+        }
+        else if (!verification){
+          res.status('404').send("No verification found");
+        }
+        else{
+          res.send("Found");
+        }
+      });
+    }
+
+  });
+});
+
 router.get('/deleteUsers', function(req, res){
   User.remove({}, function(){
     res.send("Done");
@@ -66,26 +93,18 @@ router.get('/deleteUsers', function(req, res){
 });
 
 
-router.post('/verifyWithPhoto', function(req, res){
-  var form = new multiparty.Form();
 
-  form.parse(req, function(err, fields, files) {
-    console.log(fields);
-    Object.keys(fields).forEach(function(name) {
-      console.log('got field named ' + name);
-    });
-    
-    User.verifyUser(fields.user, function(user) {
+router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
+  console.log("Verifywithphoto : " + req.body);
+
+  User.verifyUser(req.body.user, function(user) {
+
       console.log("In user");
-
-      var photo = files["photo"][0];
-      var imagePath = photo.path;
-      console.log(photo);
       var userVerification = new UserVerification({
-        _user : user._id
+        _user : user._id,
+        image : req.file.buffer
       });
-      userVerification.image.data = fs.readFileSync(imagePath);
-
+      //userVerification.image.data = fs.readFileSync(imagePath);
 
       userVerification.save(function(err){
         if (err){
@@ -100,8 +119,44 @@ router.post('/verifyWithPhoto', function(req, res){
     }, function(err){
       res.status('404').send("Error finding user");
     });
-  });
 });
+
+//router.post('/verifyWithPhoto', function(req, res){
+//  var form = new multiparty.Form();
+//
+//  form.parse(req, function(err, fields, files) {
+//    console.log(fields);
+//    Object.keys(fields).forEach(function(name) {
+//      console.log('got field named ' + name);
+//    });
+//
+//    User.verifyUser(fields.user, function(user) {
+//      console.log("In user");
+//
+//      var photo = files["photo"][0];
+//      var imagePath = photo.path;
+//      console.log(photo);
+//      var userVerification = new UserVerification({
+//        _user : user._id
+//      });
+//      userVerification.image.data = fs.readFileSync(imagePath);
+//
+//
+//      userVerification.save(function(err){
+//        if (err){
+//          res.status('404').send("Error saving photo");
+//        }
+//        else{
+//          res.json({"message" : "Finished"});
+//          console.log("Saved photo");
+//        }
+//      });
+//
+//    }, function(err){
+//      res.status('404').send("Error finding user");
+//    });
+//  });
+//});
 
 function createUser(req, res){
   var facebookUserId = req.query.facebookUserId;

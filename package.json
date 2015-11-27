@@ -16,6 +16,7 @@
     "mongoose" : "~4.2.8",
     "mongodb-uri" : "~0.9.7",
     "shortid" : "~2.2.4",
-    "multiparty" : ""
+    "multiparty" : "",
+    "multer" : ""
   }
 }
