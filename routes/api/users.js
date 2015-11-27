@@ -80,7 +80,7 @@ router.get('/verificationPhoto', function(req, res){
       res.status('404').send("No user found");
     }
     else{
-      UserVerification.find({_user : user._id}).exec(function(err, verification){
+      UserVerification.findOne({_user : user._id}).exec(function(err, verification){
         if (err){
           res.status('404').send("Error finding verification");
         }
@@ -115,7 +115,7 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
       });
       userVerification.image.data = req.file.buffer;
       userVerification.image.contentType = req.file.mimetype;
-    
+
       userVerification.save(function(err) {
         if (err) {
           res.status('404').send("Error saving photo");
