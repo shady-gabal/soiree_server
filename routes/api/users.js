@@ -5,13 +5,12 @@ var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var multiparty = require('multiparty');
 var fs = require('fs');
 var multer = require('multer');
 
 
 var storage = multer.memoryStorage();
-var upload = multer({ storage: storage })
+var upload = multer({ storage: storage });
 
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');

@@ -1,0 +1,50 @@
+{
+  "questions": [
+    {
+      "question": "Which of these jokes do you find funniest?",
+      "answersDict": {
+        "answers": [
+          "Hey Shady shut up you're not funny",
+          "Your mom",
+          "Roses are red violets are blue you're green you fucking pussy"
+        ],
+        "indicators": [
+          "A",
+          "B",
+          "C"
+        ]
+      }
+    },
+    {
+      "question": "Question 2",
+      "answersDict": {
+        "answers": [
+          "Answer 4",
+          "Answer 5",
+          "Answer 6"
+        ],
+        "indicators": [
+          "D",
+          "E",
+          "F"
+        ]
+      }
+    },
+    {
+      "question": "Question 3",
+      "answersDict": {
+        "answers": [
+          "Answer 7",
+          "Answer 8",
+          "Answer 9"
+        ],
+        "indicators": [
+          "G",
+          "H",
+          "I"
+        ]
+      }
+    }
+  ]
+}
+
