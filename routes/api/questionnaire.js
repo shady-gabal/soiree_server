@@ -29,12 +29,14 @@ var questionnaire;
 router.post('/fetchQuestionnaire', function(req, res){
 
     User.verifyUser(req.body.user, function(user){
-
+        console.log("verified");
         if (!questionnaire) {
+            console.log("fetching questionnaire...");
             var questionnairePath = path.join(__dirname, assetsFolderLocation + "questionnaire/questionnaire.json");
 
             fs.readFile(questionnairePath, 'utf8', function (err, data) {
                 if (err) {
+                    console.log("error booyy");
                     console.log(err);
                     return res.status('404').send("Error finding questionnaire file");
                 }
@@ -45,6 +47,7 @@ router.post('/fetchQuestionnaire', function(req, res){
         else res.json(questionnaire);
 
     }, function(err){
+        console.log("errr");
         res.status('404').send("Error verifying user");
     });
 
