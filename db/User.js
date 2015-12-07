@@ -14,6 +14,8 @@ var shortid = require('shortid');
 
 /* Schema Specific */
 var genders = ["male", "female"];
+var colleges = ["NYU", "Baruch"];
+
 //var interestedIn = ["male", "female"];
 
 var userSchema = new Schema({
@@ -22,6 +24,7 @@ var userSchema = new Schema({
 	verified : {type: Boolean, default: false},
 	pendingVerification : {type: Boolean, default: false},
 	gender : {type: String, required : true, enum: genders},
+	college: {type: String, enum: colleges},
 	email : {type: String},
 	birthday : {type: String},
 	interestedIn : [{type: String, required : true, enum: genders}],
@@ -33,6 +36,10 @@ var userSchema = new Schema({
 	finishedSignUp : {type : Boolean, default: false},
 	dateSignedUp: {type : Date, default: Date.now()},
 	dateLastSignedIn : {type: Date, default: Date.now()},
+	location: {
+		type: {type: String},
+		coordinates: []
+	},
 	_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
 	_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
 	dateUpdated : {type: Date, default: Date.now()}
@@ -45,6 +52,8 @@ userSchema.pre('save', function(next){
 	this.dateUpdated = new Date();
 	next();
 });
+
+/* Methods */
 
 userSchema.methods.createDataObjectToSend = function(){
 	var obj = {
@@ -66,11 +75,11 @@ userSchema.methods.createDataObjectToSend = function(){
 	return obj;
 };
 
-userSchema.virtual('age').get(function(){
-	var birthdate = new Date(this.birthday);
-	var age = (Date.now() - birthdate) / (1000 * 60 * 60 * 24 * 365.25);
-	return parseInt(age);
-});
+/* Statics */
+
+userSchema.statics.colleges = function(){
+	return colleges;
+};
 
 userSchema.statics.verifyUser = function(user, successCallback, failureCallback){
 	if (!user){
@@ -110,6 +119,26 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 		failureCallback();
 	}
 };
+
+
+
+/* Virtuals */
+
+userSchema.virtual('age').get(function(){
+	var birthdate = new Date(this.birthday);
+	var age = (Date.now() - birthdate) / (1000 * 60 * 60 * 24 * 365.25);
+	return parseInt(age);
+});
+
+userSchema.virtual('fullName').get(function(){
+	if (!this.lastName)
+		return this.firstName;
+	else if (!this.firstName)
+		return this.lastName;
+
+	return this.firstName + " " + this.lastName;
+});
+
 
 module.exports = mongoose.model('User', userSchema);
 

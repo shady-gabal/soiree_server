@@ -124,7 +124,7 @@ router.post('/soireesNear', function(req, res){
         var latitude = req.body.user.latitude;
         var coors = {type: "Point", coordinates: [longitude, latitude]};
 
-        Soiree.find({}).populate("_business").exec(function(err, soirees){
+        Soiree.findNearestSoirees(coors, function(err, soirees){
             if (err){
                 console.log("Error finding soirees near you");
                 res.status('404').send("Error");
@@ -133,7 +133,7 @@ router.post('/soireesNear', function(req, res){
                 var dataToSend = [];
                 for (var i = 0; i < soirees.length; i++){
                     var soiree = soirees[i];
-                    dataToSend.push(soiree.createDataObjectToSend());
+                    dataToSend.push(soiree.jsonObject);
                 }
                 res.json(dataToSend);
             }
@@ -145,13 +145,13 @@ router.post('/soireesNear', function(req, res){
 });
 
 router.get('/soireesNear', function(req, res){
-    User.verifyUser(req.query.user, function(user){
+    //User.verifyUser(req.query.user, function(user){
+    //
+    //    var longitude = req.query.user.longitude;
+    //    var latitude = req.query.user.latitude;
+    //    var coors = {type: "Point", coordinates: [longitude, latitude]};
 
-        var longitude = req.query.user.longitude;
-        var latitude = req.query.user.latitude;
-        var coors = {type: "Point", coordinates: [longitude, latitude]};
-
-        Soiree.find({ location: { $near : coors }}).populate("_business").exec(function(err, soirees){
+        Soiree.find({ }).populate("_business").exec(function(err, soirees){
             if (err){
                 console.log("Error finding soirees near you");
                 res.status('404').send("Error");
@@ -160,15 +160,30 @@ router.get('/soireesNear', function(req, res){
                 var dataToSend = [];
                 for (var i = 0; i < soirees.length; i++){
                     var soiree = soirees[i];
-                    dataToSend.push(soiree.createDataObjectToSend());
+                    dataToSend.push(soiree.jsonObject);
                 }
                 res.json(dataToSend);
             }
         });
-    }, function(err){
-        res.status('404').send("Error finding user");
-    });
+    //}, function(err){
+    //    res.status('404').send("Error finding user");
+    //});
 
+});
+
+router.post('/joinSoiree', function(req, res){
+   User.verifyUser(req.body.user, function(user){
+       var soireeId = req.body.soireeId;
+
+       Soiree.findBySoireeId(soireeId, function(soiree){
+           soiree.join(user);
+       }, function(err){
+           res.status('404').send("Error finding soiree");
+       });
+
+   }, function(err){
+       res.status('404').send("Error verifying user");
+   });
 });
 
 //router.get('/soireesNear', function(req, res){

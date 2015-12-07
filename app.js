@@ -9,6 +9,9 @@ var soirees = require('./routes/api/soirees');
 var users = require('./routes/api/users');
 var businesses = require('./routes/api/businesses');
 var questionnaire = require('./routes/api/questionnaire');
+var community = require('./routes/api/community');
+
+
 
 var app = express();
 
@@ -24,10 +27,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 app.use('/api/soirees', soirees);
 app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);
 app.use('/api/businesses', businesses);
+app.use('/api/community', community);
 
 
 // catch 404 and forward to error handler

@@ -1,5 +1,6 @@
 //exports mongoose connected to db
 
+require('dotenv').load();
 var mongoose = require('mongoose');
 var uriUtil = require('mongodb-uri');
 
@@ -18,7 +19,7 @@ var mongodbUri = process.env.MONGOLAB_URI;
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 
 //for local dev
-if (process.env.LOCAL_DEVELOPMENT){
+if (process.env.LOCAL){
 	console.log('connecting to local mongodb...');
 	mongoose.connect("mongodb://localhost/soireedb", options);
 }

@@ -19,6 +19,7 @@ var shortid = require('shortid');
 var userVerificationSchema = new Schema({
     image : {data: Buffer, contentType: String},
     _user : {type: ObjectId, ref: "User"},
+    college : {type: String, enum: User.colleges()},
     verified : {type : Boolean, default : false},
     rejected : {type: Boolean, default: false},
     dateCreated : {type: Date, default: Date.now()},

@@ -1,3 +1,6 @@
+/**
+ * Created by shadygabal on 11/28/15.
+ */
 var express = require('express');
 var router = express.Router();
 
@@ -20,9 +23,7 @@ var User = require(dbFolderLocation + 'User.js');
 var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');/**
- * Created by shadygabal on 11/28/15.
- */
+var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 
 var questionnaire;
 
@@ -36,8 +37,7 @@ router.post('/fetchQuestionnaire', function(req, res){
 
             fs.readFile(questionnairePath, 'utf8', function (err, data) {
                 if (err) {
-                    console.log("error booyy");
-                    console.log(err);
+                    console.log("Error finding questionnaire file: " + err);
                     return res.status('404').send("Error finding questionnaire file");
                 }
                 questionnaire = JSON.parse(data);
@@ -47,7 +47,6 @@ router.post('/fetchQuestionnaire', function(req, res){
         else res.json(questionnaire);
 
     }, function(err){
-        console.log("errr");
         res.status('404').send("Error verifying user");
     });
 
@@ -59,7 +58,7 @@ router.get('/fetchQuestionnaire', function(req, res){
 
         fs.readFile(questionnairePath, 'utf8', function (err, data) {
             if (err) {
-                console.log(err);
+                console.log("Error finding questionnaire file: " + err);
                 return res.status('404').send("Error finding questionnaire file");
             }
             questionnaire = JSON.parse(data);
