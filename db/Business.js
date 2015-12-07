@@ -43,8 +43,13 @@ businessSchema.statics.nextBusinessToHostSoiree = function(callback){
            callback(null);
        }
         else{
-           console.log("Found next business to host soiree: " + obj.businessName);
-           callback(obj);
+           if (!obj) {
+               callback(obj);
+           }
+           else {
+               console.log("Found next business to host soiree: " + obj.businessName);
+               callback(obj);
+           }
        }
     });
 };

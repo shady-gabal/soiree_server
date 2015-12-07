@@ -34,6 +34,8 @@ var postSchema = new Schema({
     dateCreated : {type: Date, default: Date.now()}
 });
 
+postSchema.index({location: '2dsphere'});
+
 /* Static Methods */
 
 postSchema.statics.findNearestPosts = function(coors, callback){

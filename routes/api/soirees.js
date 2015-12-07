@@ -36,17 +36,15 @@ router.get('/createSoirees', function(req, res){
         var date = new Date(todaysDate.getTime() + (1 * 24 * 60 * 60 * 1000));
         var soiree = new Soiree({
             soireeType: "Lunch",
-            //numUsersAttending : {type: Number, default: 0},
             numUsersMax: 3,
-            //soireeId: {type: ObjectId, default: function () { return new ObjectId()}},
             date: date,
-            //timeAtString : ,
             _usersAttending: [],
-            _business: nextBusiness._id
-            //dateCreated : {type: Date, default: Date.now()}
+            _business: nextBusiness._id,
+            location: nextBusiness.location
         });
 
         soiree.save(function () {
+            console.log(soiree);
         });
 
 
@@ -62,8 +60,8 @@ router.get('/createSoirees', function(req, res){
             date: date2,
             //timeAtString : ,
             _usersAttending: [],
-            _business: nextBusiness._id
-            //dateCreated : {type: Date, default: Date.now()}
+            _business: nextBusiness._id,
+            location: nextBusiness.location
         });
 
         soiree2.save(function () {
@@ -80,8 +78,8 @@ router.get('/createSoirees', function(req, res){
             date: date3,
             //timeAtString : ,
             _usersAttending: [],
-            _business: nextBusiness._id
-            //dateCreated : {type: Date, default: Date.now()}
+            _business: nextBusiness._id,
+            location: nextBusiness.location
         });
 
         soiree3.save(function () {
@@ -99,8 +97,8 @@ router.get('/createSoirees', function(req, res){
             date: date4,
             //timeAtString : ,
             _usersAttending: [],
-            _business: nextBusiness._id
-            //dateCreated : {type: Date, default: Date.now()}
+            _business: nextBusiness._id,
+            location: nextBusiness.location
         });
 
         soiree4.save(function () {

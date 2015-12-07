@@ -45,6 +45,8 @@ var userSchema = new Schema({
 	dateUpdated : {type: Date, default: Date.now()}
 });
 
+userSchema.index({location: '2dsphere'});
+
 userSchema.pre('save', function(next){
 	//determine age
 

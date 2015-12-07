@@ -23,13 +23,16 @@ var soireeSchema = new Schema({
 	soireeId: {type: String, unique: true, default: shortid.generate},
 	date: {type : Date, required: [true, "A date for the Soiree is required"]},
 	full: {type: Boolean, default: false},
-	//timeAtString : {type : String},
 	_usersAttending : [{type : ObjectId, ref : "User"}],
 	_business: {type: ObjectId, ref:"Business", required :[true, "A business that will host is required to create this Soiree"]},
+	location: {
+		type: {type: String},
+		coordinates: []
+	},
 	dateCreated : {type: Date, default: Date.now()}
 });
 
-
+soireeSchema.index({location: '2dsphere'});
 
 /* Static Methods */
 
@@ -149,7 +152,7 @@ soireeSchema.virtual('jsonObject').get(function () {
 		"date": timeIntervalSince1970InSeconds,
 		"soireeId": this.soireeId,
 		"businessName": this._business.businessName,
-		"coordinates" : this._business.location.coordinates
+		"coordinates" : this.location.coordinates
 	};
 	return obj;
 });
