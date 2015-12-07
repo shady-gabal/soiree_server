@@ -1,6 +1,8 @@
 //exports mongoose connected to db
 
-require('dotenv').load();
+//to enable .env file to be read into process.env. Make sure to add .env to .gitignore
+require('dotenv').config({silent: true}).load();
+
 var mongoose = require('mongoose');
 var uriUtil = require('mongodb-uri');
 
@@ -17,6 +19,8 @@ var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000
 
 var mongodbUri = process.env.MONGOLAB_URI;
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
+
+console.log(process.env);
 
 //for local dev
 if (process.env.LOCAL){

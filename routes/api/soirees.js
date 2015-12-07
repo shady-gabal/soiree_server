@@ -126,7 +126,7 @@ router.post('/soireesNear', function(req, res){
 
         Soiree.findNearestSoirees(coors, function(err, soirees){
             if (err){
-                console.log("Error finding soirees near you");
+                console.log("Error finding soirees near you: " +  err);
                 res.status('404').send("Error");
             }
             else {
