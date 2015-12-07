@@ -36,42 +36,59 @@ soireeSchema.index({location: '2dsphere'});
 
 /* Static Methods */
 
+soireeSchema.statics.createSoiree = function(soiree, business, successCallback, errorCallback) {
+	soiree._business = business._id;
+	soiree.location = business.location;
+	soiree._usersAttending = [];
+
+	var newSoiree = new this(soiree);
+
+	newSoiree.save(function(err){
+		if (err){
+			errorCallback();
+		}
+		else{
+			successCallback();
+		}
+	});
+};
+
 soireeSchema.statics.findNearestSoirees = function(coors, callback){
 	this.find({ location: { $near : coors }}).populate("_business").exec(callback);
 };
 
 
-soireeSchema.statics.timeAtStringFromDate = function(date){
-	//var day = (24 + i) % 30;
-	//var date = new Date(2015, (10 - 1), day, 18, 30, 0);
-	var todaysDate = new Date();
-	var hour = date.getHours();
-	var minutes = date.getMinutes();
-
-	if (minutes < 10){
-		minutes = "0" + minutes.toString();
-	}
-
-	var amPm = "AM";
-	var when = "Today";
-
-	if (!DateHelpers.isSameDay(todaysDate, date)){
-		if (DateHelpers.isNextDay(todaysDate, date)){
-			when = "Tomorrow";
-		}
-		else when = DateHelpers.dayFromDayNumber(date.getDay());
-	}
-	else if (hour > 18){
-		when = "Tonight";
-	}
-
-	if (hour > 12) {
-		hour -= 12;
-		amPm = "PM";
-	}
-	var timeAtString = when + " at " + hour + ":" + minutes + " " + amPm;
-	return timeAtString;
-};
+//soireeSchema.statics.timeAtStringFromDate = function(date){
+//	//var day = (24 + i) % 30;
+//	//var date = new Date(2015, (10 - 1), day, 18, 30, 0);
+//	var todaysDate = new Date();
+//	var hour = date.getHours();
+//	var minutes = date.getMinutes();
+//
+//	if (minutes < 10){
+//		minutes = "0" + minutes.toString();
+//	}
+//
+//	var amPm = "AM";
+//	var when = "Today";
+//
+//	if (!DateHelpers.isSameDay(todaysDate, date)){
+//		if (DateHelpers.isNextDay(todaysDate, date)){
+//			when = "Tomorrow";
+//		}
+//		else when = DateHelpers.dayFromDayNumber(date.getDay());
+//	}
+//	else if (hour > 18){
+//		when = "Tonight";
+//	}
+//
+//	if (hour > 12) {
+//		hour -= 12;
+//		amPm = "PM";
+//	}
+//	var timeAtString = when + " at " + hour + ":" + minutes + " " + amPm;
+//	return timeAtString;
+//};
 
 
 soireeSchema.statics.soireeTypes = function(){
@@ -93,6 +110,10 @@ soireeSchema.statics.findBySoireeId = function(soireeId, successCallback, errorC
 	});
 };
 
+
+
+
+/* Methods */
 
 soireeSchema.methods.join = function(user, successCallback, errorCallback){
 	if (this.numUsersAttending >= this.numUsersMax) {
@@ -118,8 +139,6 @@ soireeSchema.methods.join = function(user, successCallback, errorCallback){
 	}
 };
 
-/* Methods */
-
 //soireeSchema.methods.createDataObjectToSend = function(){
 //	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
 //
@@ -134,6 +153,7 @@ soireeSchema.methods.join = function(user, successCallback, errorCallback){
 //	};
 //	return obj;
 //};
+
 
 
 /* Virtuals */
@@ -152,6 +172,7 @@ soireeSchema.virtual('jsonObject').get(function () {
 		"date": timeIntervalSince1970InSeconds,
 		"soireeId": this.soireeId,
 		"businessName": this._business.businessName,
+		"cityArea" : this._business.cityArea,
 		"coordinates" : this.location.coordinates
 	};
 	return obj;

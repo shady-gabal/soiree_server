@@ -28,6 +28,7 @@ var businessSchema = new Schema({
         type: {type: String},
         coordinates: []
     },
+    cityArea : {type: String},
     numSoireesHosted : {type: Number, default: 0},
     dateCreated : {type: Date, default: Date.now()},
     dateUpdated : {type: Date, default: Date.now()}

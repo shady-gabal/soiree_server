@@ -32,19 +32,16 @@ router.get('/createSoirees', function(req, res){
         }
 
         var todaysDate = new Date();
-
         var date = new Date(todaysDate.getTime() + (1 * 24 * 60 * 60 * 1000));
-        var soiree = new Soiree({
+
+        Soiree.createSoiree({
             soireeType: "Lunch",
             numUsersMax: 3,
-            date: date,
-            _usersAttending: [],
-            _business: nextBusiness._id,
-            location: nextBusiness.location
-        });
-
-        soiree.save(function () {
-            console.log(soiree);
+            date: date
+        }, nextBusiness, function(){
+               console.log("Saved soiree");
+            }, function(err) {
+            console.log("error saving soiree " + err);
         });
 
 
@@ -91,11 +88,8 @@ router.get('/createSoirees', function(req, res){
         var date4 = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
         var soiree4 = new Soiree({
             soireeType: "Drinks",
-            //numUsersAttending : {type: Number, default: 0},
             numUsersMax: 4,
-            //soireeId: {type: ObjectId, default: function () { return new ObjectId()}},
             date: date4,
-            //timeAtString : ,
             _usersAttending: [],
             _business: nextBusiness._id,
             location: nextBusiness.location

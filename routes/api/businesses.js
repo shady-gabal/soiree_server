@@ -28,6 +28,7 @@ router.get('/createBusinesses', function(req, res){
        businessType : "Bar",
        _soirees : [],
        businessName : "Paddy's Pub",
+       cityArea: "SoHo",
        location : {type: "Point", coordinates:[longitude, latitude]}
    });
 
