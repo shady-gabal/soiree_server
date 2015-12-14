@@ -147,13 +147,16 @@ router.post('/saveStripeToken', function(req, res){
 
     user.save(function(err){
       if (err){
+        console.log("error saving token");
         res.status('404').send("Error saving stripe token");
       }
       else{
+        console.log("saved stripe token");
         res.status('200').send("Saved");
       }
     });
   }, function(err){
+    console.log("error finding user");
     res.status('404').send("Error finding user");
   });
 });

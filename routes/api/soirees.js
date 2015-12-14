@@ -168,6 +168,7 @@ router.post('/joinSoiree', function(req, res){
        var soireeId = req.body.soireeId;
 
        Soiree.joinSoireeWithId(soireeId, user, function(){
+           res.type('text/plain');
            res.status('200').send("Done");
        }, function(err){
            res.status('404').send("Error finding soiree");
