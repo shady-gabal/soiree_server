@@ -143,11 +143,14 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
 
 router.post('/saveStripeToken', function(req, res){
   User.verifyUser(req.body.user, function(user){
-    user.stripeToken = req.body.stripeToken;
+    var stripeToken = req.body.stripeToken;
+    user.stripeToken = stripeToken;
 
-    user.save(function(err){
+    console.log("stripe token: " + stripeToken);
+
+    user.save(function(err, user){
       if (err){
-        console.log("error saving token");
+        console.log("error saving token " + err);
         res.status('404').send("Error saving stripe token");
       }
       else{
