@@ -141,6 +141,25 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
     });
 });
 
+router.post('/saveStripeToken', function(req, res){
+  User.verifyUser(req.body.user, function(user){
+    user.stripeToken = req.body.stripeToken;
+
+    user.save(function(err){
+      if (err){
+        res.status('404').send("Error saving stripe token");
+      }
+      else{
+        res.status('200').send("Saved");
+      }
+    });
+  }, function(err){
+    res.status('404').send("Error finding user");
+  });
+});
+
+/* FUNCTIONS */
+
 function createUser(req, res){
   var facebookUserId = req.query.facebookUserId;
   var firstName = req.query.firstName;

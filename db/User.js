@@ -19,30 +19,33 @@ var colleges = ["NYU", "Baruch"];
 //var interestedIn = ["male", "female"];
 
 var userSchema = new Schema({
-	firstName : {type: String, required: true},
+	firstName : {type: String, required: true}, /* Name */
 	lastName : {type: String},
-	verified : {type: Boolean, default: false},
+	verified : {type: Boolean, default: false}, /* Verification */
 	pendingVerification : {type: Boolean, default: false},
-	gender : {type: String, required : true, enum: genders},
-	college: {type: String, enum: colleges},
-	email : {type: String},
-	birthday : {type: String},
+	creditCardLast4Digits : {type: String}, /* Credit Card */
+	stripeToken : {type: String},
+	gender : {type: String, required : true, enum: genders}, /* Gender */
 	interestedIn : [{type: String, required : true, enum: genders}],
-	facebookUserId : {type: String, index: true},
-	profilePictureUrl : {type: String},
-	userId: {type: String, unique: true, default: shortid.generate},
+	college: {type: String, enum: colleges}, /* Colleges */
+	email : {type: String}, /* Email */
+	birthday : {type: String}, /* Birthday */
+	soireeScore : {type: Number, default: 200}, /* Soiree Score */
+	facebookUserId : {type: String, index: true}, /* Facebook */
+	profilePictureUrl : {type: String}, /* Profile Picture */
+	userId: {type: String, unique: true, default: shortid.generate}, /* IDs */
 	phoneNumber : {type : String},
 	secretKey : {type: String, index:true, unique: true, default: shortid.generate},
-	finishedSignUp : {type : Boolean, default: false},
-	dateSignedUp: {type : Date, default: Date.now()},
+	finishedSignUp : {type : Boolean, default: false}, /* Signup */
+	dateSignedUp: {type : Date, default: Date.now()}, /* Dates */
 	dateLastSignedIn : {type: Date, default: Date.now()},
-	location: {
-		type: {type: String},
-		coordinates: []
-	},
+	dateUpdated : {type: Date, default: Date.now()},
 	_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
 	_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
-	dateUpdated : {type: Date, default: Date.now()}
+	location: { /* Location */
+		type: {type: String},
+		coordinates: []
+	}
 });
 
 userSchema.index({location: '2dsphere'});
@@ -72,7 +75,9 @@ userSchema.methods.createDataObjectToSend = function(){
 		"facebookUserId" : this.facebookUserId,
 		"verified" : this.verified,
 		"secretKey" : this.secretKey,
-		"pendingVerification" : this.pendingVerification
+		"soireeScore" : this.soireeScore,
+		"pendingVerification" : this.pendingVerification,
+		"creditCardLast4Digits" : this.creditCardLast4Digits
 	};
 	return obj;
 };

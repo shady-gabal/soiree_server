@@ -20,7 +20,9 @@ var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
 var soireeSchema = new Schema({
 	soireeType : {type: String, required: true, enum: soireeTypes},
 	numUsersMax: {type : Number, required: true},
+	scheduledTime : {type: Number, required: true},
 	soireeId: {type: String, unique: true, default: shortid.generate},
+	initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]},
 	date: {type : Date, required: [true, "A date for the Soiree is required"]},
 	full: {type: Boolean, default: false},
 	_usersAttending : [{type : ObjectId, ref : "User"}],
@@ -52,6 +54,55 @@ soireeSchema.statics.createSoiree = function(soiree, business, successCallback, 
 		}
 	});
 };
+
+soireeSchema.statics.createLunch = function(date, business, successCallback, errorCallback) {
+	//var date = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
+
+	var soiree = new Soiree({
+		soireeType: "Lunch",
+		numUsersMax: 3,
+		date: date,
+		_usersAttending: [],
+		_business: business._id,
+		initialCharge: 3,
+		location: business.location
+	});
+
+	this.createSoiree(soiree, business, successCallback, errorCallback);
+};
+
+soireeSchema.statics.createDinner = function(date, business, successCallback, errorCallback) {
+	//var date = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
+
+	var soiree = new Soiree({
+		soireeType: "Dinner",
+		numUsersMax: 4,
+		date: date,
+		_usersAttending: [],
+		_business: business._id,
+		initialCharge: 3,
+		location: business.location
+	});
+
+	this.createSoiree(soiree, business, successCallback, errorCallback);
+};
+
+soireeSchema.statics.createDrinks = function(date, business, successCallback, errorCallback) {
+	//var date = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
+
+	var soiree = new Soiree({
+		soireeType: "Drinks",
+		numUsersMax: 4,
+		date: date,
+		_usersAttending: [],
+		_business: business._id,
+		initialCharge: 3,
+		location: business.location
+	});
+
+	this.createSoiree(soiree, business, successCallback, errorCallback);
+};
+
 
 soireeSchema.statics.findNearestSoirees = function(coors, callback){
 	this.find({ location: { $near : coors }}).populate("_business").exec(callback);
@@ -107,6 +158,14 @@ soireeSchema.statics.findBySoireeId = function(soireeId, successCallback, errorC
 		else{
 			successCallback(soiree);
 		}
+	});
+};
+
+soireeSchema.statics.joinSoireeWithId = function(soireeId, user, successCallback, errorCallback){
+	this.findBySoireeId(soireeId, function(soiree){
+		soiree.join(user, successCallback, errorCallback);
+	}, function(err){
+		errorCallback("no soiree");
 	});
 };
 
@@ -173,7 +232,8 @@ soireeSchema.virtual('jsonObject').get(function () {
 		"soireeId": this.soireeId,
 		"businessName": this._business.businessName,
 		"cityArea" : this._business.cityArea,
-		"coordinates" : this.location.coordinates
+		"coordinates" : this.location.coordinates,
+		"initialCharge": this.initialCharge
 	};
 	return obj;
 });
