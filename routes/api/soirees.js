@@ -116,16 +116,16 @@ router.post('/soireesNear', function(req, res){
         var latitude = req.body.user.latitude;
         var coors = {type: "Point", coordinates: [longitude, latitude]};
 
-        user.location = coors;
-        user.save(function(err){
-           if (err){
-               console.log("Error saving user's location in soireesNear");
-           }
-           else{
-               console.log("Saved user's location in soireesNear");
-           }
-        });
-        
+        //user.location = coors;
+        //user.save(function(err){
+        //   if (err){
+        //       console.log("Error saving user's location in soireesNear");
+        //   }
+        //   else{
+        //       console.log("Saved user's location in soireesNear");
+        //   }
+        //});
+
         Soiree.findNearestSoirees(coors, function(err, soirees){
             if (err){
                 console.log("Error finding soirees near you: " +  err);

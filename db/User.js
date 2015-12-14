@@ -41,11 +41,11 @@ var userSchema = new Schema({
 	dateLastSignedIn : {type: Date, default: Date.now()},
 	dateUpdated : {type: Date, default: Date.now()},
 	_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
-	_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
-	location: { /* Location */
-		type: {type: String},
-		coordinates: []
-	}
+	_soireesAttended: [{type: ObjectId, ref:"Soiree"}]
+	//location: { /* Location */
+	//	type: {type: String},
+	//	coordinates: []
+	//}
 });
 
 userSchema.index({location: '2dsphere'});

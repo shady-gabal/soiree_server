@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/User.js" afterPath="$PROJECT_DIR$/db/User.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/soirees.js" afterPath="$PROJECT_DIR$/routes/api/soirees.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
@@ -26,8 +27,8 @@
       <file leaf-file-name="soirees.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/api/soirees.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39179105">
-              <caret line="127" column="8" selection-start-line="127" selection-start-column="8" selection-end-line="127" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.26119402">
+              <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="126" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -76,7 +77,7 @@
       <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.222222">
+            <state vertical-scroll-proportion="-32.22222">
               <caret line="152" column="48" selection-start-line="152" selection-start-column="48" selection-end-line="152" selection-end-column="48" />
               <folding />
             </state>
@@ -116,8 +117,8 @@
       <file leaf-file-name="User.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/User.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.444445">
-              <caret line="26" column="33" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
+            <state vertical-scroll-proportion="-10.555555">
+              <caret line="43" column="54" selection-start-line="43" selection-start-column="54" selection-end-line="43" selection-end-column="54" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -162,9 +163,9 @@
         <option value="$PROJECT_DIR$/scheduled/scheduledSoirees.js" />
         <option value="$PROJECT_DIR$/db/Soiree.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/db/User.js" />
         <option value="$PROJECT_DIR$/helpers/CreditCardHelpers.js" />
         <option value="$PROJECT_DIR$/routes/api/users.js" />
+        <option value="$PROJECT_DIR$/db/User.js" />
         <option value="$PROJECT_DIR$/routes/api/soirees.js" />
       </list>
     </option>
@@ -784,16 +785,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.444445">
-          <caret line="26" column="33" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/helpers/CreditCardHelpers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -818,9 +809,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/db/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.555555">
+          <caret line="43" column="54" selection-start-line="43" selection-start-column="54" selection-end-line="43" selection-end-column="54" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.222222">
+        <state vertical-scroll-proportion="-32.22222">
           <caret line="152" column="48" selection-start-line="152" selection-start-column="48" selection-end-line="152" selection-end-column="48" />
           <folding />
         </state>
@@ -828,8 +829,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/soirees.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39179105">
-          <caret line="127" column="8" selection-start-line="127" selection-start-column="8" selection-end-line="127" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.26119402">
+          <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="126" selection-end-column="13" />
           <folding />
         </state>
       </provider>
