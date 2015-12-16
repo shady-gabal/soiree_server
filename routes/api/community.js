@@ -87,8 +87,8 @@ router.post('/postsNear', function(req, res){
 
 router.post('/createPost', function(req, res){
     User.verifyUser(req.body.user, function(user){
-        //var longitude = req.body.user.longitude;
-        //var latitude = req.body.user.latitude;
+        var longitude = req.body.user.longitude;
+        var latitude = req.body.user.latitude;
         //var coors = {type: "Point", coordinates: [Number(longitude), Number(latitude)]};
         var coors = LocationHelpers.createPoint(longitude, latitude);
         var text = req.body.post;
