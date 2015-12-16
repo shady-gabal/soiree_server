@@ -2,19 +2,19 @@
  * Created by shadygabal on 12/16/15.
  */
 
-var express = require('express');
-var router = express.Router();
-
-var dbFolderLocation = "../../db/";
-var helpersFolderLocation = "../../helpers/";
-
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soiree.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-
-var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+//var express = require('express');
+//var router = express.Router();
+//
+//var dbFolderLocation = "../../db/";
+//var helpersFolderLocation = "../../helpers/";
+//
+//var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
+//var Soiree = require(dbFolderLocation + 'Soiree.js');
+//var Business = require(dbFolderLocation + 'Business.js');
+//var User = require(dbFolderLocation + 'User.js');
+//
+//var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
+//var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 
 var resHelpers = (function() {
 
