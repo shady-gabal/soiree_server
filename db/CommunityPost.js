@@ -49,8 +49,12 @@ postSchema.statics.findNearestPosts = function(coors, successCallback, errorCall
     });
 };
 
-postSchema.statics.createPost = function(post, successCallback, errorCallback){
+postSchema.statics.createPost = function(post, user, successCallback, errorCallback){
     var newPost = new this(post);
+
+    newPost._comments = [];
+    newPost._user = user;
+    newPost.college = user.college;
 
     newPost.save(function(err){
         if (err){

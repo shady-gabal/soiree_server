@@ -94,11 +94,10 @@ router.post('/createPost', function(req, res){
         CommunityPost.createPost({
             "location" : coors,
             "text" : text,
-            "_user" : user
-        }, function(post){
+        }, user, function(post){
             res.status('200').send("Done");
         }, function(err){
-            console.log("error creating post");
+            console.log("error creating post: " + err);
             res.status('404').send("Error creating post");
         });
 
