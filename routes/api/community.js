@@ -25,6 +25,8 @@ var CommunityPost = require(dbFolderLocation + 'CommunityPost.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+var LocationHelpers = require(helpersFolderLocation + 'LocationHelpers.js');
+var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
 
 
@@ -69,13 +71,13 @@ router.post('/postsNear', function(req, res){
             res.json({"posts": jsonArray});
 
         }, function (err) {
-            res.status('404').send("Error finding posts");
+            ResHelpers.sendMessage(res, 404, "error finding posts: " + err);
         });
 
 
     }, function(err){
-            res.status('404').send("Error finding user");
-        });
+        ResHelpers.sendMessage(res, 404, "error finding user: " + err);
+    });
 
     //}, function(err){
     //    res.status('404').send("Error finding user");
@@ -85,25 +87,23 @@ router.post('/postsNear', function(req, res){
 
 router.post('/createPost', function(req, res){
     User.verifyUser(req.body.user, function(user){
-        var longitude = req.body.user.longitude;
-        var latitude = req.body.user.latitude;
-        var coors = {type: "Point", coordinates: [Number(longitude), Number(latitude)]};
-
+        //var longitude = req.body.user.longitude;
+        //var latitude = req.body.user.latitude;
+        //var coors = {type: "Point", coordinates: [Number(longitude), Number(latitude)]};
+        var coors = LocationHelpers.createPoint(longitude, latitude);
         var text = req.body.post;
 
         CommunityPost.createPost({
             "location" : coors,
             "text" : text,
         }, user, function(post){
-            res.status('200').send("Done");
+            ResHelpers.sendMessage(res, 200, "created post");
         }, function(err){
-            console.log("error creating post: " + err);
-            res.status('404').send("Error creating post");
+            ResHelpers.sendMessage(res, 404, "error creating post: " + err);
         });
 
     }, function(err){
-        console.log("error finding user");
-        res.status('404').send("Error finding user");
+        ResHelpers.sendMessage(res, 404, "error finding user: " + err);
     });
 });
 
