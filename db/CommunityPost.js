@@ -38,8 +38,15 @@ postSchema.index({location: '2dsphere'});
 
 /* Static Methods */
 
-postSchema.statics.findNearestPosts = function(coors, callback){
-    this.find({ location: { $near : coors }}).populate("_comments").populate("_user").exec(callback);
+postSchema.statics.findNearestPosts = function(coors, successCallback, errorCallback){
+    this.find({ location: { $near : coors }}).populate("_comments").populate("_user").exec(function(err, posts){
+        if (err){
+            errorCallback(err);
+        }
+        else{
+            successCallback(posts);
+        }
+    });
 };
 
 postSchema.statics.createPost = function(post, successCallback, errorCallback){
@@ -60,6 +67,7 @@ postSchema.virtual('jsonObject').get(function () {
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
 
     var obj = {
+        "text" : this.text,
         "dateCreated": timeIntervalSince1970InSeconds,
         "postId": this.postId,
         "author": this.author,

@@ -77,7 +77,8 @@ userSchema.methods.createDataObjectToSend = function(){
 		"secretKey" : this.secretKey,
 		"soireeScore" : this.soireeScore,
 		"pendingVerification" : this.pendingVerification,
-		"creditCardLast4Digits" : this.creditCardLast4Digits
+		"creditCardLast4Digits" : this.creditCardLast4Digits,
+		"hasStripeToken" : this.hasStripeToken
 	};
 	return obj;
 };
@@ -136,6 +137,11 @@ userSchema.virtual('age').get(function(){
 	var age = (Date.now() - birthdate) / (1000 * 60 * 60 * 24 * 365.25);
 	return parseInt(age);
 });
+
+userSchema.virtual('hasStripeToken').get(function(){
+	return this.stripeToken ? true : false;
+});
+
 
 userSchema.virtual('fullName').get(function(){
 	if (!this.lastName)

@@ -156,6 +156,7 @@ router.get('/soireesNear', function(req, res){
         Soiree.find({ }).populate("_business").exec(function(err, soirees){
             if (err){
                 console.log("Error finding soirees near you");
+                res.type('text/plain');
                 res.status('404').send("Error");
             }
             else {
@@ -181,6 +182,7 @@ router.post('/joinSoiree', function(req, res){
            res.type('text/plain');
            res.status('200').send("Done");
        }, function(err){
+           res.type('text/plain');
            res.status('404').send("Error finding soiree");
        });
 

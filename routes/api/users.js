@@ -144,22 +144,28 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
 router.post('/saveStripeToken', function(req, res){
   User.verifyUser(req.body.user, function(user){
     var stripeToken = req.body.stripeToken;
+    var last4Digits = req.body.creditCardLast4Digits;
+
     user.stripeToken = stripeToken;
+    user.creditCardLast4Digits = last4Digits;
 
     console.log("stripe token: " + stripeToken);
 
     user.save(function(err, user){
       if (err){
         console.log("error saving token " + err);
+        res.type('text/plain');
         res.status('404').send("Error saving stripe token");
       }
       else{
         console.log("saved stripe token");
+        res.type('text/plain');
         res.status('200').send("Saved");
       }
     });
   }, function(err){
     console.log("error finding user");
+    res.type('text/plain');
     res.status('404').send("Error finding user");
   });
 });
