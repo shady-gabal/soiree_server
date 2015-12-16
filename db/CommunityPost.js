@@ -50,8 +50,9 @@ postSchema.statics.findNearestPosts = function(coors, successCallback, errorCall
 };
 
 postSchema.statics.createPost = function(post, successCallback, errorCallback){
-    var post = new this(post);
-    post.save(function(err){
+    var newPost = new this(post);
+
+    newPost.save(function(err){
         if (err){
             errorCallback(err);
         }

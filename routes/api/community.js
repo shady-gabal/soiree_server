@@ -98,10 +98,12 @@ router.post('/createPost', function(req, res){
         }, function(post){
             res.status('200').send("Done");
         }, function(err){
+            console.log("error creating post");
             res.status('404').send("Error creating post");
         });
 
     }, function(err){
+        console.log("error finding user");
         res.status('404').send("Error finding user");
     });
 });
