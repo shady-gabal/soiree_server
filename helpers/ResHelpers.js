@@ -23,8 +23,10 @@ var resHelpers = (function() {
             if (status >= 400 && status <= 500)
                 console.log(message);
 
-            res.type('text/plain');
-            res.status(status).send(message);
+            //res.type('text/plain');
+            //res.status(status).send(message);
+            res.status(status).json({"message" : message});
+
         }
 
         //isNextDay: function (firstDate, secondDate) {
