@@ -38,8 +38,8 @@ postSchema.index({location: '2dsphere'});
 
 /* Static Methods */
 
-postSchema.statics.findNearestPosts = function(coors, successCallback, errorCallback){
-    this.find({ location: { $near : coors }}).populate("_comments").populate("_user").exec(function(err, posts){
+postSchema.statics.findNearestPosts = function(coors, user, successCallback, errorCallback){
+    this.find({ location: { $near : coors }, "college" : user.college }).populate("_comments").populate("_user").exec(function(err, posts){
         if (err){
             errorCallback(err);
         }
@@ -71,12 +71,23 @@ postSchema.statics.createPost = function(post, user, successCallback, errorCallb
 postSchema.virtual('jsonObject').get(function () {
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
 
+    var commentsJsonArray = [];
+
+    for (var i = 0; i < this._comments.length; i++){
+        var comment = this._comments[i];
+        var jsonObject = comment.jsonObject;
+
+        commentsJsonArray.push(jsonObject);
+    }
+
     var obj = {
         "text" : this.text,
         "dateCreated": timeIntervalSince1970InSeconds,
         "postId": this.postId,
         "author": this.author,
-        "college" : this._user.college
+        "authorProfilePictureUrl" : this._user.profilePictureUrl,
+        "college" : this._user.college,
+        "comments" : commentsJsonArray
     };
     return obj;
 });
