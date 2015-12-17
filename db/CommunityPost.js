@@ -90,9 +90,11 @@ postSchema.methods.like = function(user, successCallback, errorCallback){
 };
 
 postSchema.methods.addComment = function(comment, user, successCallback, errorCallback){
+    var post = this;
+
     var newComment = new CommunityComment(comment);
 
-    newComment._post = this._id;
+    newComment._post = post._id;
     newComment._user = user._id;
 
     newComment.save(function(err, savedComment){
@@ -101,13 +103,13 @@ postSchema.methods.addComment = function(comment, user, successCallback, errorCa
         }
         else{
             //save comment to post
-            if (!this._comments) {
-                this._comments = [];
-            }
+            //if (!this._comments) {
+            //    this._comments = [];
+            //}
 
-            this._comments.push(savedComment._id);
+            post._comments.push(savedComment._id);
 
-            this.save(function(err){
+            post.save(function(err){
                 if (err){
                     errorCallback(err);
                 }
