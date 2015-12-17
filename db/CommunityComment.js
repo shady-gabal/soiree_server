@@ -31,12 +31,13 @@ var commentSchema = new Schema({
 
 commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){
 
+    var newComment = new this(comment);
+
     mongoose.model('CommunityPost').findOne({postId : postId}, function(err, post){
       if (err || !post){
           errorCallback(err);
       }
       else{
-          var newComment = new this(comment);
 
           newComment._post = post._id;
           newComment._user = user._id;
