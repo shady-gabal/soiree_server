@@ -31,7 +31,8 @@ var commentSchema = new Schema({
 
 commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){
 
-    CommunityPost.findOne({postId : postId},function(err, post){
+    var query = CommunityPost.findOne({postId : postId});
+    query.exec(function(err, post){
       if (err || !post){
           errorCallback(err);
       }
