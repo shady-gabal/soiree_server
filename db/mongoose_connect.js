@@ -1,7 +1,8 @@
 //exports mongoose connected to db
 
 //to enable .env file to be read into process.env. Make sure to add .env to .gitignore
-require('dotenv').config({silent: true});
+
+//require('dotenv').config({silent: true});
 
 var mongoose = require('mongoose');
 var uriUtil = require('mongodb-uri');
@@ -13,7 +14,7 @@ var uriUtil = require('mongodb-uri');
  * plenty of time in most operating environments.
  */
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
-                replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } };  
+                replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } };
 
 
 
@@ -33,7 +34,6 @@ else{
 }
 
 var db = mongoose.connection;
-
 db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', function(){

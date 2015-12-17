@@ -126,4 +126,14 @@ router.post('/createComment', function(req, res){
     });
 });
 
+router.get('/createComment', function(req, res){
+   CommunityComment.createComment({
+       "text" : "this is a comment"
+   }, function(comment){
+       res.send("Successful");
+   }, function(err){
+       res.send("Error: " + err);
+   });
+});
+
 module.exports = router;
