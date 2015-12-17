@@ -22,6 +22,7 @@ var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 var CommunityPost = require(dbFolderLocation + 'CommunityPost.js');
+var CommunityComment = require(dbFolderLocation + 'CommunityComment.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
@@ -100,6 +101,24 @@ router.post('/createPost', function(req, res){
             ResHelpers.sendMessage(res, 200, "created post");
         }, function(err){
             ResHelpers.sendMessage(res, 404, "error creating post: " + err);
+        });
+
+    }, function(err){
+        ResHelpers.sendMessage(res, 404, "error finding user: " + err);
+    });
+});
+
+router.post('/createComment', function(req, res){
+    User.verifyUser(req.body.user, function(user){
+        var text = req.body.comment;
+        var postId = req.body.postId;
+
+        CommunityComment.createComment({
+            "text" : text
+        }, postId, user, function(comment){
+            ResHelpers.sendMessage(res, 200, "created comment");
+        }, function(err){
+            ResHelpers.sendMessage(res, 404, "error creating comment: " + err);
         });
 
     }, function(err){

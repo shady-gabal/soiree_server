@@ -53,7 +53,7 @@ postSchema.statics.createPost = function(post, user, successCallback, errorCallb
     var newPost = new this(post);
 
     newPost._comments = [];
-    newPost._user = user;
+    newPost._user = user._id;
     newPost.college = user.college;
 
     newPost.save(function(err){
