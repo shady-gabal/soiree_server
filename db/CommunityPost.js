@@ -101,6 +101,10 @@ postSchema.methods.addComment = function(comment, user, successCallback, errorCa
         }
         else{
             //save comment to post
+            if (!this._comments) {
+                this._comments = [];
+            }
+
             this._comments.push(savedComment._id);
 
             this.save(function(err){
