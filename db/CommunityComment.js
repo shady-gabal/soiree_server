@@ -31,12 +31,12 @@ var commentSchema = new Schema({
 
 commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){
 
-    var query = CommunityPost.findOne({postId : postId});
-    query.exec(function(err, post){
-      if (err || !post){
+    var query = CommunityPost.find({postId : postId}, function(err, posts){
+      if (err || !posts){
           errorCallback(err);
       }
       else{
+          var post = posts[0];
           var newComment = new this(comment);
 
           newComment._post = post._id;
