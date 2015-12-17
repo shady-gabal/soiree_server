@@ -67,7 +67,12 @@ router.post('/postsNear', function(req, res){
         CommunityPost.findNearestPosts(coors, user, function (posts) {
             var jsonArray = [];
             for (var i = 0; i < posts.length; i++) {
-                jsonArray.push(posts[i].jsonObject);
+                var post = posts[i];
+                var jsonObject = post.jsonObject;
+
+                jsonObject["likedByUser"] = post._likes.indexOf(user._id) != -1;
+
+                jsonArray.push(jsonObject);
             }
             res.json({"posts": jsonArray});
 
@@ -129,17 +134,34 @@ router.post('/createComment', function(req, res){
             }
         });
 
-        //CommunityComment.createComment({
-        //    "text" : text
-        //}, postId, user, function(comment){
-        //    ResHelpers.sendMessage(res, 200, "created comment");
-        //}, function(err){
-        //    ResHelpers.sendMessage(res, 404, "error creating comment: " + err);
-        //});
+    }, function(err){
+        ResHelpers.sendMessage(res, 404, "error finding user: " + err);
+    });
+});
+
+router.post('/likePost', function(req, res){
+    User.verifyUser(req.body.user, function(user){
+        var postId = req.body.postId;
+
+        CommunityPost.findOne({postId : postId}, function(err, post){
+            if (err || !post){
+                ResHelpers.sendMessage(res, 404, "error finding post: " + err);
+            }
+            else{
+
+                post.like(user, function(post){
+                    ResHelpers.sendMessage(res, 200, "successfully liked post");
+                }, function(err){
+                    ResHelpers.sendMessage(res, 404, "error liking post: " + err);
+                });
+
+            }
+        });
 
     }, function(err){
         ResHelpers.sendMessage(res, 404, "error finding user: " + err);
     });
+
 });
 
 router.get('/createComment', function(req, res){

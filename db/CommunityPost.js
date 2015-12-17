@@ -102,11 +102,6 @@ postSchema.methods.addComment = function(comment, user, successCallback, errorCa
             errorCallback(err);
         }
         else{
-            //save comment to post
-            //if (!this._comments) {
-            //    this._comments = [];
-            //}
-
             post._comments.push(savedComment._id);
 
             post.save(function(err){
@@ -117,6 +112,19 @@ postSchema.methods.addComment = function(comment, user, successCallback, errorCa
                     successCallback(savedComment);
                 }
             });
+        }
+    });
+};
+
+postSchema.methods.like = function(user, successCallback, errorCallback){
+    this._likes.push(user._id);
+
+    this.save(function(err){
+        if (err){
+            errorCallback(err);
+        }
+        else{
+            successCallback(this);
         }
     });
 };
@@ -142,6 +150,8 @@ postSchema.virtual('jsonObject').get(function () {
         "author": this.author,
         "authorProfilePictureUrl" : this._user.profilePictureUrl,
         "college" : this._user.college,
+        "numLikes" : this.numLikes,
+        "numComments" : this.numComments,
         "comments" : commentsJsonArray
     };
     return obj;
@@ -153,6 +163,10 @@ postSchema.virtual('author').get(function () {
 
 postSchema.virtual('numLikes').get(function () {
     return this._likes.length;
+});
+
+postSchema.virtual('numComments').get(function () {
+    return this._comments.length;
 });
 
 //postSchema.virtual('college').get(function () {
