@@ -30,6 +30,7 @@ var postSchema = new Schema({
         type: {type: String},
         coordinates: []
     },
+    _likes : [{type: ObjectId, ref:"User"}],
     _user : {type: ObjectId, ref:"User"},
     dateCreated : {type: Date, default: Date.now()}
 });
@@ -66,6 +67,54 @@ postSchema.statics.createPost = function(post, user, successCallback, errorCallb
     });
 };
 
+
+/* Methods */
+
+postSchema.methods.like = function(user, successCallback, errorCallback){
+    if (this._likes.indexOf(user._id) == -1){
+        this._likes.push(user._id);
+        this.save(function(err){
+           if (err){
+               errorCallback(err);
+           }
+           else{
+               successCallback(this);
+           }
+        });
+    }
+    else{
+        //user already liked
+        errorCallback();
+    }
+
+};
+
+postSchema.methods.addComment = function(comment, user, successCallback, errorCallback){
+    var newComment = new CommunityComment(comment);
+
+    newComment._post = this._id;
+    newComment._user = user._id;
+
+    newComment.save(function(err, savedComment){
+        if (err){
+            errorCallback(err);
+        }
+        else{
+            //save comment to post
+            this._comments.push(savedComment._id);
+
+            this.save(function(err){
+                if (err){
+                    errorCallback(err);
+                }
+                else{
+                    successCallback(savedComment);
+                }
+            });
+        }
+    });
+};
+
 /* Virtuals */
 
 postSchema.virtual('jsonObject').get(function () {
@@ -94,6 +143,10 @@ postSchema.virtual('jsonObject').get(function () {
 
 postSchema.virtual('author').get(function () {
     return this._user.fullName;
+});
+
+postSchema.virtual('numLikes').get(function () {
+    return this._likes.length;
 });
 
 //postSchema.virtual('college').get(function () {

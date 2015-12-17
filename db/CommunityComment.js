@@ -24,46 +24,49 @@ var DateHelpers = require('../helpers/DateHelpers.js');
 var commentSchema = new Schema({
     text : {type: String},
     _post: {type: ObjectId, ref:"CommunityPost"},
+    likes : [{type: ObjectId, ref:"User"}],
     commentId: {type: String, unique: true, default: shortid.generate},
     _user : {type: ObjectId, ref:"User"},
     dateCreated : {type: Date, default: Date.now()}
 });
 
-commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){
+//commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){
+//
+//    var newComment = new this(comment);
+//
+//    mongoose.model('CommunityPost').findOne({postId : postId}, function(err, post){
+//      if (err || !post){
+//          errorCallback(err);
+//      }
+//      else{
+//
+//          newComment._post = post._id;
+//          newComment._user = user._id;
+//
+//          newComment.save(function(err, savedComment){
+//              if (err){
+//                  errorCallback(err);
+//              }
+//              else{
+//                  //save comment to post
+//                  post._comments.push(savedComment._id);
+//
+//                  post.save(function(err){
+//                      if (err){
+//                         errorCallback(err);
+//                      }
+//                      else{
+//                          successCallback(savedComment);
+//                      }
+//                  });
+//              }
+//          });
+//      }
+//   });
+//
+//};
 
-    var newComment = new this(comment);
 
-    mongoose.model('CommunityPost').findOne({postId : postId}, function(err, post){
-      if (err || !post){
-          errorCallback(err);
-      }
-      else{
-
-          newComment._post = post._id;
-          newComment._user = user._id;
-
-          newComment.save(function(err, savedComment){
-              if (err){
-                  errorCallback(err);
-              }
-              else{
-                  //save comment to post
-                  post._comments.push(savedComment._id);
-
-                  post.save(function(err){
-                      if (err){
-                         errorCallback(err);
-                      }
-                      else{
-                          successCallback(savedComment);
-                      }
-                  });
-              }
-          });
-      }
-   });
-
-};
 
 //commentSchema.statics.createComment = function(comment, successCallback, errorCallback){
 //

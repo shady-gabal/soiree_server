@@ -113,13 +113,29 @@ router.post('/createComment', function(req, res){
         var text = req.body.comment;
         var postId = req.body.postId;
 
-        CommunityComment.createComment({
-            "text" : text
-        }, postId, user, function(comment){
-            ResHelpers.sendMessage(res, 200, "created comment");
-        }, function(err){
-            ResHelpers.sendMessage(res, 404, "error creating comment: " + err);
+        CommunityPost.findOne({postId : postId}, function(err, post){
+            if (err || !post){
+                ResHelpers.sendMessage(res, 404, "error finding post: " + err);
+            }
+            else{
+                post.addComment({
+                    text : text
+                }, user, function(comment){
+                    ResHelpers.sendMessage(res, 200, "created comment");
+                }, function(err){
+                    ResHelpers.sendMessage(res, 404, "error creating comment: " + err);
+
+                });
+            }
         });
+
+        //CommunityComment.createComment({
+        //    "text" : text
+        //}, postId, user, function(comment){
+        //    ResHelpers.sendMessage(res, 200, "created comment");
+        //}, function(err){
+        //    ResHelpers.sendMessage(res, 404, "error creating comment: " + err);
+        //});
 
     }, function(err){
         ResHelpers.sendMessage(res, 404, "error finding user: " + err);
