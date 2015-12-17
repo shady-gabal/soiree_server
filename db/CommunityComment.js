@@ -29,77 +29,77 @@ var commentSchema = new Schema({
     dateCreated : {type: Date, default: Date.now()}
 });
 
-//commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){
-//
-//    CommunityPost.findOne({postId : postId}, function(err, post){
-//      if (err || !post){
-//          errorCallback(err);
-//      }
-//      else{
-//          var newComment = new this(comment);
-//
-//          newComment._post = post._id;
-//          newComment._user = user._id;
-//
-//          newComment.save(function(err, savedComment){
-//              if (err){
-//                  errorCallback(err);
-//              }
-//              else{
-//                  //save comment to post
-//                  post._comments.push(savedComment._id);
-//
-//                  post.save(function(err){
-//                      if (err){
-//                         errorCallback(err);
-//                      }
-//                      else{
-//                          successCallback(savedComment);
-//                      }
-//                  });
-//              }
-//          });
-//      }
-//   });
-//
-//};
+commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){
 
-commentSchema.statics.createComment = function(comment, successCallback, errorCallback){
+    mongoose.model('CommunityPost').findOne({postId : postId}, function(err, post){
+      if (err || !post){
+          errorCallback(err);
+      }
+      else{
+          var newComment = new this(comment);
 
-    CommunityPost.find({}).exec(function(err, post){
-        if (err || !post){
-            errorCallback(err);
-        }
-        else{
-            successCallback();
-            //var newComment = new this(comment);
-            //
-            //newComment._post = post._id;
-            //newComment._user = user._id;
-            //
-            //newComment.save(function(err, savedComment){
-            //    if (err){
-            //        errorCallback(err);
-            //    }
-            //    else{
-            //        //save comment to post
-            //        post._comments.push(savedComment._id);
-            //        post._comments.push(savedComment._id);
-            //
-            //        post.save(function(err){
-            //            if (err){
-            //                errorCallback(err);
-            //            }
-            //            else{
-            //                successCallback(savedComment);
-            //            }
-            //        });
-            //    }
-            //});
-        }
-    });
+          newComment._post = post._id;
+          newComment._user = user._id;
+
+          newComment.save(function(err, savedComment){
+              if (err){
+                  errorCallback(err);
+              }
+              else{
+                  //save comment to post
+                  post._comments.push(savedComment._id);
+
+                  post.save(function(err){
+                      if (err){
+                         errorCallback(err);
+                      }
+                      else{
+                          successCallback(savedComment);
+                      }
+                  });
+              }
+          });
+      }
+   });
 
 };
+
+//commentSchema.statics.createComment = function(comment, successCallback, errorCallback){
+//
+//    mongoose.model('CommunityPost').find({}).exec(function(err, post){
+//        if (err || !post){
+//            errorCallback(err);
+//        }
+//        else{
+//            successCallback();
+//            //var newComment = new this(comment);
+//            //
+//            //newComment._post = post._id;
+//            //newComment._user = user._id;
+//            //
+//            //newComment.save(function(err, savedComment){
+//            //    if (err){
+//            //        errorCallback(err);
+//            //    }
+//            //    else{
+//            //        //save comment to post
+//            //        post._comments.push(savedComment._id);
+//            //        post._comments.push(savedComment._id);
+//            //
+//            //        post.save(function(err){
+//            //            if (err){
+//            //                errorCallback(err);
+//            //            }
+//            //            else{
+//            //                successCallback(savedComment);
+//            //            }
+//            //        });
+//            //    }
+//            //});
+//        }
+//    });
+//
+//};
 
 commentSchema.virtual('jsonObject').get(function () {
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;

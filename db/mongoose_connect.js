@@ -2,7 +2,7 @@
 
 //to enable .env file to be read into process.env. Make sure to add .env to .gitignore
 
-//require('dotenv').config({silent: true});
+require('dotenv').config({silent: true});
 
 var mongoose = require('mongoose');
 var uriUtil = require('mongodb-uri');
@@ -24,7 +24,7 @@ var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 //for local dev
 if (process.env.LOCAL){
 	console.log('connecting to local mongodb...');
-	mongoose.connect("mongodb://localhost/soireedb", options);
+	mongoose.connect("mongodb://127.0.0.1:27017/soireedb", options);
 }
 
 else{
