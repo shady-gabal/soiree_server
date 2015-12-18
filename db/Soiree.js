@@ -249,6 +249,12 @@ soireeSchema.virtual('jsonObject').get(function () {
 
 soireeSchema.pre('save', function(next){
 	this.dateUpdated = new Date();
+
+	var scheduledTime = this.date.getHours();
+	var minsRemainder = parseInt(this.getMinutes() / 15) * .15;
+	this.scheduledTime = scheduledTime + minsRemainder;
+	console.log("scheduled time: " + this.scheduledTime);
+	
 	next();
 });
 
