@@ -44,7 +44,8 @@ soireeSchema.statics.createSoiree = function(soiree, business, successCallback, 
 	soiree._usersAttending = [];
 
 	var newSoiree = new this(soiree);
-
+	console.log(soiree);
+	console.log(newSoiree);
 	newSoiree.save(function(err){
 		if (err){
 			errorCallback();
