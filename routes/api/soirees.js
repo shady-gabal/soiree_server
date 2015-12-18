@@ -37,6 +37,7 @@ router.get('/createSoirees', function(req, res){
         Soiree.createSoiree({
             soireeType: "Lunch",
             numUsersMax: 3,
+            initialCharge: 3,
             date: date
         }, nextBusiness, function(){
                console.log("Saved soiree");

@@ -44,10 +44,10 @@ soireeSchema.statics.createSoiree = function(soiree, business, successCallback, 
 	newSoiree._business = business._id;
 	newSoiree.location = business.location;
 	newSoiree._usersAttending = [];
-	
+
 	newSoiree.save(function(err){
 		if (err){
-			errorCallback();
+			errorCallback(err);
 		}
 		else{
 			successCallback();
