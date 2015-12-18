@@ -65,12 +65,11 @@ router.post('/postsNear', function(req, res){
         var coors = LocationHelpers.createPoint(longitude, latitude);
 
         CommunityPost.findNearestPosts(coors, user, function (posts) {
+
             var jsonArray = [];
             for (var i = 0; i < posts.length; i++) {
                 var post = posts[i];
-                var jsonObject = post.jsonObject;
-
-                jsonObject["likedByUser"] = post._likes.indexOf(user._id) != -1;
+                var jsonObject = post.jsonObject(user);
 
                 jsonArray.push(jsonObject);
             }

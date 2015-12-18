@@ -105,19 +105,35 @@ var commentSchema = new Schema({
 //
 //};
 
-commentSchema.virtual('jsonObject').get(function () {
+commentSchema.methods.jsonObject = function(user){
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
+    var likedByUser = this._likes.indexOf(user._id) != -1;
 
     var obj = {
         "text" : this.text,
         "dateCreated": timeIntervalSince1970InSeconds,
         "commentId": this.commentId,
         "author": this.author,
-        "authorProfilePictureUrl" : this._user.profilePictureUrl
+        "authorProfilePictureUrl" : this._user.profilePictureUrl,
+        "likedByUser" : likedByUser
     };
     return obj;
+};
 
-});
+//commentSchema.virtual('jsonObject').get(function () {
+//    var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
+//
+//    var obj = {
+//        "text" : this.text,
+//        "dateCreated": timeIntervalSince1970InSeconds,
+//        "commentId": this.commentId,
+//        "author": this.author,
+//        "authorProfilePictureUrl" : this._user.profilePictureUrl
+//    };
+//    return obj;
+//
+//});
+
 
 commentSchema.virtual('author').get(function () {
     return this._user.fullName;

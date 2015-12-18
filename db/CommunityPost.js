@@ -50,6 +50,7 @@ postSchema.statics.findNearestPosts = function(coors, user, successCallback, err
     });
 };
 
+
 postSchema.statics.createPost = function(post, user, successCallback, errorCallback){
     var newPost = new this(post);
 
@@ -145,19 +146,19 @@ postSchema.methods.unlike = function(user, successCallback, errorCallback){
     });
 };
 
-/* Virtuals */
-
-postSchema.virtual('jsonObject').get(function () {
+postSchema.methods.jsonObject = function(user){
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
 
     var commentsJsonArray = [];
 
     for (var i = 0; i < this._comments.length; i++){
         var comment = this._comments[i];
-        var jsonObject = comment.jsonObject;
-
+        var jsonObject = comment.jsonObject(user);
         commentsJsonArray.push(jsonObject);
     }
+
+
+    var likedByUser = this._likes.indexOf(user._id) != -1;
 
     var obj = {
         "text" : this.text,
@@ -168,10 +169,39 @@ postSchema.virtual('jsonObject').get(function () {
         "college" : this._user.college,
         "numLikes" : this.numLikes,
         "numComments" : this.numComments,
-        "comments" : commentsJsonArray
+        "comments" : commentsJsonArray,
+        "likedByUser" : likedByUser
     };
     return obj;
-});
+};
+
+/* Virtuals */
+
+//postSchema.virtual('jsonObject').get(function () {
+//    var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
+//
+//    var commentsJsonArray = [];
+//
+//    for (var i = 0; i < this._comments.length; i++){
+//        var comment = this._comments[i];
+//        var jsonObject = comment.jsonObject;
+//
+//        commentsJsonArray.push(jsonObject);
+//    }
+//
+//    var obj = {
+//        "text" : this.text,
+//        "dateCreated": timeIntervalSince1970InSeconds,
+//        "postId": this.postId,
+//        "author": this.author,
+//        "authorProfilePictureUrl" : this._user.profilePictureUrl,
+//        "college" : this._user.college,
+//        "numLikes" : this.numLikes,
+//        "numComments" : this.numComments,
+//        "comments" : commentsJsonArray
+//    };
+//    return obj;
+//});
 
 postSchema.virtual('author').get(function () {
     return this._user.fullName;
