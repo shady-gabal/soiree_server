@@ -32,7 +32,7 @@ var postSchema = new Schema({
     },
     _likes : [{type: ObjectId, ref:"User"}],
     _user : {type: ObjectId, ref:"User"},
-    dateCreated : {type: Date, default: Date.now()}
+    dateCreated : {type: Date, default: new Date()}
 });
 
 postSchema.index({location: '2dsphere'});
@@ -148,7 +148,7 @@ postSchema.methods.unlike = function(user, successCallback, errorCallback){
 
 postSchema.methods.jsonObject = function(user){
     console.log("Sending json object with:" + this.dateCreated);
-    
+
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
 
     var commentsJsonArray = [];
