@@ -27,7 +27,7 @@ var commentSchema = new Schema({
     _likes : [{type: ObjectId, ref:"User"}],
     commentId: {type: String, unique: true, default: shortid.generate},
     _user : {type: ObjectId, ref:"User"},
-    dateCreated : {type: Date, default: Date.now()}
+    dateCreated : {type: Date, default: new Date()}
 });
 
 //commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){

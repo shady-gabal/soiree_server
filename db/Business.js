@@ -30,8 +30,8 @@ var businessSchema = new Schema({
     },
     cityArea : {type: String},
     numSoireesHosted : {type: Number, default: 0},
-    dateCreated : {type: Date, default: Date.now()},
-    dateUpdated : {type: Date, default: Date.now()}
+    dateCreated : {type: Date, default: new Date()},
+    dateUpdated : {type: Date, default: new Date()}
 });
 
 businessSchema.index({location: '2dsphere'});

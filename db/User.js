@@ -37,11 +37,11 @@ var userSchema = new Schema({
 	phoneNumber : {type : String},
 	secretKey : {type: String, index:true, unique: true, default: shortid.generate},
 	finishedSignUp : {type : Boolean, default: false}, /* Signup */
-	dateSignedUp: {type : Date, default: Date.now()}, /* Dates */
-	dateLastSignedIn : {type: Date, default: Date.now()},
-	dateUpdated : {type: Date, default: Date.now()},
 	_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
-	_soireesAttended: [{type: ObjectId, ref:"Soiree"}]
+	_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
+	dateSignedUp: {type : Date, default: new Date()}, /* Dates */
+	dateLastSignedIn : {type: Date, default: new Date()},
+	dateUpdated : {type: Date, default: new Date()}
 	//location: { /* Location */
 	//	type: {type: String},
 	//	coordinates: []

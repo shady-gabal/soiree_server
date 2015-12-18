@@ -147,8 +147,6 @@ postSchema.methods.unlike = function(user, successCallback, errorCallback){
 };
 
 postSchema.methods.jsonObject = function(user){
-    console.log("Sending json object with:" + this.dateCreated);
-
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
 
     var commentsJsonArray = [];

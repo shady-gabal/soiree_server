@@ -31,7 +31,7 @@ var soireeSchema = new Schema({
 		type: {type: String},
 		coordinates: []
 	},
-	dateCreated : {type: Date, default: Date.now()}
+	dateCreated : {type: Date, default: new Date()}
 });
 
 soireeSchema.index({location: '2dsphere'});
