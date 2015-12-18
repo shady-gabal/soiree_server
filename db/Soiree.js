@@ -39,13 +39,12 @@ soireeSchema.index({location: '2dsphere'});
 /* Static Methods */
 
 soireeSchema.statics.createSoiree = function(soiree, business, successCallback, errorCallback) {
-	soiree._business = business._id;
-	soiree.location = business.location;
-	soiree._usersAttending = [];
-
 	var newSoiree = new this(soiree);
-	console.log(soiree);
-	console.log(newSoiree);
+
+	newSoiree._business = business._id;
+	newSoiree.location = business.location;
+	newSoiree._usersAttending = [];
+	
 	newSoiree.save(function(err){
 		if (err){
 			errorCallback();
