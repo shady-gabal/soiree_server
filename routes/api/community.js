@@ -164,6 +164,32 @@ router.post('/likePost', function(req, res){
 
 });
 
+
+router.post('/unlikePost', function(req, res){
+    User.verifyUser(req.body.user, function(user){
+        var postId = req.body.postId;
+
+        CommunityPost.findOne({postId : postId}, function(err, post){
+            if (err || !post){
+                ResHelpers.sendMessage(res, 404, "error finding post: " + err);
+            }
+            else{
+
+                post.unlike(user, function(post){
+                    ResHelpers.sendMessage(res, 200, "successfully unliked post");
+                }, function(err){
+                    ResHelpers.sendMessage(res, 404, "error unliking post: " + err);
+                });
+
+            }
+        });
+
+    }, function(err){
+        ResHelpers.sendMessage(res, 404, "error finding user: " + err);
+    });
+
+});
+
 router.get('/createComment', function(req, res){
    CommunityComment.createComment({
        "text" : "this is a comment"

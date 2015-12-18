@@ -129,6 +129,22 @@ postSchema.methods.like = function(user, successCallback, errorCallback){
     });
 };
 
+postSchema.methods.unlike = function(user, successCallback, errorCallback){
+    var index = this._likes.indexOf(user._id);
+    if (index != -1) {
+        this._likes.splice(index, 1);
+    }
+
+    this.save(function(err){
+        if (err){
+            errorCallback(err);
+        }
+        else{
+            successCallback(this);
+        }
+    });
+};
+
 /* Virtuals */
 
 postSchema.virtual('jsonObject').get(function () {
