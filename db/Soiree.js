@@ -20,7 +20,7 @@ var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
 var soireeSchema = new Schema({
 	soireeType : {type: String, required: true, enum: soireeTypes},
 	numUsersMax: {type : Number, required: true},
-	scheduledTime : {type: Number, required: true},
+	scheduledTime : {type: Number},
 	soireeId: {type: String, unique: true, default: shortid.generate},
 	initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]},
 	date: {type : Date, required: [true, "A date for the Soiree is required"]},
@@ -36,7 +36,15 @@ var soireeSchema = new Schema({
 
 soireeSchema.index({location: '2dsphere'});
 
+
 /* Static Methods */
+
+soireeSchema.statics.createScheduledTime = function(date){
+	var scheduledTime = date.getHours();
+	var minsRemainder = date.getMinutes() / 100;
+
+	return scheduledTime + minsRemainder;
+};
 
 soireeSchema.statics.createSoiree = function(soiree, business, successCallback, errorCallback) {
 	var newSoiree = new this(soiree);
@@ -239,6 +247,12 @@ soireeSchema.virtual('jsonObject').get(function () {
 });
 
 
+soireeSchema.pre("save", function(next){
+	this.dateUpdated = new Date();
+	this.scheduledTime = this.constructor.createScheduledTime(this.date);
+
+	next();
+});
 
 //soireeSchema.pre('save', function(next){
 //	//if (!this.timeAtString) {
@@ -247,17 +261,7 @@ soireeSchema.virtual('jsonObject').get(function () {
 //	next();
 //});
 
-soireeSchema.pre('save', function(next){
-	console.log("PRE SAVE");
-	this.dateUpdated = new Date();
 
-	var scheduledTime = this.date.getHours();
-	var minsRemainder = parseInt(this.getMinutes() / 15) * .15;
-	this.scheduledTime = scheduledTime + minsRemainder;
-	console.log("scheduled time: " + this.scheduledTime);
-
-	next();
-});
 
 module.exports = mongoose.model('Soiree', soireeSchema);
 
