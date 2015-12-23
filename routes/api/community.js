@@ -125,7 +125,7 @@ router.post('/createComment', function(req, res){
                 post.addComment({
                     text : text
                 }, user, function(comment){
-                    res.json(comment.jsonObject());
+                    res.json(comment.jsonObject(user));
                     //ResHelpers.sendMessage(res, 200, "created comment");
                 }, function(err){
                     ResHelpers.sendMessage(res, 404, "error creating comment: " + err);
