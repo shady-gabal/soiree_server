@@ -11,7 +11,7 @@ var emailHelpers = (function() {
         auth: {
             user: 'shadygabal@gmail.com',
             pass: 'AMIR9701663'
-        }
+        },
     });
 
     var validator = require('validator');
@@ -24,7 +24,7 @@ var emailHelpers = (function() {
 
             // setup e-mail data with unicode symbols
             var mailOptions = {
-                from: 'Soirée <shadygabal@gmail.com>', // sender address
+                from: 'Soirée <billbob@gmail.com>', // sender address
                 to: email, // list of receivers
                 subject: "Start experiencing Soirée", // Subject line
                 text: "Hey " + user.firstName + ",\n\n" +
