@@ -24,11 +24,11 @@ var emailHelpers = (function() {
 
             // setup e-mail data with unicode symbols
             var mailOptions = {
-                from: 'Soiree <shadygabal@gmail.com>', // sender address
-                to: 'sg3301@nyu.edu', // list of receivers
-                subject: 'Hello. Is it me youre looking for', // Subject line
-                text: 'Hello world', // plaintext body
-                html: '<b>Hello world ✔</b>' // html body
+                from: 'Soirée <shadygabal@gmail.com>', // sender address
+                to: email, // list of receivers
+                subject: "Hello. Is it me you're looking for", // Subject line
+                text: "Hello world", // plaintext body
+                html: "<b>Hello world ✔</b>" // html body
             };
 
 
