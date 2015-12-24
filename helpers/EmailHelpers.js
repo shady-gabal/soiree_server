@@ -26,9 +26,13 @@ var emailHelpers = (function() {
             var mailOptions = {
                 from: 'Soirée <shadygabal@gmail.com>', // sender address
                 to: email, // list of receivers
-                subject: "Hello. Is it me you're looking for", // Subject line
-                text: "Hello world", // plaintext body
-                html: "<b>Hello world ✔</b>" // html body
+                subject: "Start experiencing Soirée", // Subject line
+                text: "Hey " + user.firstName + ",\n\n" +
+                      "It's time to begin experiencing Soirée. Enter verification code \n"  +
+                      "12345 \n to get started", // plaintext body
+                html: "Hey " + user.firstName + ",\n\n" +
+                      "It's time to begin experiencing Soirée. Enter verification code \n"  +
+                      "<b> 12345 </b> \n to get started"// html body
             };
 
 
