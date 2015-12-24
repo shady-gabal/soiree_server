@@ -21,11 +21,44 @@ var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
+var EmailHelpers = require(helpersFolderLocation + 'EmailHelpers.js');
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
-router.post('/verify', function(req, res){
+router.post('/sendVerificationEmail', function(req, res){
+    User.verifyUser(req.body.user, function(user){
+        var email = req.body.email;
 
+        if (EmailHelpers.validateEmail(email)){
+            EmailHelpers.sendVerificationEmail(email, user, function(){
+                ResHelpers.sendMessage(res, 200, "email sent");
+            }, function(err){
+                ResHelpers.sendMessage(res, 404, "error sending email");
+            });
+        }
+        else{
+            ResHelpers.sendMessage(res, 404, "email invalid");
+        }
+
+    }, function(err){
+        ResHelpers.sendMessage(res, 404, "error finding user");
+    });
+});
+
+router.get('/sendVerificationEmail', function(req, res){
+        var email = req.query.email;
+
+        if (EmailHelpers.validateEmail(email)){
+            EmailHelpers.sendVerificationEmail(email, null, function(){
+                ResHelpers.sendMessage(res, 200, "email sent");
+            }, function(err){
+                ResHelpers.sendMessage(res, 404, "error sending email");
+            });
+        }
+        else{
+            ResHelpers.sendMessage(res, 404, "email invalid");
+        }
 });
 
 module.exports = router;

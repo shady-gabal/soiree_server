@@ -10,7 +10,7 @@ var users = require('./routes/api/users');
 var businesses = require('./routes/api/businesses');
 var questionnaire = require('./routes/api/questionnaire');
 var community = require('./routes/api/community');
-
+var verifications = require('./routes/api/verifications');
 
 
 var app = express();
@@ -34,6 +34,7 @@ app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);
 app.use('/api/businesses', businesses);
 app.use('/api/community', community);
+app.use('/api/verifications', verifications);
 
 
 // catch 404 and forward to error handler
