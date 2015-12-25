@@ -22,6 +22,7 @@ var userSchema = new Schema({
 	firstName : {type: String, required: true}, /* Name */
 	lastName : {type: String},
 	verified : {type: Boolean, default: false}, /* Verification */
+	verificationCode : {type: String},
 	pendingVerification : {type: Boolean, default: false},
 	creditCardLast4Digits : {type: String}, /* Credit Card */
 	stripeToken : {type: String},
@@ -49,6 +50,8 @@ var userSchema = new Schema({
 });
 
 userSchema.index({location: '2dsphere'});
+
+
 
 userSchema.pre('save', function(next){
 	//determine age
@@ -83,7 +86,28 @@ userSchema.methods.createDataObjectToSend = function(){
 	return obj;
 };
 
+userSchema.methods.verifyCode = function(code){
+	return this.verificationCode == code;
+};
+
+
+
+userSchema.methods.generateVerificationCode = function(){
+	var length = 6;
+	var code = '';
+
+	var nums = '0123456789';
+
+	for (var i = 0; i < length; i++){
+		var c = nums[parseInt(Math.random() * (nums.length))];
+		code += c;
+	}
+
+	this.verificationCode = code;
+};
+
 /* Statics */
+
 
 userSchema.statics.colleges = function(){
 	return colleges;
@@ -151,6 +175,7 @@ userSchema.virtual('fullName').get(function(){
 
 	return this.firstName + " " + this.lastName;
 });
+
 
 
 module.exports = mongoose.model('User', userSchema);

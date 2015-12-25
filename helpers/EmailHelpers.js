@@ -19,8 +19,8 @@ var emailHelpers = (function() {
     return {
         sendVerificationEmail: function (email, user, successCallback, errorCallback) {
 
-            // NB! No need to recreate the transporter object. You can use
-            // the same transporter object for all e-mails
+            user.generateVerificationCode();
+            var code = user.verificationCode;
 
             // setup e-mail data with unicode symbols
             var mailOptions = {
@@ -30,9 +30,9 @@ var emailHelpers = (function() {
                 text: "Hey " + user.firstName + ",\n\n" +
                       "It's time to begin experiencing Soirée. Enter verification code \n"  +
                       "12345 \n to get started", // plaintext body
-                html: "Hey " + user.firstName + ",\n\n" +
-                      "It's time to begin experiencing Soirée. Enter verification code \n"  +
-                      "<b> 12345 </b> \n to get started"// html body
+                html: "Hey " + user.firstName + ",<br /><br />" +
+                      "It's time to begin experiencing Soirée. Enter verification code <br /><br />"  +
+                      "<b> " + code + " </b> <br /><br /> to get started"// html body
             };
 
 

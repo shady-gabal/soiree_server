@@ -38,7 +38,7 @@ router.post('/sendVerificationEmail', function(req, res){
             });
         }
         else{
-            ResHelpers.sendMessage(res, 404, "email invalid");
+            ResHelpers.sendMessage(res, 405, "email invalid");
         }
 
     }, function(err){
@@ -59,6 +59,21 @@ router.get('/sendVerificationEmail', function(req, res){
         else{
             ResHelpers.sendMessage(res, 404, "email invalid");
         }
+});
+
+router.post('/verifyCode', function(req, res){
+   User.verifyUser(req.body.user, function(user) {
+       if (user.verifyCode(req.body.code) || user.verified) {
+            user.verified = true;
+           ResHelpers.sendMessage(res, 200, "user verified");
+       }
+       else{
+           ResHelpers.sendMessage(res, 405, "incorrect code");
+       }
+
+   }, function(err){
+       ResHelpers.sendMessage(res, 404, "error finding user");
+   });
 });
 
 module.exports = router;

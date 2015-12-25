@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helpers/EmailHelpers.js" afterPath="$PROJECT_DIR$/helpers/EmailHelpers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/User.js" afterPath="$PROJECT_DIR$/db/User.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/verifications.js" afterPath="$PROJECT_DIR$/routes/api/verifications.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,12 +25,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CommunityComment.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
+      <file leaf-file-name="User.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db/User.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="50" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
-              <folding />
+            <state vertical-scroll-proportion="-12.592592">
+              <caret line="90" column="2" selection-start-line="90" selection-start-column="2" selection-end-line="90" selection-end-column="2" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -43,21 +47,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EmailHelpers.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EmailHelpers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/helpers/EmailHelpers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4488778">
-              <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="verifications.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="verifications.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/api/verifications.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="52" column="58" selection-start-line="52" selection-start-column="58" selection-end-line="52" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.91645885">
+              <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -157,7 +161,6 @@
         <option value="$PROJECT_DIR$/db/mongoose_connect.js" />
         <option value="$PROJECT_DIR$/db/CommunityComment.js" />
         <option value="$PROJECT_DIR$/db/Business.js" />
-        <option value="$PROJECT_DIR$/db/User.js" />
         <option value="$PROJECT_DIR$/db/UserVerification.js" />
         <option value="$PROJECT_DIR$/db/CommunityPost.js" />
         <option value="$PROJECT_DIR$/routes/api/soirees.js" />
@@ -165,8 +168,9 @@
         <option value="$PROJECT_DIR$/routes/api/community.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/routes/api/verifications.js" />
         <option value="$PROJECT_DIR$/helpers/EmailHelpers.js" />
+        <option value="$PROJECT_DIR$/db/User.js" />
+        <option value="$PROJECT_DIR$/routes/api/verifications.js" />
       </list>
     </option>
   </component>
@@ -723,16 +727,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/Soiree.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -813,18 +807,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/verifications.js">
+    <entry file="file://$PROJECT_DIR$/helpers/EmailHelpers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="58" selection-start-line="52" selection-start-column="58" selection-end-line="52" selection-end-column="58" />
+          <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/EmailHelpers.js">
+    <entry file="file://$PROJECT_DIR$/db/User.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4488778">
-          <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
+        <state vertical-scroll-proportion="-12.592592">
+          <caret line="90" column="2" selection-start-line="90" selection-start-column="2" selection-end-line="90" selection-end-column="2" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/verifications.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.91645885">
+          <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
           <folding />
         </state>
       </provider>
