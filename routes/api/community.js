@@ -32,6 +32,7 @@ var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
 
 
+/* Posts */
 
 router.get('/postsNear', function(req, res){
     //User.verifyUser(req.body.user, function(user){
@@ -112,6 +113,28 @@ router.post('/createPost', function(req, res){
     });
 });
 
+router.post('/updatePost', function(req, res){
+   User.verifyUser(req.body.user, function(user){
+       var postId = req.body.postId;
+       if (!postId) {
+           return ResHelpers.sendMessage(res, 405, "no post id: " + err);
+       }
+
+       CommunityPost.findOne({postId : postId}, function(err, post) {
+            if (err || !post){
+                ResHelpers.sendMessage(res, 404, "error finding post: " + err);
+            }
+            else{
+                res.json(post.jsonObject(user));
+            }
+       });
+
+   }, function(err){
+       ResHelpers.sendMessage(res, 404, "error finding user: " + err);
+   });
+});
+/* Comments */
+
 router.post('/createComment', function(req, res){
     User.verifyUser(req.body.user, function(user){
         var text = req.body.comment;
@@ -138,6 +161,8 @@ router.post('/createComment', function(req, res){
         ResHelpers.sendMessage(res, 404, "error finding user: " + err);
     });
 });
+
+/* Liking/Unliking */
 
 router.post('/likePost', function(req, res){
     User.verifyUser(req.body.user, function(user){
