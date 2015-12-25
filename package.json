@@ -22,6 +22,7 @@
     "crypto-js" : "",
     "stripe" : "",
     "nodemailer" : "",
-    "validator" : ""
+    "validator" : "",
+    "mongoose-deep-populate" : ""
   }
 }

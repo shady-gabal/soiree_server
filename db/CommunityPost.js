@@ -4,9 +4,9 @@
 
 /* Setup */
 var mongoose = require('./mongoose_connect.js');
+
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
-
 
 /* Other Models */
 var Business = require('./Business.js');
@@ -46,13 +46,22 @@ postSchema.statics.findPostWithId = function(postId, successCallback, errorCallb
             errorCallback(err);
         }
         else{
-            successCallback(post);
+
+            post.deepPopulate('_comments._user', function(err, _post){
+                if (err || !_post){
+                    errorCallback(err);
+                }
+                else{
+                    successCallback(_post);
+                }
+            });
+
         }
     });
 };
 
 postSchema.statics.findNearestPosts = function(coors, user, successCallback, errorCallback){
-    this.find({ location: { $near : coors }, "college" : user.college }).populate("_comments").populate("_comments._user").populate("_user").exec(function(err, posts){
+    this.find({ location: { $near : coors }, "college" : user.college }).populate("_comments").deepPopulate("_comments._user").populate("_user").exec(function(err, posts){
         if (err){
             errorCallback(err);
         }
@@ -236,5 +245,8 @@ postSchema.virtual('numComments').get(function () {
 //    return this._user.college;
 //});
 
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var options = {};
+postSchema.plugin(deepPopulate, options);
 
 module.exports = mongoose.model('CommunityPost', postSchema);
