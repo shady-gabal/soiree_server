@@ -30,9 +30,10 @@ var soireeSchema = new Schema({
 	location: {
 		type: {type: String},
 		coordinates: []
-	},
-	dateCreated : {type: Date, default: new Date()}
-});
+	}
+},
+	{ timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
+);
 
 soireeSchema.index({location: '2dsphere'});
 

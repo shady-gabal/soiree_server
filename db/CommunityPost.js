@@ -31,9 +31,10 @@ var postSchema = new Schema({
         coordinates: []
     },
     _likes : [{type: ObjectId, ref:"User"}],
-    _user : {type: ObjectId, ref:"User"},
-    dateCreated : {type: Date, default: new Date()}
-});
+    _user : {type: ObjectId, ref:"User"}
+},
+    { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
+);
 
 postSchema.index({location: '2dsphere'});
 

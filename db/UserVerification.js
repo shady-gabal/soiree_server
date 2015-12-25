@@ -22,10 +22,11 @@ var userVerificationSchema = new Schema({
     college : {type: String, enum: User.colleges()},
     verified : {type : Boolean, default : false},
     rejected : {type: Boolean, default: false},
-    dateCreated : {type: Date, default: new Date()},
     dateVerified : {type: Date},
     verifiedBy: {type: String}
-});
+},
+    { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
+);
 
 
 module.exports = mongoose.model('UserVerification', userVerificationSchema);

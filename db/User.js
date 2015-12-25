@@ -47,7 +47,9 @@ var userSchema = new Schema({
 	//	type: {type: String},
 	//	coordinates: []
 	//}
-});
+},
+	{ timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
+);
 
 userSchema.index({location: '2dsphere'});
 

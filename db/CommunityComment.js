@@ -29,7 +29,7 @@ var commentSchema = new Schema({
     _user : {type: ObjectId, ref:"User"}
     //dateCreated : {type: Date, default: new Date()}
 },
-    { timestamps: { createdAt: 'dateCreated' } }
+    { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );
 
 //commentSchema.statics.createComment = function(comment, postId, user, successCallback, errorCallback){
@@ -108,7 +108,7 @@ var commentSchema = new Schema({
 //};
 
 commentSchema.methods.jsonObject = function(user){
-    var timeIntervalSince1970InSeconds = this.dateCreated.getTime();
+    var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000.;
     console.log("Comment: " + this.text + " date: " + timeIntervalSince1970InSeconds);
     var likedByUser = this._likes.indexOf(user._id) != -1;
 
