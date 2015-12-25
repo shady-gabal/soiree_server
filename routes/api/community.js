@@ -125,6 +125,8 @@ router.post('/updatePost', function(req, res){
                 ResHelpers.sendMessage(res, 404, "error finding post: " + err);
             }
             else{
+                console.log(post);
+                console.log(post._comments);
                 res.json(post.jsonObject(user));
             }
        });
