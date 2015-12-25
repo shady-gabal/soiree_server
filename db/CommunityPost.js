@@ -154,6 +154,7 @@ postSchema.methods.jsonObject = function(user){
 
     for (var i = 0; i < this._comments.length; i++){
         var comment = this._comments[i];
+        console.log(comment);
         var jsonObject = comment.jsonObject(user);
         commentsJsonArray.push(jsonObject);
     }
