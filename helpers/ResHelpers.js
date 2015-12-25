@@ -27,6 +27,9 @@ var resHelpers = (function() {
             //res.status(status).send(message);
             res.status(status).json({"message" : message});
 
+        },
+        sendSuccess:function(res){
+            res.json({"message" : "success"});
         }
 
         //isNextDay: function (firstDate, secondDate) {

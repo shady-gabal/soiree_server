@@ -41,20 +41,20 @@ postSchema.index({location: '2dsphere'});
 /* Static Methods */
 
 postSchema.statics.findPostWithId = function(postId, successCallback, errorCallback){
-    this.findOne({postId : postId }).populate("_comments").populate("_comments._user").populate("_user").exec(function(err, post){
+    this.findOne({postId : postId }).populate("_comments").populate("_user").deepPopulate('_comments._user').exec(function(err, post){
         if (err || !post){
             errorCallback(err);
         }
         else{
+            successCallback(post);
 
-            post.deepPopulate('_comments._user', function(err, _post){
-                if (err || !_post){
-                    errorCallback(err);
-                }
-                else{
-                    successCallback(_post);
-                }
-            });
+            //post.deepPopulate('_comments._user', function(err, _post){
+            //    if (err || !_post){
+            //        errorCallback(err);
+            //    }
+            //    else{
+            //    }
+            //});
 
         }
     });

@@ -19,6 +19,7 @@ var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
 
 router.get('/findUser', function(req, res){
@@ -123,21 +124,21 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
 
         userVerification.save(function (err) {
           if (err) {
-            res.status('404').send("Error saving photo");
+            ResHelpers.sendMessage(res, 404, "error saving photo");
           }
           else {
-            res.json({"message": "Finished"});
+            ResHelpers.sendMessage(res, 200, "saved photo");
           }
         });
 
       });
     }
     else{
-      res.json({"message" : "User already verified"});
+      ResHelpers.sendMessage(res, 200, "user already verified");
     }
 
   }, function(err){
-      res.status('404').send("Error finding user");
+     ResHelpers.sendMessage(res, 404, "error finding user");
     });
 });
 
@@ -154,19 +155,15 @@ router.post('/saveStripeToken', function(req, res){
     user.save(function(err, user){
       if (err){
         console.log("error saving token " + err);
-        res.type('text/plain');
-        res.status('404').send("Error saving stripe token");
+        ResHelpers.sendMessage(res, 404, "error saving token");
       }
       else{
         console.log("saved stripe token");
-        res.type('text/plain');
-        res.status('200').send("Saved");
+        ResHelpers.sendSuccess(res);
       }
     });
   }, function(err){
-    console.log("error finding user");
-    res.type('text/plain');
-    res.status('404').send("Error finding user");
+     ResHelpers.sendMessage(res, 404, "error finding user");
   });
 });
 
