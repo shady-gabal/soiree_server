@@ -40,6 +40,17 @@ postSchema.index({location: '2dsphere'});
 
 /* Static Methods */
 
+postSchema.statics.findPostWithId = function(postId, successCallback, errorCallback){
+    this.findOne({postId : postId }).populate("_comments").populate("_user").exec(function(err, post){
+        if (err || !post){
+            errorCallback(err);
+        }
+        else{
+            successCallback(post);
+        }
+    });
+};
+
 postSchema.statics.findNearestPosts = function(coors, user, successCallback, errorCallback){
     this.find({ location: { $near : coors }, "college" : user.college }).populate("_comments").populate("_user").exec(function(err, posts){
         if (err){
@@ -154,7 +165,11 @@ postSchema.methods.jsonObject = function(user){
 
     for (var i = 0; i < this._comments.length; i++){
         var comment = this._comments[i];
-        console.log("comment: " + comment);
+
+        if (!this.populated('_comments')) {
+            console.log("WARNING: Did not populate _comments when retrieving CommunityPost");
+        }
+
         var jsonObject = comment.jsonObject(user);
         commentsJsonArray.push(jsonObject);
     }

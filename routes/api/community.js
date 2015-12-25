@@ -120,15 +120,10 @@ router.post('/updatePost', function(req, res){
            return ResHelpers.sendMessage(res, 405, "no post id: " + err);
        }
 
-       CommunityPost.findOne({postId : postId}, function(err, post) {
-            if (err || !post){
-                ResHelpers.sendMessage(res, 404, "error finding post: " + err);
-            }
-            else{
-                console.log(post);
-                console.log(post._comments);
-                res.json(post.jsonObject(user));
-            }
+       CommunityPost.findPostWithId(postId, function(post){
+           res.json(post.jsonObject(user));
+       }, function(err) {
+           ResHelpers.sendMessage(res, 404, "error finding post: " + err);
        });
 
    }, function(err){
