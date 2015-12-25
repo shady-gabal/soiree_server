@@ -107,6 +107,7 @@ var commentSchema = new Schema({
 
 commentSchema.methods.jsonObject = function(user){
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
+    console.log("Comment: " + this.text + " date: " + timeIntervalSince1970InSeconds);
     var likedByUser = this._likes.indexOf(user._id) != -1;
 
     var obj = {

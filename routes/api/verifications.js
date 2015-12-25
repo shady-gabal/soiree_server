@@ -57,7 +57,7 @@ router.get('/sendVerificationEmail', function(req, res){
             });
         }
         else{
-            ResHelpers.sendMessage(res, 404, "email invalid");
+            ResHelpers.sendMessage(res, 405, "email invalid");
         }
 });
 

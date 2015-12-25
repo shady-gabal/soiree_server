@@ -24,15 +24,15 @@ var emailHelpers = (function() {
 
             // setup e-mail data with unicode symbols
             var mailOptions = {
-                from: 'Soirée <billbob@gmail.com>', // sender address
+                from: 'Soirée <donotreply@soiree.com>', // sender address
                 to: email, // list of receivers
                 subject: "Start experiencing Soirée", // Subject line
                 text: "Hey " + user.firstName + ",\n\n" +
                       "It's time to begin experiencing Soirée. Enter verification code \n"  +
-                      "12345 \n to get started", // plaintext body
+                      code +"\n to get started.", // plaintext body
                 html: "Hey " + user.firstName + ",<br /><br />" +
                       "It's time to begin experiencing Soirée. Enter verification code <br /><br />"  +
-                      "<b> " + code + " </b> <br /><br /> to get started"// html body
+                      "<b> " + code + " </b> <br /><br /> to get started."// html body
             };
 
 
