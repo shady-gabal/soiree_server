@@ -70,10 +70,13 @@ router.post('/findUser', function(req, res){
 
 router.post('/createUser', passport.authenticate('facebook-token'), function(req, res){
   console.log(req.user);
+  console.log("done");
+  res.json("done");
 
   var facebookAccessToken = req.body.access_token;
   if (facebookAccessToken) {
     console.log("facebook access token found - createuser");
+
 
 
     //passport.authenticate('facebook-token'), function (err, userFound, info) {
