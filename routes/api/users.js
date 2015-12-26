@@ -50,6 +50,7 @@ router.post('/findUser', function(req, res){
   //  return ResHelpers.sendMessage(res, 404, "No facebook user id specified");
   //}
   if (facebookAccessToken) {
+    console.log("facebook access token found");
 
     passport.authenticate('facebook-token', function (err, userFound, info) {
       if (err) {

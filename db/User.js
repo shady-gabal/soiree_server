@@ -190,7 +190,7 @@ function createUser(req, successCallback, errorCallback){
 		profilePictureUrl = req.body.profilePictureUrl;
 	}
 
-	var newUser = new User({
+	var newUser = new this({
 		facebookUserId : facebookUserId,
 		firstName : firstName,
 		lastName : lastName,
