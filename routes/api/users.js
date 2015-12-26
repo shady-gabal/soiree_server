@@ -74,12 +74,14 @@ router.post('/createUser', function(req, res){
     console.log("facebook access token found - createuser");
 
     passport.authenticate('facebook-token', function (err, userFound, info) {
+      console.log("authenticate callback");
 
       if (err) {
         console.log("User not found " + err);
         return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
       }
       else if (!userFound){
+        console.log("creating user");
         User.createUser(req, function(user){
             res.json(user.jsonObject());
         }, function(err){
