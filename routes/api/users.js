@@ -50,7 +50,7 @@ router.post('/findUser', function(req, res){
   //  return ResHelpers.sendMessage(res, 404, "No facebook user id specified");
   //}
   if (facebookAccessToken) {
-    console.log("facebook access token found");
+    console.log("facebook access token found - finduser");
 
     passport.authenticate('facebook-token', function (err, userFound, info) {
       if (err) {
@@ -68,14 +68,38 @@ router.post('/findUser', function(req, res){
 
 });
 
-router.get('/createUser', function(req, res){
-  var facebookUserId = req.query.facebookUserId;
+router.post('/createUser', function(req, res){
+  var facebookAccessToken = req.body.access_token;
+  if (facebookAccessToken) {
+    console.log("facebook access token found - createuser");
 
-  User.findOrCreate(req, function(user){
-    sendUser(res, user);
-  }, function(err){
-    return res.status('404').send("Error finding user");
-  });
+    passport.authenticate('facebook-token', function (err, userFound, info) {
+
+      if (err) {
+        console.log("User not found " + err);
+        return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
+      }
+      else if (!userFound){
+        User.createUser(req, function(user){
+            res.json(user.jsonObject());
+        }, function(err){
+          return ResHelpers.sendMessage(res, 404, "Error creating user");
+        });
+      }
+      else{
+        sendUser(res, userFound);
+      }
+
+    });
+
+  }
+  //var facebookUserId = req.body.facebookUserId;
+  //
+  //User.findOrCreate(req, function(user){
+  //  sendUser(res, user);
+  //}, function(err){
+  //  return res.status('404').send("Error finding user");
+  //});
 
   //User.findOne({"facebookUserId" : facebookUserId}).exec(function(err, user){
   //  if (err){

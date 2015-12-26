@@ -46,6 +46,7 @@ app.use(passport.session());
 passport.use(new facebookTokenStrategy({
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET
+        //passReqToCallback: true
     }, function(accessToken, refreshToken, profile, done) {
         console.log("accesstoken: " + accessToken + " refreshtoken: " + refreshToken + " fbuserid: " + profile.id);
         console.log(profile);
