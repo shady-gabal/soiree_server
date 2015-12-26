@@ -48,11 +48,11 @@ console.log("APPID : " + FACEBOOK_APP_ID + " SECRET: " + FACEBOOK_APP_SECRET);
 passport.use(new facebookTokenStrategy({
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
-        profileFields: ["id","name", "photos", "email"]
+        profileFields: ["id"]
         //passReqToCallback: true
     }, function(accessToken, refreshToken, profile, done) {
         console.log("accesstoken: " + accessToken + " refreshtoken: " + refreshToken + " fbuserid: " + profile.id);
-        console.log(profile);
+        //console.log(profile);
 
         User.findByFacebookUserId(profile.id, function (user) {
             return done(null, user);

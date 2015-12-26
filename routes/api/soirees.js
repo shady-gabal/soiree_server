@@ -110,8 +110,8 @@ router.get('/createSoirees', function(req, res){
 
 //Coupon.find({ location : { $near : coors}}).skip(numCouponsAlreadyLoaded).limit(numResultsRequested).exec(function(err, data){
 
-router.post('/soireesNear', function(req, res){
-    User.verifyUser(req.body.user, function(user){
+router.post('/soireesNear', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
 
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
@@ -175,8 +175,8 @@ router.get('/soireesNear', function(req, res){
 
 });
 
-router.post('/joinSoiree', function(req, res){
-   User.verifyUser(req.body.user, function(user){
+router.post('/joinSoiree', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
        var soireeId = req.body.soireeId;
 
        Soiree.joinSoireeWithId(soireeId, user, function(){

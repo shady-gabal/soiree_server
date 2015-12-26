@@ -27,9 +27,9 @@ var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 
 var questionnaire;
 
-router.post('/fetchQuestionnaire', function(req, res){
+router.post('/fetchQuestionnaire', function(req, res, next){
 
-    User.verifyUser(req.body.user, function(user){
+    User.verifyUser(req, res, next, function(user){
         console.log("verified");
         if (!questionnaire) {
             console.log("fetching questionnaire...");

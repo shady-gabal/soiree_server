@@ -214,13 +214,16 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 //
 //}
 
-userSchema.statics.verifyUser = function(user, successCallback, failureCallback){
+userSchema.statics.verifyUser = function(req, res, next, successCallback, failureCallback){
+	var user = req.body.user;
+
 	if (!user){
 		console.log("No user passed to verifyUser");
 		return failureCallback();
 	}
 
-	console.log("fbid " + user.facebookUserId + " userid " + user.userId + " sk " + user.secretKey);
+
+	//console.log("fbid " + user.facebookUserId + " userid " + user.userId + " sk " + user.secretKey);
 
 	if (user.facebookUserId) {
 
@@ -233,7 +236,7 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 				console.log("User found " + userFound.userId);
 				successCallback(userFound);
 			}
-		});
+		})(req, res, next);
 
 		//this.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, userFound) {
 		//	if (err || !userFound) {

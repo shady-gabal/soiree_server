@@ -22,30 +22,59 @@ var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
 
-router.get('/findUser', function(req, res){
-  var facebookUserId = req.query.facebookUserId;
-  if (!facebookUserId){
-    return res.status('404').send("No facebook user id specified");
-  }
+//router.get('/findUser', function(req, res){
+//  var facebookUserId = req.query.facebookUserId;
+//  if (!facebookUserId){
+//    return res.status('404').send("No facebook user id specified");
+//  }
+//
+//  User.findOne({"facebookUserId" : facebookUserId}).exec(function(err, user){
+//    if (err){
+//      res.status('404').send("Error finding user with facebook id: " + fbUserId);
+//    }
+//    else{
+//      if (!user){
+//        //no user found
+//        res.json({});
+//      }
+//      else{
+//        sendUser(res, user);
+//      }
+//    }
+//  });
+//});
 
-  User.findOne({"facebookUserId" : facebookUserId}).exec(function(err, user){
-    if (err){
-      res.status('404').send("Error finding user with facebook id: " + fbUserId);
-    }
-    else{
-      if (!user){
-        //no user found
-        res.json({});
-      }
-      else{
-        sendUser(res, user);
-      }
-    }
-  });
-});
 
 router.post('/findUser', function(req, res){
   var facebookAccessToken = req.body.access_token;
+
+  if (facebookAccessToken) {// if facebook
+
+    console.log("facebook access token found - finduser");
+
+    passport.authenticate('facebook-token', function (err, userFound, info) {
+      if (err) {
+        console.log("User not found " + err);
+        return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
+      }
+      else if (!userFound){
+        return ResHelpers.sendMessage(res, 405, "No user found");
+      }
+      else{
+        sendUser(res, userFound);
+      }
+    })(req, res, next);
+
+  }
+  else{ //else if userpw
+
+  }
+
+});
+
+router.get('/findUser', function(req, res, next){
+  var facebookAccessToken = req.query.access_token;
+
   //if (!facebookUserId){
   //  return ResHelpers.sendMessage(res, 404, "No facebook user id specified");
   //}
@@ -57,48 +86,46 @@ router.post('/findUser', function(req, res){
         console.log("User not found " + err);
         return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
       }
-      else if (!user){
+      else if (!userFound){
         return ResHelpers.sendMessage(res, 405, "No user found");
       }
       else{
         sendUser(res, userFound);
       }
-    });
+    })(req, res, next);
   }
-
+  else{
+    res.json("not found");
+  }
 });
 
-router.post('/createUser', passport.authenticate('facebook-token'), function(req, res){
-  console.log(req.user);
-  console.log("done");
-  res.json("done");
+router.post('/createUser', function(req, res, next){
 
   var facebookAccessToken = req.body.access_token;
+
   if (facebookAccessToken) {
     console.log("facebook access token found - createuser");
 
+    passport.authenticate('facebook-token', function (err, userFound, info) {
+      console.log("authenticate callback");
 
+      if (err) {
+        console.log("User not found " + err);
+        return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
+      }
+      else if (!userFound){
+        console.log("creating user");
+        User.createUser(req, function(user){
+            res.json(user.jsonObject());
+        }, function(err){
+          return ResHelpers.sendMessage(res, 404, "Error creating user");
+        });
+      }
+      else{
+        sendUser(res, userFound);
+      }
 
-    //passport.authenticate('facebook-token'), function (err, userFound, info) {
-    //  console.log("authenticate callback");
-    //
-    //  if (err) {
-    //    console.log("User not found " + err);
-    //    return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
-    //  }
-    //  else if (!userFound){
-    //    console.log("creating user");
-    //    User.createUser(req, function(user){
-    //        res.json(user.jsonObject());
-    //    }, function(err){
-    //      return ResHelpers.sendMessage(res, 404, "Error creating user");
-    //    });
-    //  }
-    //  else{
-    //    sendUser(res, userFound);
-    //  }
-    //
-    //});
+    })(req, res, next);
 
   }
   //var facebookUserId = req.body.facebookUserId;
@@ -123,6 +150,7 @@ router.post('/createUser', passport.authenticate('facebook-token'), function(req
   //  }
   //});
 });
+
 
 router.get('/deleteUsers', function(req, res){
   User.remove({}, function(){
@@ -169,8 +197,8 @@ router.get('/deleteVerifications', function(req, res){
 
 
 
-router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
-  User.verifyUser(req.body.user, function(user) {
+router.post('/verifyWithPhoto', upload.single('photo'), function(req, res, next){
+  User.verifyUser(req, res, next, function(user) {
     if (!user.verified) {
       UserVerification.remove({_user: user._id}, function(err){
 
@@ -204,8 +232,8 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res){
     });
 });
 
-router.post('/saveStripeToken', function(req, res){
-  User.verifyUser(req.body.user, function(user){
+router.post('/saveStripeToken', function(req, res, next){
+  User.verifyUser(req, res, next, function(user){
     var stripeToken = req.body.stripeToken;
     var last4Digits = req.body.creditCardLast4Digits;
 

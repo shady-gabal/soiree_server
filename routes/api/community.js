@@ -58,8 +58,8 @@ router.get('/postsNear', function(req, res){
     //});
 });
 
-router.post('/postsNear', function(req, res){
-    User.verifyUser(req.body.user, function(user) {
+router.post('/postsNear', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
 
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
@@ -91,8 +91,8 @@ router.post('/postsNear', function(req, res){
 });
 
 
-router.post('/createPost', function(req, res){
-    User.verifyUser(req.body.user, function(user){
+router.post('/createPost', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
         //var coors = {type: "Point", coordinates: [Number(longitude), Number(latitude)]};
@@ -113,8 +113,8 @@ router.post('/createPost', function(req, res){
     });
 });
 
-router.post('/updatePost', function(req, res){
-   User.verifyUser(req.body.user, function(user){
+router.post('/updatePost', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
        var postId = req.body.postId;
        if (!postId) {
            return ResHelpers.sendMessage(res, 405, "no post id: " + err);
@@ -132,8 +132,8 @@ router.post('/updatePost', function(req, res){
 });
 /* Comments */
 
-router.post('/createComment', function(req, res){
-    User.verifyUser(req.body.user, function(user){
+router.post('/createComment', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
         var text = req.body.comment;
         var postId = req.body.postId;
 
@@ -161,8 +161,8 @@ router.post('/createComment', function(req, res){
 
 /* Liking/Unliking */
 
-router.post('/likePost', function(req, res){
-    User.verifyUser(req.body.user, function(user){
+router.post('/likePost', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
         var postId = req.body.postId;
 
         CommunityPost.findOne({postId : postId}, function(err, post){
@@ -187,8 +187,8 @@ router.post('/likePost', function(req, res){
 });
 
 
-router.post('/unlikePost', function(req, res){
-    User.verifyUser(req.body.user, function(user){
+router.post('/unlikePost', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
         var postId = req.body.postId;
 
         CommunityPost.findOne({postId : postId}, function(err, post){
