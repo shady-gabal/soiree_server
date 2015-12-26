@@ -38,7 +38,7 @@ router.get('/findUser', function(req, res){
         res.json({});
       }
       else{
-        res.json({"user" : user});
+        sendUser(res, user);
       }
     }
   });
@@ -47,19 +47,25 @@ router.get('/findUser', function(req, res){
 router.get('/createUser', function(req, res){
   var facebookUserId = req.query.facebookUserId;
 
-  User.findOne({"facebookUserId" : facebookUserId}).exec(function(err, user){
-    if (err){
-      return res.status('404').send("Error finding user");
-    }
-    else{
-      if (!user){
-        createUser(req, res);
-      }
-      else{
-        sendUser(res, user);
-      }
-    }
+  User.findOrCreate(req, function(user){
+    sendUser(res, user);
+  }, function(err){
+    return res.status('404').send("Error finding user");
   });
+
+  //User.findOne({"facebookUserId" : facebookUserId}).exec(function(err, user){
+  //  if (err){
+  //    return res.status('404').send("Error finding user");
+  //  }
+  //  else{
+  //    if (!user){
+  //      createUser(req, res);
+  //    }
+  //    else{
+  //      sendUser(res, user);
+  //    }
+  //  }
+  //});
 });
 
 router.get('/deleteUsers', function(req, res){
@@ -169,37 +175,37 @@ router.post('/saveStripeToken', function(req, res){
 
 /* FUNCTIONS */
 
-function createUser(req, res){
-  var facebookUserId = req.query.facebookUserId;
-  var firstName = req.query.firstName;
-  var lastName = req.query.lastName;
-  var email = req.query.email;
-  var gender = req.query.gender;
-  var interestedIn = req.query.interestedIn;
-  var birthday = req.query.birthday;
-  var profilePictureUrl = req.query.profilePictureUrl;
-
-  var newUser = new User({
-    facebookUserId : facebookUserId,
-    firstName : firstName,
-    lastName : lastName,
-    email : email,
-    gender : gender,
-    interestedIn : interestedIn,
-    birthday : birthday,
-    profilePictureUrl : profilePictureUrl,
-    verified: false
-  });
-
-  newUser.save(function(err, user){
-    if (err) {
-      console.log("Error saving user: " + err);
-      return res.status('404').send("Error saving user");
-    }
-
-    sendUser(res, user, true);
-  });
-}
+//function createUser(req, res){
+//  var facebookUserId = req.query.facebookUserId;
+//  var firstName = req.query.firstName;
+//  var lastName = req.query.lastName;
+//  var email = req.query.email;
+//  var gender = req.query.gender;
+//  var interestedIn = req.query.interestedIn;
+//  var birthday = req.query.birthday;
+//  var profilePictureUrl = req.query.profilePictureUrl;
+//
+//  var newUser = new User({
+//    facebookUserId : facebookUserId,
+//    firstName : firstName,
+//    lastName : lastName,
+//    email : email,
+//    gender : gender,
+//    interestedIn : interestedIn,
+//    birthday : birthday,
+//    profilePictureUrl : profilePictureUrl,
+//    verified: false
+//  });
+//
+//  newUser.save(function(err, user){
+//    if (err) {
+//      console.log("Error saving user: " + err);
+//      return res.status('404').send("Error saving user");
+//    }
+//
+//    sendUser(res, user, true);
+//  });
+//}
 
 function sendUser(res, user, firstSignUp){
   if (!firstSignUp)
@@ -207,7 +213,7 @@ function sendUser(res, user, firstSignUp){
 
   var obj = {
     "firstSignUp" : firstSignUp,
-    "user" : user.createDataObjectToSend()
+    "user" : user.jsonObject()
   };
   res.json(obj);
 }

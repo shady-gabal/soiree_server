@@ -23,6 +23,8 @@
     "stripe" : "",
     "nodemailer" : "",
     "validator" : "",
-    "mongoose-deep-populate" : ""
+    "mongoose-deep-populate" : "",
+    "passport" : "",
+    "passport-facebook-token" : ""
   }
 }

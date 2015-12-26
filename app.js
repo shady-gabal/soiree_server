@@ -1,9 +1,14 @@
+//local .env
+require('dotenv').config({silent: true});
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var facebookTokenStrategy = require('passport-facebook-token');
 
 var soirees = require('./routes/api/soirees');
 var users = require('./routes/api/users');
@@ -12,8 +17,10 @@ var questionnaire = require('./routes/api/questionnaire');
 var community = require('./routes/api/community');
 var verifications = require('./routes/api/verifications');
 
+var User = require('./db/User.js');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +35,40 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+// passport
+var FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+var FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.use(new facebookTokenStrategy({
+        clientID: FACEBOOK_APP_ID,
+        clientSecret: FACEBOOK_APP_SECRET
+    }, function(accessToken, refreshToken, profile, done) {
+        console.log("accesstoken: " + accessToken + " refreshtoken: " + refreshToken + " fbuserid: " + profile.id);
+        console.log(profile);
+
+        User.findByFacebookUserId(profile.id, function (user) {
+            return done(null, user);
+        }, function(err){
+            return done(err, null);
+        });
+
+    }
+));
+
+//passport.serializeUser(function(user, done) {
+//    done(null, user);
+//});
+//
+//passport.deserializeUser(function(user, done) {
+//    done(null, user);
+//});
+
+
+//routes
 app.use('/api/soirees', soirees);
 app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);

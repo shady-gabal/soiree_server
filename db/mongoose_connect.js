@@ -2,8 +2,6 @@
 
 //to enable .env file to be read into process.env. Make sure to add .env to .gitignore
 
-require('dotenv').config({silent: true});
-
 var mongoose = require('mongoose');
 var uriUtil = require('mongodb-uri');
 

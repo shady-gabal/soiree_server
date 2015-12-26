@@ -9,12 +9,20 @@ var Business = require('./Business.js');
 var Soiree = require('./Soiree.js');
 
 
-/* Packages */
+/* Modules */
 var shortid = require('shortid');
 
 /* Schema Specific */
 var genders = ["male", "female"];
 var colleges = ["NYU", "Baruch"];
+
+var providers = ["facebook", "userpw"];
+var facebookProvider = providers[0];
+var userPwProvider = providers[1];
+
+var passport = require('passport');
+var facebookTokenStrategy = require('passport-facebook-token');
+
 
 //var interestedIn = ["male", "female"];
 
@@ -24,6 +32,7 @@ var userSchema = new Schema({
 	verified : {type: Boolean, default: false}, /* Verification */
 	verificationCode : {type: String},
 	pendingVerification : {type: Boolean, default: false},
+	provider: {type: String, enum: providers},
 	creditCardLast4Digits : {type: String}, /* Credit Card */
 	stripeToken : {type: String},
 	gender : {type: String, required : true, enum: genders}, /* Gender */
@@ -65,7 +74,7 @@ userSchema.pre('save', function(next){
 
 /* Methods */
 
-userSchema.methods.createDataObjectToSend = function(){
+userSchema.methods.jsonObject = function(){
 	var obj = {
 		"firstName" : this.firstName,
 		"lastName" : this.lastName,
@@ -108,12 +117,100 @@ userSchema.methods.generateVerificationCode = function(){
 	this.verificationCode = code;
 };
 
-/* Statics */
 
+/* Statics */
 
 userSchema.statics.colleges = function(){
 	return colleges;
 };
+
+userSchema.statics.findOrCreate = function(req, successCallback, errorCallback){
+	var User = this;
+
+	var facebookUserId = req.body.facebookUserId;
+
+	var criteria = {"facebookUserId" : facebookUserId};
+
+	//TODO: add user/pw options
+
+	this.findOne(criteria).exec(function(err, user){
+		if (err){
+			errorCallback(err);
+		}
+		else{
+			if (!user){
+				createUser(req, successCallback, errorCallback);
+			}
+			else{
+				successCallback(user);
+			}
+		}
+	});
+};
+
+userSchema.statics.findByFacebookUserId = function(facebookUserId, successCallback, errorCallback){
+	//var User = this;
+
+	//var facebookUserId = req.body.facebookUserId;
+
+	//var criteria = {"facebookUserId" : facebookUserId};
+
+	//TODO: add user/pw options
+
+	this.findOne({facebookUserId : facebookUserId}).exec(function(err, user){
+		if (err){
+			errorCallback(err);
+		}
+		else{
+			successCallback(user);
+		}
+	});
+};
+
+userSchema.statics.createUser = function(req, successCallback, errorCallback){
+	createUser(req, successCallback, errorCallback);
+};
+
+function createUser(req, successCallback, errorCallback){
+	var facebookUserId = req.body.facebookUserId;
+	var firstName = req.body.firstName;
+	var lastName = req.body.lastName;
+	var email = req.body.email;
+	var gender = req.body.gender;
+	var interestedIn = req.body.interestedIn;
+	var birthday = req.body.birthday;
+
+	var profilePictureUrl;
+
+	var provider = facebookUserId ? "facebook" : "userpw";
+	if (provider === "userpw"){
+
+	}
+	else if (provider === "facebook"){
+		profilePictureUrl = req.body.profilePictureUrl;
+	}
+
+	var newUser = new User({
+		facebookUserId : facebookUserId,
+		firstName : firstName,
+		lastName : lastName,
+		email : email,
+		gender : gender,
+		interestedIn : interestedIn,
+		birthday : birthday,
+		profilePictureUrl : profilePictureUrl,
+		verified: false
+	});
+
+	newUser.save(function(err, user){
+		if (err || !user) {
+			errorCallback(err);
+		}
+		else {
+			successCallback(user);
+		}
+	});
+}
 
 userSchema.statics.verifyUser = function(user, successCallback, failureCallback){
 	if (!user){
@@ -124,7 +221,8 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 	console.log("fbid " + user.facebookUserId + " userid " + user.userId + " sk " + user.secretKey);
 
 	if (user.facebookUserId) {
-		this.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, userFound) {
+
+		passport.authenticate('facebook-token', function(err, userFound, info){
 			if (err || !userFound) {
 				console.log("User not found " + err);
 				failureCallback(err);
@@ -134,6 +232,18 @@ userSchema.statics.verifyUser = function(user, successCallback, failureCallback)
 				successCallback(userFound);
 			}
 		});
+
+		//this.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, userFound) {
+		//	if (err || !userFound) {
+		//		console.log("User not found " + err);
+		//		failureCallback(err);
+		//	}
+		//	else {
+		//		console.log("User found " + userFound.userId);
+		//		successCallback(userFound);
+		//	}
+		//});
+
 
 	}
 	else if (user.userId) {
