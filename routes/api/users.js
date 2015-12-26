@@ -8,7 +8,7 @@ var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var fs = require('fs');
 var multer = require('multer');
 
-
+var passport = require('passport');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
@@ -42,6 +42,29 @@ router.get('/findUser', function(req, res){
       }
     }
   });
+});
+
+router.post('/findUser', function(req, res){
+  var facebookAccessToken = req.body.access_token;
+  //if (!facebookUserId){
+  //  return ResHelpers.sendMessage(res, 404, "No facebook user id specified");
+  //}
+  if (facebookAccessToken) {
+
+    passport.authenticate('facebook-token', function (err, userFound, info) {
+      if (err) {
+        console.log("User not found " + err);
+        return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
+      }
+      else if (!user){
+        return ResHelpers.sendMessage(res, 405, "No user found");
+      }
+      else{
+        sendUser(res, userFound);
+      }
+    });
+  }
+
 });
 
 router.get('/createUser', function(req, res){
