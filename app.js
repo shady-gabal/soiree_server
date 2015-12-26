@@ -43,6 +43,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+console.log("APPID : " + FACEBOOK_APP_ID + " SECRET: " + FACEBOOK_APP_SECRET);
+
 passport.use(new facebookTokenStrategy({
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET

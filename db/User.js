@@ -156,6 +156,7 @@ userSchema.statics.findByFacebookUserId = function(facebookUserId, successCallba
 	//var criteria = {"facebookUserId" : facebookUserId};
 
 	//TODO: add user/pw options
+	console.log("Finding user with fb id: " + facebookUserId);
 
 	this.findOne({facebookUserId : facebookUserId}).exec(function(err, user){
 		if (err){
