@@ -139,7 +139,7 @@ userSchema.statics.findOrCreate = function(req, successCallback, errorCallback){
 		}
 		else{
 			if (!user){
-				createUser(req, successCallback, errorCallback);
+				User.createUser(req, successCallback, errorCallback);
 			}
 			else{
 				successCallback(user);
@@ -168,10 +168,7 @@ userSchema.statics.findByFacebookUserId = function(facebookUserId, successCallba
 };
 
 userSchema.statics.createUser = function(req, successCallback, errorCallback){
-	createUser(req, successCallback, errorCallback);
-};
-
-function createUser(req, successCallback, errorCallback){
+	//createUser(req, successCallback, errorCallback);
 	var facebookUserId = req.body.facebookUserId;
 	var firstName = req.body.firstName;
 	var lastName = req.body.lastName;
@@ -210,7 +207,11 @@ function createUser(req, successCallback, errorCallback){
 			successCallback(user);
 		}
 	});
-}
+};
+
+//function createUser(req, successCallback, errorCallback){
+//
+//}
 
 userSchema.statics.verifyUser = function(user, successCallback, failureCallback){
 	if (!user){
