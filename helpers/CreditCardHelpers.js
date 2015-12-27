@@ -24,7 +24,7 @@ var ccHelpers = (function() {
     return {
         chargeUser: function (user, amount, successCallback, errorCallback) {
             stripe.charges.create({
-                amount: 400,
+                amount: amount,
                 currency: "usd",
                 source: "tok_17HYmn2eZvKYlo2CGwmmv0Wm", // obtained with Stripe.js
                 description: "Charge for test@example.com"
@@ -32,6 +32,12 @@ var ccHelpers = (function() {
 
             }, function(err, charge) {
                 // asynchronously called
+                if (err){
+                    errorCallback(err);
+                }
+                else{
+                    successCallback(charge);
+                }
             });
 
         }

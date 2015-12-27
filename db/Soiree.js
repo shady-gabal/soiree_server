@@ -13,9 +13,14 @@ var shortid = require('shortid');
 
 /* Helpers */
 var DateHelpers = require('../helpers/DateHelpers.js');
+var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
+
+/* Error Codes */
+var errorCodes = new Enum({'SoireeError' : 1, 'SoireeFull' : 2, 'SoireeExpired' : 3, 'UserNeedsStripeToken' : 4});
+
 
 var soireeSchema = new Schema({
 	soireeType : {type: String, required: true, enum: soireeTypes},
@@ -36,6 +41,7 @@ var soireeSchema = new Schema({
 );
 
 soireeSchema.index({location: '2dsphere'});
+
 
 
 /* Static Methods */
@@ -170,40 +176,58 @@ soireeSchema.statics.findBySoireeId = function(soireeId, successCallback, errorC
 	});
 };
 
-soireeSchema.statics.joinSoireeWithId = function(soireeId, user, successCallback, errorCallback){
+soireeSchema.statics.joinSoireeWithId = function(soireeId, user, res){
 	this.findBySoireeId(soireeId, function(soiree){
-		soiree.join(user, successCallback, errorCallback);
+		soiree.join(user, res);
 	}, function(err){
-		errorCallback("no soiree");
+		ResHelpers.sendError(res, errorCodes.SoireeError);
 	});
 };
 
 
 
+//function(){
+//	res.type('text/plain');
+//	res.status('200').send("Done");
+//}, function(err){
+//	res.type('text/plain');
+//	ResHelpers.sendMessage(res, 404, "error finding soiree");
+//});
 
 /* Methods */
 
-soireeSchema.methods.join = function(user, successCallback, errorCallback){
+soireeSchema.methods.join = function(user, res){
 	if (this.numUsersAttending >= this.numUsersMax) {
 		this.full = true;
 	}
 
 	if (!this.full){
-		this._usersAttending.push(user._id);
-		this.full = (this.numUsersAttending >= this.numUsersMax);
+		if (!user.stripeToken){
+			return ResHelpers.sendError(res, errorCodes.UserNeedsStripeToken);
+		}
+		else{
+			user.chargeForSoiree(soiree, function(charge){
+				this._usersAttending.push(user._id);
+				//this.full = (this.numUsersAttending >= this.numUsersMax);
 
-		this.save(function(err){
-			if (!err){
-				successCallback(this);
-			}
-			else{
-				errorCallback(err);
-			}
-		});
+				this.save(function(err){
+					if (!err){
+						ResHelpers.sendSuccess(res);
+					}
+					else{
+						ResHelpers.sendError(res, errorCodes.SoireeError);
+					}
+				});
+			}, function(err){
+
+			});
+		}
+
+
 
 	}
 	else{
-		errorCallback("full");
+		ResHelpers.sendError(res, errorCodes.SoireeFull);
 	}
 };
 
@@ -251,6 +275,8 @@ soireeSchema.virtual('jsonObject').get(function () {
 soireeSchema.pre("save", function(next){
 	this.dateUpdated = new Date();
 	this.scheduledTime = this.constructor.createScheduledTime(this.date);
+	console.log("num users attending: " + this.numUsersAttending);
+	this.full = (this.numUsersAttending >= this.numUsersMax);
 
 	next();
 });

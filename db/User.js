@@ -23,6 +23,9 @@ var userPwProvider = providers[1];
 var passport = require('passport');
 var facebookTokenStrategy = require('passport-facebook-token');
 
+/* Helpers */
+var helpersFolderLocation = "../helpers/";
+var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
 
 //var interestedIn = ["male", "female"];
 
@@ -115,6 +118,23 @@ userSchema.methods.generateVerificationCode = function(){
 	}
 
 	this.verificationCode = code;
+};
+
+userSchema.methods.chargeForSoiree = function(soiree, successCallback, errorCallback){
+	if (!this.stripeToken)
+		return errorCallback();
+
+	var amount = soiree.initialCharge;
+	if (amount == 0){
+		return successCallback();
+	}
+	else{
+		CreditCardHelpers.chargeUser(user, amount, function(charge){
+			successCallback(charge);
+		}, function(err){
+			errorCallback(err);
+		});
+	}
 };
 
 
@@ -229,7 +249,7 @@ userSchema.statics.verifyUser = function(req, res, next, successCallback, failur
 	if (user.access_token) {
 		req.body.access_token = user.access_token;
 
-		console.log("access token found in verifyuser: " + req.body.access_token);
+		//console.log("access token found in verifyuser: " + req.body.access_token);
 
 		passport.authenticate('facebook-token', function(err, userFound, info){
 			if (err || !userFound) {
@@ -256,6 +276,7 @@ userSchema.statics.verifyUser = function(req, res, next, successCallback, failur
 
 	}
 	else if (user.userId) {
+		console.log("no fb access token specified in verifyUser");
 		this.findOne({"userId": user.userId, "secretKey": user.secretKey}).exec(function (err, userFound) {
 			if (err || !userFound) {
 				console.log("User not found " + err);

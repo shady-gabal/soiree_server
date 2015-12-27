@@ -61,7 +61,7 @@ postSchema.statics.findPostWithId = function(postId, successCallback, errorCallb
 };
 
 postSchema.statics.findNearestPosts = function(coors, user, successCallback, errorCallback){
-    this.find({ location: { $near : coors }, "college" : user.college }).populate("_comments").deepPopulate("_comments._user").populate("_user").exec(function(err, posts){
+    this.find({ location: { $near : coors }, "college" : user.college }).populate("_comments").populate("_user").deepPopulate("_comments._user").exec(function(err, posts){
         if (err){
             errorCallback(err);
         }

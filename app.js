@@ -1,5 +1,7 @@
 //local .env
 require('dotenv').config({silent: true});
+//enums
+require('enum').register();
 
 var express = require('express');
 var path = require('path');

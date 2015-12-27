@@ -25,6 +25,7 @@
     "validator" : "",
     "mongoose-deep-populate" : "",
     "passport" : "",
-    "passport-facebook-token" : ""
+    "passport-facebook-token" : "",
+    "enum" : ""
   }
 }

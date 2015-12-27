@@ -117,7 +117,7 @@ router.post('/updatePost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
        var postId = req.body.postId;
        if (!postId) {
-           return ResHelpers.sendMessage(res, 405, "no post id: " + err);
+           return ResHelpers.sendMessage(res, 418, "no post id: " + err);
        }
 
        CommunityPost.findPostWithId(postId, function(post){

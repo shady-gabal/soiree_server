@@ -11,6 +11,9 @@ var User = require(dbFolderLocation + 'User.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
+
+
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -177,18 +180,12 @@ router.get('/soireesNear', function(req, res){
 
 router.post('/joinSoiree', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
-       var soireeId = req.body.soireeId;
 
-       Soiree.joinSoireeWithId(soireeId, user, function(){
-           res.type('text/plain');
-           res.status('200').send("Done");
-       }, function(err){
-           res.type('text/plain');
-           res.status('404').send("Error finding soiree");
-       });
+       var soireeId = req.body.soireeId;
+       Soiree.joinSoireeWithId(soireeId, user, res);
 
    }, function(err){
-       res.status('404').send("Error verifying user");
+        ResHelpers.sendMessage(res, 404, "error verifying user");
    });
 });
 

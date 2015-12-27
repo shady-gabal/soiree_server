@@ -30,6 +30,9 @@ var resHelpers = (function() {
         },
         sendSuccess:function(res){
             res.json({"message" : "success"});
+        },
+        sendError : function(res, errorCode){
+            res.status(404).json({"errorCode" : errorCode});
         }
 
         //isNextDay: function (firstDate, secondDate) {
