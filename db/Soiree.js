@@ -12,7 +12,8 @@ var User = require('./User.js');
 var shortid = require('shortid');
 
 /* Helpers */
-var DateHelpers = require('../helpers/DateHelpers.js');
+var helpersFolderLocation = "../helpers/";
+var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
 /* Schema Specific */
