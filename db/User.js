@@ -169,6 +169,7 @@ userSchema.statics.findByFacebookUserId = function(facebookUserId, successCallba
 };
 
 userSchema.statics.createUser = function(req, successCallback, errorCallback){
+	console.log("Creating user....");
 	//createUser(req, successCallback, errorCallback);
 	var facebookUserId = req.body.facebookUserId;
 	var firstName = req.body.firstName;
