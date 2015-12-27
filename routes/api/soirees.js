@@ -112,7 +112,7 @@ router.get('/createSoirees', function(req, res){
 
 router.post('/soireesNear', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
-
+        console.log("soirees near callback");
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
         var coors = {type: "Point", coordinates: [longitude, latitude]};

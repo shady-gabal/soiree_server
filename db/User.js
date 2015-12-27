@@ -227,6 +227,9 @@ userSchema.statics.verifyUser = function(req, res, next, successCallback, failur
 	//console.log("fbid " + user.facebookUserId + " userid " + user.userId + " sk " + user.secretKey);
 
 	if (user.access_token) {
+		req.body.access_token = user.access_token;
+
+		console.log("access token found in verifyuser: " + req.body.access_token);
 
 		passport.authenticate('facebook-token', function(err, userFound, info){
 			if (err || !userFound) {
