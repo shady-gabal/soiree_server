@@ -34,6 +34,12 @@ var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
 /* Posts */
 
+router.get('/deletePosts', function(req, res){
+   CommunityPost.remove({}, function(){
+       res.send("Done");
+   });
+});
+
 router.get('/postsNear', function(req, res){
     //User.verifyUser(req.body.user, function(user){
         //var longitude = req.body.user.longitude;
