@@ -31,7 +31,6 @@ var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
 
 
-
 /* Posts */
 
 router.get('/deletePosts', function(req, res){

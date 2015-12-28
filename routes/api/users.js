@@ -218,7 +218,7 @@ router.post('/saveStripeToken', function(req, res, next){
 
     console.log("stripe token: " + stripeToken);
 
-    user.save(function(err, user){
+    user.save(function(err){
       if (err){
         console.log("error saving token " + err);
         ResHelpers.sendMessage(res, 404, "error saving token");
