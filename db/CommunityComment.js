@@ -23,9 +23,11 @@ var DateHelpers = require('../helpers/DateHelpers.js');
 
 var commentSchema = new Schema({
     text : {type: String},
+    commentId: {type: String, unique: true, default: shortid.generate},
+    author: {type: String, required: [true, "No author specified"]}, /* Author */
+    authorProfilePictureUrl : {type: String},
     _post: {type: ObjectId, ref:"CommunityPost"},
     _likes : [{type: ObjectId, ref:"User"}],
-    commentId: {type: String, unique: true, default: shortid.generate},
     _user : {type: ObjectId, ref:"User"}
     //dateCreated : {type: Date, default: new Date()}
 },
@@ -116,7 +118,7 @@ commentSchema.methods.jsonObject = function(user){
         "dateCreated": timeIntervalSince1970InSeconds,
         "commentId": this.commentId,
         "author": this.author,
-        "authorProfilePictureUrl" : this._user.profilePictureUrl,
+        "authorProfilePictureUrl" : this.authorProfilePictureUrl,
         "likedByUser" : likedByUser
     };
     return obj;
@@ -137,12 +139,12 @@ commentSchema.methods.jsonObject = function(user){
 //});
 
 
-commentSchema.virtual('author').get(function () {
-    return this._user.fullName;
-});
-
-commentSchema.virtual('authorProfilePictureUrl').get(function () {
-    return this._user.profilePictureUrl;
-});
+//commentSchema.virtual('author').get(function () {
+//    return this._user.fullName;
+//});
+//
+//commentSchema.virtual('authorProfilePictureUrl').get(function () {
+//    return this._user.profilePictureUrl;
+//});
 
 module.exports = mongoose.model('CommunityComment', commentSchema);

@@ -22,16 +22,18 @@ var DateHelpers = require('../helpers/DateHelpers.js');
 /* Schema Specific */
 
 var postSchema = new Schema({
-    text : {type: String},
-    _comments : [{type: ObjectId, ref:"CommunityComment"}],
-    postId: {type: String, unique: true, default: shortid.generate},
-    college: {type: String, enum: User.colleges()},
-    location: {
-        type: {type: String},
-        coordinates: []
-    },
-    _likes : [{type: ObjectId, ref:"User"}],
-    _user : {type: ObjectId, ref:"User"}
+        text : {type: String},
+        _comments : [{type: ObjectId, ref:"CommunityComment"}],
+        postId: {type: String, unique: true, default: shortid.generate},
+        college: {type: String, enum: User.colleges()},
+        location: {
+            type: {type: String},
+            coordinates: []
+        },
+        author: {type: String, required: [true, "No author specified"]}, /* Author */
+        authorProfilePictureUrl : {type: String},
+        _likes : [{type: ObjectId, ref:"User"}],
+        _user : {type: ObjectId, ref:"User"}
 },
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );
@@ -41,8 +43,9 @@ postSchema.index({location: '2dsphere'});
 /* Static Methods */
 
 postSchema.statics.findPostWithId = function(postId, successCallback, errorCallback){
-    this.findOne({postId : postId }).deepPopulate('_comments._user _user').exec(function(err, post){
-        if (err || !post){
+    //this.findOne({postId : postId }).deepPopulate('_comments._user _user').exec(function(err, post){
+    this.findOne({postId : postId }).exec(function(err, post){
+            if (err || !post){
             errorCallback(err);
         }
         else{
@@ -61,7 +64,8 @@ postSchema.statics.findPostWithId = function(postId, successCallback, errorCallb
 };
 
 postSchema.statics.findNearestPosts = function(coors, user, successCallback, errorCallback){
-    this.find({ location: { $near : coors }, "college" : user.college }).deepPopulate("_comments._user _user").exec(function(err, posts){
+    //this.find({ location: { $near : coors }, "college" : user.college }).deepPopulate("_comments._user _user").exec(function(err, posts){
+    this.find({ location: { $near : coors }, "college" : user.college }).exec(function(err, posts){
         if (err){
             errorCallback(err);
         }
@@ -78,6 +82,8 @@ postSchema.statics.createPost = function(post, user, successCallback, errorCallb
     newPost._comments = [];
     newPost._user = user._id;
     newPost.college = user.college;
+    newPost.author = user.fullName;
+    newPost.authorProfilePictureUrl = user.profilePictureUrl;
 
     newPost.save(function(err){
         if (err){
@@ -118,6 +124,8 @@ postSchema.methods.addComment = function(comment, user, successCallback, errorCa
 
     newComment._post = post._id;
     newComment._user = user._id;
+    newComment.author = user.fullName;
+    newComment.authorProfilePictureUrl = user.profilePictureUrl;
 
     newComment.save(function(err, savedComment){
         if (err){
@@ -191,7 +199,7 @@ postSchema.methods.jsonObject = function(user){
         "dateCreated": timeIntervalSince1970InSeconds,
         "postId": this.postId,
         "author": this.author,
-        "authorProfilePictureUrl" : this._user.profilePictureUrl,
+        "authorProfilePictureUrl" : this.authorProfilePictureUrl,
         "college" : this._user.college,
         "numLikes" : this.numLikes,
         "numComments" : this.numComments,
@@ -229,9 +237,9 @@ postSchema.methods.jsonObject = function(user){
 //    return obj;
 //});
 
-postSchema.virtual('author').get(function () {
-    return this._user.fullName;
-});
+//postSchema.virtual('author').get(function () {
+//    return this._user.fullName;
+//});
 
 postSchema.virtual('numLikes').get(function () {
     return this._likes.length;
