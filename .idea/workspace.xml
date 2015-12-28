@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/CommunityComment.js" afterPath="$PROJECT_DIR$/db/CommunityComment.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/CommunityPost.js" afterPath="$PROJECT_DIR$/db/CommunityPost.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
@@ -24,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CommunityComment.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CommunityComment.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.319202">
-              <caret line="126" column="44" selection-start-line="126" selection-start-column="44" selection-end-line="126" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="121" column="25" selection-start-line="121" selection-start-column="25" selection-end-line="121" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -86,11 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommunityPost.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CommunityPost.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db/CommunityPost.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="201" column="65" selection-start-line="200" selection-start-column="7" selection-end-line="201" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.46758103">
+              <caret line="72" column="35" selection-start-line="72" selection-start-column="35" selection-end-line="72" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -168,8 +167,8 @@
         <option value="$PROJECT_DIR$/db/Soiree.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/routes/api/community.js" />
-        <option value="$PROJECT_DIR$/db/CommunityPost.js" />
         <option value="$PROJECT_DIR$/db/CommunityComment.js" />
+        <option value="$PROJECT_DIR$/db/CommunityPost.js" />
       </list>
     </option>
   </component>
@@ -822,18 +821,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/CommunityPost.js">
+    <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="201" column="65" selection-start-line="200" selection-start-column="7" selection-end-line="201" selection-end-column="65" />
+          <caret line="121" column="25" selection-start-line="121" selection-start-column="25" selection-end-line="121" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
+    <entry file="file://$PROJECT_DIR$/db/CommunityPost.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.319202">
-          <caret line="126" column="44" selection-start-line="126" selection-start-column="44" selection-end-line="126" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.46758103">
+          <caret line="72" column="35" selection-start-line="72" selection-start-column="35" selection-end-line="72" selection-end-column="35" />
           <folding />
         </state>
       </provider>

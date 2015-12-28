@@ -44,7 +44,7 @@ postSchema.index({location: '2dsphere'});
 
 postSchema.statics.findPostWithId = function(postId, successCallback, errorCallback){
     //this.findOne({postId : postId }).deepPopulate('_comments._user _user').exec(function(err, post){
-    this.findOne({postId : postId }).exec(function(err, post){
+    this.findOne({postId : postId }).populate('_comments').exec(function(err, post){
             if (err || !post){
             errorCallback(err);
         }
@@ -65,7 +65,7 @@ postSchema.statics.findPostWithId = function(postId, successCallback, errorCallb
 
 postSchema.statics.findNearestPosts = function(coors, user, successCallback, errorCallback){
     //this.find({ location: { $near : coors }, "college" : user.college }).deepPopulate("_comments._user _user").exec(function(err, posts){
-    this.find({ location: { $near : coors }, "college" : user.college }).exec(function(err, posts){
+    this.find({ location: { $near : coors }, "college" : user.college }).populate('_comments').exec(function(err, posts){
         if (err){
             errorCallback(err);
         }
