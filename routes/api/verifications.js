@@ -26,8 +26,8 @@ var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 
-router.post('/sendVerificationEmail', function(req, res){
-    User.verifyUser(req.body.user, function(user){
+router.post('/sendVerificationEmail', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
         var email = req.body.email;
 
         if (EmailHelpers.validateEmail(email)){
@@ -38,7 +38,7 @@ router.post('/sendVerificationEmail', function(req, res){
             });
         }
         else{
-            ResHelpers.sendMessage(res, 405, "email invalid");
+            ResHelpers.sendMessage(res, 418, "email invalid");
         }
 
     }, function(err){
@@ -57,7 +57,7 @@ router.get('/sendVerificationEmail', function(req, res){
             });
         }
         else{
-            ResHelpers.sendMessage(res, 405, "email invalid");
+            ResHelpers.sendMessage(res, 418, "email invalid");
         }
 });
 
@@ -68,7 +68,7 @@ router.post('/verifyCode', function(req, res){
            ResHelpers.sendMessage(res, 200, "user verified");
        }
        else{
-           ResHelpers.sendMessage(res, 405, "incorrect code");
+           ResHelpers.sendMessage(res, 418, "incorrect code");
        }
 
    }, function(err){

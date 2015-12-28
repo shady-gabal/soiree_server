@@ -20,7 +20,12 @@ var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
 
 /* Error Codes */
-var errorCodes = new Enum({'SoireeError' : 1, 'SoireeFull' : 2, 'SoireeExpired' : 3, 'UserNeedsStripeToken' : 4});
+var errorCodes = new Enum({ 'SoireeError' : 1,
+							'SoireeFull' : 2,
+							'SoireeExpired' : 3,
+							'UserNeedsStripeToken' : 4,
+							'StripeError' : 5
+					});
 
 
 var soireeSchema = new Schema({
@@ -207,7 +212,7 @@ soireeSchema.methods.join = function(user, res){
 			return ResHelpers.sendError(res, errorCodes.UserNeedsStripeToken);
 		}
 		else{
-			user.chargeForSoiree(soiree, function(charge){
+			user.chargeForSoiree(this, function(charge){
 				this._usersAttending.push(user._id);
 				//this.full = (this.numUsersAttending >= this.numUsersMax);
 
@@ -220,8 +225,9 @@ soireeSchema.methods.join = function(user, res){
 					}
 				});
 			}, function(err){
-
+				ResHelpers.sendError(res, errorCodes.StripeError);
 			});
+
 		}
 
 
