@@ -36,8 +36,8 @@ var userSchema = new Schema({
 	verificationCode : {type: String},
 	pendingVerification : {type: Boolean, default: false},
 	provider: {type: String, enum: providers},
-	creditCardLast4Digits : {type: String}, /* Credit Card */
-	stripeToken : {type: String},
+	//creditCardLast4Digits : {type: String}, /* Credit Card */
+	stripeCustomerId : {type: String},
 	gender : {type: String, required : true, enum: genders}, /* Gender */
 	interestedIn : [{type: String, required : true, enum: genders}],
 	college: {type: String, enum: colleges}, /* Colleges */
@@ -94,8 +94,8 @@ userSchema.methods.jsonObject = function(){
 		"secretKey" : this.secretKey,
 		"soireeScore" : this.soireeScore,
 		"pendingVerification" : this.pendingVerification,
-		"creditCardLast4Digits" : this.creditCardLast4Digits,
-		"hasStripeToken" : this.hasStripeToken
+		//"creditCardLast4Digits" : this.creditCardLast4Digits,
+		"hasStripeCustomerId" : this.hasStripeCustomerId
 	};
 	return obj;
 };
@@ -120,22 +120,22 @@ userSchema.methods.generateVerificationCode = function(){
 	this.verificationCode = code;
 };
 
-userSchema.methods.chargeForSoiree = function(soiree, successCallback, errorCallback){
-	if (!this.stripeToken)
-		return errorCallback();
-
-	var amount = soiree.initialCharge;
-	if (amount == 0){
-		return successCallback();
-	}
-	else{
-		CreditCardHelpers.chargeUser(user, amount, function(charge){
-			successCallback(charge);
-		}, function(err){
-			errorCallback(err);
-		});
-	}
-};
+//userSchema.methods.chargeForSoiree = function(soiree, successCallback, errorCallback){
+//	if (!this.stripeToken)
+//		return errorCallback();
+//
+//	var amount = soiree.initialCharge;
+//	if (amount == 0){
+//		return successCallback();
+//	}
+//	else{
+//		CreditCardHelpers.chargeUser(user, amount, function(charge){
+//			successCallback(charge);
+//		}, function(err){
+//			errorCallback(err);
+//		});
+//	}
+//};
 
 
 /* Statics */
@@ -304,8 +304,8 @@ userSchema.virtual('age').get(function(){
 	return parseInt(age);
 });
 
-userSchema.virtual('hasStripeToken').get(function(){
-	return this.stripeToken ? true : false;
+userSchema.virtual('hasStripeCustomerId').get(function(){
+	return this.stripeCustomerId ? true : false;
 });
 
 

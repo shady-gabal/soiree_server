@@ -22,34 +22,35 @@ var stripe = require("stripe")(
 var ccHelpers = (function() {
 
     return {
-        chargeUser: function (user, amount, successCallback, errorCallback) {
-            stripe.charges.create({
-                amount: amount,
-                currency: "usd",
-                source: "tok_17HYmn2eZvKYlo2CGwmmv0Wm", // obtained with Stripe.js
-                description: "Charge for test@example.com"
-            }, {
+        chargeForSoiree: function (soiree, user, stripeToken, successCallback, errorCallback) {
+            if (!stripeToken)
+              return errorCallback();
 
-            }, function(err, charge) {
-                // asynchronously called
-                if (err){
-                    errorCallback(err);
-                }
-                else{
-                    successCallback(charge);
-                }
-            });
+            successCallback();
+
+            //var amount = soiree.initialCharge;
+            //
+            //stripe.charges.create({
+            //    amount: amount,
+            //    currency: "usd",
+            //    source: stripeToken, // obtained with Stripe.js
+            //    description: "Charge for test@example.com"
+            //}, {
+            //
+            //}, function(err, charge) {
+            //    // asynchronously called
+            //    if (err && err.type === 'StripeCardError') {
+            //        // The card has been declined
+            //    }
+            //    if (err){
+            //        errorCallback(err);
+            //    }
+            //    else{
+            //        successCallback(charge);
+            //    }
+            //});
 
         }
-
-        //isNextDay: function (firstDate, secondDate) {
-        //    var nextDayDiff = 1000 * 60 * 60 * 24;
-        //    var midnightOne = new Date(firstDate.getFullYear(), firstDate.getMonth(), firstDate.getDay());
-        //    var midnightTwo = new Date(secondDate.getFullYear(), secondDate.getMonth(), secondDate.getDay());
-        //
-        //    var diff = Math.abs(midnightTwo - midnightOne);
-        //    return diff == nextDayDiff;
-        //}
 
     }
 

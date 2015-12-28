@@ -26,6 +26,16 @@ router.get('/deleteSoirees', function(req,res){
    }) ;
 });
 
+router.get('/requestingSoirees', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
+        //number of unique requests per hour
+        //base rate of 2 lunches, 2 dinners, 1 drinks, 2 blind dates per day
+        //as soirees fill, create more
+    }, function(err){
+
+    });
+});
+
 router.get('/createSoirees', function(req, res){
 
     Business.nextBusinessToHostSoiree(function(nextBusiness) {
@@ -181,8 +191,14 @@ router.get('/soireesNear', function(req, res){
 router.post('/joinSoiree', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
 
+        var stripeToken = req.body.stripeToken;
+
+        if (!stripeToken){
+            return ResHelpers.sendError(res, errorCodes.MissingStripeToken);
+        }
+
        var soireeId = req.body.soireeId;
-       Soiree.joinSoireeWithId(soireeId, user, res);
+       Soiree.joinSoireeWithId(soireeId, user, req, res);
 
    }, function(err){
         ResHelpers.sendMessage(res, 404, "error verifying user");

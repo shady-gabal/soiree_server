@@ -15,6 +15,7 @@ var shortid = require('shortid');
 var helpersFolderLocation = "../helpers/";
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
+var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
 
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
@@ -23,7 +24,7 @@ var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
 var errorCodes = new Enum({ 'SoireeError' : 1,
 							'SoireeFull' : 2,
 							'SoireeExpired' : 3,
-							'UserNeedsStripeToken' : 4,
+							'MissingStripeToken' : 4,
 							'StripeError' : 5
 					});
 
@@ -51,6 +52,9 @@ soireeSchema.index({location: '2dsphere'});
 
 
 /* Static Methods */
+soireeSchema.statics.errorCodes = function() {
+	return this.errorCodes;
+}
 
 soireeSchema.statics.createScheduledTime = function(date){
 	var scheduledTime = date.getHours();
@@ -182,9 +186,9 @@ soireeSchema.statics.findBySoireeId = function(soireeId, successCallback, errorC
 	});
 };
 
-soireeSchema.statics.joinSoireeWithId = function(soireeId, user, res){
+soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
 	this.findBySoireeId(soireeId, function(soiree){
-		soiree.join(user, res);
+		soiree.join(user, req, res);
 	}, function(err){
 		ResHelpers.sendError(res, errorCodes.SoireeError);
 	});
@@ -202,17 +206,14 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, res){
 
 /* Methods */
 
-soireeSchema.methods.join = function(user, res){
+soireeSchema.methods.join = function(user, req, res){
 	if (this.numUsersAttending >= this.numUsersMax) {
 		this.full = true;
 	}
 
 	if (!this.full){
-		if (!user.stripeToken){
-			return ResHelpers.sendError(res, errorCodes.UserNeedsStripeToken);
-		}
-		else{
-			user.chargeForSoiree(this, function(charge){
+
+			CreditCardHelpers.chargeForSoiree(this, user, stripeToken, function(charge){
 				this._usersAttending.push(user._id);
 				//this.full = (this.numUsersAttending >= this.numUsersMax);
 
@@ -227,10 +228,6 @@ soireeSchema.methods.join = function(user, res){
 			}, function(err){
 				ResHelpers.sendError(res, errorCodes.StripeError);
 			});
-
-		}
-
-
 
 	}
 	else{
