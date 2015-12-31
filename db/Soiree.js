@@ -34,7 +34,7 @@ var soireeSchema = new Schema({
 		numUsersMax: {type : Number, required: true},
 		scheduledTime : {type: Number},
 		soireeId: {type: String, unique: true, default: shortid.generate},
-		initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]},
+		initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]}, //in cents
 		date: {type : Date, required: [true, "A date for the Soiree is required"]},
 		full: {type: Boolean, default: false},
 		_usersAttending : [{type : ObjectId, ref : "User"}],
@@ -92,7 +92,7 @@ soireeSchema.statics.createLunch = function(date, business, successCallback, err
 		date: date,
 		_usersAttending: [],
 		_business: business._id,
-		initialCharge: 3,
+		initialCharge: 300,
 		location: business.location
 	});
 
@@ -108,7 +108,7 @@ soireeSchema.statics.createDinner = function(date, business, successCallback, er
 		date: date,
 		_usersAttending: [],
 		_business: business._id,
-		initialCharge: 3,
+		initialCharge: 300,
 		location: business.location
 	});
 
@@ -124,7 +124,7 @@ soireeSchema.statics.createDrinks = function(date, business, successCallback, er
 		date: date,
 		_usersAttending: [],
 		_business: business._id,
-		initialCharge: 3,
+		initialCharge: 300,
 		location: business.location
 	});
 
