@@ -20,7 +20,7 @@ var resHelpers = (function() {
 
     return {
         sendMessage: function (res, status, message) {
-            if (status >= 400 && status <= 500)
+            if (status >= 400)
                 console.log(message);
 
             //res.type('text/plain');
@@ -31,8 +31,8 @@ var resHelpers = (function() {
         sendSuccess:function(res){
             res.json({"message" : "success"});
         },
-        sendError : function(res, errorCode){
-            res.status(404).json({"errorCode" : errorCode});
+        sendError : function(res, error){
+            res.status(404).json({"error" : error});
         }
 
         //isNextDay: function (firstDate, secondDate) {

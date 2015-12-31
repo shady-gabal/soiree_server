@@ -23,7 +23,7 @@ var ccHelpers = (function() {
 
     return {
         chargeForSoiree: function (soiree, user, stripeToken, successCallback, errorCallback) {
-            if (!stripeToken)
+            if (!stripeToken && !user.stripeCustomerId)
               return errorCallback();
 
             //successCallback();
@@ -32,27 +32,53 @@ var ccHelpers = (function() {
             console.log(stripeToken);
             console.log(amount);
 
-            stripe.charges.create({
+            var description = "Charge for " + soiree.soireeType + " Soirée on " + soiree.date.toString() + ".";
+
+            var chargeOptions = {
                 amount: amount,
                 currency: "usd",
-                source: stripeToken, // obtained with Stripe.js
-                description: "Charge for test@example.com"
-            }, function(err, charge) {
+                description: description
+            };
+            if (stripeToken){
+                chargeOptions.source = stripeToken;
+            }
+            else{
+                chargeOptions.customer = user.stripeCustomerId;
+            }
+
+            stripe.charges.create(chargeOptions, function(err, charge) {
+
                 console.log(err);
                 console.log(charge);
-                //console.log(charge);
-                //console.log(charge.customer);
 
-                // asynchronously called
-                if (err && err.type === 'StripeCardError') {
-                    // The card has been declined
-                }
                 if (err){
                     errorCallback(err);
                 }
                 else{
-                    successCallback(charge);
+                    if (!user.stripeCustomerId && charge.customer) {
+                        user.stripeCustomerId = charge.customer;
+
+                        user.save(function (err) {
+                            if (err) {
+                                errorCallback(err);
+                            }
+                            else {
+                                successCallback(charge);
+                            }
+                        });
+                    }
+                    else successCallback(charge);
+
                 }
+
+                //console.log(charge);
+                //console.log(charge.customer);
+
+                // asynchronously called
+                //if (err && err.type === 'StripeCardError') {
+                //    // The card has been declined
+                //}
+
             });
 
         }

@@ -21,18 +21,18 @@ var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
 
 /* Error Codes */
-var errorCodes = new Enum({ 'SoireeError' : 1,
-							'SoireeFull' : 2,
-							'SoireeExpired' : 3,
-							'MissingStripeToken' : 4,
-							'StripeError' : 5
-					});
+var errorCodes = { 'SoireeError' : 'SoireeError',
+					'SoireeFull' : 'SoireeFull',
+					'SoireeExpired' : 'SoireeExpired',
+					'MissingStripeToken' : 'MissingStripeToken',
+					'StripeError' : 'StripeError'
+					};
 
 
 var soireeSchema = new Schema({
 		soireeType : {type: String, required: true, enum: soireeTypes},
 		numUsersMax: {type : Number, required: true},
-		scheduledTime : {type: Number},
+		scheduledTimeIdentifier : {type: String},
 		soireeId: {type: String, unique: true, default: shortid.generate},
 		initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]}, //in cents
 		date: {type : Date, required: [true, "A date for the Soiree is required"]},
@@ -59,11 +59,17 @@ soireeSchema.statics.errorCodes = function() {
 	return this.errorCodes;
 }
 
-soireeSchema.statics.createScheduledTime = function(date){
-	var scheduledTime = date.getHours();
-	var minsRemainder = date.getMinutes() / 100;
+soireeSchema.statics.createScheduledTimeIdentifier = function(date){
+	var year = date.getFullYear();
+	var month = date.getMonth();
+	var day = date.getDate();
 
-	return scheduledTime + minsRemainder;
+	var hours = date.getHours();
+	var mins = date.getMinutes();
+	//round mins to nearest 10
+	mins -= (mins % 10);
+
+	return "" + year + "." + month + "." + day + "." + hours + "." + mins;
 };
 
 soireeSchema.statics.createSoiree = function(soiree, business, successCallback, errorCallback) {
@@ -176,7 +182,7 @@ soireeSchema.statics.soireeTypes = function(){
 
 
 soireeSchema.statics.findBySoireeId = function(soireeId, successCallback, errorCallback){
-	this.findOne({soireeId : soireeId}).exec(function(err, soiree){
+	this.findOne({soireeId : soireeId}).populate('_business').exec(function(err, soiree){
 		if (err){
 			return errorCallback(err);
 		}
@@ -287,7 +293,7 @@ soireeSchema.virtual('jsonObject').get(function () {
 
 soireeSchema.pre("save", function(next){
 	this.dateUpdated = new Date();
-	this.scheduledTime = this.constructor.createScheduledTime(this.date);
+	this.scheduledTimeIdentifier = this.constructor.createScheduledTimeIdentifier(this.date);
 	console.log("num users attending: " + this.numUsersAttending);
 	this.full = (this.numUsersAttending >= this.numUsersMax);
 
