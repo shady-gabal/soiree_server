@@ -73,6 +73,11 @@ userSchema.pre('save', function(next){
 
 	//set date updated
 	this.dateUpdated = new Date();
+
+	if (!this.associatedDeviceUUIDs){
+		this.associatedDeviceUUIDs = [];
+	}
+
 	next();
 });
 

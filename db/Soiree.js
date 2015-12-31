@@ -221,6 +221,8 @@ soireeSchema.methods.join = function(user, req, res){
 		}
 
 			CreditCardHelpers.chargeForSoiree(this, user, stripeToken, function(charge){
+				if (!this._usersAttending) this._usersAttending = [];
+
 				this._usersAttending.push(user._id);
 				//this.full = (this.numUsersAttending >= this.numUsersMax);
 
@@ -288,6 +290,10 @@ soireeSchema.pre("save", function(next){
 	this.scheduledTime = this.constructor.createScheduledTime(this.date);
 	console.log("num users attending: " + this.numUsersAttending);
 	this.full = (this.numUsersAttending >= this.numUsersMax);
+
+	if (!this._usersAttending){
+		this._usersAttending = [];
+	}
 
 	next();
 });
