@@ -30,31 +30,32 @@ var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
 //var interestedIn = ["male", "female"];
 
 var userSchema = new Schema({
-	firstName : {type: String, required: true}, /* Name */
-	lastName : {type: String},
-	verified : {type: Boolean, default: false}, /* Verification */
-	verificationCode : {type: String},
-	pendingVerification : {type: Boolean, default: false},
-	provider: {type: String, enum: providers},
-	//creditCardLast4Digits : {type: String}, /* Credit Card */
-	stripeCustomerId : {type: String},
-	gender : {type: String, required : true, enum: genders}, /* Gender */
-	interestedIn : [{type: String, required : true, enum: genders}],
-	college: {type: String, enum: colleges}, /* Colleges */
-	email : {type: String}, /* Email */
-	birthday : {type: String}, /* Birthday */
-	soireeScore : {type: Number, default: 200}, /* Soiree Score */
-	facebookUserId : {type: String, index: true}, /* Facebook */
-	profilePictureUrl : {type: String}, /* Profile Picture */
-	userId: {type: String, unique: true, default: shortid.generate}, /* IDs */
-	phoneNumber : {type : String},
-	secretKey : {type: String, index:true, unique: true, default: shortid.generate},
-	finishedSignUp : {type : Boolean, default: false}, /* Signup */
-	_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
-	_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
-	dateSignedUp: {type : Date, default: new Date()}, /* Dates */
-	dateLastSignedIn : {type: Date, default: new Date()},
-	dateUpdated : {type: Date, default: new Date()}
+		firstName : {type: String, required: true}, /* Name */
+		lastName : {type: String},
+		verified : {type: Boolean, default: false}, /* Verification */
+		verificationCode : {type: String},
+		pendingVerification : {type: Boolean, default: false},
+		provider: {type: String, enum: providers},
+		//creditCardLast4Digits : {type: String}, /* Credit Card */
+		stripeCustomerId : {type: String},
+		gender : {type: String, required : true, enum: genders}, /* Gender */
+		interestedIn : [{type: String, required : true, enum: genders}],
+		college: {type: String, enum: colleges}, /* Colleges */
+		email : {type: String}, /* Email */
+		birthday : {type: String}, /* Birthday */
+		soireeScore : {type: Number, default: 200}, /* Soiree Score */
+		facebookUserId : {type: String, index: true}, /* Facebook */
+		profilePictureUrl : {type: String}, /* Profile Picture */
+		userId: {type: String, unique: true, default: shortid.generate}, /* IDs */
+		phoneNumber : {type : String},
+		secretKey : {type: String, index:true, unique: true, default: shortid.generate},
+		finishedSignUp : {type : Boolean, default: false}, /* Signup */
+		_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
+		_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
+		dateSignedUp: {type : Date, default: new Date()}, /* Dates */
+		dateLastSignedIn : {type: Date, default: new Date()},
+		associatedUUIDs : [{type: String}],
+		dateUpdated : {type: Date, default: new Date()}
 	//location: { /* Location */
 	//	type: {type: String},
 	//	coordinates: []
@@ -104,6 +105,25 @@ userSchema.methods.verifyCode = function(code){
 	return this.verificationCode == code;
 };
 
+userSchema.methods.isNewDeviceUUID = function(deviceUUID){
+	var user = this;
+
+	if (!user.associatedDeviceUUIDs){
+		user.associatedDeviceUUIDs = [];
+	}
+	if (user.associatedDeviceUUIDs.indexOf(deviceUUID) == -1){
+		user.associatedDeviceUUIDs.push(deviceUUID);
+		user.save(function(err){
+			if (err)
+				console.log("Error saving device UUID in findUser: " + err);
+		});
+
+		return true;
+	}
+	else{
+		return false;
+	}
+};
 
 
 userSchema.methods.generateVerificationCode = function(){
@@ -199,6 +219,8 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 	var interestedIn = req.body.interestedIn;
 	var birthday = req.body.birthday;
 
+	var deviceUUID = req.deviceUUID;
+
 	var profilePictureUrl;
 
 	var provider = facebookUserId ? "facebook" : "userpw";
@@ -218,6 +240,7 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 		interestedIn : interestedIn,
 		birthday : birthday,
 		profilePictureUrl : profilePictureUrl,
+		associatedDeviceUUIDs : [deviceUUID],
 		verified: false
 	});
 

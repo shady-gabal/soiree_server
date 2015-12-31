@@ -52,16 +52,34 @@ router.post('/findUser', function(req, res, next){
 
     console.log("facebook access token found - finduser");
 
-    passport.authenticate('facebook-token', function (err, userFound, info) {
+    passport.authenticate('facebook-token', function (err, user, info) {
       if (err) {
         console.log("User not found " + err);
         return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
       }
-      else if (!userFound){
+      else if (!user){
         return ResHelpers.sendMessage(res, 418, "No user found");
       }
       else{
-        sendUser(res, userFound);
+        var deviceUUID = req.body.deviceUUID;
+
+        if (deviceUUID){
+            if (user.isNewDeviceUUID(deviceUUID)){
+              //remove stripe customer id
+              user.stripeCustomerId = null;
+              
+              user.save(function(err){
+                if (err) console.log("Error setting stripe customer id to null - findUser " + err);
+
+                sendUser(res, user);
+              });
+            }
+            else{
+              sendUser(res, user);
+            }
+        }
+
+        else sendUser(res, user);
       }
     })(req, res, next);
 

@@ -30,19 +30,22 @@ var errorCodes = new Enum({ 'SoireeError' : 1,
 
 
 var soireeSchema = new Schema({
-	soireeType : {type: String, required: true, enum: soireeTypes},
-	numUsersMax: {type : Number, required: true},
-	scheduledTime : {type: Number},
-	soireeId: {type: String, unique: true, default: shortid.generate},
-	initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]},
-	date: {type : Date, required: [true, "A date for the Soiree is required"]},
-	full: {type: Boolean, default: false},
-	_usersAttending : [{type : ObjectId, ref : "User"}],
-	_business: {type: ObjectId, ref:"Business", required :[true, "A business that will host is required to create this Soiree"]},
-	location: {
-		type: {type: String},
-		coordinates: []
-	}
+		soireeType : {type: String, required: true, enum: soireeTypes},
+		numUsersMax: {type : Number, required: true},
+		scheduledTime : {type: Number},
+		soireeId: {type: String, unique: true, default: shortid.generate},
+		initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]},
+		date: {type : Date, required: [true, "A date for the Soiree is required"]},
+		full: {type: Boolean, default: false},
+		_usersAttending : [{type : ObjectId, ref : "User"}],
+		_business: {type: ObjectId, ref:"Business", required :[true, "A business that will host is required to create this Soiree"]},
+		expired: {type: Boolean, default: false},
+		location: {
+			type: {type: String},
+			coordinates: []
+		}
+
+
 },
 	{ timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );
