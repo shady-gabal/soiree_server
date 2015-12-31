@@ -47,71 +47,78 @@ router.get('/createSoirees', function(req, res){
         var todaysDate = new Date();
         var date = new Date(todaysDate.getTime() + (1 * 24 * 60 * 60 * 1000));
 
-        Soiree.createSoiree({
-            soireeType: "Lunch",
-            numUsersMax: 3,
-            initialCharge: 3,
-            date: date
-        }, nextBusiness, function(){
-               console.log("Saved soiree");
-            }, function(err) {
+        Soiree.createLunch(date, nextBusiness, function(soiree){
+            console.log("Saved soiree");
+            res.send("OK");
+        }, function(err){
             console.log("error saving soiree " + err);
         });
+        
+        //Soiree.createSoiree({
+        //    soireeType: "Lunch",
+        //    numUsersMax: 3,
+        //    initialCharge: 3,
+        //    date: date
+        //}, nextBusiness, function(){
+        //       console.log("Saved soiree");
+        //    }, function(err) {
+        //    console.log("error saving soiree " + err);
+        //});
 
 
 
 
 
-        var date2 = new Date(todaysDate.getTime() + (3 * 60 * 60 * 1000));
-        var soiree2 = new Soiree({
-            soireeType: "Lunch",
-            //numUsersAttending : {type: Number, default: 0},
-            numUsersMax: 3,
-            //soireeId: {type: ObjectId, default: function () { return new ObjectId()}},
-            date: date2,
-            //timeAtString : ,
-            _usersAttending: [],
-            _business: nextBusiness._id,
-            location: nextBusiness.location
-        });
-
-        soiree2.save(function () {
-        });
-
-
-
-        var date3 = new Date(todaysDate.getTime() + (3 * 24 * 60 * 60 * 1000));
-        var soiree3 = new Soiree({
-            soireeType: "Dinner",
-            //numUsersAttending : {type: Number, default: 0},
-            numUsersMax: 2,
-            //soireeId: {type: ObjectId, default: function () { return new ObjectId()}},
-            date: date3,
-            //timeAtString : ,
-            _usersAttending: [],
-            _business: nextBusiness._id,
-            location: nextBusiness.location
-        });
-
-        soiree3.save(function () {
-        });
-
-
-
-
-        var date4 = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
-        var soiree4 = new Soiree({
-            soireeType: "Drinks",
-            numUsersMax: 4,
-            date: date4,
-            _usersAttending: [],
-            _business: nextBusiness._id,
-            location: nextBusiness.location
-        });
-
-        soiree4.save(function () {
-            res.send("OK");
-        });
+        //var date2 = new Date(todaysDate.getTime() + (3 * 60 * 60 * 1000));
+        //var soiree2 = new Soiree({
+        //    soireeType: "Lunch",
+        //    //numUsersAttending : {type: Number, default: 0},
+        //    numUsersMax: 3,
+        //    //soireeId: {type: ObjectId, default: function () { return new ObjectId()}},
+        //    date: date2,
+        //    //timeAtString : ,
+        //    _usersAttending: [],
+        //    _business: nextBusiness._id,
+        //    location: nextBusiness.location
+        //});
+        //
+        //soiree2.save(function () {
+        //});
+        //
+        //
+        //
+        //var date3 = new Date(todaysDate.getTime() + (3 * 24 * 60 * 60 * 1000));
+        //var soiree3 = new Soiree({
+        //    soireeType: "Dinner",
+        //    //numUsersAttending : {type: Number, default: 0},
+        //    numUsersMax: 2,
+        //    //soireeId: {type: ObjectId, default: function () { return new ObjectId()}},
+        //    date: date3,
+        //    //timeAtString : ,
+        //    _usersAttending: [],
+        //    _business: nextBusiness._id,
+        //    location: nextBusiness.location
+        //});
+        //
+        //soiree3.save(function () {
+        //});
+        //
+        //
+        //
+        //
+        //var date4 = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
+        //var soiree4 = new Soiree({
+        //    soireeType: "Drinks",
+        //    numUsersMax: 4,
+        //    date: date4,
+        //    _usersAttending: [],
+        //    _business: nextBusiness._id,
+        //    location: nextBusiness.location
+        //});
+        //
+        //soiree4.save(function () {
+        //    res.send("OK");
+        //});
 
 
 

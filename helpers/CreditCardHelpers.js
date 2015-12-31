@@ -31,7 +31,7 @@ var ccHelpers = (function() {
             var amount = soiree.initialCharge;
             console.log(stripeToken);
             console.log(amount);
-            
+
             stripe.charges.create({
                 amount: amount,
                 currency: "usd",
