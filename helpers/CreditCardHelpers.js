@@ -98,11 +98,12 @@ var ccHelpers = (function() {
 
                 user.stripeCustomerId = customer.id;
 
-                user.save(function(err){
+                user.save(function(err, user){
                     if (err){
                         errorCallback(err);
                     }
                     else{
+                        console.log("Saved: " + user.stripeCustomerId);
                         successCallback(customer);
                     }
                 });
