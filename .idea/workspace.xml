@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helpers/CreditCardHelpers.js" afterPath="$PROJECT_DIR$/helpers/CreditCardHelpers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/Soiree.js" afterPath="$PROJECT_DIR$/db/Soiree.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Soiree.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Soiree.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/Soiree.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5225806">
+            <state vertical-scroll-proportion="-15.0">
               <caret line="220" column="9" selection-start-line="220" selection-start-column="9" selection-end-line="220" selection-end-column="9" />
               <folding />
             </state>
@@ -56,11 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CreditCardHelpers.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CreditCardHelpers.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/helpers/CreditCardHelpers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.4201995">
+              <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -169,8 +168,8 @@
         <option value="$PROJECT_DIR$/routes/api/businesses.js" />
         <option value="$PROJECT_DIR$/routes/user facing/index.js" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/helpers/CreditCardHelpers.js" />
         <option value="$PROJECT_DIR$/db/Soiree.js" />
+        <option value="$PROJECT_DIR$/helpers/CreditCardHelpers.js" />
       </list>
     </option>
   </component>
@@ -803,18 +802,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/CreditCardHelpers.js">
+    <entry file="file://$PROJECT_DIR$/db/Soiree.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+        <state vertical-scroll-proportion="-15.0">
+          <caret line="220" column="9" selection-start-line="220" selection-start-column="9" selection-end-line="220" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/Soiree.js">
+    <entry file="file://$PROJECT_DIR$/helpers/CreditCardHelpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5225806">
-          <caret line="220" column="9" selection-start-line="220" selection-start-column="9" selection-end-line="220" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.4201995">
+          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
           <folding />
         </state>
       </provider>
