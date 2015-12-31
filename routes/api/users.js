@@ -20,6 +20,7 @@ var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
+var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
 
 
 //router.get('/findUser', function(req, res){
@@ -250,6 +251,38 @@ router.post('/saveStripeToken', function(req, res, next){
      ResHelpers.sendMessage(res, 404, "error finding user");
   });
 });
+
+
+router.post('/createStripeCustomerId', function(req, res, next){
+  User.verifyUser(req, res, next, function(user) {
+
+    var stripeToken = req.body.stripeToken;
+    if (!stripeToken) {
+      return ResHelpers.sendError(res, "MissingStripeToken");
+    }
+
+    CreditCardHelpers.createStripeCustomerId(stripeToken, user, function(){
+      ResHelpers.sendSuccess(res);
+    }, function(err){
+      ResHelpers.sendError(res, "Error");
+    });
+
+  }, function(err){
+    ResHelpers.sendError(res, "Error");
+  });
+    //var last4Digits = req.body.creditCardLast4Digits;
+
+    //user.stripeToken = stripeToken;
+    //user.creditCardLast4Digits = last4Digits;
+
+
+
+    //console.log("stripe token: " + stripeToken);
+
+
+});
+
+
 
 /* FUNCTIONS */
 

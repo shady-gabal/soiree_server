@@ -81,6 +81,35 @@ var ccHelpers = (function() {
 
             });
 
+        },
+
+        createStripeCustomerId: function(stripeToken, user, successCallback, errorCallback){
+
+            if (!stripeToken || !user){
+                return errorCallback();
+            }
+
+            var description = "Soiree customer: " + user.fullName;
+
+            stripe.customers.create({
+                description: description,
+                source: stripeToken // obtained with Stripe.js
+            }, function(err, customer) {
+
+                user.stripeCustomerId = customer.id;
+
+                user.save(function(err){
+                    if (err){
+                        console.log("error saving token " + err);
+                        ResHelpers.sendMessage(res, 404, "error saving token");
+                    }
+                    else{
+                        console.log("saved stripe token");
+                        ResHelpers.sendSuccess(res);
+                    }
+                });
+            });
+
         }
 
     }
