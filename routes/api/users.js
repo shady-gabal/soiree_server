@@ -261,11 +261,13 @@ router.post('/createStripeCustomerId', function(req, res, next){
       return ResHelpers.sendError(res, "MissingStripeToken");
     }
 
-    CreditCardHelpers.createStripeCustomerId(stripeToken, user, function(){
+    CreditCardHelpers.createStripeCustomerId(stripeToken, user, function(customer){
       ResHelpers.sendSuccess(res);
     }, function(err){
       ResHelpers.sendError(res, "Error");
     });
+
+
 
   }, function(err){
     ResHelpers.sendError(res, "Error");

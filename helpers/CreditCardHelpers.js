@@ -100,12 +100,10 @@ var ccHelpers = (function() {
 
                 user.save(function(err){
                     if (err){
-                        console.log("error saving token " + err);
-                        ResHelpers.sendMessage(res, 404, "error saving token");
+                        errorCallback(err);
                     }
                     else{
-                        console.log("saved stripe token");
-                        ResHelpers.sendSuccess(res);
+                        successCallback(customer);
                     }
                 });
             });
