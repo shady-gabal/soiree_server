@@ -16,7 +16,7 @@
 //var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 
 var stripe = require("stripe")(
-    "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
+    process.env.STRIPE_SECRET_KEY
 );
 
 var ccHelpers = (function() {
@@ -26,29 +26,29 @@ var ccHelpers = (function() {
             if (!stripeToken)
               return errorCallback();
 
-            successCallback();
+            //successCallback();
 
-            //var amount = soiree.initialCharge;
-            //
-            //stripe.charges.create({
-            //    amount: amount,
-            //    currency: "usd",
-            //    source: stripeToken, // obtained with Stripe.js
-            //    description: "Charge for test@example.com"
-            //}, {
-            //
-            //}, function(err, charge) {
-            //    // asynchronously called
-            //    if (err && err.type === 'StripeCardError') {
-            //        // The card has been declined
-            //    }
-            //    if (err){
-            //        errorCallback(err);
-            //    }
-            //    else{
-            //        successCallback(charge);
-            //    }
-            //});
+            var amount = soiree.initialCharge;
+
+            stripe.charges.create({
+                amount: amount,
+                currency: "usd",
+                source: stripeToken, // obtained with Stripe.js
+                description: "Charge for test@example.com"
+            }, {
+
+            }, function(err, charge) {
+                // asynchronously called
+                if (err && err.type === 'StripeCardError') {
+                    // The card has been declined
+                }
+                if (err){
+                    errorCallback(err);
+                }
+                else{
+                    successCallback(charge);
+                }
+            });
 
         }
 

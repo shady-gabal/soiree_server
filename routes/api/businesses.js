@@ -15,10 +15,6 @@ var User = require(dbFolderLocation + 'User.js');
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 
 
-/* GET home page. */
-router.get('/', function(req, res) {
-    res.render('index', { title: 'Express' });
-});
 
 router.get('/createBusinesses', function(req, res){
     var longitude = 40.762755;

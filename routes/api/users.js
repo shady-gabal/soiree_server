@@ -67,7 +67,7 @@ router.post('/findUser', function(req, res, next){
             if (user.isNewDeviceUUID(deviceUUID)){
               //remove stripe customer id
               user.stripeCustomerId = null;
-              
+
               user.save(function(err){
                 if (err) console.log("Error setting stripe customer id to null - findUser " + err);
 

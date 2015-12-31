@@ -12,6 +12,11 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var facebookTokenStrategy = require('passport-facebook-token');
 
+
+/* User Facing Routes */
+var userIndex = require('./routes/user facing/index');
+
+/* API Routes */
 var soirees = require('./routes/api/soirees');
 var users = require('./routes/api/users');
 var businesses = require('./routes/api/businesses');
@@ -76,13 +81,18 @@ passport.use(new facebookTokenStrategy({
 //});
 
 
-//routes
+/* Routes */
+
+//API
 app.use('/api/soirees', soirees);
 app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);
 app.use('/api/businesses', businesses);
 app.use('/api/community', community);
 app.use('/api/verifications', verifications);
+
+//Customer Facing
+app.use('/', userIndex);
 
 
 // catch 404 and forward to error handler
