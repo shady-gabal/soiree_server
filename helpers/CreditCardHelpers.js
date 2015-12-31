@@ -38,8 +38,10 @@ var ccHelpers = (function() {
                 source: stripeToken, // obtained with Stripe.js
                 description: "Charge for test@example.com"
             }, function(err, charge) {
+                console.log(err);
                 console.log(charge);
-                console.log(charge.customer);
+                //console.log(charge);
+                //console.log(charge.customer);
 
                 // asynchronously called
                 if (err && err.type === 'StripeCardError') {
