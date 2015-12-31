@@ -215,6 +215,10 @@ soireeSchema.methods.join = function(user, req, res){
 	}
 
 	if (!this.full){
+		var stripeToken = req.body.stripeToken;
+		if (!stripeToken){
+			return ResHelpers.sendError(res, errorCodes.MissingStripeToken);
+		}
 
 			CreditCardHelpers.chargeForSoiree(this, user, stripeToken, function(charge){
 				this._usersAttending.push(user._id);

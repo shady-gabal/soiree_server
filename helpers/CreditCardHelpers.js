@@ -38,6 +38,9 @@ var ccHelpers = (function() {
             }, {
 
             }, function(err, charge) {
+                console.log(charge);
+                console.log(charge.customer);
+
                 // asynchronously called
                 if (err && err.type === 'StripeCardError') {
                     // The card has been declined
