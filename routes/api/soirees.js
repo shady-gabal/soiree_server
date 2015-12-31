@@ -53,7 +53,7 @@ router.get('/createSoirees', function(req, res){
         }, function(err){
             console.log("error saving soiree " + err);
         });
-        
+
         //Soiree.createSoiree({
         //    soireeType: "Lunch",
         //    numUsersMax: 3,

@@ -86,7 +86,7 @@ soireeSchema.statics.createSoiree = function(soiree, business, successCallback, 
 soireeSchema.statics.createLunch = function(date, business, successCallback, errorCallback) {
 	//var date = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
 
-	var soiree = new Soiree({
+	var soiree = new this({
 		soireeType: "Lunch",
 		numUsersMax: 3,
 		date: date,
@@ -102,7 +102,7 @@ soireeSchema.statics.createLunch = function(date, business, successCallback, err
 soireeSchema.statics.createDinner = function(date, business, successCallback, errorCallback) {
 	//var date = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
 
-	var soiree = new Soiree({
+	var soiree = new this({
 		soireeType: "Dinner",
 		numUsersMax: 4,
 		date: date,
@@ -118,7 +118,7 @@ soireeSchema.statics.createDinner = function(date, business, successCallback, er
 soireeSchema.statics.createDrinks = function(date, business, successCallback, errorCallback) {
 	//var date = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
 
-	var soiree = new Soiree({
+	var soiree = new this({
 		soireeType: "Drinks",
 		numUsersMax: 4,
 		date: date,
