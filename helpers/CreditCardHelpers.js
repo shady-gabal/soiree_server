@@ -96,6 +96,10 @@ var ccHelpers = (function() {
                 source: stripeToken // obtained with Stripe.js
             }, function(err, customer) {
 
+                if (err){
+                    return errorCallback(err);
+                }
+                
                 user.stripeCustomerId = customer.id;
 
                 user.save(function(err, user){
