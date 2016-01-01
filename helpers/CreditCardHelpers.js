@@ -90,18 +90,20 @@ var ccHelpers = (function() {
             }
 
             if (user.stripeCustomerId){
-                return stripe.customers.del(
-                    user.stripeCustomerId,
-                    function(err, confirmation) {
-                        // asynchronously called
-                        if (err){
-                            errorCallback(err);
-                        }
-                        else{
-                            successCallback(confirmation);
-                        }
-                    }
-                );
+                user.stripeCustomerId = null;
+                //return stripe.customers.del(
+                //    user.stripeCustomerId,
+                //    function(err, confirmation) {
+                //        // asynchronously called
+                //        if (err){
+                //            errorCallback(err);
+                //        }
+                //        else{
+                //            successCallback(confirmation);
+                //        }
+                //    }
+                //);
+
                 //return successCallback();
             }
 
@@ -140,6 +142,7 @@ var ccHelpers = (function() {
                         errorCallback(err);
                     }
                     else{
+                        user.stripeCustomerId = null;
                         successCallback(confirmation);
                     }
                 }
