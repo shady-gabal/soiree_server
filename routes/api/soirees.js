@@ -201,7 +201,7 @@ router.post('/joinSoiree', function(req, res, next){
         var stripeToken = req.body.stripeToken;
 
         if (!stripeToken){
-            return ResHelpers.sendError(res, errorCodes.MissingStripeToken);
+            return ResHelpers.sendError(res, "MissingStripeToken");
         }
 
        var soireeId = req.body.soireeId;
