@@ -59,7 +59,7 @@ router.post('/findUser', function(req, res, next){
         return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
       }
       else if (!user){
-        sendUser(res, user);
+        res.json({});
       }
       else{
         var deviceUUID = req.body.deviceUUID;
