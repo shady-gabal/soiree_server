@@ -106,7 +106,8 @@ router.get('/findUser', function(req, res, next){
         return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
       }
       else if (!userFound){
-        return ResHelpers.sendMessage(res, 418, "No user found");
+        sendUser(res, null);
+        //return ResHelpers.sendMessage(res, 418, "No user found");
       }
       else{
         sendUser(res, userFound);
