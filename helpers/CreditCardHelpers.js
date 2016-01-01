@@ -89,6 +89,22 @@ var ccHelpers = (function() {
                 return errorCallback();
             }
 
+            if (user.stripeCustomerId){
+                return stripe.customers.del(
+                    user.stripeCustomerId,
+                    function(err, confirmation) {
+                        // asynchronously called
+                        if (err){
+                            errorCallback(err);
+                        }
+                        else{
+                            successCallback(confirmation);
+                        }
+                    }
+                );
+                //return successCallback();
+            }
+
             var description = "Soiree customer: " + user.fullName;
 
             stripe.customers.create({
@@ -99,7 +115,7 @@ var ccHelpers = (function() {
                 if (err){
                     return errorCallback(err);
                 }
-                
+
                 user.stripeCustomerId = customer.id;
 
                 user.save(function(err, user){
@@ -113,6 +129,21 @@ var ccHelpers = (function() {
                 });
             });
 
+        },
+
+        deleteStripeCustomer: function(user, successCallback, errorCallback){
+            stripe.customers.del(
+                user.stripeCustomerId,
+                function(err, confirmation) {
+                    // asynchronously called
+                    if (err){
+                        errorCallback(err);
+                    }
+                    else{
+                        successCallback(confirmation);
+                    }
+                }
+            );
         }
 
     }
