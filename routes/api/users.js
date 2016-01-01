@@ -59,7 +59,7 @@ router.post('/findUser', function(req, res, next){
         return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
       }
       else if (!user){
-        return ResHelpers.sendMessage(res, 418, "No user found");
+        sendUser(res, null);
       }
       else{
         var deviceUUID = req.body.deviceUUID;
@@ -67,11 +67,11 @@ router.post('/findUser', function(req, res, next){
         if (deviceUUID){
             if (user.isNewDeviceUUID(deviceUUID)){
               //remove stripe customer id
+              console.log("setting stripecustomerid to null...");
               user.stripeCustomerId = null;
 
               user.save(function(err){
                 if (err) console.log("Error setting stripe customer id to null - findUser " + err);
-
                 sendUser(res, user);
               });
             }
