@@ -333,6 +333,7 @@ userSchema.virtual('age').get(function(){
 });
 
 userSchema.virtual('hasStripeCustomerId').get(function(){
+	console.log("stripeCustomerId : "+ this.stripeCustomerId);
 	return this.stripeCustomerId ? true : false;
 });
 
