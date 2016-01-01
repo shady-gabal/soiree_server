@@ -46,7 +46,7 @@
       <file leaf-file-name="User.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/User.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-86.666664">
+            <state vertical-scroll-proportion="-186.11111">
               <caret line="335" column="62" selection-start-line="335" selection-start-column="62" selection-end-line="335" selection-end-column="62" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -85,16 +85,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/user facing/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name=".env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
@@ -108,18 +98,19 @@
       <file leaf-file-name="users.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/api/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2451613">
-              <caret line="101" column="2" selection-start-line="101" selection-start-column="2" selection-end-line="101" selection-end-column="2" />
-              <folding>
-                <marker date="1451608746000" expanded="true" signature="2704:3498" placeholder="{...}" />
-                <marker date="1451608746000" expanded="true" signature="2767:2880" placeholder="//..." />
-                <marker date="1451608746000" expanded="true" signature="2910:3449" placeholder="{...}" />
-                <marker date="1451608746000" expanded="true" signature="3054:3425" placeholder="{...}" />
-                <marker date="1451608746000" expanded="true" signature="3073:3216" placeholder="{...}" />
-                <marker date="1451608746000" expanded="true" signature="3245:3357" placeholder="{...}" />
-                <marker date="1451608746000" expanded="true" signature="3370:3417" placeholder="{...}" />
-                <marker date="1451608746000" expanded="true" signature="3458:3494" placeholder="{...}" />
-              </folding>
+            <state vertical-scroll-proportion="-4.148387">
+              <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserVerification.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db/UserVerification.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="27" column="68" selection-start-line="27" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -654,14 +645,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/UserVerification.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="68" selection-start-line="27" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/passport/lib/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -802,16 +785,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-86.666664">
-          <caret line="335" column="62" selection-start-line="335" selection-start-column="62" selection-end-line="335" selection-end-column="62" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -820,20 +793,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/db/UserVerification.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="68" selection-start-line="27" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-186.11111">
+          <caret line="335" column="62" selection-start-line="335" selection-start-column="62" selection-end-line="335" selection-end-column="62" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2451613">
-          <caret line="101" column="2" selection-start-line="101" selection-start-column="2" selection-end-line="101" selection-end-column="2" />
-          <folding>
-            <marker date="1451608746000" expanded="true" signature="2704:3498" placeholder="{...}" />
-            <marker date="1451608746000" expanded="true" signature="2767:2880" placeholder="//..." />
-            <marker date="1451608746000" expanded="true" signature="2910:3449" placeholder="{...}" />
-            <marker date="1451608746000" expanded="true" signature="3054:3425" placeholder="{...}" />
-            <marker date="1451608746000" expanded="true" signature="3073:3216" placeholder="{...}" />
-            <marker date="1451608746000" expanded="true" signature="3245:3357" placeholder="{...}" />
-            <marker date="1451608746000" expanded="true" signature="3370:3417" placeholder="{...}" />
-            <marker date="1451608746000" expanded="true" signature="3458:3494" placeholder="{...}" />
-          </folding>
+        <state vertical-scroll-proportion="-4.148387">
+          <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
