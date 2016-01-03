@@ -24,7 +24,7 @@ var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
 var errorCodes = { 'SoireeError' : 'SoireeError',
 					'SoireeFull' : 'SoireeFull',
 					'SoireeExpired' : 'SoireeExpired',
-					'MissingStripeToken' : 'MissingStripeToken',
+					'MissingStripeCustomerId' : 'MissingStripeCustomerId',
 					'StripeError' : 'StripeError'
 					};
 
@@ -221,9 +221,12 @@ soireeSchema.methods.join = function(user, req, res){
 	}
 
 	if (!this.full){
-		var stripeToken = req.body.stripeToken;
-		if (!stripeToken){
-			return ResHelpers.sendError(res, errorCodes.MissingStripeToken);
+		//var stripeToken = req.body.stripeToken;
+		//if (!stripeToken){
+		//	return ResHelpers.sendError(res, errorCodes.MissingStripeToken);
+		//}
+		if (!user.stripeCustomerId){
+				return ResHelpers.sendError(res, errorCodes.MissingStripeCustomerId);
 		}
 
 			CreditCardHelpers.chargeForSoiree(this, user, stripeToken, function(charge){

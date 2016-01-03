@@ -91,6 +91,7 @@ var ccHelpers = (function() {
 
             if (user.stripeCustomerId){
                 user.stripeCustomerId = null;
+
                 //return stripe.customers.del(
                 //    user.stripeCustomerId,
                 //    function(err, confirmation) {

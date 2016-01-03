@@ -63,9 +63,24 @@ postSchema.statics.findPostWithId = function(postId, successCallback, errorCallb
     });
 };
 
-postSchema.statics.findNearestPosts = function(coors, user, successCallback, errorCallback){
+postSchema.statics.findPosts = function(req, coors, user, successCallback, errorCallback){
     //this.find({ location: { $near : coors }, "college" : user.college }).deepPopulate("_comments._user _user").exec(function(err, posts){
-    this.find({ location: { $near : coors }, "college" : user.college }).populate('_comments').exec(function(err, posts){
+    var numPostsToFetch = 10;
+
+    var idsToIgnore = req.body.currentPostsIds;
+
+    var constraints = { location: { $near : coors }, "college" : user.college };
+
+    if (idsToIgnore && idsToIgnore.length > 0){
+        console.log("Ignoring posts with ids in: " + idsToIgnore);
+        constraints["postId"] = {'$nin' : idsToIgnore};
+    }
+    else{
+
+    }
+    var query = this.find(constraints).populate('_comments').limit(numPostsToFetch);
+
+    query.(function(err, posts){
         if (err){
             errorCallback(err);
         }

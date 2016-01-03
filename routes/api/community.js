@@ -70,7 +70,7 @@ router.post('/postsNear', function(req, res, next){
         var latitude = req.body.user.latitude;
         var coors = LocationHelpers.createPoint(longitude, latitude);
 
-        CommunityPost.findNearestPosts(coors, user, function (posts) {
+        CommunityPost.findPosts(req, coors, user, function (posts) {
 
             var jsonArray = [];
             for (var i = 0; i < posts.length; i++) {
