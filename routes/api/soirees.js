@@ -197,12 +197,15 @@ router.get('/soireesNear', function(req, res){
 
 router.post('/joinSoiree', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
-
-        var stripeToken = req.body.stripeToken;
-
-        if (!stripeToken){
-            return ResHelpers.sendError(res, "MissingStripeToken");
+        if (!user.hasStripeCustomerId){
+            return ResHelpers.sendError(res, "MissingStripeCustomerId");
         }
+
+        //var stripeToken = req.body.stripeToken;
+        //
+        //if (!stripeToken){
+        //    return ResHelpers.sendError(res, "MissingStripeToken");
+        //}
 
        var soireeId = req.body.soireeId;
        Soiree.joinSoireeWithId(soireeId, user, req, res);

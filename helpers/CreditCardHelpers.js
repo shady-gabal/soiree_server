@@ -22,8 +22,8 @@ var stripe = require("stripe")(
 var ccHelpers = (function() {
 
     return {
-        chargeForSoiree: function (soiree, user, stripeToken, successCallback, errorCallback) {
-            if (!stripeToken && !user.stripeCustomerId)
+        chargeForSoiree: function (soiree, user, successCallback, errorCallback) {
+            if (!user.stripeCustomerId)
               return errorCallback();
 
             //successCallback();
@@ -39,12 +39,9 @@ var ccHelpers = (function() {
                 currency: "usd",
                 description: description
             };
-            if (stripeToken){
-                chargeOptions.source = stripeToken;
-            }
-            else{
-                chargeOptions.customer = user.stripeCustomerId;
-            }
+
+            chargeOptions.customer = user.stripeCustomerId;
+
 
             stripe.charges.create(chargeOptions, function(err, charge) {
 

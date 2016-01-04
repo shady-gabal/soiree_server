@@ -69,7 +69,8 @@ postSchema.statics.findPosts = function(req, coors, user, successCallback, error
 
     var idsToIgnore = req.body.currentPostsIds;
 
-    var constraints = { location: { $near : coors }, "college" : user.college };
+    //var constraints = { location: { $near : coors }, "college" : user.college };
+    var constraints = { "college" : user.college };
 
     if (idsToIgnore && idsToIgnore.length > 0){
         console.log("Ignoring posts with ids in: " + idsToIgnore);
