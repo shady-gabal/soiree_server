@@ -80,7 +80,7 @@ postSchema.statics.findPosts = function(req, coors, user, successCallback, error
     }
     var query = this.find(constraints).populate('_comments').limit(numPostsToFetch);
 
-    query.(function(err, posts){
+    query.exec(function(err, posts){
         if (err){
             errorCallback(err);
         }
