@@ -29,7 +29,6 @@ var ccHelpers = (function() {
             //successCallback();
 
             var amount = soiree.initialCharge;
-            console.log(stripeToken);
             console.log(amount);
 
             var description = "Charge for " + soiree.soireeType + " Soirée on " + soiree.date.toString() + ".";
