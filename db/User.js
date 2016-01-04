@@ -117,7 +117,8 @@ userSchema.methods.isNewDeviceUUID = function(deviceUUID){
 		user.associatedDeviceUUIDs = [];
 	}
 	console.log("deviceuuid is " + deviceUUID);
-	if (user.associatedDeviceUUIDs.indexOf(deviceUUID) == -1){
+	var alreadyContains = user.associatedDeviceUUIDs.indexOf(deviceUUID);
+	if (alreadyContains == -1){
 		user.associatedDeviceUUIDs.push(deviceUUID);
 		user.save(function(err, u){
 			console.log("saved deviceuuid with err:" + err + "new deviceuuids: " + u.associatedDeviceUUIDs);
