@@ -21,6 +21,7 @@ var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 
 //router.get('/findUser', function(req, res){

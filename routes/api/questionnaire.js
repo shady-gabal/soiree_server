@@ -24,6 +24,7 @@ var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 var questionnaire;
 

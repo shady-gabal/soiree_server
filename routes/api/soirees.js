@@ -12,6 +12,7 @@ var User = require(dbFolderLocation + 'User.js');
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 
 

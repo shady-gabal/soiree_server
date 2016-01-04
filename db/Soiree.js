@@ -21,12 +21,7 @@ var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
 
 /* Error Codes */
-var errorCodes = { 'SoireeError' : 'SoireeError',
-					'SoireeFull' : 'SoireeFull',
-					'SoireeExpired' : 'SoireeExpired',
-					'MissingStripeCustomerId' : 'MissingStripeCustomerId',
-					'StripeError' : 'StripeError'
-					};
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 
 var soireeSchema = new Schema({
@@ -55,9 +50,9 @@ soireeSchema.index({location: '2dsphere'});
 
 
 /* Static Methods */
-soireeSchema.statics.errorCodes = function() {
-	return this.errorCodes;
-}
+//soireeSchema.statics.errorCodes = function() {
+//	return this.errorCodes;
+//}
 
 soireeSchema.statics.createScheduledTimeIdentifier = function(date){
 	var year = date.getFullYear();
@@ -199,7 +194,7 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
 	this.findBySoireeId(soireeId, function(soiree){
 		soiree.join(user, req, res);
 	}, function(err){
-		ResHelpers.sendError(res, errorCodes.SoireeError);
+		ResHelpers.sendError(res, ErrorCodes.SoireeError);
 	});
 };
 
@@ -226,7 +221,7 @@ soireeSchema.methods.join = function(user, req, res){
 		//	return ResHelpers.sendError(res, errorCodes.MissingStripeToken);
 		//}
 		if (!user.stripeCustomerId){
-			return ResHelpers.sendError(res, errorCodes.MissingStripeCustomerId);
+			return ResHelpers.sendError(res, ErrorCodes.MissingStripeCustomerId);
 		}
 
 			CreditCardHelpers.chargeForSoiree(this, user, function(charge){
@@ -240,16 +235,16 @@ soireeSchema.methods.join = function(user, req, res){
 						ResHelpers.sendSuccess(res);
 					}
 					else{
-						ResHelpers.sendError(res, errorCodes.SoireeError);
+						ResHelpers.sendError(res, ErrorCodes.SoireeError);
 					}
 				});
 			}, function(err){
-				ResHelpers.sendError(res, errorCodes.StripeError);
+				ResHelpers.sendError(res, ErrorCodes.StripeError);
 			});
 
 	}
 	else{
-		ResHelpers.sendError(res, errorCodes.SoireeFull);
+		ResHelpers.sendError(res, ErrorCodes.SoireeFull);
 	}
 };
 
