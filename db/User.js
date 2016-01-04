@@ -110,7 +110,7 @@ userSchema.methods.verifyCode = function(code){
 	return this.verificationCode == code;
 };
 
-userSchema.methods.isNewDeviceUUID = function(deviceUUID){
+userSchema.methods.checkDeviceUUID = function(deviceUUID, callback){
 	var user = this;
 
 	if (!user.associatedDeviceUUIDs){
@@ -123,18 +123,24 @@ userSchema.methods.isNewDeviceUUID = function(deviceUUID){
 
 	if (alreadyContains == -1){
 		user.associatedDeviceUUIDs.push(deviceUUID);
+		console.log("setting stripecustomerid to null...");
+		user.stripeCustomerId = null;
 		//user.markModified('associatedDeviceUUIDs');
 		user.save(function(err, u){
 			console.log("saved deviceuuid with err:" + err + "new deviceuuids: " + u.associatedDeviceUUIDs);
 			if (err)
 				console.log("Error saving device UUID in findUser: " + err);
+			callback();
 		});
 
-		return true;
+		//return true;
 	}
 	else{
-		return false;
+		callback();
 	}
+	//else{
+	//	return false;
+	//}
 };
 
 

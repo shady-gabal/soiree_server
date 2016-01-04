@@ -65,22 +65,22 @@ router.post('/findUser', function(req, res, next){
       else{
         var deviceUUID = req.body.deviceUUID;
 
-        if (deviceUUID){
-            if (user.isNewDeviceUUID(deviceUUID)){
-              console.log(user.associatedDeviceUUIDs);
+        if (deviceUUID) {
+          user.checkDeviceUUID(deviceUUID, function () {
+            sendUser(res, user);
+          });
+
 
               //remove stripe customer id
-              console.log("setting stripecustomerid to null...");
-              user.stripeCustomerId = null;
+              //user.stripeCustomerId = null;
 
-              user.save(function(err){
-                if (err) console.log("Error setting stripe customer id to null - findUser " + err);
-                sendUser(res, user);
-              });
-            }
-            else{
-              sendUser(res, user);
-            }
+              //user.save(function(err){
+              //  if (err) console.log("Error setting stripe customer id to null - findUser " + err);
+              //});
+            //}
+            //else{
+            //  sendUser(res, user);
+            //}
         }
 
         else sendUser(res, user);
