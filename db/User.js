@@ -118,7 +118,8 @@ userSchema.methods.isNewDeviceUUID = function(deviceUUID){
 	}
 	if (user.associatedDeviceUUIDs.indexOf(deviceUUID) == -1){
 		user.associatedDeviceUUIDs.push(deviceUUID);
-		user.save(function(err){
+		user.save(function(err, u){
+			console.log("saved deviceuuid with err:" + err + "new deviceuuids: " + u.associatedDeviceUUIDs);
 			if (err)
 				console.log("Error saving device UUID in findUser: " + err);
 		});
