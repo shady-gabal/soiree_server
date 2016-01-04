@@ -45,7 +45,7 @@ var ccHelpers = (function() {
             stripe.charges.create(chargeOptions, function(err, charge) {
 
                 console.log(err);
-                console.log(charge);
+                console.log(charge.status);
 
                 if (err){
                     errorCallback(err);

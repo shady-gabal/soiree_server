@@ -224,23 +224,25 @@ soireeSchema.methods.join = function(user, req, res){
 			return ResHelpers.sendError(res, ErrorCodes.MissingStripeCustomerId);
 		}
 
-			CreditCardHelpers.chargeForSoiree(this, user, function(charge){
-				if (!this._usersAttending) this._usersAttending = [];
+		var soiree = this;
 
-				this._usersAttending.push(user._id);
-				//this.full = (this.numUsersAttending >= this.numUsersMax);
+		CreditCardHelpers.chargeForSoiree(this, user, function(charge){
+			if (!soiree._usersAttending) soiree._usersAttending = [];
 
-				this.save(function(err){
-					if (!err){
-						ResHelpers.sendSuccess(res);
-					}
-					else{
-						ResHelpers.sendError(res, ErrorCodes.SoireeError);
-					}
-				});
-			}, function(err){
-				ResHelpers.sendError(res, ErrorCodes.StripeError);
+			soiree._usersAttending.push(user._id);
+			//this.full = (this.numUsersAttending >= this.numUsersMax);
+
+			soiree.save(function(err){
+				if (!err){
+					ResHelpers.sendSuccess(res);
+				}
+				else{
+					ResHelpers.sendError(res, ErrorCodes.SoireeError);
+				}
 			});
+		}, function(err){
+			ResHelpers.sendError(res, ErrorCodes.StripeError);
+		});
 
 	}
 	else{
