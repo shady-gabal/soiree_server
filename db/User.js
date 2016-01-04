@@ -54,7 +54,7 @@ var userSchema = new Schema({
 		_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
 		dateSignedUp: {type : Date, default: new Date()}, /* Dates */
 		dateLastSignedIn : {type: Date, default: new Date()},
-		associatedUUIDs : [{type: String}],
+		associatedDeviceUUIDs : [{type: String}],
 		dateUpdated : {type: Date, default: new Date()}
 	//location: { /* Location */
 	//	type: {type: String},
@@ -123,7 +123,7 @@ userSchema.methods.isNewDeviceUUID = function(deviceUUID){
 
 	if (alreadyContains == -1){
 		user.associatedDeviceUUIDs.push(deviceUUID);
-		user.markModified('associatedDeviceUUIDs');
+		//user.markModified('associatedDeviceUUIDs');
 		user.save(function(err, u){
 			console.log("saved deviceuuid with err:" + err + "new deviceuuids: " + u.associatedDeviceUUIDs);
 			if (err)
