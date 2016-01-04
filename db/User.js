@@ -123,6 +123,7 @@ userSchema.methods.isNewDeviceUUID = function(deviceUUID){
 
 	if (alreadyContains == -1){
 		user.associatedDeviceUUIDs.push(deviceUUID);
+		user.markModified('associatedDeviceUUIDs');
 		user.save(function(err, u){
 			console.log("saved deviceuuid with err:" + err + "new deviceuuids: " + u.associatedDeviceUUIDs);
 			if (err)
