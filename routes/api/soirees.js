@@ -40,6 +40,8 @@ router.get('/requestingSoirees', function(req, res, next){
 
 router.get('/createSoirees', function(req, res){
 
+    var numSoirees = req.query.numSoirees? req.query.numSoirees : 1;
+
     Business.nextBusinessToHostSoiree(function(nextBusiness) {
         if (!nextBusiness) {
             return res.status('404').send("Error");
@@ -47,14 +49,44 @@ router.get('/createSoirees', function(req, res){
         }
 
         var todaysDate = new Date();
-        var date = new Date(todaysDate.getTime() + (1 * 24 * 60 * 60 * 1000));
 
-        Soiree.createLunch(date, nextBusiness, function(soiree){
-            console.log("Saved soiree");
-            res.send("OK");
-        }, function(err){
-            console.log("error saving soiree " + err);
-        });
+        for (var i = 0; i < numSoirees; i++){
+
+            var soireeTypes = Soiree.soireeTypes();
+
+            var numDays = Math.random() * 7;
+            var numHours = Math.random() * 24;
+            var randSoireeTypeIndex = Math.random() * soireeTypes.length;
+            var soireeType = soireeTypes[randSoireeTypeIndex];
+            var randNumUsersMax = Math.random() * 3 + 2;
+            var initialCharges = [100, 200, 300, 400, 500];
+            var randInitialChargeIndex = Math.random() * initialCharges.length;
+            var randInitialCharge = initialCharges[randInitialChargeIndex];
+
+            var date = new Date(todaysDate.getTime() + (numDays * 24 * 60 * 60 * 1000) + (numHours * 60 * 60 * 1000));
+
+            Soiree.createSoiree({
+                soireeType: soireeType,
+                numUsersMax: randNumUsersMax,
+                initialCharge: randInitialCharge,
+                date: date
+            }, nextBusiness, function(soiree){
+                   console.log("Saved soiree: " + soiree);
+                }, function(err) {
+                console.log("error saving soiree " + err);
+            });
+
+            //Soiree.createLunch(date, nextBusiness, function(soiree){
+            //    console.log("Saved soiree");
+            //    res.send("OK");
+            //}, function(err){
+            //    console.log("error saving soiree " + err);
+            //});
+        }
+
+
+
+
 
         //Soiree.createSoiree({
         //    soireeType: "Lunch",

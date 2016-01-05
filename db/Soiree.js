@@ -75,12 +75,12 @@ soireeSchema.statics.createSoiree = function(soiree, business, successCallback, 
 	newSoiree.location = business.location;
 	newSoiree._usersAttending = [];
 
-	newSoiree.save(function(err){
+	newSoiree.save(function(err, savedSoiree){
 		if (err){
 			errorCallback(err);
 		}
 		else{
-			successCallback();
+			successCallback(savedSoiree);
 		}
 	});
 };
@@ -152,7 +152,7 @@ soireeSchema.statics.findSoirees = function(req, user, successCallback, errorCal
 		constraints["soireeId"] = {'$nin' : idsToIgnore};
 	}
 
-	this.find(constraints).populate("_business").limit(numSoireesToFetch).(function(err, soirees){
+	this.find(constraints).populate("_business").limit(numSoireesToFetch).exec(function(err, soirees){
 		if (err){
 			errorCallback(err);
 		}
