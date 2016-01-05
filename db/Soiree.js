@@ -16,6 +16,7 @@ var helpersFolderLocation = "../helpers/";
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
 var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
+var LocationHelpers = require(helpersFolderLocation + 'LocationHelpers.js');
 
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
@@ -133,8 +134,32 @@ soireeSchema.statics.createDrinks = function(date, business, successCallback, er
 };
 
 
-soireeSchema.statics.findNearestSoirees = function(coors, callback){
-	this.find({ location: { $near : coors }}).populate("_business").exec(callback);
+soireeSchema.statics.findSoirees = function(req, user, successCallback, errorCallback){
+
+	var longitude = req.body.user.longitude;
+	var latitude = req.body.user.latitude;
+	var coors = LocationHelpers.createPoint(longitude, latitude);
+
+	var numSoireesToFetch = 10;
+
+	var idsToIgnore = req.body.currentSoireesIds;
+
+	//var constraints = { location: { $near : coors }, "college" : user.college };
+	var constraints = { location: { $near : coors } };
+
+	if (idsToIgnore && idsToIgnore.length > 0){
+		console.log("Ignoring soirees with ids in: " + idsToIgnore);
+		constraints["soireeId"] = {'$nin' : idsToIgnore};
+	}
+
+	this.find(constraints).populate("_business").limit(numSoireesToFetch).(function(err, soirees){
+		if (err){
+			errorCallback(err);
+		}
+		else{
+			successCallback(soirees);
+		}
+	});
 };
 
 

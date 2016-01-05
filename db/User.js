@@ -118,8 +118,7 @@ userSchema.methods.checkDeviceUUID = function(deviceUUID, callback){
 	}
 	var alreadyContains = user.associatedDeviceUUIDs.indexOf(deviceUUID);
 
-
-	console.log("deviceuuid is " + deviceUUID + " outcome: " + alreadyContains + " user associated ids: " + user.associatedDeviceUUIDs);
+	//console.log("deviceuuid is " + deviceUUID + " outcome: " + alreadyContains + " user associated ids: " + user.associatedDeviceUUIDs);
 
 	if (alreadyContains == -1){
 		user.associatedDeviceUUIDs.push(deviceUUID);

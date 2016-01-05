@@ -9,7 +9,8 @@ var errorCodes = (function() {
         'SoireeFull' : 'SoireeFull',
         'SoireeExpired' : 'SoireeExpired',
         'MissingStripeCustomerId' : 'MissingStripeCustomerId',
-        'StripeError' : 'StripeError'
+        'StripeError' : 'StripeError',
+        'SoireeLoadError' : 'SoireeLoadError'
     }
 
 }());

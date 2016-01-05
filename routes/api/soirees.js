@@ -12,6 +12,7 @@ var User = require(dbFolderLocation + 'User.js');
 var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
 var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
 var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
+
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 
@@ -134,9 +135,7 @@ router.get('/createSoirees', function(req, res){
 router.post('/soireesNear', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         console.log("soirees near callback");
-        var longitude = req.body.user.longitude;
-        var latitude = req.body.user.latitude;
-        var coors = {type: "Point", coordinates: [longitude, latitude]};
+
 
         //user.location = coors;
         //user.save(function(err){
@@ -148,23 +147,21 @@ router.post('/soireesNear', function(req, res, next){
         //   }
         //});
 
-        Soiree.findNearestSoirees(coors, function(err, soirees){
-            if (err){
-                console.log("Error finding soirees near you: " +  err);
-                res.status('404').send("Error");
+        Soiree.findSoirees(req, user, function(soirees){
+            var dataToSend = [];
+            for (var i = 0; i < soirees.length; i++){
+                var soiree = soirees[i];
+                dataToSend.push(soiree.jsonObject);
             }
-            else {
-                var dataToSend = [];
-                for (var i = 0; i < soirees.length; i++){
-                    var soiree = soirees[i];
-                    dataToSend.push(soiree.jsonObject);
-                }
-                res.json(dataToSend);
-            }
+            res.json(dataToSend);
+        }, function(err){
+            console.log("Error finding soirees near you: " +  err);
+            ResHelpers.sendError(res, ErrorCodes.SoireeLoadError);
         });
+
     }, function(err){
-        res.status('404').send("Error finding user");
-    });
+        //console.log("Error finding soirees near you: " +  err);
+        ResHelpers.sendError(res, ErrorCodes.SoireeLoadError);    });
 
 });
 

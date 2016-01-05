@@ -76,9 +76,9 @@ postSchema.statics.findPosts = function(req, coors, user, successCallback, error
         console.log("Ignoring posts with ids in: " + idsToIgnore);
         constraints["postId"] = {'$nin' : idsToIgnore};
     }
-    else{
-
-    }
+    //else{
+    //
+    //}
     var query = this.find(constraints).populate('_comments').limit(numPostsToFetch);
 
     query.exec(function(err, posts){
