@@ -71,7 +71,7 @@ router.get('/createSoirees', function(req, res){
                 initialCharge: randInitialCharge,
                 date: date
             }, nextBusiness, function(soiree){
-                   console.log("Saved soiree: " + soiree);
+                   console.log("Saved soiree: " + soiree.soireeId);
                 }, function(err) {
                 console.log("error saving soiree " + err);
             });
