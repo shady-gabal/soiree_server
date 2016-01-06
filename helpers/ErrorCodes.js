@@ -6,6 +6,7 @@ var errorCodes = (function() {
 
     return {
         'SoireeError' : 'SoireeError',
+        'UserAlreadyJoinedSoiree' : 'UserAlreadyJoinedSoiree',
         'SoireeFull' : 'SoireeFull',
         'SoireeExpired' : 'SoireeExpired',
         'MissingStripeCustomerId' : 'MissingStripeCustomerId',

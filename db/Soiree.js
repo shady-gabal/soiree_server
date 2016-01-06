@@ -32,7 +32,7 @@ var soireeSchema = new Schema({
 		soireeId: {type: String, unique: true, default: shortid.generate},
 		initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]}, //in cents
 		date: {type : Date, required: [true, "A date for the Soiree is required"]},
-		full: {type: Boolean, default: false},
+		//full: {type: Boolean, default: false},
 		_usersAttending : [{type : ObjectId, ref : "User"}],
 		_business: {type: ObjectId, ref:"Business", required :[true, "A business that will host is required to create this Soiree"]},
 		expired: {type: Boolean, default: false},
@@ -235,10 +235,15 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
 
 /* Methods */
 
+soireeSchema.methods.userAlreadyJoined = function(user){
+	return this._usersAttending.indexOf(user._id) != -1;
+}
+
+
 soireeSchema.methods.join = function(user, req, res){
-	if (this.numUsersAttending >= this.numUsersMax) {
-		this.full = true;
-	}
+	//if (this.numUsersAttending >= this.numUsersMax) {
+	//	this.full = true;
+	//}
 
 	if (!this.full){
 		//var stripeToken = req.body.stripeToken;
@@ -247,6 +252,11 @@ soireeSchema.methods.join = function(user, req, res){
 		//}
 		if (!user.stripeCustomerId){
 			return ResHelpers.sendError(res, ErrorCodes.MissingStripeCustomerId);
+		}
+
+		if (this._usersAttending.indexOf(user._id) != -1){
+			//user has already joined soiree
+			return ResHelpers.sendError(res, ErrorCodes.UserAlreadyJoinedSoiree);
 		}
 
 		var soiree = this;
@@ -271,8 +281,27 @@ soireeSchema.methods.join = function(user, req, res){
 
 	}
 	else{
-		ResHelpers.sendError(res, ErrorCodes.SoireeFull);
+		return ResHelpers.sendError(res, ErrorCodes.SoireeFull);
 	}
+};
+
+soireeSchema.methods.jsonObject = function (user) {
+	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
+
+	var obj = {
+		"soireeType": this.soireeType,
+		"numUsersAttending": this.numUsersAttending,
+		"numUsersMax": this.numUsersMax,
+		"date": timeIntervalSince1970InSeconds,
+		"soireeId": this.soireeId,
+		"businessName": this._business.businessName,
+		"cityArea" : this._business.cityArea,
+		"coordinates" : this.location.coordinates,
+		"initialCharge": this.initialCharge,
+		"userAlreadyJoined" : this.userAlreadyJoined(user)
+	};
+
+	return obj;
 };
 
 //soireeSchema.methods.createDataObjectToSend = function(){
@@ -294,25 +323,12 @@ soireeSchema.methods.join = function(user, req, res){
 
 /* Virtuals */
 
-soireeSchema.virtual('numUsersAttending').get(function () {
-	return this._usersAttending.length;
+soireeSchema.virtual('full').get(function () {
+	return this.numUsersAttending >= this.numUsersMax;
 });
 
-soireeSchema.virtual('jsonObject').get(function () {
-	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
-
-	var obj = {
-		"soireeType": this.soireeType,
-		"numUsersAttending": this.numUsersAttending,
-		"numUsersMax": this.numUsersMax,
-		"date": timeIntervalSince1970InSeconds,
-		"soireeId": this.soireeId,
-		"businessName": this._business.businessName,
-		"cityArea" : this._business.cityArea,
-		"coordinates" : this.location.coordinates,
-		"initialCharge": this.initialCharge
-	};
-	return obj;
+soireeSchema.virtual('numUsersAttending').get(function () {
+	return this._usersAttending.length;
 });
 
 
@@ -320,7 +336,7 @@ soireeSchema.pre("save", function(next){
 	this.dateUpdated = new Date();
 	this.scheduledTimeIdentifier = this.constructor.createScheduledTimeIdentifier(this.date);
 	console.log("num users attending: " + this.numUsersAttending);
-	this.full = (this.numUsersAttending >= this.numUsersMax);
+	//this.full = (this.numUsersAttending >= this.numUsersMax);
 
 	if (!this._usersAttending){
 		this._usersAttending = [];

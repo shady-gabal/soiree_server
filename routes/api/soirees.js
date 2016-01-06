@@ -184,7 +184,7 @@ router.post('/soireesNear', function(req, res, next){
             var dataToSend = [];
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
-                dataToSend.push(soiree.jsonObject);
+                dataToSend.push(soiree.jsonObject(user));
             }
             res.json(dataToSend);
         }, function(err){
