@@ -26,6 +26,7 @@ var facebookTokenStrategy = require('passport-facebook-token');
 /* Helpers */
 var helpersFolderLocation = "../helpers/";
 var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
+var ArrayHelpers = require(helpersFolderLocation + 'ArrayHelpers.js');
 
 //var interestedIn = ["male", "female"];
 
@@ -55,6 +56,7 @@ var userSchema = new Schema({
 		dateSignedUp: {type : Date, default: new Date()}, /* Dates */
 		dateLastSignedIn : {type: Date, default: new Date()},
 		associatedDeviceUUIDs : [{type: String}],
+		deviceToken : {type: String},
 		dateUpdated : {type: Date, default: new Date()}
 	//location: { /* Location */
 	//	type: {type: String},
@@ -110,36 +112,58 @@ userSchema.methods.verifyCode = function(code){
 	return this.verificationCode == code;
 };
 
-userSchema.methods.checkDeviceUUID = function(deviceUUID, callback){
-	var user = this;
+userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
+	var deviceUUID = req.body.deviceUUID;
+	var deviceToken = req.body.deviceToken;
 
-	if (!user.associatedDeviceUUIDs){
-		user.associatedDeviceUUIDs = [];
+	if (!deviceUUID && !deviceToken) {
+		callback();
 	}
-	var alreadyContains = user.associatedDeviceUUIDs.indexOf(deviceUUID);
 
-	//console.log("deviceuuid is " + deviceUUID + " outcome: " + alreadyContains + " user associated ids: " + user.associatedDeviceUUIDs);
+	var user = this;
+	var save = false;
 
-	if (alreadyContains == -1){
-		user.associatedDeviceUUIDs.push(deviceUUID);
-		console.log("setting stripecustomerid to null...");
-		user.stripeCustomerId = null;
-		//user.markModified('associatedDeviceUUIDs');
-		user.save(function(err, u){
-			console.log("saved deviceuuid with err:" + err + "new deviceuuids: " + u.associatedDeviceUUIDs);
+	if (deviceToken && deviceToken != user.deviceToken){ //if have new device token
+		user.deviceToken = deviceToken;
+		save = true;
+	}
+
+	if (deviceUUID){//if have device uuid
+		save = true;
+
+		if (!user.associatedDeviceUUIDs){
+			user.associatedDeviceUUIDs = [];
+		}
+		else {
+			var index = user.associatedDeviceUUIDs.indexOf(deviceUUID); //does device uuid currently exist
+
+
+			if (index == -1) { //if not
+				user.associatedDeviceUUIDs.push(deviceUUID); // login from new device. create device uuid and set stripe customer id to null to prevent fraud
+				console.log("setting stripecustomerid to null...");
+				user.stripeCustomerId = null;
+			}
+			else {
+				if (user.associatedDeviceUUIDs.length > 1 &&  index != user.associatedDeviceUUIDs.length - 1) { //if device uuid was not last device uuid
+					ArrayHelpers.move(user.associatedDeviceUUIDs, index, user.associatedDeviceUUIDs.length - 1); //set it to the last device uuid
+				}
+				else save = false; //else if it was the last then no need to save
+			}
+		}
+	}
+
+	if (save) {
+		user.save(function (err, u) {
+			//console.log("saved deviceuuid with err:" + err + "new deviceuuids: " + u.associatedDeviceUUIDs);
 			if (err)
-				console.log("Error saving device UUID in findUser: " + err);
+				console.log("Error saving in checkDeviceUUIDAndDeviceToken: " + err);
 			callback();
 		});
-
-		//return true;
 	}
+
 	else{
 		callback();
 	}
-	//else{
-	//	return false;
-	//}
 };
 
 
@@ -278,6 +302,12 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 userSchema.statics.verifyUser = function(req, res, next, successCallback, failureCallback){
 	var user = req.body.user;
 
+	if (!failureCallback){
+		failureCallback = function(){
+			ResHelpers.sendError(res, "Error");
+		};
+	}
+
 	if (!user){
 		console.log("No user passed to verifyUser");
 		return failureCallback();
@@ -349,6 +379,11 @@ userSchema.virtual('hasStripeCustomerId').get(function(){
 	return this.stripeCustomerId ? true : false;
 });
 
+userSchema.virtual('currentDeviceUUID').get(function() {
+	if (this.associatedDeviceUUIDs.length <= 0)
+		return "";
+	return this.associatedDeviceUUIDs[this.associatedDeviceUUIDs.length-1];
+});
 
 userSchema.virtual('fullName').get(function(){
 	if (!this.lastName)

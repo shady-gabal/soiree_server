@@ -5,13 +5,24 @@
 var errorCodes = (function() {
 
     return {
+        /* Joining Soiree */
         'SoireeError' : 'SoireeError',
         'UserAlreadyJoinedSoiree' : 'UserAlreadyJoinedSoiree',
         'SoireeFull' : 'SoireeFull',
         'SoireeExpired' : 'SoireeExpired',
+        /* Processing Stripe */
         'MissingStripeCustomerId' : 'MissingStripeCustomerId',
         'StripeError' : 'StripeError',
-        'SoireeLoadError' : 'SoireeLoadError'
+        'StripeCardDeclined' : 'StripeCardDeclined',
+        /* Finding soirees */
+        'SoireesCannotFindError' : 'SoireesCannotFindError',
+        /* User verification */
+        'UserVerificationError' : 'UserVerificationError',
+
+        /* Misc */
+        'MissingData' : 'MissingData',
+        'ErrorSaving' : 'ErrorSaving',
+        'Error' : 'Error'
     }
 
 }());

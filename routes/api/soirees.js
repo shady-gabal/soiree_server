@@ -189,12 +189,14 @@ router.post('/soireesNear', function(req, res, next){
             res.json(dataToSend);
         }, function(err){
             console.log("Error finding soirees near you: " +  err);
-            ResHelpers.sendError(res, ErrorCodes.SoireeLoadError);
+            ResHelpers.sendError(res, ErrorCodes.SoireesCannotFindError);
         });
 
-    }, function(err){
+    }, function(err) {
         //console.log("Error finding soirees near you: " +  err);
-        ResHelpers.sendError(res, ErrorCodes.SoireeLoadError);    });
+        ResHelpers.sendError(res, ErrorCodes.SoireesCannotFindError);
+
+    });
 
 });
 
@@ -229,7 +231,7 @@ router.get('/soireesNear', function(req, res){
 router.post('/joinSoiree', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         if (!user.hasStripeCustomerId){
-            return ResHelpers.sendError(res, "MissingStripeCustomerId");
+            return ResHelpers.sendError(res, ErrorCodes.MissingStripeCustomerId);
         }
 
         //var stripeToken = req.body.stripeToken;
@@ -242,7 +244,7 @@ router.post('/joinSoiree', function(req, res, next){
        Soiree.joinSoireeWithId(soireeId, user, req, res);
 
    }, function(err){
-        ResHelpers.sendMessage(res, 404, "error verifying user");
+        ResHelpers.sendMessage(res, 404, ErrorCodes.UserVerificationError);
    });
 });
 

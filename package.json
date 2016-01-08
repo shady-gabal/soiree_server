@@ -26,6 +26,7 @@
     "mongoose-deep-populate" : "",
     "passport" : "",
     "passport-facebook-token" : "",
-    "enum" : ""
+    "enum" : "",
+    "apn" : ""
   }
 }

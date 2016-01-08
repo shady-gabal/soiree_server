@@ -63,10 +63,9 @@ router.post('/findUser', function(req, res, next){
         res.json({});
       }
       else{
-        var deviceUUID = req.body.deviceUUID;
 
         if (deviceUUID) {
-          user.checkDeviceUUID(deviceUUID, function () {
+          user.checkDeviceUUIDAndDeviceToken(req, function () {
             sendUser(res, user);
           });
 
@@ -286,6 +285,29 @@ router.post('/createStripeCustomerId', function(req, res, next){
     //console.log("stripe token: " + stripeToken);
 
 
+});
+
+router.post('/uploadDeviceToken', function(req, res){
+  var deviceToken = req.body.deviceToken;
+  if (!deviceToken){
+    return ResHelpers.sendError(res, ErrorCodes.MissingData);
+  }
+
+  User.verifyUser(req, res, next, function(user){
+    user.deviceToken = deviceToken;
+
+    user.save(function(err){
+      if (err){
+        ResHelpers.sendError(res, ErrorCodes.ErrorSaving);
+      }
+      else{
+        ResHelpers.sendSuccess(res);
+      }
+    });
+
+  }, function(err){
+    ResHelpers.sendError(res, ErrorCodes.UserVerificationError);
+  });
 });
 
 
