@@ -21,43 +21,42 @@ var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
-var EmailHelpers = require(helpersFolderLocation + 'EmailHelpers.js');
-var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
-var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
+var EmailHelper = require(helpersFolderLocation + 'EmailHelper.js');
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         var email = req.body.email;
 
-        if (EmailHelpers.validateEmail(email)){
-            EmailHelpers.sendVerificationEmail(email, user, function(){
-                ResHelpers.sendMessage(res, 200, "email sent");
+        if (EmailHelper.validateEmail(email)){
+            EmailHelper.sendVerificationEmail(email, user, function(){
+                ResHelper.sendMessage(res, 200, "email sent");
             }, function(err){
-                ResHelpers.sendMessage(res, 404, "error sending email");
+                ResHelper.sendMessage(res, 404, "error sending email");
             });
         }
         else{
-            ResHelpers.sendMessage(res, 418, "email invalid");
+            ResHelper.sendMessage(res, 418, "email invalid");
         }
 
     }, function(err){
-        ResHelpers.sendMessage(res, 404, "error finding user");
+        ResHelper.sendMessage(res, 404, "error finding user");
     });
 });
 
 router.get('/sendVerificationEmail', function(req, res){
         var email = req.query.email;
 
-        if (EmailHelpers.validateEmail(email)){
-            EmailHelpers.sendVerificationEmail(email, null, function(){
-                ResHelpers.sendMessage(res, 200, "email sent");
+        if (EmailHelper.validateEmail(email)){
+            EmailHelper.sendVerificationEmail(email, null, function(){
+                ResHelper.sendMessage(res, 200, "email sent");
             }, function(err){
-                ResHelpers.sendMessage(res, 404, "error sending email");
+                ResHelper.sendMessage(res, 404, "error sending email");
             });
         }
         else{
-            ResHelpers.sendMessage(res, 418, "email invalid");
+            ResHelper.sendMessage(res, 418, "email invalid");
         }
 });
 
@@ -65,14 +64,14 @@ router.post('/verifyCode', function(req, res){
    User.verifyUser(req.body.user, function(user) {
        if (user.verifyCode(req.body.code) || user.verified) {
             user.verified = true;
-           ResHelpers.sendMessage(res, 200, "user verified");
+           ResHelper.sendMessage(res, 200, "user verified");
        }
        else{
-           ResHelpers.sendMessage(res, 418, "incorrect code");
+           ResHelper.sendMessage(res, 418, "incorrect code");
        }
 
    }, function(err){
-       ResHelpers.sendMessage(res, 404, "error finding user");
+       ResHelper.sendMessage(res, 404, "error finding user");
    });
 });
 

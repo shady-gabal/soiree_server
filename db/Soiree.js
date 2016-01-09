@@ -11,12 +11,12 @@ var User = require('./User.js');
 /* Packages */
 var shortid = require('shortid');
 
-/* Helpers */
+/* Helper */
 var helpersFolderLocation = "../helpers/";
-var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
-var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
-var LocationHelpers = require(helpersFolderLocation + 'LocationHelpers.js');
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
@@ -138,7 +138,7 @@ soireeSchema.statics.findSoirees = function(req, user, successCallback, errorCal
 
 	var longitude = req.body.user.longitude;
 	var latitude = req.body.user.latitude;
-	var coors = LocationHelpers.createPoint(longitude, latitude);
+	var coors = LocationHelper.createPoint(longitude, latitude);
 
 	var numSoireesToFetch = 10;
 
@@ -177,11 +177,11 @@ soireeSchema.statics.findSoirees = function(req, user, successCallback, errorCal
 //	var amPm = "AM";
 //	var when = "Today";
 //
-//	if (!DateHelpers.isSameDay(todaysDate, date)){
-//		if (DateHelpers.isNextDay(todaysDate, date)){
+//	if (!DateHelper.isSameDay(todaysDate, date)){
+//		if (DateHelper.isNextDay(todaysDate, date)){
 //			when = "Tomorrow";
 //		}
-//		else when = DateHelpers.dayFromDayNumber(date.getDay());
+//		else when = DateHelper.dayFromDayNumber(date.getDay());
 //	}
 //	else if (hour > 18){
 //		when = "Tonight";
@@ -219,7 +219,7 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
 	this.findBySoireeId(soireeId, function(soiree){
 		soiree.join(user, req, res);
 	}, function(err){
-		ResHelpers.sendError(res, ErrorCodes.SoireeError);
+		ResHelper.sendError(res, ErrorCodes.SoireeError);
 	});
 };
 
@@ -230,7 +230,7 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
 //	res.status('200').send("Done");
 //}, function(err){
 //	res.type('text/plain');
-//	ResHelpers.sendMessage(res, 404, "error finding soiree");
+//	ResHelper.sendMessage(res, 404, "error finding soiree");
 //});
 
 /* Methods */
@@ -248,20 +248,20 @@ soireeSchema.methods.join = function(user, req, res){
 	if (!this.full){
 		//var stripeToken = req.body.stripeToken;
 		//if (!stripeToken){
-		//	return ResHelpers.sendError(res, errorCodes.MissingStripeToken);
+		//	return ResHelper.sendError(res, errorCodes.MissingStripeToken);
 		//}
 		if (!user.stripeCustomerId){
-			return ResHelpers.sendError(res, ErrorCodes.MissingStripeCustomerId);
+			return ResHelper.sendError(res, ErrorCodes.MissingStripeCustomerId);
 		}
 
 		if (this._usersAttending.indexOf(user._id) != -1){
 			//user has already joined soiree
-			return ResHelpers.sendError(res, ErrorCodes.UserAlreadyJoinedSoiree);
+			return ResHelper.sendError(res, ErrorCodes.UserAlreadyJoinedSoiree);
 		}
 
 		var soiree = this;
 
-		CreditCardHelpers.chargeForSoiree(this, user, function(charge){
+		CreditCardHelper.chargeForSoiree(this, user, function(charge){
 			if (!soiree._usersAttending) soiree._usersAttending = [];
 
 			soiree._usersAttending.push(user._id);
@@ -269,19 +269,19 @@ soireeSchema.methods.join = function(user, req, res){
 
 			soiree.save(function(err){
 				if (!err){
-					ResHelpers.sendSuccess(res);
+					ResHelper.sendSuccess(res);
 				}
 				else{
-					ResHelpers.sendError(res, ErrorCodes.SoireeError);
+					ResHelper.sendError(res, ErrorCodes.SoireeError);
 				}
 			});
 		}, function(err){
-			ResHelpers.sendError(res, ErrorCodes.StripeError);
+			ResHelper.sendError(res, ErrorCodes.StripeError);
 		});
 
 	}
 	else{
-		return ResHelpers.sendError(res, ErrorCodes.SoireeFull);
+		return ResHelper.sendError(res, ErrorCodes.SoireeFull);
 	}
 };
 

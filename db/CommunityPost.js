@@ -17,7 +17,7 @@ var CommunityComment = require('./CommunityComment.js');
 var shortid = require('shortid');
 
 /* Helpers */
-var DateHelpers = require('../helpers/DateHelpers.js');
+var DateHelper = require('../helpers/DateHelper.js');
 
 /* Schema Specific */
 

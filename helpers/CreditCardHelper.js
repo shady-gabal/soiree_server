@@ -12,14 +12,14 @@
 //var Business = require(dbFolderLocation + 'Business.js');
 //var User = require(dbFolderLocation + 'User.js');
 //
-//var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-//var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+//var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+//var SoireeHelper = require(helpersFolderLocation + 'SoireeHelper.js');
 
 var stripe = require("stripe")(
     process.env.STRIPE_SECRET_KEY
 );
 
-var ccHelpers = (function() {
+var ccHelper = (function() {
 
     return {
         chargeForSoiree: function (soiree, user, successCallback, errorCallback) {
@@ -150,4 +150,4 @@ var ccHelpers = (function() {
 
 }());
 
-module.exports = ccHelpers;
+module.exports = ccHelper;

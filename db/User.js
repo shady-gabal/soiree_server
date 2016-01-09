@@ -23,10 +23,10 @@ var userPwProvider = providers[1];
 var passport = require('passport');
 var facebookTokenStrategy = require('passport-facebook-token');
 
-/* Helpers */
+/* Helper */
 var helpersFolderLocation = "../helpers/";
-var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
-var ArrayHelpers = require(helpersFolderLocation + 'ArrayHelpers.js');
+var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 
 //var interestedIn = ["male", "female"];
 
@@ -145,7 +145,7 @@ userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
 			}
 			else {
 				if (user.associatedDeviceUUIDs.length > 1 &&  index != user.associatedDeviceUUIDs.length - 1) { //if device uuid was not last device uuid
-					ArrayHelpers.move(user.associatedDeviceUUIDs, index, user.associatedDeviceUUIDs.length - 1); //set it to the last device uuid
+					ArrayHelper.move(user.associatedDeviceUUIDs, index, user.associatedDeviceUUIDs.length - 1); //set it to the last device uuid
 				}
 				else save = false; //else if it was the last then no need to save
 			}
@@ -190,7 +190,7 @@ userSchema.methods.generateVerificationCode = function(){
 //		return successCallback();
 //	}
 //	else{
-//		CreditCardHelpers.chargeUser(user, amount, function(charge){
+//		CreditCardHelper.chargeUser(user, amount, function(charge){
 //			successCallback(charge);
 //		}, function(err){
 //			errorCallback(err);
@@ -304,7 +304,7 @@ userSchema.statics.verifyUser = function(req, res, next, successCallback, failur
 
 	if (!failureCallback){
 		failureCallback = function(){
-			ResHelpers.sendError(res, "Error");
+			ResHelper.sendError(res, "Error");
 		};
 	}
 

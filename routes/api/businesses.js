@@ -12,7 +12,7 @@ var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 
-var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 

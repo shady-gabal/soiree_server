@@ -2,7 +2,7 @@
  * Created by shadygabal on 1/7/16.
  */
 
-var arrHelpers = (function() {
+var arrHelper = (function() {
     return {
         move : function(arr, fromIndex, toIndex) {
             if (toIndex < 0 || fromIndex < 0 || !arr || fromIndex == toIndex)
@@ -17,5 +17,5 @@ var arrHelpers = (function() {
 
     });
 
-module.exports = arrHelpers;
+module.exports = arrHelper;
 

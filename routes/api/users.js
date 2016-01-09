@@ -17,10 +17,10 @@ var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
-var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
-var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
-var CreditCardHelpers = require(helpersFolderLocation + 'CreditCardHelpers.js');
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 
@@ -57,7 +57,7 @@ router.post('/findUser', function(req, res, next){
     passport.authenticate('facebook-token', function (err, user, info) {
       if (err) {
         console.log("User not found " + err);
-        return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
+        return ResHelper.sendMessage(res, 404, "Error fetching user specified");
       }
       else if (!user){
         res.json({});
@@ -97,7 +97,7 @@ router.post('/findUser', function(req, res, next){
 //  var facebookAccessToken = req.query.access_token;
 //
 //  //if (!facebookUserId){
-//  //  return ResHelpers.sendMessage(res, 404, "No facebook user id specified");
+//  //  return ResHelper.sendMessage(res, 404, "No facebook user id specified");
 //  //}
 //  if (facebookAccessToken) {
 //    console.log("facebook access token found - finduser");
@@ -105,11 +105,11 @@ router.post('/findUser', function(req, res, next){
 //    passport.authenticate('facebook-token', function (err, userFound, info) {
 //      if (err) {
 //        console.log("User not found " + err);
-//        return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
+//        return ResHelper.sendMessage(res, 404, "Error fetching user specified");
 //      }
 //      else if (!userFound){
 //        sendUser(res, null);
-//        //return ResHelpers.sendMessage(res, 418, "No user found");
+//        //return ResHelper.sendMessage(res, 418, "No user found");
 //      }
 //      else{
 //        sendUser(res, userFound);
@@ -130,13 +130,13 @@ router.post('/createUser', function(req, res, next){
     passport.authenticate('facebook-token', function (err, userFound, info) {
 
       if (err) {
-        return ResHelpers.sendMessage(res, 404, "Error fetching user specified");
+        return ResHelper.sendMessage(res, 404, "Error fetching user specified");
       }
       else if (!userFound){
         User.createUser(req, function(user){
             sendUser(res, user);
         }, function(err){
-          return ResHelpers.sendMessage(res, 404, "Error creating user");
+          return ResHelper.sendMessage(res, 404, "Error creating user");
         });
       }
       else{
@@ -212,21 +212,21 @@ router.post('/verifyWithPhoto', upload.single('photo'), function(req, res, next)
 
         userVerification.save(function (err) {
           if (err) {
-            ResHelpers.sendMessage(res, 404, "error saving photo");
+            ResHelper.sendMessage(res, 404, "error saving photo");
           }
           else {
-            ResHelpers.sendMessage(res, 200, "saved photo");
+            ResHelper.sendMessage(res, 200, "saved photo");
           }
         });
 
       });
     }
     else{
-      ResHelpers.sendMessage(res, 200, "user already verified");
+      ResHelper.sendMessage(res, 200, "user already verified");
     }
 
   }, function(err){
-     ResHelpers.sendMessage(res, 404, "error finding user");
+     ResHelper.sendMessage(res, 404, "error finding user");
     });
 });
 
@@ -243,15 +243,15 @@ router.post('/saveStripeToken', function(req, res, next){
     user.save(function(err){
       if (err){
         console.log("error saving token " + err);
-        ResHelpers.sendMessage(res, 404, "error saving token");
+        ResHelper.sendMessage(res, 404, "error saving token");
       }
       else{
         console.log("saved stripe token");
-        ResHelpers.sendSuccess(res);
+        ResHelper.sendSuccess(res);
       }
     });
   }, function(err){
-     ResHelpers.sendMessage(res, 404, "error finding user");
+     ResHelper.sendMessage(res, 404, "error finding user");
   });
 });
 
@@ -261,19 +261,19 @@ router.post('/createStripeCustomerId', function(req, res, next){
 
     var stripeToken = req.body.stripeToken;
     if (!stripeToken) {
-      return ResHelpers.sendError(res, "MissingStripeToken");
+      return ResHelper.sendError(res, "MissingStripeToken");
     }
 
-    CreditCardHelpers.createStripeCustomerId(stripeToken, user, function(customer){
-      ResHelpers.sendSuccess(res);
+    CreditCardHelper.createStripeCustomerId(stripeToken, user, function(customer){
+      ResHelper.sendSuccess(res);
     }, function(err){
-      ResHelpers.sendError(res, "Error");
+      ResHelper.sendError(res, "Error");
     });
 
 
 
   }, function(err){
-    ResHelpers.sendError(res, "Error");
+    ResHelper.sendError(res, "Error");
   });
     //var last4Digits = req.body.creditCardLast4Digits;
 
@@ -290,7 +290,7 @@ router.post('/createStripeCustomerId', function(req, res, next){
 router.post('/uploadDeviceToken', function(req, res){
   var deviceToken = req.body.deviceToken;
   if (!deviceToken){
-    return ResHelpers.sendError(res, ErrorCodes.MissingData);
+    return ResHelper.sendError(res, ErrorCodes.MissingData);
   }
 
   User.verifyUser(req, res, next, function(user){
@@ -298,18 +298,32 @@ router.post('/uploadDeviceToken', function(req, res){
 
     user.save(function(err){
       if (err){
-        ResHelpers.sendError(res, ErrorCodes.ErrorSaving);
+        ResHelper.sendError(res, ErrorCodes.ErrorSaving);
       }
       else{
-        ResHelpers.sendSuccess(res);
+        console.log("Uploaded device token for " + user.firstName + " : " + deviceToken);
+        ResHelper.sendSuccess(res);
       }
     });
 
   }, function(err){
-    ResHelpers.sendError(res, ErrorCodes.UserVerificationError);
+    ResHelper.sendError(res, ErrorCodes.UserVerificationError);
   });
 });
 
+router.get('/testNotification', function(req, res){
+    User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
+      if (err | !user){
+          res.send("Error finding user");
+        }
+      else if (!user.deviceToken){
+        res.send("User does not have device token");
+      }
+      else{
+        PushNotificationHelper.sendPushNotification(user, "Testing...");
+      }
+    });
+});
 
 
 /* FUNCTIONS */

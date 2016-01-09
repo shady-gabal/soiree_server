@@ -1,7 +1,6 @@
 /**
  * Created by shadygabal on 12/16/15.
  */
-
 //var express = require('express');
 //var router = express.Router();
 //
@@ -13,26 +12,15 @@
 //var Business = require(dbFolderLocation + 'Business.js');
 //var User = require(dbFolderLocation + 'User.js');
 //
-//var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-//var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
+//var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+//var SoireeHelper = require(helpersFolderLocation + 'SoireeHelper.js');
 
-var resHelpers = (function() {
+var locationHelper = (function() {
 
     return {
-        sendMessage: function (res, status, message) {
-            if (status >= 400)
-                console.log(message);
-
-            //res.type('text/plain');
-            //res.status(status).send(message);
-            res.status(status).json({"message" : message});
-
-        },
-        sendSuccess:function(res){
-            res.json({"message" : "success"});
-        },
-        sendError : function(res, error){
-            res.status(404).json({"error" : error});
+        createPoint: function (longitude, latitude) {
+            var coors = {type: "Point", coordinates: [Number(longitude), Number(latitude)]};
+            return coors;
         }
 
         //isNextDay: function (firstDate, secondDate) {
@@ -48,4 +36,4 @@ var resHelpers = (function() {
 
 }());
 
-module.exports = resHelpers;
+module.exports = locationHelper;

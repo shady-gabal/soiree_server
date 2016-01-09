@@ -9,9 +9,9 @@ var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 
-var DateHelpers = require(helpersFolderLocation + 'DateHelpers.js');
-var SoireeHelpers = require(helpersFolderLocation + 'SoireeHelpers.js');
-var ResHelpers = require(helpersFolderLocation + 'ResHelpers.js');
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+//var SoireeHelper = require(helpersFolderLocation + 'SoireeHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
@@ -189,12 +189,12 @@ router.post('/soireesNear', function(req, res, next){
             res.json(dataToSend);
         }, function(err){
             console.log("Error finding soirees near you: " +  err);
-            ResHelpers.sendError(res, ErrorCodes.SoireesCannotFindError);
+            ResHelper.sendError(res, ErrorCodes.SoireesCannotFindError);
         });
 
     }, function(err) {
         //console.log("Error finding soirees near you: " +  err);
-        ResHelpers.sendError(res, ErrorCodes.SoireesCannotFindError);
+        ResHelper.sendError(res, ErrorCodes.SoireesCannotFindError);
 
     });
 
@@ -231,20 +231,20 @@ router.get('/soireesNear', function(req, res){
 router.post('/joinSoiree', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         if (!user.hasStripeCustomerId){
-            return ResHelpers.sendError(res, ErrorCodes.MissingStripeCustomerId);
+            return ResHelper.sendError(res, ErrorCodes.MissingStripeCustomerId);
         }
 
         //var stripeToken = req.body.stripeToken;
         //
         //if (!stripeToken){
-        //    return ResHelpers.sendError(res, "MissingStripeToken");
+        //    return ResHelper.sendError(res, "MissingStripeToken");
         //}
 
        var soireeId = req.body.soireeId;
        Soiree.joinSoireeWithId(soireeId, user, req, res);
 
    }, function(err){
-        ResHelpers.sendMessage(res, 404, ErrorCodes.UserVerificationError);
+        ResHelper.sendMessage(res, 404, ErrorCodes.UserVerificationError);
    });
 });
 

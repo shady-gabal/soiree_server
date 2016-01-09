@@ -1,7 +1,7 @@
 /**
  * Created by shadygabal on 10/23/15.
  */
-var dateHelpers = (function() {
+var dateHelper = (function() {
 
     return {
         isSameDay: function (firstDate, secondDate) {
@@ -49,5 +49,5 @@ var dateHelpers = (function() {
 
 }());
 
-module.exports = dateHelpers;
+module.exports = dateHelper;
 

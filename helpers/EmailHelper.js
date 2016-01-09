@@ -2,7 +2,7 @@
  * Created by shadygabal on 12/24/15.
  */
 
-var emailHelpers = (function() {
+var emailHelper = (function() {
     var nodemailer = require('nodemailer');
 
     // create reusable transporter object using SMTP transport
@@ -57,7 +57,7 @@ var emailHelpers = (function() {
 
 }());
 
-module.exports = emailHelpers;
+module.exports = emailHelper;
 
 
 
