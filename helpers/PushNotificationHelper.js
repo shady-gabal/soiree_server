@@ -67,8 +67,11 @@ var pushNotificationHelper = (function() {
 module.exports = pushNotificationHelper;
 
 
-/*usage
+/*
+usage
  pushNotifier = require("./pushNotifier");
  pushNotifier.init();
  //use valid device token to get it working
  pushNotifier.process({token:'', message:'Test message', from: 'sender'});
+
+ */
