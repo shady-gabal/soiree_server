@@ -64,10 +64,9 @@ router.post('/findUser', function(req, res, next){
       }
       else{
 
-        if (deviceUUID) {
-          user.checkDeviceUUIDAndDeviceToken(req, function () {
-            sendUser(res, user);
-          });
+        user.checkDeviceUUIDAndDeviceToken(req, function () {
+          sendUser(res, user);
+        });
 
 
               //remove stripe customer id
@@ -80,9 +79,6 @@ router.post('/findUser', function(req, res, next){
             //else{
             //  sendUser(res, user);
             //}
-        }
-
-        else sendUser(res, user);
       }
     })(req, res, next);
 
