@@ -14,6 +14,8 @@ var Soiree = require(dbFolderLocation + 'Soiree.js');
 
 var scheduledTimeIdentifier = Soiree.createScheduledTimeIdentifier();
 
+console.log("Running scheduled soirees task...");
+
 Soiree.findSoireesWithScheduledTimeIdenfitier(scheduledTimeIdentifier, function(soirees){
     for (var i = 0; i < soirees.length; i++){
         var soiree = soirees[i];
