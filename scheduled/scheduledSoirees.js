@@ -10,3 +10,8 @@ var helpersFolderLocation = "../../helpers/";
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 
+
+
+var scheduledTimeIdentifier = Soiree.createScheduledTimeIdentifier();
+
+

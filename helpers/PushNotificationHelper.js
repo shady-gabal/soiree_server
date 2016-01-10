@@ -54,18 +54,25 @@ var pushNotificationHelper = (function() {
             note.badge = 1;
             //note.sound = "ping.aiff";
             note.alert = message;
-            note.payload = {'messageFrom': "Soiree"};
+            note.payload = {}; //additional info
 
-            console.log("mydevice: " + myDevice);
-            console.log("note: " + note);
 
             if (apnConnection) {
                 console.log("Pushing push notification...");
                 apnConnection.pushNotification(note, myDevice);
             }
         }
+        //sendPushNotificationsForSoiree : function (soiree) {
+        //    for(var i = 0; i < soiree._usersAttending.length; i++){
+        //        var user = soiree._usersAttending[i];
+        //        if (user.deviceToken){
+        //            var message = "";
+        //            this.sendPushNotification(user, message);
+        //        }
+        //    }
+        //}
 
-    }
+        }
 
 }());
 

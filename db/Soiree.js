@@ -56,6 +56,10 @@ soireeSchema.index({location: '2dsphere'});
 //}
 
 soireeSchema.statics.createScheduledTimeIdentifier = function(date){
+	if (!date){
+		date = new Date();
+	}
+
 	var year = date.getFullYear();
 	var month = date.getMonth();
 	var day = date.getDate();
