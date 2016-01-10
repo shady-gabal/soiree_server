@@ -283,7 +283,7 @@ router.post('/createStripeCustomerId', function(req, res, next){
 
 });
 
-router.post('/uploadDeviceToken', function(req, res){
+router.post('/uploadDeviceToken', function(req, res, next){
   var deviceToken = req.body.deviceToken;
   if (!deviceToken){
     return ResHelper.sendError(res, ErrorCodes.MissingData);

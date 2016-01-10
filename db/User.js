@@ -103,7 +103,8 @@ userSchema.methods.jsonObject = function(){
 		"soireeScore" : this.soireeScore,
 		"pendingVerification" : this.pendingVerification,
 		//"creditCardLast4Digits" : this.creditCardLast4Digits,
-		"hasStripeCustomerId" : this.hasStripeCustomerId
+		"hasStripeCustomerId" : this.hasStripeCustomerId,
+		"deviceToken" : this.deviceToken
 	};
 	return obj;
 };

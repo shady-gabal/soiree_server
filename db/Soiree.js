@@ -335,7 +335,7 @@ soireeSchema.virtual('numUsersAttending').get(function () {
 soireeSchema.pre("save", function(next){
 	this.dateUpdated = new Date();
 	this.scheduledTimeIdentifier = this.constructor.createScheduledTimeIdentifier(this.date);
-	console.log("num users attending: " + this.numUsersAttending);
+	//console.log("num users attending: " + this.numUsersAttending);
 	//this.full = (this.numUsersAttending >= this.numUsersMax);
 
 	if (!this._usersAttending){
