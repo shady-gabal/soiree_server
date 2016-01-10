@@ -44,23 +44,29 @@ var pushNotificationHelper = (function() {
     return {
 
         sendPushNotification : function (user, message) {
-            console.log("Sending " + message + " to " + user.firstName + "...");
-            var myDevice, note;
+            if (user.deviceToken) {
+                console.log("Sending " + message + " to " + user.firstName + "...");
+                var myDevice, note;
 
-            myDevice = new apn.Device(user.deviceToken);
-            note = new apn.Notification();
+                myDevice = new apn.Device(user.deviceToken);
+                note = new apn.Notification();
 
-            note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-            note.badge = 1;
-            //note.sound = "ping.aiff";
-            note.alert = message;
-            note.payload = {}; //additional info
+                note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+                note.badge = 1;
+                //note.sound = "ping.aiff";
+                note.alert = message;
+                note.payload = {}; //additional info
 
 
-            if (apnConnection) {
-                console.log("Pushing push notification...");
-                apnConnection.pushNotification(note, myDevice);
+                if (apnConnection) {
+                    console.log("Pushing push notification...");
+                    apnConnection.pushNotification(note, myDevice);
+                }
             }
+            else{
+                console.log("Attempt to send push notification '" + message + "' failed because user '" + user.firstName + "' does not have a device token");
+            }
+
         }
         //sendPushNotificationsForSoiree : function (soiree) {
         //    for(var i = 0; i < soiree._usersAttending.length; i++){

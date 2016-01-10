@@ -54,8 +54,8 @@ router.get('/createSoirees', function(req, res){
 
             var soireeTypes = Soiree.soireeTypes();
 
-            var numDays = Math.random() * 7;
-            var numHours = Math.random() * 24;
+            var numDays = parseInt(Math.random() * 7);
+            var numHours = parseInt(Math.random() * 24);
             var randSoireeTypeIndex = parseInt(Math.random() * soireeTypes.length);
             var soireeType = soireeTypes[randSoireeTypeIndex];
             var randNumUsersMax = parseInt(Math.random() * 3 + 2);
@@ -63,7 +63,8 @@ router.get('/createSoirees', function(req, res){
             var randInitialChargeIndex = parseInt(Math.random() * initialCharges.length);
             var randInitialCharge = initialCharges[randInitialChargeIndex];
 
-            var date = new Date(todaysDate.getTime() + (numDays * 24 * 60 * 60 * 1000) + (numHours * 60 * 60 * 1000));
+            var roundedTime = todaysDate.getTime() - ((todaysDate.getMinutes() % 10) * 60 * 1000 - (todaysDate.getSeconds() * 1000));
+            var date = new Date(roundedTime + (numDays * 24 * 60 * 60 * 1000) + (numHours * 60 * 60 * 1000));
 
             Soiree.createSoiree({
                 soireeType: soireeType,

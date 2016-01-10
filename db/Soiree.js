@@ -17,6 +17,7 @@ var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
+var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
 
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
@@ -70,6 +71,21 @@ soireeSchema.statics.createScheduledTimeIdentifier = function(date){
 	mins -= (mins % 10);
 
 	return "" + year + "." + month + "." + day + "." + hours + "." + mins;
+};
+
+soireeSchema.SOIREE = function(){
+	return "Soirée";
+};
+
+soireeSchema.statics.findSoireesWithScheduledTimeIdenfitier = function(scheduledTimeIdentifier, successCallback, errorCallback){
+	Soiree.find({"scheduledTimeIdentifier" : scheduledTimeIdentifier}).populate("_business").exec(function(err, soirees){
+		if (err){
+			errorCallback(err);
+		}
+		else{
+			successCallback(soirees);
+		}
+	});
 };
 
 soireeSchema.statics.createSoiree = function(soiree, business, successCallback, errorCallback) {
@@ -239,9 +255,19 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
 
 /* Methods */
 
+soireeSchema.methods.start = function(){
+	for (var i = 0; i < this._usersAttending; i++){
+		var user = this._usersAttending[i];
+
+		var message = "Your " + this.SOIREE() + " is about to start! Tap here to get started";
+		PushNotificationHelper.sendPushNotification(user, message);
+	}
+
+};
+
 soireeSchema.methods.userAlreadyJoined = function(user){
 	return this._usersAttending.indexOf(user._id) != -1;
-}
+};
 
 
 soireeSchema.methods.join = function(user, req, res){
