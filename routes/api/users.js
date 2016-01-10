@@ -317,6 +317,7 @@ router.get('/testNotification', function(req, res){
       }
       else{
         PushNotificationHelper.sendPushNotification(user, "Testing...");
+        res.send("Sent notification");
       }
     });
 });

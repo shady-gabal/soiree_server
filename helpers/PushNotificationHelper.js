@@ -44,6 +44,7 @@ var pushNotificationHelper = (function() {
     return {
 
         sendPushNotification : function (user, message) {
+            console.log("Sending " + message + " to " + user.firstName + "...");
             var myDevice, note;
 
             myDevice = new apn.Device(user.deviceToken);
@@ -55,7 +56,11 @@ var pushNotificationHelper = (function() {
             note.alert = message;
             note.payload = {'messageFrom': "Soiree"};
 
+            console.log("mydevice: " + myDevice);
+            console.log("note: " + note);
+
             if (apnConnection) {
+                console.log("Pushing push notification...");
                 apnConnection.pushNotification(note, myDevice);
             }
         }
