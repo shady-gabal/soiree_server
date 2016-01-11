@@ -257,8 +257,10 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
 /* Methods */
 
 soireeSchema.methods.start = function(){
+	console.log("In start function...");
 	for (var i = 0; i < this._usersAttending; i++){
 		var user = this._usersAttending[i];
+		console.log("Sending push notification to " + user.firstName);
 
 		var message = "Your " + this.SOIREE() + " is about to start! Tap here to get started.";
 		PushNotificationHelper.sendPushNotification(user, message);

@@ -15,7 +15,7 @@ var scheduledTimeIdentifier = Soiree.createScheduledTimeIdentifier();
 
 console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifier +  " ...");
 
-Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifier}, "started" : false} ).populate("_business").exec(function(err, soirees){
+Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifier}, "started" : false} ).populate("_business").populate("_usersAttending").exec(function(err, soirees){
     if (err){
         console.log("Error in scheduledSoirees: " + err);
     }
