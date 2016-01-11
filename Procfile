@@ -1,2 +1,2 @@
 web: node bin/www
-soireeChecker : node scheduled/scheduledSoirees
+soireeChecker: node scheduled/scheduledSoirees
