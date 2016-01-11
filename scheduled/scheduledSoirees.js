@@ -14,14 +14,23 @@ var Soiree = require(dbFolderLocation + 'Soiree.js');
 
 var scheduledTimeIdentifier = Soiree.createScheduledTimeIdentifier();
 
-console.log("Running scheduled soirees task...");
+console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifier +  " ...");
 
-Soiree.findSoireesWithScheduledTimeIdenfitier(scheduledTimeIdentifier, function(soirees){
-    for (var i = 0; i < soirees.length; i++){
-        var soiree = soirees[i];
-
-        soiree.start();
+Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifier}, "started" : false} ).populate("_business").exec(function(err, soirees){
+    if (err){
+        console.log("Error in scheduledSoirees: " + err);
     }
-}, function(err){
-   console.log("Error in scheduledSoirees: " + err);
+    else{
+        for (var i = 0; i < soirees.length; i++){
+            var soiree = soirees[i];
+
+            soiree.start();
+        }
+    }
 });
+
+//Soiree.findSoireesWithScheduledTimeIdenfitier(scheduledTimeIdentifier, function(soirees){
+//
+//}, function(err){
+//   console.log("Error in scheduledSoirees: " + err);
+//});

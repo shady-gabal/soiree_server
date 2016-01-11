@@ -40,7 +40,8 @@ var soireeSchema = new Schema({
 		location: {
 			type: {type: String},
 			coordinates: []
-		}
+		},
+		started : {type: Boolean, default: false}
 
 
 },
