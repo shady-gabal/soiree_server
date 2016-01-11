@@ -387,7 +387,9 @@ soireeSchema.pre("save", function(next){
 //	next();
 //});
 
-
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var options = {};
+soireeSchema.plugin(deepPopulate, options);
 
 module.exports = mongoose.model('Soiree', soireeSchema);
 

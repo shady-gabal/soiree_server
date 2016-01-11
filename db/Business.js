@@ -61,7 +61,9 @@ businessSchema.pre('save', function(next){
     next();
 });
 
-
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var options = {};
+businessSchema.plugin(deepPopulate, options);
 
 module.exports = mongoose.model('Business', businessSchema);
 

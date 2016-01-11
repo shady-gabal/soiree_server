@@ -147,4 +147,8 @@ commentSchema.methods.jsonObject = function(user){
 //    return this._user.profilePictureUrl;
 //});
 
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var options = {};
+commentSchema.plugin(deepPopulate, options);
+
 module.exports = mongoose.model('CommunityComment', commentSchema);

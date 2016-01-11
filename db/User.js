@@ -396,6 +396,9 @@ userSchema.virtual('fullName').get(function(){
 });
 
 
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var options = {};
+userSchema.plugin(deepPopulate, options);
 
 module.exports = mongoose.model('User', userSchema);
 
