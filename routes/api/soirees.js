@@ -50,6 +50,18 @@ router.get('/createSoirees', function(req, res){
 
         var todaysDate = new Date();
 
+        var d = new Date(todaysDate.getTime() + (todaysDate.getMinutes() % 10) * 60 * 1000);
+        Soiree.createSoiree({
+            soireeType: "Lunch",
+            numUsersMax: 3,
+            initialCharge: 250,
+            date: d
+        }, nextBusiness, function(soiree){
+            console.log("Saved soiree: " + soiree.soireeId);
+        }, function(err) {
+            console.log("error saving soiree " + err);
+        });
+
         for (var i = 0; i < numSoirees; i++){
 
             var soireeTypes = Soiree.soireeTypes();

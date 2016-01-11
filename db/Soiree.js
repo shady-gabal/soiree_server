@@ -264,6 +264,8 @@ soireeSchema.methods.start = function(){
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
 
+	this.started = true;
+
 };
 
 soireeSchema.methods.userAlreadyJoined = function(user){
