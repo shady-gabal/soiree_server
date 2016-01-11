@@ -4,8 +4,8 @@
 var express = require('express');
 var router = express.Router();
 
-var dbFolderLocation = "../../db/";
-var helpersFolderLocation = "../../helpers/";
+var dbFolderLocation = "../db/";
+var helpersFolderLocation = "../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Soiree = require(dbFolderLocation + 'Soiree.js');

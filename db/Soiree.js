@@ -260,7 +260,7 @@ soireeSchema.methods.start = function(){
 	for (var i = 0; i < this._usersAttending; i++){
 		var user = this._usersAttending[i];
 
-		var message = "Your " + this.SOIREE() + " is about to start! Tap here to get started";
+		var message = "Your " + this.SOIREE() + " is about to start! Tap here to get started.";
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
 

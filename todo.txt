@@ -1,9 +1,8 @@
-1) Create proper Soiree model
-    -location
-    -corresponding business
-
-2) Create ability to find nearest Soirees based on location provided by user through POST request
-
-3) Create automatic creation of Soirees based on number of users who request a soiree based on a given location daily
+1) Create automatic creation of Soirees based on number of users who request a soiree based on a given location daily
     -should be able to create soirees based on number of users expected daily (1000 users daily creates more soirees without having to be preempted by users requesting soirees
     -re
+
+
+before production:
+1) change NODE_ENV to production
+2) get new push notification certificates for production environment
