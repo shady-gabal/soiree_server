@@ -310,7 +310,7 @@ router.post('/uploadDeviceToken', function(req, res, next){
 router.get('/testNotification', function(req, res){
     User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
       if (err | !user){
-          res.send("Error finding user");
+          res.send("Error finding user: " + err);
         }
       else if (!user.deviceToken){
         res.send("User does not have device token");
