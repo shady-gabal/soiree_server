@@ -20,9 +20,10 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifier}, "
         console.log("Error in scheduledSoirees: " + err);
     }
     else{
+        console.log("Soirees returned: " + soirees);
         for (var i = 0; i < soirees.length; i++){
             var soiree = soirees[i];
-
+            console.log("Starting soiree with users attending: " + soiree.numUsersAttending);
             soiree.start();
         }
     }
