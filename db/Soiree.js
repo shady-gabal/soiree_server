@@ -265,7 +265,11 @@ soireeSchema.methods.start = function(){
 	}
 
 	this.started = true;
-
+	this.save(function(err){
+		if (err){
+			console.log("Error saving soiree - start()");
+		}
+	});
 };
 
 soireeSchema.methods.userAlreadyJoined = function(user){
