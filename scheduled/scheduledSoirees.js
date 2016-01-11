@@ -11,7 +11,6 @@ var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 
 
-
 var scheduledTimeIdentifier = Soiree.createScheduledTimeIdentifier();
 
 console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifier +  " ...");
