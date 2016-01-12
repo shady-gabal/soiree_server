@@ -303,16 +303,23 @@ soireeSchema.methods.join = function(user, req, res){
 			if (!soiree._usersAttending) soiree._usersAttending = [];
 
 			soiree._usersAttending.push(user._id);
-			//this.full = (this.numUsersAttending >= this.numUsersMax);
+			user._soireesAttending.push(soiree._id);
 
-			soiree.save(function(err){
-				if (!err){
-					ResHelper.sendSuccess(res);
-				}
+			user.save(function(err){
+				if (err){ ResHelper.sendError(res, ErrorCodes.Error); }
+
 				else{
-					ResHelper.sendError(res, ErrorCodes.SoireeError);
+					soiree.save(function(err){
+						if (!err){
+							ResHelper.sendSuccess(res);
+						}
+						else{
+							ResHelper.sendError(res, ErrorCodes.SoireeError);
+						}
+					});
 				}
 			});
+
 		}, function(err){
 			ResHelper.sendError(res, ErrorCodes.StripeError);
 		});

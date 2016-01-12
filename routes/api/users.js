@@ -173,7 +173,9 @@ router.post('/createUser', function(req, res, next){
       }
       else if (!userFound){
         User.createUser(req, function(user){
-            sendUser(res, user);
+            user.checkDeviceUUIDAndDeviceToken(req, function(){
+              sendUser(res, user);
+            });
         }, function(err){
           return ResHelper.sendMessage(res, 404, "Error creating user");
         });

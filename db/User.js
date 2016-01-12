@@ -119,8 +119,6 @@ userSchema.methods.verifyCode = function(code){
 };
 
 userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
-	console.log("checkdeviceuuid...");
-
 	var deviceUUID = req.body.deviceUUID;
 	var deviceToken = req.body.deviceToken;
 
