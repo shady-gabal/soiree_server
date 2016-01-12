@@ -41,10 +41,11 @@ var soireeSchema = new Schema({
 			type: {type: String},
 			coordinates: []
 		},
-		started : {type: Boolean, default: false}
+		started : {type: Boolean, default: false},
+		ended : {type: Boolean, default: false}
 
 
-},
+	},
 	{ timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );
 
@@ -77,16 +78,16 @@ soireeSchema.statics.createScheduledTimeIdentifier = function(date){
 soireeSchema.statics.SOIREE = "Soirée";
 soireeSchema.methods.SOIREE = "Soirée";
 
-soireeSchema.statics.findSoireesWithScheduledTimeIdentifier = function(scheduledTimeIdentifier, successCallback, errorCallback){
-	Soiree.find({"scheduledTimeIdentifier" : scheduledTimeIdentifier}).populate("_business").exec(function(err, soirees){
-		if (err){
-			errorCallback(err);
-		}
-		else{
-			successCallback(soirees);
-		}
-	});
-};
+//soireeSchema.statics.findSoireesWithScheduledTimeIdentifier = function(scheduledTimeIdentifier, successCallback, errorCallback){
+//	Soiree.find({"scheduledTimeIdentifier" : scheduledTimeIdentifier}).populate("_business").exec(function(err, soirees){
+//		if (err){
+//			errorCallback(err);
+//		}
+//		else{
+//			successCallback(soirees);
+//		}
+//	});
+//};
 
 soireeSchema.statics.createSoiree = function(soiree, business, successCallback, errorCallback) {
 	var newSoiree = new this(soiree);
@@ -269,6 +270,34 @@ soireeSchema.methods.start = function(){
 	this.save(function(err){
 		if (err){
 			console.log("Error saving soiree - start()");
+		}
+	});
+};
+
+
+soireeSchema.methods.end = function() {
+	this.ended = true;
+
+	for (var i = 0; i < this._usersAttending.length; i++) {
+		var user = this._usersAttending[i];
+		var index = user._soireesAttending.indexOf(this._id);
+		if (index != -1){
+			user._soireesAttending.splice(index, 1);
+		}
+		if (user._soireesAttended.indexOf(this._id) == -1) {
+			user._soireesAttended.push(this._id);
+		}
+	}
+
+	user.save(function(err){
+		if (err){
+			console.log("Error saving user - end()");
+		}
+	});
+
+	this.save(function(err){
+		if (err){
+			console.log("Error saving soiree - end()");
 		}
 	});
 };

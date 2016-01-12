@@ -372,15 +372,25 @@ router.post('/fetchUserSoirees', function(req, res, next){
           var soiree = newUser._soireesAttended[i];
           arr.push(soiree.jsonObject(newUser));
         }
-        obj["_soireesAttended"] = arr;
+        obj["past"] = arr;
       }
+
       if (newUser.populated('_soireesAttending')){
-        var arr = [];
-        for (var i = 0; i < newUser._soireesAttending.length; i++){
+        var presentArr = [];
+        var futureArr = [];
+        for (var i = 0; i < newUser._soireesAttending.length; i++) {
           var soiree = newUser._soireesAttending[i];
-          arr.push(soiree.jsonObject(newUser));
+
+          if (soiree.started) {
+            presentArr.push(soireejsonObject(newUser));
+          }
+          else {
+            futureArr.push(soireejsonObject(newUser));
+          }
+
         }
-        obj["_soireesAttending"] = arr;
+        obj["present"] = presentArr;
+        obj["future"] = futureArr;
       }
 
       res.json(obj);
