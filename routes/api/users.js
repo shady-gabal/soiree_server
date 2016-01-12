@@ -307,6 +307,44 @@ router.post('/uploadDeviceToken', function(req, res, next){
   });
 });
 
+router.post('/fetchUserSoirees', function(req, res, next){
+  User.verifyUser(req, res, next, function(user){
+
+    user.deepPopulate("_soireesAttending._business _soireesAttended._business", function(err, newUser){
+
+      if (err){
+        return ResHelper.sendError(res, ErrorCodes.Error);
+      }
+
+      console.log("newUser: " + newUser);
+      console.log("newUser._soireesAttending: " + newUser._soireesAttending);
+
+      var obj = {};
+
+      if (newUser.populated('_soireesAttended')){
+        var arr = [];
+        for (var i = 0; i < newUser._soireesAttended.length; i++){
+          var soiree = newUser._soireesAttended[i];
+          arr.push(soiree.jsonObject(newUser));
+        }
+        obj["_soireesAttended"] = arr;
+      }
+      if (newUser.populated('_soireesAttending')){
+        var arr = [];
+        for (var i = 0; i < newUser._soireesAttending.length; i++){
+          var soiree = newUser._soireesAttending[i];
+          arr.push(soiree.jsonObject(newUser));
+        }
+        obj["_soireesAttending"] = arr;
+      }
+
+      res.json(obj);
+
+    });
+
+  });
+});
+
 router.get('/testNotification', function(req, res){
     User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
       if (err | !user){
@@ -361,13 +399,11 @@ function sendUser(res, user, firstSignUp){
   if (!firstSignUp)
     firstSignUp = false;
 
-  user.deepPopulate("_soireesAttended _soireesAttending", function(err, post){
     var obj = {
       "firstSignUp" : firstSignUp,
       "user" : user.jsonObject()
     };
     res.json(obj);
-  });
 
 }
 

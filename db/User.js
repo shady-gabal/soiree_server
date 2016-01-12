@@ -27,6 +27,7 @@ var facebookTokenStrategy = require('passport-facebook-token');
 var helpersFolderLocation = "../helpers/";
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 //var interestedIn = ["male", "female"];
 
@@ -106,25 +107,6 @@ userSchema.methods.jsonObject = function(){
 		"hasStripeCustomerId" : this.hasStripeCustomerId,
 		"deviceToken" : this.deviceToken
 	};
-
-	console.log("this.populated(_soireesAttended): " + this.populated("_soireesAttended"));
-	
-	if (this.populated('_soireesAttended')){
-		var arr = [];
-		for (var i = 0; i < this._soireesAttended.length; i++){
-			var soiree = this._soireesAttended[i];
-			arr.push(soiree.jsonObject(this));
-		}
-		obj["_soireesAttended"] = arr;
-	}
-	if (this.populated('_soireesAttending')){
-		var arr = [];
-		for (var i = 0; i < this._soireesAttending.length; i++){
-			var soiree = this._soireesAttending[i];
-			arr.push(soiree.jsonObject(this));
-		}
-		obj["_soireesAttending"] = arr;
-	}
 
 	return obj;
 };
@@ -325,7 +307,7 @@ userSchema.statics.verifyUser = function(req, res, next, successCallback, failur
 
 	if (!failureCallback){
 		failureCallback = function(){
-			ResHelper.sendError(res, "Error");
+			ResHelper.sendError(res, ErrorCodes.UserVerificationError);
 		};
 	}
 
