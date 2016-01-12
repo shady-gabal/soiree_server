@@ -382,10 +382,10 @@ router.post('/fetchUserSoirees', function(req, res, next){
           var soiree = newUser._soireesAttending[i];
 
           if (soiree.started) {
-            presentArr.push(soireejsonObject(newUser));
+            presentArr.push(soiree.jsonObject(newUser));
           }
           else {
-            futureArr.push(soireejsonObject(newUser));
+            futureArr.push(soiree.jsonObject(newUser));
           }
 
         }
