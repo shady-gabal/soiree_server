@@ -75,8 +75,9 @@ soireeSchema.statics.createScheduledTimeIdentifier = function(date){
 };
 
 soireeSchema.statics.SOIREE = "Soirée";
+soireeSchema.methods.SOIREE = "Soirée";
 
-soireeSchema.statics.findSoireesWithScheduledTimeIdenfitier = function(scheduledTimeIdentifier, successCallback, errorCallback){
+soireeSchema.statics.findSoireesWithScheduledTimeIdentifier = function(scheduledTimeIdentifier, successCallback, errorCallback){
 	Soiree.find({"scheduledTimeIdentifier" : scheduledTimeIdentifier}).populate("_business").exec(function(err, soirees){
 		if (err){
 			errorCallback(err);
@@ -260,7 +261,7 @@ soireeSchema.methods.start = function(){
 		var user = this._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
 
-		var message = "Your " + this.SOIREE + " is about to start! Tap here to get started.";
+		var message = "Your " + this.SOIREE + " is about to start! Swipe here to get started.";
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
 

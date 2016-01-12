@@ -361,11 +361,14 @@ function sendUser(res, user, firstSignUp){
   if (!firstSignUp)
     firstSignUp = false;
 
-  var obj = {
-    "firstSignUp" : firstSignUp,
-    "user" : user.jsonObject()
-  };
-  res.json(obj);
+  user.deepPopulate("_soireesAttended _soireesAttending", function(err, post){
+    var obj = {
+      "firstSignUp" : firstSignUp,
+      "user" : user.jsonObject()
+    };
+    res.json(obj);
+  });
+
 }
 
 
