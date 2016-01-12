@@ -63,7 +63,6 @@ router.post('/findUser', function(req, res, next){
         res.json({});
       }
       else{
-
         user.checkDeviceUUIDAndDeviceToken(req, function () {
           sendUser(res, user);
         });

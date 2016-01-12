@@ -27,6 +27,7 @@ var facebookTokenStrategy = require('passport-facebook-token');
 var helpersFolderLocation = "../helpers/";
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 //var interestedIn = ["male", "female"];
