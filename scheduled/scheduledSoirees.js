@@ -11,13 +11,14 @@ var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 
 
+var SOIREE_LENGTH_IN_MINS = 10;
+var deepPopulateFields = "_business _usersAttending";
+
 var scheduledTimeIdentifierNow = Soiree.createScheduledTimeIdentifier();
-var scheduledTimeIdentifierOneHourAgo = Soiree.createScheduledTimeIdentifier(new Date(Date.now() - (60 * 60 * 1000)));
+var scheduledTimeIdentifierOneHourAgo = Soiree.createScheduledTimeIdentifier(new Date() - (SOIREE_LENGTH_IN_MINS * 60 * 1000));
 
 console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifier +  " ...");
 
-
-var deepPopulateFields = "_business _usersAttending";
 
 //start
 Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifier}, "started" : false, "ended" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
