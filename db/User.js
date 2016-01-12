@@ -88,6 +88,7 @@ userSchema.pre('save', function(next){
 /* Methods */
 
 userSchema.methods.jsonObject = function(){
+	console.log("in jsonObj()");
 	var obj = {
 		"firstName" : this.firstName,
 		"lastName" : this.lastName,
@@ -117,6 +118,8 @@ userSchema.methods.verifyCode = function(code){
 };
 
 userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
+	console.log("checkdeviceuuid...");
+	
 	var deviceUUID = req.body.deviceUUID;
 	var deviceToken = req.body.deviceToken;
 

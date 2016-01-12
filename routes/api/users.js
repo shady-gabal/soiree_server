@@ -48,6 +48,8 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 
 router.post('/findUser', function(req, res, next){
+  console.log("in findUser...");
+
   var facebookAccessToken = req.body.access_token;
 
   if (facebookAccessToken) {// if facebook
@@ -78,6 +80,48 @@ router.post('/findUser', function(req, res, next){
             //else{
             //  sendUser(res, user);
             //}
+      }
+    })(req, res, next);
+
+  }
+  else{ //else if userpw
+
+  }
+
+});
+
+router.get('/findUser', function(req, res, next){
+
+  var facebookAccessToken = req.query.access_token;
+
+  if (facebookAccessToken) {// if facebook
+
+    console.log("facebook access token found - finduser");
+
+    passport.authenticate('facebook-token', function (err, user, info) {
+      if (err) {
+        console.log("User not found: " + err);
+        return ResHelper.sendMessage(res, 404, "Error fetching user specified");
+      }
+      else if (!user){
+        res.json({});
+      }
+      else{
+        user.checkDeviceUUIDAndDeviceToken(req, function () {
+          sendUser(res, user);
+        });
+
+
+        //remove stripe customer id
+        //user.stripeCustomerId = null;
+
+        //user.save(function(err){
+        //  if (err) console.log("Error setting stripe customer id to null - findUser " + err);
+        //});
+        //}
+        //else{
+        //  sendUser(res, user);
+        //}
       }
     })(req, res, next);
 
@@ -402,6 +446,7 @@ function sendUser(res, user, firstSignUp){
       "firstSignUp" : firstSignUp,
       "user" : user.jsonObject()
     };
+
     res.json(obj);
 
 }
