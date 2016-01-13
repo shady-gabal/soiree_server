@@ -16,6 +16,7 @@ var deepPopulateFields = "_business _usersAttending";
 
 var scheduledTimeIdentifierNow = Soiree.createScheduledTimeIdentifier();
 var scheduledTimeIdentifierPrevious = Soiree.createScheduledTimeIdentifier(Date.now() - (SOIREE_LENGTH_IN_MINS * 60 * 1000));
+var scheduledTimeIdentifierReminder = Soiree.createScheduledTimeIdentifier(Date.now() - (30 * 60 * 1000));
 
 console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifierNow +  " ...");
 
@@ -35,6 +36,21 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}
     }
 });
 
+//update inProgress soirees
+Soiree.find( { "scheduledTimeIdentifier" : {"$gt" : scheduledTimeIdentifierPrevious, "$lt" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "inProgress" : true} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+    if (err){
+        console.log("Error in scheduledSoirees: " + err);
+    }
+    else{
+        console.log("Soirees returned trying to update: " + soirees);
+        for (var i = 0; i < soirees.length; i++){
+            var soiree = soirees[i];
+            console.log("Updating soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+            //soiree.end();
+        }
+    }
+});
+
 //end existing soirees
 Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierPrevious}, "started" : true, "ended" : false, "inProgress" : true} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
     if (err){
@@ -50,17 +66,18 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierPrev
     }
 });
 
-//update inProgress soirees
-Soiree.find( { "scheduledTimeIdentifier" : {"$gt" : scheduledTimeIdentifierPrevious, "$lt" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "inProgress" : true} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+
+//remind people of upcoming soirees
+Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
     if (err){
         console.log("Error in scheduledSoirees: " + err);
     }
     else{
-        console.log("Soirees returned trying to update: " + soirees);
+        console.log("Soirees returned trying to remind: " + soirees);
         for (var i = 0; i < soirees.length; i++){
             var soiree = soirees[i];
-            console.log("Updating soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-            //soiree.end();
+            console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+            soiree.remind();
         }
     }
 });

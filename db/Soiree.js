@@ -262,8 +262,19 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
 
 /* Methods */
 
+soireeSchema.methods.remind = function() {
+	for (var i = 0; i < this._usersAttending.length; i++){
+		var user = this._usersAttending[i];
+		console.log("Sending push notification to " + user.firstName);
+
+		var message = "Hey boo. Don't forget that your " + this.soireeType + " " + this.SOIREE + " will start in 30 minutes. See you there xoxo";
+		PushNotificationHelper.sendPushNotification(user, message);
+	}
+};
+
 soireeSchema.methods.start = function(){
 	console.log("In start function with users attending: " + this._usersAttending + " ...");
+
 	for (var i = 0; i < this._usersAttending.length; i++){
 		var user = this._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
@@ -295,13 +306,13 @@ soireeSchema.methods.end = function() {
 		if (user._soireesAttended.indexOf(this._id) == -1) {
 			user._soireesAttended.push(this._id);
 		}
-	}
+		user.save(function(err){
+			if (err){
+				console.log("Error saving user - end()");
+			}
+		});
 
-	user.save(function(err){
-		if (err){
-			console.log("Error saving user - end()");
-		}
-	});
+	}
 
 	this.save(function(err){
 		if (err){
