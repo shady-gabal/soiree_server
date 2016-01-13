@@ -75,13 +75,14 @@ soireeSchema.statics.createScheduledTimeIdentifier = function(date){
 	var hours = date.getHours();
 	var mins = date.getMinutes();
 	//round mins to nearest 10
+	if (date.getSeconds() >= 30)
+		mins = mins + 1;
 	mins -= (mins % 10);
 
 	return "" + year + "." + month + "." + day + "." + hours + "." + mins;
 };
 
 soireeSchema.statics.SOIREE = "Soirée";
-soireeSchema.methods.SOIREE = "Soirée";
 
 //soireeSchema.statics.findSoireesWithScheduledTimeIdentifier = function(scheduledTimeIdentifier, successCallback, errorCallback){
 //	Soiree.find({"scheduledTimeIdentifier" : scheduledTimeIdentifier}).populate("_business").exec(function(err, soirees){
@@ -410,6 +411,11 @@ soireeSchema.methods.jsonObject = function (user) {
 soireeSchema.virtual('full').get(function () {
 	return this.numUsersAttending >= this.numUsersMax;
 });
+
+soireeSchema.virtual('SOIREE').get(function () {
+	return "Soirée";
+});
+
 
 soireeSchema.virtual('numUsersAttending').get(function () {
 	return this._usersAttending.length;
