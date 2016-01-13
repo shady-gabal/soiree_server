@@ -17,11 +17,11 @@ var deepPopulateFields = "_business _usersAttending";
 var scheduledTimeIdentifierNow = Soiree.createScheduledTimeIdentifier();
 var scheduledTimeIdentifierPrevious = Soiree.createScheduledTimeIdentifier(Date.now() - (SOIREE_LENGTH_IN_MINS * 60 * 1000));
 
-console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifier +  " ...");
+console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifierNow +  " ...");
 
 
 //start
-Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifier}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
     if (err){
         console.log("Error in scheduledSoirees: " + err);
     }

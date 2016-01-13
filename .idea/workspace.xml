@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/Soiree.js" afterPath="$PROJECT_DIR$/db/Soiree.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduled/scheduledSoirees.js" afterPath="$PROJECT_DIR$/scheduled/scheduledSoirees.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
@@ -123,8 +122,8 @@
       <file leaf-file-name="scheduledSoirees.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scheduled/scheduledSoirees.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39276809">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.54239404">
+              <caret line="29" column="49" selection-start-line="29" selection-start-column="49" selection-end-line="29" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -870,8 +869,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scheduled/scheduledSoirees.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39276809">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.54239404">
+          <caret line="29" column="49" selection-start-line="29" selection-start-column="49" selection-end-line="29" selection-end-column="49" />
           <folding />
         </state>
       </provider>
