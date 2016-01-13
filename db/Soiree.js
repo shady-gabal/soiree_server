@@ -42,7 +42,8 @@ var soireeSchema = new Schema({
 			coordinates: []
 		},
 		started : {type: Boolean, default: false},
-		ended : {type: Boolean, default: false}
+		ended : {type: Boolean, default: false},
+		inProgress : {type: Boolean, default: false}
 
 
 	},
@@ -266,11 +267,12 @@ soireeSchema.methods.start = function(){
 		var user = this._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
 
-		var message = "Your " + this.SOIREE + " is about to start! Swipe here to get started.";
+		var message = "Your " + this.soireeType + " " + this.SOIREE + " is about to start! Swipe here to get started.";
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
 
 	this.started = true;
+	this.inProgress = true;
 	this.save(function(err){
 		if (err){
 			console.log("Error saving soiree - start()");
@@ -281,6 +283,7 @@ soireeSchema.methods.start = function(){
 
 soireeSchema.methods.end = function() {
 	this.ended = true;
+	this.inProgress = false;
 
 	for (var i = 0; i < this._usersAttending.length; i++) {
 		var user = this._usersAttending[i];
@@ -372,6 +375,9 @@ soireeSchema.methods.jsonObject = function (user) {
 		"numUsersMax": this.numUsersMax,
 		"date": timeIntervalSince1970InSeconds,
 		"soireeId": this.soireeId,
+		"started" : this.started,
+		"ended" : this.ended,
+		"inProgress" : this.inProgress,
 		"businessName": this._business.businessName,
 		"cityArea" : this._business.cityArea,
 		"coordinates" : this.location.coordinates,
