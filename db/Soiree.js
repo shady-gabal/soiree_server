@@ -59,8 +59,12 @@ soireeSchema.index({location: '2dsphere'});
 //}
 
 soireeSchema.statics.createScheduledTimeIdentifier = function(date){
+
 	if (!date){
 		date = new Date();
+	}
+	if (date.constructor != Date){
+		date = new Date(date);
 	}
 
 	var year = date.getFullYear();

@@ -15,7 +15,7 @@ var SOIREE_LENGTH_IN_MINS = 10;
 var deepPopulateFields = "_business _usersAttending";
 
 var scheduledTimeIdentifierNow = Soiree.createScheduledTimeIdentifier();
-var scheduledTimeIdentifierOneHourAgo = Soiree.createScheduledTimeIdentifier(new Date() - (SOIREE_LENGTH_IN_MINS * 60 * 1000));
+var scheduledTimeIdentifierOneHourAgo = Soiree.createScheduledTimeIdentifier(Date.now() - (SOIREE_LENGTH_IN_MINS * 60 * 1000));
 
 console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifier +  " ...");
 
