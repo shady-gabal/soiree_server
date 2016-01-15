@@ -41,6 +41,7 @@ var soireeSchema = new Schema({
 			type: {type: String},
 			coordinates: []
 		},
+		photoIndexIdentifier : {type: Number, default: generatePhotoIndexIdentifier},
 		started : {type: Boolean, default: false},
 		ended : {type: Boolean, default: false},
 		inProgress : {type: Boolean, default: false}
@@ -52,7 +53,10 @@ var soireeSchema = new Schema({
 
 soireeSchema.index({location: '2dsphere'});
 
-
+function generatePhotoIndexIdentifier(){
+	var rand = parseInt(Math.random() * 1000);
+	return rand;
+}
 
 /* Static Methods */
 //soireeSchema.statics.errorCodes = function() {
@@ -394,7 +398,8 @@ soireeSchema.methods.jsonObject = function (user) {
 		"cityArea" : this._business.cityArea,
 		"coordinates" : this.location.coordinates,
 		"initialCharge": this.initialCharge,
-		"userAlreadyJoined" : this.userAlreadyJoined(user)
+		"userAlreadyJoined" : this.userAlreadyJoined(user),
+		"photoIndexIdentifier" : this.photoIndexIdentifier
 	};
 
 	return obj;
