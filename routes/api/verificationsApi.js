@@ -124,6 +124,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 //}
                 var notes = req.body.notes;
                 var college = req.body.college;
+
                 var userVerification = new UserVerification({
                     _user: user._id,
                     notes : notes,
