@@ -11,6 +11,7 @@
     "debug": "~2.0.0",
     "dotenv": "^1.2.0",
     "express": "~4.9.0",
+    "express-session" : "",
     "hbs": "~2.7.0",
     "mongodb-uri": "~0.9.7",
     "mongoose": "~4.2.8",
@@ -26,7 +27,10 @@
     "mongoose-deep-populate" : "",
     "passport" : "",
     "passport-facebook-token" : "",
+    "passport-local" : "",
     "enum" : "",
-    "apn" : ""
+    "apn" : "",
+    "bcrypt" : "",
+    "connect-flash" : ""
   }
 }

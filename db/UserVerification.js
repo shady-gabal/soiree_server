@@ -11,6 +11,7 @@ var ObjectId = Schema.Types.ObjectId;
 var Business = require('./Business.js');
 var Soiree = require('./Soiree.js');
 var User = require('./User.js');
+var Admin = require('./Admin.js');
 
 /* Packages */
 var shortid = require('shortid');
@@ -23,7 +24,8 @@ var userVerificationSchema = new Schema({
     verified : {type : Boolean, default : false},
     rejected : {type: Boolean, default: false},
     dateVerified : {type: Date},
-    verifiedBy: {type: String}
+    _approvedBy:{type: ObjectId, ref: "Admin"}
+
 },
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );

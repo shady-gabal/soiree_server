@@ -7,7 +7,7 @@ var ObjectId = Schema.Types.ObjectId;
 /* Other Models */
 var Business = require('./Business.js');
 var Soiree = require('./Soiree.js');
-
+var Admin = require('./Admin.js');
 
 /* Modules */
 var shortid = require('shortid');
@@ -45,13 +45,14 @@ var userSchema = new Schema({
 		interestedIn : [{type: String, required : true, enum: genders}],
 		college: {type: String, enum: colleges}, /* Colleges */
 		email : {type: String}, /* Email */
+		password : {type: String},
 		birthday : {type: String}, /* Birthday */
 		soireeScore : {type: Number, default: 200}, /* Soiree Score */
 		facebookUserId : {type: String, index: true}, /* Facebook */
 		profilePictureUrl : {type: String}, /* Profile Picture */
 		userId: {type: String, unique: true, default: shortid.generate}, /* IDs */
 		phoneNumber : {type : String},
-		secretKey : {type: String, index:true, unique: true, default: shortid.generate},
+		secretKey : {type: String, index: true, unique: true, default: shortid.generate},
 		finishedSignUp : {type : Boolean, default: false}, /* Signup */
 		_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
 		_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
@@ -59,7 +60,9 @@ var userSchema = new Schema({
 		dateLastSignedIn : {type: Date, default: new Date()},
 		associatedDeviceUUIDs : [{type: String}],
 		deviceToken : {type: String},
-		dateUpdated : {type: Date, default: new Date()}
+		dateUpdated : {type: Date, default: new Date()},
+		_approvedBy: {type: ObjectId, ref: "Admin"},
+		classType : {type: String, default: 'user', enum: ['user']}
 	//location: { /* Location */
 	//	type: {type: String},
 	//	coordinates: []

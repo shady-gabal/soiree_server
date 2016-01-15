@@ -27,7 +27,7 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}
         console.log("Error in scheduledSoirees: " + err);
     }
     else{
-        console.log("Soirees returned trying to start: " + soirees);
+        console.log("Starting " + soirees.length + " soirees");
         for (var i = 0; i < soirees.length; i++){
             var soiree = soirees[i];
             console.log("Starting soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
@@ -42,7 +42,7 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$gt" : scheduledTimeIdentifierPrevi
         console.log("Error in scheduledSoirees: " + err);
     }
     else{
-        console.log("Soirees returned trying to update: " + soirees);
+        console.log("Updating progress of " + soirees.length + " soirees");
         for (var i = 0; i < soirees.length; i++){
             var soiree = soirees[i];
             console.log("Updating soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
@@ -57,7 +57,7 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierPrev
         console.log("Error in scheduledSoirees: " + err);
     }
     else{
-        console.log("Soirees returned trying to end: " + soirees);
+        console.log("Ending " + soirees.length + " soirees");
         for (var i = 0; i < soirees.length; i++){
             var soiree = soirees[i];
             console.log("Ending soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
@@ -73,7 +73,7 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierRemi
         console.log("Error in scheduledSoirees: " + err);
     }
     else{
-        console.log("Soirees returned trying to remind: " + soirees);
+        console.log("Reminding users of " + soirees.length + " soirees");
         for (var i = 0; i < soirees.length; i++){
             var soiree = soirees[i];
             console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
