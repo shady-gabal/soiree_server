@@ -18,13 +18,15 @@ var shortid = require('shortid');
 
 
 var userVerificationSchema = new Schema({
-    image : {data: Buffer, contentType: String},
-    _user : {type: ObjectId, ref: "User"},
-    college : {type: String, enum: User.colleges()},
-    verified : {type : Boolean, default : false},
-    rejected : {type: Boolean, default: false},
-    dateVerified : {type: Date},
-    _approvedBy: {type: ObjectId, ref: "Admin"}
+        idImage : {data: Buffer, contentType: String},
+        selfImage : {data: Buffer, contentType: String},
+        _user : {type: ObjectId, ref: "User"},
+        notes : {type: String},
+        college : {type: String, enum: User.colleges()},
+        verified : {type : Boolean, default : false},
+        rejected : {type: Boolean, default: false},
+        dateVerified : {type: Date},
+        _approvedBy: {type: ObjectId, ref: "Admin"}
 
 },
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }

@@ -24,6 +24,7 @@ var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 var EmailHelper = require(helpersFolderLocation + 'EmailHelper.js');
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
@@ -73,6 +74,92 @@ router.post('/verifyCode', function(req, res){
    }, function(err){
        ResHelper.sendMessage(res, 404, "error finding user");
    });
+});
+
+router.get('/verificationPhoto', function(req, res){
+    var userId = req.query.userId;
+
+    User.findOne({"userId" : userId}).exec(function(err, user){
+        if (err){
+            res.status('404').send("Error fetching user");
+        }
+        else if (!user){
+            res.status('404').send("No user found");
+        }
+        else{
+            UserVerification.findOne({_user : user._id}).exec(function(err, verification){
+                if (err){
+                    res.status('404').send("Error finding verification");
+                }
+                else if (!verification){
+                    res.status('404').send("No verification found");
+                }
+                else{
+                    if (verification.image){
+                        res.send("verification has image");
+                    }
+                    else res.send("verification has no image");
+                }
+            });
+        }
+
+    });
+});
+
+router.get('/deleteVerifications', function(req, res){
+    UserVerification.remove({}, function(){
+        res.send("Done");
+    });
+});
+
+
+//var cpUpload = ;
+router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, { name: 'self', maxCount: 1 }]) , function(req, res, next){
+    User.verifyUser(req, res, next, function(user) {
+        if (!user.verified) {
+            UserVerification.remove({_user: user._id}, function(err){
+
+                //if (err) {
+                //    return res.status('404').send("Error removing old copies");
+                //}
+                var notes = req.body.notes;
+                var college = req.body.college;
+                var userVerification = new UserVerification({
+                    _user: user._id,
+                    notes : notes,
+                    college : college
+                });
+                var idImage = req.files["id"][0];
+                var selfImage = req.files["self"][0];
+
+                if (!idImage || !selfImage){
+                   console.log("Missing idImage or selfImage");
+                    return ResHelper.sendError(res, ErrorCodes.MissingData);
+                }
+
+                userVerification.idImage.data = idImage.buffer;
+                userVerification.idImage.contentType = idImage.mimetype;
+
+                userVerification.selfImage.data = selfImage.buffer;
+                userVerification.selfImage.contentType = selfImage.mimetype;
+
+
+                userVerification.save(function (err) {
+                    if (err) {
+                        ResHelper.sendError(res, ErrorCodes.ErrorSaving);
+                    }
+                    else {
+                        ResHelper.sendSuccess(res);
+                    }
+                });
+
+            });
+        }
+        else{
+            ResHelper.sendMessage(res, 200, "user already verified");
+        }
+
+    });
 });
 
 module.exports = router;
