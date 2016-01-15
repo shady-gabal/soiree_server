@@ -72,6 +72,13 @@ adminSchema.statics.createAdmin = function(admin, email, password, successCallba
     });
 };
 
+adminSchema.statics.isLoggedIn = function(req){
+    if (req.user && req.user.classType === 'admin') {
+        return true;
+    }
+    return false;
+};
+
 //adminSchema.methods.validPassword = function(password){
 //    return bcrypt.compareSync(password, this.password);
 //};

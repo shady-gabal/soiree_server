@@ -50,7 +50,7 @@ var userSchema = new Schema({
 		soireeScore : {type: Number, default: 200}, /* Soiree Score */
 		facebookUserId : {type: String, index: true}, /* Facebook */
 		profilePictureUrl : {type: String}, /* Profile Picture */
-		userId: {type: String, unique: true, default: shortid.generate}, /* IDs */
+		userId: {type: String, index: true, default: shortid.generate}, /* IDs */
 		phoneNumber : {type : String},
 		secretKey : {type: String, index: true, unique: true, default: shortid.generate},
 		finishedSignUp : {type : Boolean, default: false}, /* Signup */

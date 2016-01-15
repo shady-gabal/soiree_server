@@ -1,0 +1,8 @@
+<h1>Home Yo</h1>
+<p>Welcome, {{admin.firstName}}</p>
+
+<ul>
+    {{#each verifications}}
+		<li>User: {{this.user.firstName}}  {{this.user.lastName}}. College: {{this.college}} </li>
+	{{/each}}
+</ul>

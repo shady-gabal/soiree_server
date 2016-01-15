@@ -24,11 +24,30 @@ var userVerificationSchema = new Schema({
     verified : {type : Boolean, default : false},
     rejected : {type: Boolean, default: false},
     dateVerified : {type: Date},
-    _approvedBy:{type: ObjectId, ref: "Admin"}
+    _approvedBy: {type: ObjectId, ref: "Admin"}
 
 },
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );
 
+
+userVerificationSchema.statics.findUnverifiedVerifications = function(admin, successcallback, errorCallback){
+    var UserVerification = this;
+
+    this.find({verified: false, rejected: false}).deepPopulate("_user").exec(function(err, verifications){
+       if (err){
+           console.log("Error finding unverifiedVerifications - findUnverifiedVerifications(): " + err);
+           errorCallback(err);
+       }
+        else{
+           console.log("Found verifications: " + verifications);
+           successcallback(verifications);
+       }
+    });
+};
+
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var options = {};
+userVerificationSchema.plugin(deepPopulate, options);
 
 module.exports = mongoose.model('UserVerification', userVerificationSchema);

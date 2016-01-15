@@ -30,11 +30,13 @@ var users = require('./routes/api/users');
 var businessesApi = require('./routes/api/businessesApi');
 var questionnaire = require('./routes/api/questionnaire');
 var community = require('./routes/api/community');
-var verifications = require('./routes/api/verifications');
+var verificationsApi = require('./routes/api/verificationsApi');
 
 
 /* Admin Facing */
 var admins = require('./routes/admins/admins.js');
+var verifications = require('./routes/admins/idVerifications.js');
+
 
 /* Business Facing */
 var businesses =  require('./routes/businesses/businesses.js');
@@ -217,10 +219,11 @@ app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);
 app.use('/api/businesses', businessesApi);
 app.use('/api/community', community);
-app.use('/api/verifications', verifications);
+app.use('/api/verifications', verificationsApi);
 
 //Admins
 app.use('/admins', admins);
+app.use('/admins/verifications', verifications);
 
 //Businesses
 app.use('/businesses', businesses);

@@ -30,7 +30,7 @@ var soireeSchema = new Schema({
 		soireeType : {type: String, required: true, enum: soireeTypes},
 		numUsersMax: {type : Number, required: true},
 		scheduledTimeIdentifier : {type: String},
-		soireeId: {type: String, unique: true, default: shortid.generate},
+		soireeId: {type: String, index: true, default: shortid.generate},
 		initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]}, //in cents
 		date: {type : Date, required: [true, "A date for the Soiree is required"]},
 		//full: {type: Boolean, default: false},

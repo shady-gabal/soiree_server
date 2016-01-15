@@ -24,7 +24,7 @@ var DateHelper = require('../helpers/DateHelper.js');
 var postSchema = new Schema({
         text : {type: String},
         _comments : [{type: ObjectId, ref:"CommunityComment"}],
-        postId: {type: String, unique: true, default: shortid.generate},
+        postId: {type: String, index: true, default: shortid.generate},
         college: {type: String, enum: User.colleges()},
         location: {
             type: {type: String},

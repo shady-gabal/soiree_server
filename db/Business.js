@@ -5,6 +5,7 @@
 var mongoose = require('./mongoose_connect.js');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
+var ObjectIdConstructor = mongoose.Types.ObjectId;
 
 
 /* Other Models */
@@ -25,7 +26,7 @@ var businessTypes = ["Bar", "Restaurant", "Cafe"];
 var businessSchema = new Schema({
         businessType : {type: String, enum: businessTypes},
         businessName : {type: String, required: [true, "Business must have a name"]},
-        businessId: {type: String, unique: true, default: shortid.generate},
+        businessId: {type: String, index: true, default: shortid.generate},
         _soirees : [{type: ObjectId, ref:"Soiree"}],
         location: {
             type: {type: String},
