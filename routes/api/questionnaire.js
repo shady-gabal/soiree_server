@@ -23,14 +23,13 @@ var User = require(dbFolderLocation + 'User.js');
 var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 var questionnaire;
 
 router.post('/fetchQuestionnaire', function(req, res, next){
-
     User.verifyUser(req, res, next, function(user){
-        console.log("verified");
         if (!questionnaire) {
             console.log("fetching questionnaire...");
             var questionnairePath = path.join(__dirname, assetsFolderLocation + "questionnaire/questionnaire.json");
@@ -59,7 +58,7 @@ router.get('/fetchQuestionnaire', function(req, res){
         fs.readFile(questionnairePath, 'utf8', function (err, data) {
             if (err) {
                 console.log("Error finding questionnaire file: " + err);
-                return res.status('404').send("Error finding questionnaire file");
+                return ResHelper.sendError(res, ErrorCodes.FileReadError);
             }
             questionnaire = JSON.parse(data);
             res.json(questionnaire);

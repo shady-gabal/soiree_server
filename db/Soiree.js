@@ -183,7 +183,7 @@ soireeSchema.statics.findSoirees = function(req, user, successCallback, errorCal
 		constraints["soireeId"] = {'$nin' : idsToIgnore};
 	}
 
-	this.find(constraints).populate("_business").limit(numSoireesToFetch).exec(function(err, soirees){
+	this.find(constraints).deepPopulate("_business _usersAttending.college").limit(numSoireesToFetch).exec(function(err, soirees){
 		if (err){
 			errorCallback(err);
 		}
@@ -326,7 +326,10 @@ soireeSchema.methods.end = function() {
 };
 
 soireeSchema.methods.userAlreadyJoined = function(user){
-	return this._usersAttending.indexOf(user._id) != -1;
+	if (user){
+		return this._usersAttending.indexOf(user._id) != -1;
+	}
+	return false;
 };
 
 
@@ -385,6 +388,14 @@ soireeSchema.methods.join = function(user, req, res){
 soireeSchema.methods.jsonObject = function (user) {
 	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
 
+	var usersColleges = [];
+	for (var i = 0; i < this._usersAttending.length; i++){
+		var college = this._usersAttending[i].college;
+		if (college){
+			usersColleges.push(college);
+		}
+	}
+
 	var obj = {
 		"soireeType": this.soireeType,
 		"numUsersAttending": this.numUsersAttending,
@@ -399,7 +410,8 @@ soireeSchema.methods.jsonObject = function (user) {
 		"coordinates" : this.location.coordinates,
 		"initialCharge": this.initialCharge,
 		"userAlreadyJoined" : this.userAlreadyJoined(user),
-		"photoIndexIdentifier" : this.photoIndexIdentifier
+		"photoIndexIdentifier" : this.photoIndexIdentifier,
+		"usersAttendingColleges" : usersColleges
 	};
 
 	return obj;

@@ -10,7 +10,6 @@ var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-//var SoireeHelper = require(helpersFolderLocation + 'SoireeHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
@@ -220,7 +219,7 @@ router.get('/soireesNear', function(req, res){
     //    var latitude = req.query.user.latitude;
     //    var coors = {type: "Point", coordinates: [longitude, latitude]};
 
-        Soiree.find({ }).populate("_business").exec(function(err, soirees){
+        Soiree.find({ }).deepPopulate("_business _usersAttending.college").exec(function(err, soirees){
             if (err){
                 console.log("Error finding soirees near you");
                 res.type('text/plain');
@@ -230,7 +229,7 @@ router.get('/soireesNear', function(req, res){
                 var dataToSend = [];
                 for (var i = 0; i < soirees.length; i++){
                     var soiree = soirees[i];
-                    dataToSend.push(soiree.jsonObject);
+                    dataToSend.push(soiree.jsonObject());
                 }
                 res.json(dataToSend);
             }
