@@ -148,7 +148,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     fileName : "id_" + fileNameSuffix,
                     directory: directory
                 });
-                idImage.setPath();
+                //idImage.setPath();
                 idImage.save();
 
                 var selfImage = new Image({
@@ -157,7 +157,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     fileName : "self_" + fileNameSuffix,
                     directory: directory
                 });
-                selfImage.setPath();
+                //selfImage.setPath();
                 selfImage.save();
 
                 userVerification.idImage = idImage._id;

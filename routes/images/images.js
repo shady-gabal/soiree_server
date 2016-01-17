@@ -26,8 +26,9 @@ router.get('/:fileName', function(req, res){
             res.status(404).send("");
         }
         else{
-            res.contentType(doc.image.contentType);
-            res.send(doc.image.data);
+            console.log("doc.contentType: "+ doc.contentType);
+            res.contentType(doc.contentType);
+            res.send(doc.data);
         }
     });
 });

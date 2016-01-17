@@ -6,7 +6,8 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var imageSchema = new Schema({
-        image : {data: Buffer, contentType: String},
+        data: Buffer,
+        contentType: String,
         fileName : {type: String, required: true},
         directory : {type: String, required: true},
         path : {type: String, index: true}
