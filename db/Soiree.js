@@ -389,6 +389,8 @@ soireeSchema.methods.jsonObject = function (user) {
 	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
 
 	var usersColleges = [];
+	console.log("_usersAttending: " + this._usersAttending);
+	
 	for (var i = 0; i < this._usersAttending.length; i++){
 		var college = this._usersAttending[i].college;
 		if (college){
@@ -411,7 +413,7 @@ soireeSchema.methods.jsonObject = function (user) {
 		"initialCharge": this.initialCharge,
 		"userAlreadyJoined" : this.userAlreadyJoined(user),
 		"photoIndexIdentifier" : this.photoIndexIdentifier,
-		"usersAttendingColleges" : usersColleges
+		"usersColleges" : usersColleges
 	};
 
 	return obj;
