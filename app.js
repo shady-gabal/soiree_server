@@ -41,6 +41,10 @@ var verifications = require('./routes/admins/idVerifications.js');
 /* Business Facing */
 var businesses =  require('./routes/businesses/businesses.js');
 
+/* Resource Serving */
+var images =  require('./routes/images/images.js');
+
+
 var COOKIE_SECRET = "SoIrEE12IsAmAzIng";
 var COOKIE_NAME = "cookie_name";
 var SESSION_SECRET = "SeCreTMsGSoIrEe12";
@@ -230,6 +234,8 @@ app.use('/businesses', businesses);
 
 //Consumer
 app.use('/', userIndex);
+
+app.use('/images', images);
 
 
 // catch 404 and forward to error handler

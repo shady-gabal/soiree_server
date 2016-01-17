@@ -10,15 +10,16 @@ var helpersFolderLocation = "../../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var fs = require('fs');
+
 var multer = require('multer');
-
-
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
+var Image = require(dbFolderLocation + 'Image.js');
+
 var UserVerification = require(dbFolderLocation + 'UserVerification.js');
 
 var EmailHelper = require(helpersFolderLocation + 'EmailHelper.js');
@@ -130,26 +131,48 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     notes : notes,
                     college : college
                 });
-                var idImage = req.files["id"][0];
-                var selfImage = req.files["self"][0];
+                var idImageFile = req.files["id"][0];
+                var selfImageFile = req.files["self"][0];
 
-                if (!idImage || !selfImage){
+                if (!idImageFile || !selfImageFile){
                    console.log("Missing idImage or selfImage");
                     return ResHelper.sendError(res, ErrorCodes.MissingData);
                 }
 
-                userVerification.idImage.data = idImage.buffer;
-                userVerification.idImage.contentType = idImage.mimetype;
+                var directory = "/images/";
+                var fileNameSuffix = user.userId + "_" + Date.now();
 
-                userVerification.selfImage.data = selfImage.buffer;
-                userVerification.selfImage.contentType = selfImage.mimetype;
+                var idImage = new Image({
+                    data : idImageFile.buffer,
+                    contentType : idImageFile.mimeType,
+                    fileName : "id_" + fileNameSuffix,
+                    directory: directory
+                });
+
+                var selfImage = new Image({
+                    data : selfImageFile.buffer,
+                    contentType : selfImageFile.mimeType,
+                    fileName : "self_" + fileNameSuffix,
+                    directory: directory
+                });
+
+                userVerification.idImage = idImage;
+                userVerification.selfImage = selfImage;
+
+                //userVerification.idImage.data = idImage.buffer;
+                //userVerification.idImage.contentType = idImage.mimetype;
+                //
+                //userVerification.selfImage.data = selfImage.buffer;
+                //userVerification.selfImage.contentType = selfImage.mimetype;
 
 
-                userVerification.save(function (err) {
+                userVerification.save(function (err, doc) {
                     if (err) {
+                        console.log("Error saving user verification: " + err);
                         ResHelper.sendError(res, ErrorCodes.ErrorSaving);
                     }
                     else {
+                        console.log("saved image with path : " + doc.path);
                         ResHelper.sendSuccess(res);
                     }
                 });

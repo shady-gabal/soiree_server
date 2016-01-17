@@ -12,14 +12,15 @@ var Business = require('./Business.js');
 var Soiree = require('./Soiree.js');
 var User = require('./User.js');
 var Admin = require('./Admin.js');
+var Image = require('./Image.js');
 
 /* Packages */
 var shortid = require('shortid');
 
 
 var userVerificationSchema = new Schema({
-        idImage : {data: Buffer, contentType: String},
-        selfImage : {data: Buffer, contentType: String},
+        idImage : {type: ObjectId, ref: "Image"},
+        selfImage : {type: ObjectId, ref:"Image"},
         _user : {type: ObjectId, ref: "User"},
         notes : {type: String},
         college : {type: String, enum: User.colleges()},
