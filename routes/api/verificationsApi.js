@@ -148,6 +148,8 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     fileName : "id_" + fileNameSuffix,
                     directory: directory
                 });
+                idImage.setPath();
+                idImage.save();
 
                 var selfImage = new Image({
                     data : selfImageFile.buffer,
@@ -155,9 +157,14 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     fileName : "self_" + fileNameSuffix,
                     directory: directory
                 });
+                selfImage.setPath();
+                selfImage.save();
 
-                userVerification.idImage = idImage;
-                userVerification.selfImage = selfImage;
+                userVerification.idImage = idImage._id;
+                userVerification.selfImage = selfImage._id;
+
+                userVerification.idImagePath = idImage.path;
+                userVerification.selfImagePath = selfImage.path;
 
                 //userVerification.idImage.data = idImage.buffer;
                 //userVerification.idImage.contentType = idImage.mimetype;
@@ -173,7 +180,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     }
                     else {
                         console.log("doc.idimage " + doc.idImage);
-                        console.log("saved userverification with idpath : " + doc.idImage.path + " selfpath : " + doc.selfImage.path);
+                        console.log("saved userverification with idpath : " + doc.idImagePath + " selfpath : " + doc.selfImagePath);
                         ResHelper.sendSuccess(res);
                     }
                 });

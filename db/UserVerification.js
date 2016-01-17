@@ -21,6 +21,8 @@ var shortid = require('shortid');
 var userVerificationSchema = new Schema({
         idImage : {type: ObjectId, ref: "Image"},
         selfImage : {type: ObjectId, ref:"Image"},
+        idImagePath : {type: String},
+        selfImagePath : {type: String},
         _user : {type: ObjectId, ref: "User"},
         notes : {type: String},
         college : {type: String, enum: User.colleges()},

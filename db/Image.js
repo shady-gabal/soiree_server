@@ -15,6 +15,7 @@ var imageSchema = new Schema({
 );
 
 imageSchema.methods.setPath = function(){
+    console.log("setting path...");
     if (this.directory && this.fileName) {
 
         if (this.directory.charAt(this.directory.length - 1) !== '/') {
