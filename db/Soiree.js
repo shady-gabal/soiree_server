@@ -328,26 +328,26 @@ soireeSchema.methods.end = function() {
 soireeSchema.methods.userAlreadyJoined = function(user){
 	if (user){
 		//console.log("_usersAttending in userALreadyJoined: " + this._usersAttending);
-		if (this.populated("_usersAttending")){
-			for (var i = 0; i < this._usersAttending.length; i++){
-				var curr = this._usersAttending[i];
-				var cid = curr._id;
-				var uid = user._id;
-
-				console.log("USER IS " + user);
-				console.log("CURR: " + cid + "YOYOYO USER: " + uid + "YOYOYO");
-				console.log("bool: " + (cid == uid) + "YOYOYO");
-				if (cid === uid){
-					console.log("user found. returning true...");
-					return true;
-				}
-			}
-		}
-
-		else{
+		//if (this.populated("_usersAttending")){
+		//	for (var i = 0; i < this._usersAttending.length; i++){
+		//		var curr = this._usersAttending[i];
+		//		var cid = curr._id;
+		//		var uid = user._id;
+        //
+		//		console.log("USER IS " + user);
+		//		console.log("CURR: " + cid + "YOYOYO USER: " + uid + "YOYOYO");
+		//		console.log("bool: " + (cid == uid) + "YOYOYO");
+		//		if (cid === uid){
+		//			console.log("user found. returning true...");
+		//			return true;
+		//		}
+		//	}
+		//}
+        //
+		//else{
 			console.log("indexof");
 			return this._usersAttending.indexOf(user._id) != -1;
-		}
+		//}
 	}
 
 	return false;
