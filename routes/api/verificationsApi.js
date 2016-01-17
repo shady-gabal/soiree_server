@@ -141,23 +141,26 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
 
                 var directory = "/images/";
                 var fileNameSuffix = user.userId + "_" + Date.now();
+                var selfFileName = "self_" + fileNameSuffix;
+                var idFileName = "id_" + fileNameSuffix;
+
 
                 var idImage = new Image({
                     data : idImageFile.buffer,
                     contentType : idImageFile.mimeType,
-                    fileName : "id_" + fileNameSuffix,
-                    directory: directory
+                    fileName : idFileName,
+                    directory: directory,
+                    path : Image.createPath(directory, idFileName)
                 });
-                //idImage.setPath();
                 idImage.save();
 
                 var selfImage = new Image({
                     data : selfImageFile.buffer,
                     contentType : selfImageFile.mimeType,
-                    fileName : "self_" + fileNameSuffix,
-                    directory: directory
+                    fileName : selfFileName,
+                    directory: directory,
+                    path : Image.createPath(directory, selfFileName)
                 });
-                //selfImage.setPath();
                 selfImage.save();
 
                 userVerification.idImage = idImage._id;
@@ -165,13 +168,6 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
 
                 userVerification.idImagePath = idImage.path;
                 userVerification.selfImagePath = selfImage.path;
-
-                //userVerification.idImage.data = idImage.buffer;
-                //userVerification.idImage.contentType = idImage.mimetype;
-                //
-                //userVerification.selfImage.data = selfImage.buffer;
-                //userVerification.selfImage.contentType = selfImage.mimetype;
-
 
                 userVerification.save(function (err, doc) {
                     if (err) {

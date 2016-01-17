@@ -15,32 +15,21 @@ var imageSchema = new Schema({
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );
 
-imageSchema.methods.setPath = function(){
+imageSchema.statics.createPath = function(directory, fileName){
     console.log("setting path...");
-    if (this.directory && this.fileName) {
+    if (directory && fileName) {
 
-        if (this.directory.charAt(this.directory.length - 1) !== '/') {
-            this.directory = this.directory + '/';
+        if (directory.charAt(directory.length - 1) !== '/') {
+            directory = directory + '/';
         }
 
-        this.path = this.directory + this.fileName;
-        console.log("set path to: " + this.path);
-
-    }
-};
-
-imageSchema.virtual('path').get(function () {
-    if (this.directory && this.fileName) {
-
-        if (this.directory.charAt(this.directory.length - 1) !== '/') {
-            this.directory = this.directory + '/';
-        }
-
-        var path = this.directory + this.fileName;
+        var path = directory + fileName;
+        console.log("set path to: " + path);
         return path;
+
     }
-    else return null;
-});
+    return null;
+};
 
 
 imageSchema.pre('save', function(next){
@@ -53,7 +42,7 @@ imageSchema.pre('save', function(next){
 
 imageSchema.post('init', function(doc){
     console.log("post init");
-    doc.setPath();
+    //doc.setPath();
 });
 
 
