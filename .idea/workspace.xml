@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/Image.js" afterPath="$PROJECT_DIR$/db/Image.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/UserVerification.js" afterPath="$PROJECT_DIR$/db/UserVerification.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/verificationsApi.js" afterPath="$PROJECT_DIR$/routes/api/verificationsApi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/images/images.js" afterPath="$PROJECT_DIR$/routes/images/images.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,10 +73,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="verificationsApi.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="verificationsApi.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api/verificationsApi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6072319">
+            <state vertical-scroll-proportion="0.0">
               <caret line="182" column="130" selection-start-line="182" selection-start-column="130" selection-end-line="182" selection-end-column="130" />
               <folding />
             </state>
@@ -95,11 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="images.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="images.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/images/images.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.39276809">
+              <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -187,10 +185,10 @@
         <option value="$PROJECT_DIR$/db/Soiree.js" />
         <option value="$PROJECT_DIR$/views/admins/idVerifications.hbs" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/routes/images/images.js" />
         <option value="$PROJECT_DIR$/db/UserVerification.js" />
         <option value="$PROJECT_DIR$/db/Image.js" />
         <option value="$PROJECT_DIR$/routes/api/verificationsApi.js" />
+        <option value="$PROJECT_DIR$/routes/images/images.js" />
       </list>
     </option>
   </component>
@@ -956,18 +954,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/images/images.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/UserVerification.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="39" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/verificationsApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="182" column="130" selection-start-line="182" selection-start-column="130" selection-end-line="182" selection-end-column="130" />
           <folding />
         </state>
       </provider>
@@ -980,10 +978,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/verificationsApi.js">
+    <entry file="file://$PROJECT_DIR$/routes/images/images.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6072319">
-          <caret line="182" column="130" selection-start-line="182" selection-start-column="130" selection-end-line="182" selection-end-column="130" />
+        <state vertical-scroll-proportion="0.39276809">
+          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
           <folding />
         </state>
       </provider>

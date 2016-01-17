@@ -21,13 +21,13 @@ router.get('/:fileName', function(req, res){
     var fileName = req.params.fileName;
     console.log("/images called with fileName " + fileName);
 
-    Image.findOne({fileName : fileName}).exec(function(err, image){
-        if (err || !image){
+    Image.findOne({fileName : fileName}).exec(function(err, doc){
+        if (err || !doc){
             res.status(404).send("");
         }
         else{
-            res.contentType(image.contentType);
-            res.send(image.data);
+            res.contentType(doc.image.contentType);
+            res.send(doc.image.data);
         }
     });
 });
