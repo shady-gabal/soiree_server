@@ -327,8 +327,21 @@ soireeSchema.methods.end = function() {
 
 soireeSchema.methods.userAlreadyJoined = function(user){
 	if (user){
-		return this._usersAttending.indexOf(user._id) != -1;
+		
+		if (this.populated("_usersAttending")){
+			for (var i = 0; i < this._usersAttending.length; i++){
+				var curr = this._usersAttending[i];
+				if (curr._id === user._id){
+					return true;
+				}
+			}
+		}
+
+		else{
+			return this._usersAttending.indexOf(user._id) != -1;
+		}
 	}
+
 	return false;
 };
 
