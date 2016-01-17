@@ -29,9 +29,25 @@ imageSchema.methods.setPath = function(){
     }
 };
 
+soireeSchema.virtual('path').get(function () {
+    if (this.directory && this.fileName) {
+
+        if (this.directory.charAt(this.directory.length - 1) !== '/') {
+            this.directory = this.directory + '/';
+        }
+
+        var path = this.directory + this.fileName;
+        return path;
+    }
+    else return null;
+});
+
+
 imageSchema.pre('save', function(next){
     console.log("image pre save");
-    this.setPath();
+    if (this.directory.charAt(this.directory.length - 1) !== '/') {
+        this.directory = this.directory + '/';
+    }
     next();
 });
 
