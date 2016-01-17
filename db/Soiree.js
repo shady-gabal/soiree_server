@@ -332,7 +332,7 @@ soireeSchema.methods.userAlreadyJoined = function(user){
 			for (var i = 0; i < this._usersAttending.length; i++){
 				var curr = this._usersAttending[i];
 				console.log("CURR: " + curr._id + " USER: " + user._id);
-				console.log("bool: " + curr._id == user._id);
+				console.log("bool: " + curr._id == user._id + "YOYOYO");
 				if (curr._id == user._id){
 					console.log("user found. returning true...");
 					return true;
