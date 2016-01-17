@@ -133,6 +133,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 });
                 var idImageFile = req.files["id"][0];
                 var selfImageFile = req.files["self"][0];
+                console.log(idImageFile);
 
                 if (!idImageFile || !selfImageFile){
                    console.log("Missing idImage or selfImage");
