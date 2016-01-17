@@ -20,8 +20,11 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 router.get('/:fileName', function(req, res){
     var fileName = req.params.fileName;
     console.log("/images called with fileName " + fileName);
+    console.log(req.user);
 
-    Image.findOne({fileName : fileName}).exec(function(err, doc){
+    var path = Image.createPath('/images/' , fileName);
+
+    Image.findOne({path : path}).exec(function(err, doc){
         if (err || !doc){
             res.status(404).send("");
         }
