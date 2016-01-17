@@ -29,7 +29,7 @@ imageSchema.methods.setPath = function(){
     }
 };
 
-soireeSchema.virtual('path').get(function () {
+imageSchema.virtual('path').get(function () {
     if (this.directory && this.fileName) {
 
         if (this.directory.charAt(this.directory.length - 1) !== '/') {
