@@ -26,7 +26,7 @@ router.get('/:fileName', function(req, res){
             res.status(404).send("");
         }
         else{
-            console.log("doc.contentType: "+ doc.contentType);
+            console.log("doc : "+ doc);
             res.contentType(doc.contentType);
             res.send(doc.data);
         }
