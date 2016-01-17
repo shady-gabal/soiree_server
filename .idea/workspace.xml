@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/Soiree.js" afterPath="$PROJECT_DIR$/db/Soiree.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,8 +26,8 @@
       <file leaf-file-name="Soiree.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db/Soiree.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59354836">
-              <caret line="335" column="25" selection-start-line="335" selection-start-column="25" selection-end-line="335" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.67096776">
+              <caret line="339" column="65" selection-start-line="339" selection-start-column="65" selection-end-line="339" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -938,8 +937,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db/Soiree.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59354836">
-          <caret line="335" column="25" selection-start-line="335" selection-start-column="25" selection-end-line="335" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.67096776">
+          <caret line="339" column="65" selection-start-line="339" selection-start-column="65" selection-end-line="339" selection-end-column="65" />
           <folding />
         </state>
       </provider>
