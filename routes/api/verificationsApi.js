@@ -172,7 +172,8 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                         ResHelper.sendError(res, ErrorCodes.ErrorSaving);
                     }
                     else {
-                        console.log("saved image with path : " + doc.path);
+                        console.log("doc.idimage " + doc.idImage);
+                        console.log("saved userverification with idpath : " + doc.idImage.path + " selfpath : " + doc.selfImage.path);
                         ResHelper.sendSuccess(res);
                     }
                 });

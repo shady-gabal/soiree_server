@@ -28,6 +28,7 @@ imageSchema.methods.setPath = function(){
 };
 
 imageSchema.pre('save', function(next){
+    console.log("image pre save");
     this.setPath();
     next();
 });
