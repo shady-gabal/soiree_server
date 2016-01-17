@@ -133,7 +133,6 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 });
                 var idImageFile = req.files["id"][0];
                 var selfImageFile = req.files["self"][0];
-                console.log(idImageFile);
 
                 if (!idImageFile || !selfImageFile){
                    console.log("Missing idImage or selfImage");
@@ -148,7 +147,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
 
                 var idImage = new Image({
                     data : idImageFile.buffer,
-                    contentType : idImageFile.mimeType,
+                    contentType : idImageFile.mimetype,
                     fileName : idFileName,
                     directory: directory,
                     path : Image.createPath(directory, idFileName)
@@ -157,7 +156,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
 
                 var selfImage = new Image({
                     data : selfImageFile.buffer,
-                    contentType : selfImageFile.mimeType,
+                    contentType : selfImageFile.mimetype,
                     fileName : selfFileName,
                     directory: directory,
                     path : Image.createPath(directory, selfFileName)
