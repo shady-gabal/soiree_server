@@ -327,7 +327,7 @@ soireeSchema.methods.end = function() {
 
 soireeSchema.methods.userAlreadyJoined = function(user){
 	if (user){
-		
+		console.log("_usersAttending in userALreadyJoined: " + this._usersAttending);
 		if (this.populated("_usersAttending")){
 			for (var i = 0; i < this._usersAttending.length; i++){
 				var curr = this._usersAttending[i];
@@ -338,6 +338,7 @@ soireeSchema.methods.userAlreadyJoined = function(user){
 		}
 
 		else{
+			console.log("indexof");
 			return this._usersAttending.indexOf(user._id) != -1;
 		}
 	}
