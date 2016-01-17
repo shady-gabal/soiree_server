@@ -33,4 +33,10 @@ router.get('/:fileName', function(req, res){
     });
 });
 
+router.get('/removeImages', function(req, res){
+   Image.remove({}).exec(function(err){
+     res.send("Completed with err: " + err);
+   });
+});
+
 module.exports = router;
