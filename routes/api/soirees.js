@@ -219,7 +219,7 @@ router.get('/soireesNear', function(req, res){
     //    var latitude = req.query.user.latitude;
     //    var coors = {type: "Point", coordinates: [longitude, latitude]};
 
-        Soiree.find({ }).deepPopulate("_business _usersAttending.college").exec(function(err, soirees){
+        Soiree.find({ }).deepPopulate("_business _usersAttending").exec(function(err, soirees){
             if (err){
                 console.log("Error finding soirees near you");
                 res.type('text/plain');
@@ -259,37 +259,6 @@ router.post('/joinSoiree', function(req, res, next){
         ResHelper.sendMessage(res, 404, ErrorCodes.UserVerificationError);
    });
 });
-
-//router.get('/soireesNear', function(req, res){
-//    Soiree.find({}).populate("_business").exec(function(err, soirees){
-//        if (err){
-//            console.log("Error finding soirees near you");
-//            res.status('404').send("Error");
-//        }
-//        else {
-//            var dataToSend = [];
-//            for (var i = 0; i < soirees.length; i++){
-//                var soiree = soirees[i];
-//                dataToSend.push(soiree.createDataObjectToSend());
-//            }
-//            res.json(dataToSend);
-//        }
-//    });
-//});
-
-
-
-//var soireeSchema = new Schema({
-//    soireeType : {type: String, required: true, enum: soireeTypes},
-//    numUsersAttending : {type: Number, default: 0},
-//    numUsersMax: {type : Number, required: true},
-//    soireeId: {type: String, unique: true, default: shortid.generate},
-//    date: {type : Date, required: [true, "A date for the Soiree is required"]},
-//    //timeAtString : {type : String},
-//    _usersAttending : [{type : ObjectId, ref : "User"}],
-//    _business: {type: ObjectId, ref:"Business", required :[true, "A business that will host is required to create this Soiree"]},
-//    dateCreated : {type: Date, default: Date.now()}
-//});
 
 
 router.post('/soireeWithId', function(req, res) {

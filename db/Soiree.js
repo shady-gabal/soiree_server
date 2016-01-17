@@ -390,7 +390,7 @@ soireeSchema.methods.jsonObject = function (user) {
 
 	var usersColleges = [];
 	console.log("_usersAttending: " + this._usersAttending);
-	
+
 	for (var i = 0; i < this._usersAttending.length; i++){
 		var college = this._usersAttending[i].college;
 		if (college){
