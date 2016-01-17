@@ -327,11 +327,13 @@ soireeSchema.methods.end = function() {
 
 soireeSchema.methods.userAlreadyJoined = function(user){
 	if (user){
-		console.log("_usersAttending in userALreadyJoined: " + this._usersAttending);
+		//console.log("_usersAttending in userALreadyJoined: " + this._usersAttending);
 		if (this.populated("_usersAttending")){
 			for (var i = 0; i < this._usersAttending.length; i++){
 				var curr = this._usersAttending[i];
+				console.log("CURR: " + curr._id + " USER: " + user._id);
 				if (curr._id === user._id){
+					console.log("user found. returning true...");
 					return true;
 				}
 			}
