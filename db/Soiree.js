@@ -334,6 +334,7 @@ soireeSchema.methods.userAlreadyJoined = function(user){
 				var cid = curr._id;
 				var uid = user._id;
 
+				console.log("USER IS " + user);
 				console.log("CURR: " + cid + "YOYOYO USER: " + uid + "YOYOYO");
 				console.log("bool: " + (cid == uid) + "YOYOYO");
 				if (cid === uid){
