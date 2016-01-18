@@ -59,9 +59,11 @@ var userSchema = new Schema({
 		dateSignedUp: {type : Date, default: new Date()}, /* Dates */
 		dateLastSignedIn : {type: Date, default: new Date()},
 		associatedDeviceUUIDs : [{type: String}],
+		pushNotificationsEnabled : {type: Boolean, default: false},
 		deviceToken : {type: String},
 		dateUpdated : {type: Date, default: new Date()},
 		_approvedBy: {type: ObjectId, ref: "Admin"},
+		_notifications : [{type: ObjectId, ref: "Notification"}],
 		classType : {type: String, default: 'user', enum: ['user']}
 	//location: { /* Location */
 	//	type: {type: String},
@@ -124,6 +126,7 @@ userSchema.methods.verifyCode = function(code){
 userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
 	var deviceUUID = req.body.deviceUUID;
 	var deviceToken = req.body.deviceToken;
+	var pushNotificationsEnabled = req.body.pushNotificationsEnabled;
 
 	if (!deviceUUID && !deviceToken) {
 		callback();
@@ -131,6 +134,13 @@ userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
 
 	var user = this;
 	var save = false;
+
+	if (pushNotificationsEnabled){
+		if (user.pushNotificationsEnabled != pushNotificationsEnabled){
+			user.pushNotificationsEnabled = pushNotificationsEnabled;
+			save = true;
+		}
+	}
 
 	if (deviceToken && deviceToken != user.deviceToken){ //if have new device token
 		user.deviceToken = deviceToken;

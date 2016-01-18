@@ -23,6 +23,7 @@ var errorCodes = (function() {
         'MissingData' : 'MissingData',
         'ErrorSaving' : 'ErrorSaving',
         'FileReadError' : 'FileReadError',
+        'PostNotFound' : 'PostNotFound',
         'Error' : 'Error'
     }
 

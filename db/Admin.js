@@ -17,6 +17,15 @@ var Soiree = require('./Soiree.js');
 var shortid = require('shortid');
 var bcrypt = require('bcrypt');
 
+/* Helpers */
+var helpersFolderLocation = "../helpers/";
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
+var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+
 var SALT_LENGTH = 10;
 
 var adminSchema = new Schema({

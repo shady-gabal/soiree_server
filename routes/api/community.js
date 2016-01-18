@@ -153,8 +153,7 @@ router.post('/createComment', function(req, res, next){
                     res.json(comment.jsonObject(user));
                     //ResHelper.sendMessage(res, 200, "created comment");
                 }, function(err){
-                    ResHelper.sendMessage(res, 404, "error creating comment: " + err);
-
+                    ResHelper.sendError(res, err);
                 });
             }
         });

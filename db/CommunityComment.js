@@ -17,8 +17,13 @@ var CommunityPost = require('./CommunityPost.js');
 var shortid = require('shortid');
 
 /* Helpers */
-var DateHelper = require('../helpers/DateHelper.js');
-
+var helpersFolderLocation = "../helpers/";
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
+var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 /* Schema Specific */
 
 var commentSchema = new Schema({

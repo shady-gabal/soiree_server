@@ -23,6 +23,15 @@ var SALT_LENGTH = 10;
 /* Schema Specific */
 var businessTypes = ["Bar", "Restaurant", "Cafe"];
 
+/* Helpers */
+var helpersFolderLocation = "../helpers/";
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
+var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+
 var businessSchema = new Schema({
         businessType : {type: String, enum: businessTypes},
         businessName : {type: String, required: [true, "Business must have a name"]},

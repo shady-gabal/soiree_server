@@ -11,13 +11,21 @@ var ObjectId = Schema.Types.ObjectId;
 /* Other Models */
 var Business = require('./Business.js');
 var User = require('./User.js');
+var Notification = require('./Notification.js');
 var CommunityComment = require('./CommunityComment.js');
 
 /* Packages */
 var shortid = require('shortid');
 
 /* Helpers */
-var DateHelper = require('../helpers/DateHelper.js');
+var helpersFolderLocation = "../helpers/";
+var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
+var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
+var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var UserNotificationHelper = require(helpersFolderLocation + 'UserNotificationHelper.js');
 
 /* Schema Specific */
 
@@ -45,8 +53,8 @@ postSchema.index({location: '2dsphere'});
 postSchema.statics.findPostWithId = function(postId, successCallback, errorCallback){
     //this.findOne({postId : postId }).deepPopulate('_comments._user _user').exec(function(err, post){
     this.findOne({postId : postId }).populate('_comments').exec(function(err, post){
-            if (err || !post){
-            errorCallback(err);
+        if (err || !post){
+            errorCallback(ErrorCodes.PostNotFound);
         }
         else{
             successCallback(post);
@@ -83,7 +91,7 @@ postSchema.statics.findPosts = function(req, coors, user, successCallback, error
 
     query.exec(function(err, posts){
         if (err){
-            errorCallback(err);
+            errorCallback(ErrorCodes.PostNotFound);
         }
         else{
             successCallback(posts);
@@ -103,7 +111,7 @@ postSchema.statics.createPost = function(post, user, successCallback, errorCallb
 
     newPost.save(function(err){
         if (err){
-            errorCallback(err);
+            errorCallback(ErrorCodes.ErrorSaving);
         }
         else{
             successCallback(post);
@@ -119,7 +127,7 @@ postSchema.methods.like = function(user, successCallback, errorCallback){
         this._likes.push(user._id);
         this.save(function(err){
            if (err){
-               errorCallback(err);
+               errorCallback(ErrorCodes.ErrorSaving);
            }
            else{
                successCallback(this);
@@ -145,16 +153,17 @@ postSchema.methods.addComment = function(comment, user, successCallback, errorCa
 
     newComment.save(function(err, savedComment){
         if (err){
-            errorCallback(err);
+            errorCallback(ErrorCodes.ErrorSaving);
         }
         else{
             post._comments.push(savedComment._id);
 
             post.save(function(err){
                 if (err){
-                    errorCallback(err);
+                    errorCallback(ErrorCodes.ErrorSaving);
                 }
                 else{
+                    post.addedComment(savedComment);
                     successCallback(savedComment);
                 }
             });
@@ -167,7 +176,7 @@ postSchema.methods.like = function(user, successCallback, errorCallback){
 
     this.save(function(err){
         if (err){
-            errorCallback(err);
+            errorCallback(ErrorCodes.ErrorSaving);
         }
         else{
             successCallback(this);
@@ -183,7 +192,7 @@ postSchema.methods.unlike = function(user, successCallback, errorCallback){
 
     this.save(function(err){
         if (err){
-            errorCallback(err);
+            errorCallback(ErrorCodes.ErrorSaving);
         }
         else{
             successCallback(this);
@@ -223,6 +232,19 @@ postSchema.methods.jsonObject = function(user){
         "likedByUser" : likedByUser
     };
     return obj;
+};
+
+postSchema.methods.addedComment = function(comment){
+    console.log("addedComment()");
+    Notification.createCommentedOnPostNotifications(this, comment);
+    //if (!this.populated("_user")){
+    //    this.deepPopulate("_user", function(err, post){
+    //        if (err || !post){ return; }
+    //        else{
+    //
+    //        }
+    //    });
+    //}
 };
 
 /* Virtuals */
