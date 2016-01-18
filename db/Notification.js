@@ -42,6 +42,9 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(upPost,
                 console.log("Error fetching post: " + err2);
                 return;
             }
+
+            console.log("p : " + post);
+            console.log("c : " + comment);
             //if (!comment._user._id.equals(post._user._id)){
                 var body = comment._user.firstName + " commented on your post \"" + post.text + "\".";
                 Notification.createNotification(body, post._user);
