@@ -118,6 +118,16 @@ router.get('/deleteVerifications', function(req, res){
 router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, { name: 'self', maxCount: 1 }]) , function(req, res, next){
     User.verifyUser(req, res, next, function(user) {
         if (!user.verified) {
+
+            var idImageFile = req.files["id"][0];
+            var selfImageFile = req.files["self"][0];
+
+            if (!idImageFile || !selfImageFile){
+                console.log("Missing idImage or selfImage");
+                return ResHelper.sendError(res, ErrorCodes.MissingData);
+            }
+
+
             UserVerification.remove({_user: user._id}, function(err){
 
                 //if (err) {
@@ -131,13 +141,6 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     notes : notes,
                     college : college
                 });
-                var idImageFile = req.files["id"][0];
-                var selfImageFile = req.files["self"][0];
-
-                if (!idImageFile || !selfImageFile){
-                   console.log("Missing idImage or selfImage");
-                    return ResHelper.sendError(res, ErrorCodes.MissingData);
-                }
 
                 var directory = "/images/";
                 var fileNameSuffix = user.userId + "_" + Date.now();
@@ -150,7 +153,9 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     contentType : idImageFile.mimetype,
                     fileName : idFileName,
                     directory: directory,
-                    path : Image.createPath(directory, idFileName)
+                    path : Image.createPath(directory, idFileName),
+                    adminsOnly: true,
+                    _userVerification : userVerification._id
                 });
                 idImage.save();
 
@@ -159,7 +164,9 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     contentType : selfImageFile.mimetype,
                     fileName : selfFileName,
                     directory: directory,
-                    path : Image.createPath(directory, selfFileName)
+                    path : Image.createPath(directory, selfFileName),
+                    adminsOnly : true,
+                    _userVerification : userVerification._id
                 });
                 selfImage.save();
 
@@ -172,6 +179,8 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 userVerification.save(function (err, doc) {
                     if (err) {
                         console.log("Error saving user verification: " + err);
+                        selfImage.remove();
+                        idImage.remove();
                         ResHelper.sendError(res, ErrorCodes.ErrorSaving);
                     }
                     else {

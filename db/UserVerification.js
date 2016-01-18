@@ -51,6 +51,15 @@ userVerificationSchema.statics.findUnverifiedVerifications = function(admin, suc
     });
 };
 
+userVerificationSchema.post('remove', function(doc) {
+    Image.remove({_userVerification : doc._id}).exec(function(err){
+       if (err){
+           console.log("Error removing ghost images in Image.post('remove'): " + err + "\n POSSIBLE DATA LEAK");
+       }
+    });
+
+});
+
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var options = {};
 userVerificationSchema.plugin(deepPopulate, options);

@@ -42,7 +42,7 @@ router.use(function(req, res, next){
 router.get('/', checkIfLoggedIn, function(req, res){
     if (loggedInRedundantCheck(req, res)){
         UserVerification.findUnverifiedVerifications(this, function(verifications){
-            console.log(verifications);
+            //console.log(verifications);
             res.render('admins/idVerifications', {verifications: verifications});
         }, function(err){
             res.status(404).send("Error finding verifications");
@@ -64,13 +64,6 @@ function loggedInRedundantCheck(req, res){
         return false;
     }
 };
-
-//function isLoggedIn(req) {
-//    if (req.user && req.user.classType === 'admin') {
-//        return true;
-//    }
-//    return false;
-//}
 
 function checkIfLoggedIn(req, res, next){
     if (Admin.isLoggedIn(req)){

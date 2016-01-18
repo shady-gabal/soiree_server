@@ -12,6 +12,7 @@ var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Image = require(dbFolderLocation + 'Image.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
+var Admin = require(dbFolderLocation + 'Admin.js');
 
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
@@ -20,7 +21,6 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 router.get('/:fileName', function(req, res){
     var fileName = req.params.fileName;
     console.log("/images called with fileName " + fileName);
-    console.log(req.user);
 
     var path = Image.createPath('/images/' , fileName);
 
@@ -29,9 +29,13 @@ router.get('/:fileName', function(req, res){
             res.status(404).send("");
         }
         else{
-            console.log("doc : "+ doc);
-            res.contentType(doc.contentType);
-            res.send(doc.data);
+            if (doc.adminsOnly && !Admin.isLoggedIn(req)){
+                res.status(404).send("");
+            }
+            else{
+                res.contentType(doc.contentType);
+                res.send(doc.data);
+            }
         }
     });
 });

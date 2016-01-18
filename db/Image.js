@@ -4,13 +4,16 @@
 var mongoose = require('./mongoose_connect.js');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
+var UserVerification = require('./UserVerification.js');
 
 var imageSchema = new Schema({
         data: Buffer,
         contentType: String,
         fileName : {type: String, required: true},
         directory : {type: String, required: true},
-        path : {type: String, index: true}
+        path : {type: String, index: true},
+        adminsOnly : {type: Boolean, default: false},
+        _userVerification : {type: ObjectId, ref:"UserVerification"}
     },
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );
