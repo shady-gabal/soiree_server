@@ -32,7 +32,16 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(upPost,
     console.log("createCommentedOnPostNotification()");
 
     upComment.deepPopulate("_user", function(err, comment){
-        upPost.deepPopulate("_user _comments", function(err, post){
+        if (err || !comment){
+            console.log("Error fetching comment: " + err);
+            return;
+        }
+
+        upPost.deepPopulate("_user _comments", function(err2, post){
+            if (err2 || !post){
+                console.log("Error fetching post: " + err2);
+                return;
+            }
             //if (!comment._user._id.equals(post._user._id)){
                 var body = comment._user.firstName + " commented on your post \"" + post.text + "\".";
                 Notification.createNotification(body, post._user);
