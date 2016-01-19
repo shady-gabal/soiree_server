@@ -16,6 +16,7 @@ var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var UserVerification = require(dbFolderLocation + 'UserVerification.js');
+var Notification = require(dbFolderLocation + 'Notification.js');
 
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
