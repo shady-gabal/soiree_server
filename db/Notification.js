@@ -43,10 +43,8 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(upPost,
                 return;
             }
 
-            console.log("p : " + post);
-            console.log("c : " + comment);
             //if (!comment._user._id.equals(post._user._id)){
-                var body = comment._user.firstName + " commented on your post \"" + post.text + "\".";
+                var body = comment._user.firstName + " commented on your post \"" + post.text + "\"";
                 Notification.createNotification(body, post._user);
             //}
 
@@ -56,7 +54,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(upPost,
                 var commentUser = postComment._user;
                 //if (commentUsersNotified.indexOf(commentUser._id) == -1 && !postComment._user._id.equals(commentUser._id)){
                 if (commentUsersNotified.indexOf(commentUser._id) == -1){
-                    var b = comment._user.firstName + " commented on a post you commented on \"" + post.text + "\".";
+                    var b = comment._user.firstName + " commented on a post you commented on \"" + post.text + "\"";
                     Notification.createNotification(postComment, commentUser);
                     commentUsersNotified.push(commentUser._id);
                 }
