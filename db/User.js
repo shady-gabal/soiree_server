@@ -96,9 +96,11 @@ userSchema.methods.jsonObject = function(){
 	console.log("in jsonObj()");
 
 	if (this.populated("_notifications")){
+		console.log("this._notifications: " + this._notifications);
 		var notifications = [];
 		for (var i = 0; i < this._notifications.length; i++){
 			var notification = this._notifications[i];
+			console.log("notif: " + notification);
 			notifications.push(notification.jsonobject());
 		}
 	}

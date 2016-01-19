@@ -359,12 +359,12 @@ function sendUser(res, user, firstSignUp){
   if (!firstSignUp)
     firstSignUp = false;
 
-    user.deepPopulate("_notifications", function(err, _user){
+    user.deepPopulate("_notifications", function(err){
       console.log(user._notifications);
 
       var obj = {
         "firstSignUp" : firstSignUp,
-        "user" : _user.jsonObject()
+        "user" : user.jsonObject()
       };
 
       res.json(obj);
