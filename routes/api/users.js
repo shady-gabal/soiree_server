@@ -132,34 +132,6 @@ router.get('/findUser', function(req, res, next){
 
 });
 
-//router.get('/findUser', function(req, res, next){
-//  var facebookAccessToken = req.query.access_token;
-//
-//  //if (!facebookUserId){
-//  //  return ResHelper.sendMessage(res, 404, "No facebook user id specified");
-//  //}
-//  if (facebookAccessToken) {
-//    console.log("facebook access token found - finduser");
-//
-//    passport.authenticate('facebook-token', function (err, userFound, info) {
-//      if (err) {
-//        console.log("User not found " + err);
-//        return ResHelper.sendMessage(res, 404, "Error fetching user specified");
-//      }
-//      else if (!userFound){
-//        sendUser(res, null);
-//        //return ResHelper.sendMessage(res, 418, "No user found");
-//      }
-//      else{
-//        sendUser(res, userFound);
-//      }
-//    })(req, res, next);
-//  }
-//  else{
-//    res.json("not found");
-//  }
-//});
-
 router.post('/createUser', function(req, res, next){
 
   var facebookAccessToken = req.body.access_token;
@@ -199,31 +171,36 @@ router.get('/deleteUsers', function(req, res){
 
 
 
-router.post('/saveStripeToken', function(req, res, next){
+//router.post('/saveStripeToken', function(req, res, next){
+//  User.verifyUser(req, res, next, function(user){
+//    var stripeToken = req.body.stripeToken;
+//    var last4Digits = req.body.creditCardLast4Digits;
+//
+//    user.stripeToken = stripeToken;
+//    user.creditCardLast4Digits = last4Digits;
+//
+//    console.log("stripe token: " + stripeToken);
+//
+//    user.save(function(err){
+//      if (err){
+//        console.log("error saving token " + err);
+//        ResHelper.sendMessage(res, 404, "error saving token");
+//      }
+//      else{
+//        console.log("saved stripe token");
+//        ResHelper.sendSuccess(res);
+//      }
+//    });
+//  }, function(err){
+//     ResHelper.sendMessage(res, 404, "error finding user");
+//  });
+//});
+
+router.post('/fetchNotifications', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
-    var stripeToken = req.body.stripeToken;
-    var last4Digits = req.body.creditCardLast4Digits;
 
-    user.stripeToken = stripeToken;
-    user.creditCardLast4Digits = last4Digits;
-
-    console.log("stripe token: " + stripeToken);
-
-    user.save(function(err){
-      if (err){
-        console.log("error saving token " + err);
-        ResHelper.sendMessage(res, 404, "error saving token");
-      }
-      else{
-        console.log("saved stripe token");
-        ResHelper.sendSuccess(res);
-      }
-    });
-  }, function(err){
-     ResHelper.sendMessage(res, 404, "error finding user");
   });
 });
-
 
 router.post('/createStripeCustomerId', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
@@ -382,12 +359,14 @@ function sendUser(res, user, firstSignUp){
   if (!firstSignUp)
     firstSignUp = false;
 
-    var obj = {
-      "firstSignUp" : firstSignUp,
-      "user" : user.jsonObject()
-    };
+    user.deepPopulate("_notifications").exec(function(err){
+      var obj = {
+        "firstSignUp" : firstSignUp,
+        "user" : user.jsonObject()
+      };
 
-    res.json(obj);
+      res.json(obj);
+    });
 
 }
 

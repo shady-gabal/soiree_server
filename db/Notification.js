@@ -79,6 +79,15 @@ notificationSchema.statics.createNotification = function(body, user){
     return newNotification;
 };
 
+notificationSchema.methods.jsonObject = function(){
+    var obj = {
+        "read" : this.read,
+        "body" : this.body,
+        "notificationId" : this.notificationId
+    };
+    return obj;
+};
+
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var options = {};
 notificationSchema.plugin(deepPopulate, options);

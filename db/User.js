@@ -95,6 +95,14 @@ userSchema.pre('save', function(next){
 userSchema.methods.jsonObject = function(){
 	console.log("in jsonObj()");
 
+	if (this.populated("_notifications")){
+		var notifications = [];
+		for (var i = 0; i < this._notifications.length; i++){
+			var notification = this._notifications[i];
+			notifications.push(notification.jsonobject());
+		}
+	}
+
 	var obj = {
 		"firstName" : this.firstName,
 		"lastName" : this.lastName,
@@ -113,7 +121,8 @@ userSchema.methods.jsonObject = function(){
 		"pendingVerification" : this.pendingVerification,
 		//"creditCardLast4Digits" : this.creditCardLast4Digits,
 		"hasStripeCustomerId" : this.hasStripeCustomerId,
-		"deviceToken" : this.deviceToken
+		"deviceToken" : this.deviceToken,
+		"notifications" : notifications
 	};
 
 	return obj;
@@ -249,13 +258,6 @@ userSchema.statics.findOrCreate = function(req, successCallback, errorCallback){
 };
 
 userSchema.statics.findByFacebookUserId = function(facebookUserId, successCallback, errorCallback){
-	//var User = this;
-
-	//var facebookUserId = req.body.facebookUserId;
-
-	//var criteria = {"facebookUserId" : facebookUserId};
-
-	//TODO: add user/pw options
 	console.log("Finding user with fb id: " + facebookUserId);
 
 	this.findOne({facebookUserId : facebookUserId}).exec(function(err, user){

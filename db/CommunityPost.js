@@ -87,7 +87,7 @@ postSchema.statics.findPosts = function(req, coors, user, successCallback, error
     //else{
     //
     //}
-    var query = this.find(constraints).populate('_comments').sort('-dateCreated').limit(numPostsToFetch);
+    var query = this.find(constraints).sort('-dateCreated').limit(numPostsToFetch).populate('_comments');
 
     query.exec(function(err, posts){
         if (err){
