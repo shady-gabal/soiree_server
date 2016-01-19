@@ -8,6 +8,7 @@ var ObjectId = Schema.Types.ObjectId;
 var Business = require('./Business.js');
 var Soiree = require('./Soiree.js');
 var Admin = require('./Admin.js');
+var Notification = require('./Notification.js');
 
 /* Modules */
 var shortid = require('shortid');
