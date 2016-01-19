@@ -202,24 +202,40 @@ router.post('/fetchNotifications', function(req, res, next){
   });
 });
 
+router.post('/uploadNotificationsRead', function(req, res, next){
+  User.verifyUser(req, res, next, function(user){
+    var notificationsRead = req.body.notificationsRead;
+    if (notificationsRead && notificationsRead.length > 0){
+      Notification.find({"notificationId" : {"$in" : notificationsRead}, "_user" : user._id, "read" : false}).exec(function(err, notifications){
+        if (err){
+          console.log("Error fetching notifications read: " + err);
+        }
+        else if (notifications && notifications.length > 0){
+          for (var i = 0; i < notifications.length; i++){
+            var notification = notifications[i];
+            notification.read = true;
+            notification.save();
+          }
+        }
+      });
+    }
+  });
+});
+
 router.post('/createStripeCustomerId', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
     var stripeToken = req.body.stripeToken;
     if (!stripeToken) {
-      return ResHelper.sendError(res, "MissingStripeToken");
+      return ResHelper.sendError(res, ErrorCodes.MissingData);
     }
 
     CreditCardHelper.createStripeCustomerId(stripeToken, user, function(customer){
       ResHelper.sendSuccess(res);
     }, function(err){
-      ResHelper.sendError(res, "Error");
+      ResHelper.sendError(res, ErrorCodes.Error);
     });
 
-
-
-  }, function(err){
-    ResHelper.sendError(res, "Error");
   });
     //var last4Digits = req.body.creditCardLast4Digits;
 
@@ -266,21 +282,21 @@ router.post('/fetchUserSoirees', function(req, res, next){
         return ResHelper.sendError(res, ErrorCodes.Error);
       }
 
-      console.log("newUser: " + newUser);
-      console.log("newUser._soireesAttending: " + newUser._soireesAttending);
+      //console.log("newUser: " + newUser);
+      //console.log("newUser._soireesAttending: " + newUser._soireesAttending);
 
       var obj = {};
 
-      if (newUser.populated('_soireesAttended')){
+      //if (newUser.populated('_soireesAttended')){
         var arr = [];
         for (var i = 0; i < newUser._soireesAttended.length; i++){
           var soiree = newUser._soireesAttended[i];
           arr.push(soiree.jsonObject(newUser));
         }
         obj["past"] = arr;
-      }
+      //}
 
-      if (newUser.populated('_soireesAttending')){
+      //if (newUser.populated('_soireesAttending')){
         var presentArr = [];
         var futureArr = [];
         for (var i = 0; i < newUser._soireesAttending.length; i++) {
@@ -296,7 +312,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
         }
         obj["present"] = presentArr;
         obj["future"] = futureArr;
-      }
+      //}
 
       res.json(obj);
 
@@ -360,8 +376,6 @@ function sendUser(res, user, firstSignUp){
     firstSignUp = false;
 
     user.deepPopulate("_notifications", function(err){
-      console.log(user._notifications);
-
       var obj = {
         "firstSignUp" : firstSignUp,
         "user" : user.jsonObject()

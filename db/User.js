@@ -93,15 +93,7 @@ userSchema.pre('save', function(next){
 /* Methods */
 
 userSchema.methods.jsonObject = function(){
-	console.log("in jsonObj()");
-
-	if (this.populated("_notifications")){
-		var notifications = [];
-		for (var i = 0; i < this._notifications.length; i++){
-			var notification = this._notifications[i];
-			notifications.push(notification.jsonObject());
-		}
-	}
+	console.log("in user jsonObj()");
 
 	var obj = {
 		"firstName" : this.firstName,
@@ -122,8 +114,12 @@ userSchema.methods.jsonObject = function(){
 		//"creditCardLast4Digits" : this.creditCardLast4Digits,
 		"hasStripeCustomerId" : this.hasStripeCustomerId,
 		"deviceToken" : this.deviceToken,
-		"notifications" : notifications
 	};
+
+	if (this.populated("_notifications")){
+		var notifications = Notification.jsonArrayFromArray(this._notifications);
+		obj.notifications = notifications;
+	}
 
 	return obj;
 };

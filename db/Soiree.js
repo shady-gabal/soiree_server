@@ -271,7 +271,7 @@ soireeSchema.methods.remind = function() {
 		var user = this._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
 
-		var message = "Hey boo. Don't forget that your " + this.soireeType + " " + this.SOIREE + " will start in 30 minutes. See you there xoxo";
+		var message = "Hey boo. Don't forget that your " + this.soireeType + " " + this.SOIREE + " will start in 30 minutes. See you there. xoxo";
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
 };
@@ -283,7 +283,7 @@ soireeSchema.methods.start = function(){
 		var user = this._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
 
-		var message = "Your " + this.soireeType + " " + this.SOIREE + " is about to start! Swipe here to get started.";
+		var message = "Your " + this.soireeType + " " + this.SOIREE + " is about to start! Open up " + this.SOIREE + " to get started.";
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
 

@@ -44,7 +44,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(upPost,
             }
 
             //if (!comment._user._id.equals(post._user._id)){
-                var body = comment._user.firstName + " commented on your post \"" + post.text + "\"";
+                var body = comment._user.firstName + ' commented on your post "' + post.text + '"';
                 Notification.createNotification(body, post._user);
             //}
 
@@ -63,6 +63,16 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(upPost,
         });
     });
 };
+
+notificationSchema.statics.jsonArrayFromArray = function(_notifications) {
+    var notifications = [];
+    for (var i = _notifications.length-1; i >= 0; i--){
+        var notification = _notifications[i];
+        notifications.push(notification.jsonObject());
+    }
+    return notifications;
+}
+
 
 notificationSchema.statics.createNotification = function(body, user){
     var Notification = this;
@@ -87,6 +97,8 @@ notificationSchema.methods.jsonObject = function(){
     };
     return obj;
 };
+
+
 
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var options = {};
