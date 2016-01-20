@@ -351,6 +351,12 @@ router.get('/testNotification', function(req, res){
     });
 });
 
+router.get('/removeNotifications', function(req, res){
+  Notification.remove({}, function(err){
+    res.send("Removed notifications with err: " + err);
+  });
+});
+
 
 /* FUNCTIONS */
 
