@@ -170,6 +170,19 @@ router.get('/deleteUsers', function(req, res){
   });
 });
 
+router.get('/createUser', function(req, res){
+    var user = new User({
+      firstName : "Shady",
+      lastName : "Gabal",
+      gender : 'male'
+    });
+
+  user.save(function(err){
+    res.send("User saved with err : " + err);
+  });
+
+});
+
 
 
 //router.post('/saveStripeToken', function(req, res, next){

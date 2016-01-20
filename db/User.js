@@ -43,7 +43,7 @@ var userSchema = new Schema({
 		//creditCardLast4Digits : {type: String}, /* Credit Card */
 		stripeCustomerId : {type: String},
 		gender : {type: String, required : true, enum: genders}, /* Gender */
-		interestedIn : [{type: String, required : true, enum: genders}],
+		interestedIn : [{type: String, enum: genders}],
 		college: {type: String, enum: colleges}, /* Colleges */
 		email : {type: String}, /* Email */
 		password : {type: String},
@@ -53,7 +53,7 @@ var userSchema = new Schema({
 		profilePictureUrl : {type: String}, /* Profile Picture */
 		userId: {type: String, index: true, default: shortid.generate}, /* IDs */
 		phoneNumber : {type : String},
-		secretKey : {type: String, index: true, unique: true, default: shortid.generate},
+		//secretKey : {type: String, index: true, unique: true, default: shortid.generate},
 		finishedSignUp : {type : Boolean, default: false}, /* Signup */
 		_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
 		_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
@@ -64,7 +64,7 @@ var userSchema = new Schema({
 		deviceToken : {type: String},
 		dateUpdated : {type: Date, default: new Date()},
 		_approvedBy: {type: ObjectId, ref: "Admin"},
-		_notifications : [{type: ObjectId, ref: "Notification"}],
+		_notifications : [{type: String, ref: "Notification"}],
 		classType : {type: String, default: 'user', enum: ['user']}
 	//location: { /* Location */
 	//	type: {type: String},
@@ -318,6 +318,15 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 //}
 
 userSchema.statics.verifyUser = function(req, res, next, successCallback, failureCallback){
+	if (process.env.LOCAL){
+		this.findOne({firstName : "Shady", lastName : "Gabal"}).exec(function(err, user){
+			if (err)
+				failureCallback();
+			else successCallback(user);
+		});
+		return;
+	}
+
 	var user = req.body.user;
 
 	if (!failureCallback){

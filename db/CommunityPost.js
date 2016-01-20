@@ -30,7 +30,7 @@ var UserNotificationHelper = require(helpersFolderLocation + 'UserNotificationHe
 /* Schema Specific */
 
 var postSchema = new Schema({
-        text : {type: String},
+        text : {type: String, required: true},
         _comments : [{type: ObjectId, ref:"CommunityComment"}],
         postId: {type: String, index: true, default: shortid.generate},
         college: {type: String, enum: User.colleges()},
@@ -114,7 +114,7 @@ postSchema.statics.createPost = function(post, user, successCallback, errorCallb
             errorCallback(ErrorCodes.ErrorSaving);
         }
         else{
-            successCallback(post);
+            successCallback(newPost);
         }
     });
 };

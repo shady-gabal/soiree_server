@@ -98,17 +98,19 @@ router.post('/postsNear', function(req, res, next){
 
 router.post('/createPost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
-        var longitude = req.body.user.longitude;
-        var latitude = req.body.user.latitude;
-        //var coors = {type: "Point", coordinates: [Number(longitude), Number(latitude)]};
-        var coors = LocationHelper.createPoint(longitude, latitude);
+        //var longitude = req.body.user.longitude;
+        //var latitude = req.body.user.latitude;
+
+        //var coors = LocationHelper.createPoint(longitude, latitude);
+        var coors = LocationHelper.createPoint(0, 0);
+
         var text = req.body.post;
 
         CommunityPost.createPost({
             "location" : coors,
             "text" : text,
         }, user, function(post){
-            ResHelper.sendMessage(res, 200, "created post");
+            ResHelper.sendMessage(res, 200, "created post with id: " + post.postId);
         }, function(err){
             ResHelper.sendMessage(res, 404, "error creating post: " + err);
         });
@@ -142,6 +144,7 @@ router.post('/createComment', function(req, res, next){
         var text = req.body.comment;
         var postId = req.body.postId;
 
+        console.log("Finding post with postId: " + postId);
         CommunityPost.findOne({postId : postId}, function(err, post){
             if (err || !post){
                 ResHelper.sendMessage(res, 404, "error finding post: " + err);
@@ -216,14 +219,14 @@ router.post('/unlikePost', function(req, res, next){
 
 });
 
-router.get('/createComment', function(req, res){
-   CommunityComment.createComment({
-       "text" : "this is a comment"
-   }, function(comment){
-       res.send("Successful");
-   }, function(err){
-       res.send("Error: " + err);
-   });
-});
+//router.get('/createComment', function(req, res){
+//   CommunityComment.createComment({
+//       "text" : "this is a comment"
+//   }, function(comment){
+//       res.send("Successful");
+//   }, function(err){
+//       res.send("Error: " + err);
+//   });
+//});
 
 module.exports = router;

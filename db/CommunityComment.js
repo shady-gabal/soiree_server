@@ -27,7 +27,7 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 /* Schema Specific */
 
 var commentSchema = new Schema({
-    text : {type: String},
+    text : {type: String, required: true},
     commentId: {type: String, unique: true, default: shortid.generate},
     author: {type: String, required: [true, "No author specified"]}, /* Author */
     authorProfilePictureUrl : {type: String},
