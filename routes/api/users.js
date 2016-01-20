@@ -142,7 +142,7 @@ router.post('/createUser', function(req, res, next){
     passport.authenticate('facebook-token', function (err, userFound, info) {
 
       if (err) {
-        return ResHelper.sendMessage(res, 404, "Error fetching user specified");
+        return ResHelper.sendError(res, ErrorCodes.UserVerificationError);
       }
       else if (!userFound){
         User.createUser(req, function(user){
@@ -150,7 +150,7 @@ router.post('/createUser', function(req, res, next){
               sendUser(res, user);
             });
         }, function(err){
-          return ResHelper.sendMessage(res, 404, "Error creating user");
+          return ResHelper.sendMessage(res, ErrorCodes.UserCreationError);
         });
       }
       else{

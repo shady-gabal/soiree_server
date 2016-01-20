@@ -18,7 +18,7 @@ var errorCodes = (function() {
         'SoireesCannotFindError' : 'SoireesCannotFindError',
         /* User verification */
         'UserVerificationError' : 'UserVerificationError',
-
+        'UserCreationError' : 'UserCreationError',
         /* Misc */
         'MissingData' : 'MissingData',
         'ErrorSaving' : 'ErrorSaving',

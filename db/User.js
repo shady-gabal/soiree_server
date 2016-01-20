@@ -305,7 +305,8 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 
 	newUser.save(function(err, user){
 		if (err || !user) {
-			errorCallback(err);
+			console.log("Error creating user: " + err);
+			errorCallback(ErrorCodes.ErrorSaving);
 		}
 		else {
 			successCallback(user);
