@@ -164,27 +164,6 @@ router.post('/createUser', function(req, res, next){
 });
 
 
-router.get('/deleteUsers', function(req, res){
-  User.remove({}, function(){
-    res.send("Done");
-  });
-});
-
-router.get('/createUser', function(req, res){
-    var user = new User({
-      firstName : "Shady",
-      lastName : "Gabal",
-      gender : 'male'
-    });
-
-  user.save(function(err){
-    res.send("User saved with err : " + err);
-  });
-
-});
-
-
-
 //router.post('/saveStripeToken', function(req, res, next){
 //  User.verifyUser(req, res, next, function(user){
 //    var stripeToken = req.body.stripeToken;
@@ -271,6 +250,7 @@ router.post('/uploadDeviceToken', function(req, res, next){
 
   User.verifyUser(req, res, next, function(user){
     user.deviceToken = deviceToken;
+    user._notifications = [];
 
     user.save(function(err){
       if (err){
@@ -336,19 +316,44 @@ router.post('/fetchUserSoirees', function(req, res, next){
   });
 });
 
+
+
+
+
+
+router.get('/deleteUsers', function(req, res){
+  User.remove({}, function(){
+    res.send("Done");
+  });
+});
+
+router.get('/createUser', function(req, res){
+  var user = new User({
+    firstName : "Shady",
+    lastName : "Gabal",
+    gender : 'male'
+  });
+
+  user.save(function(err){
+    res.send("User saved with err : " + err);
+  });
+
+});
+
+
 router.get('/testNotification', function(req, res){
-    User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
-      if (err | !user){
-          res.send("Error finding user: " + err);
-        }
-      else if (!user.deviceToken){
-        res.send("User does not have device token");
-      }
-      else{
-        PushNotificationHelper.sendPushNotification(user, "Testing...");
-        res.send("Sent notification");
-      }
-    });
+  User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
+    if (err | !user){
+      res.send("Error finding user: " + err);
+    }
+    else if (!user.deviceToken){
+      res.send("User does not have device token");
+    }
+    else{
+      PushNotificationHelper.sendPushNotification(user, "Testing...");
+      res.send("Sent notification");
+    }
+  });
 });
 
 router.get('/removeNotifications', function(req, res){
@@ -356,6 +361,7 @@ router.get('/removeNotifications', function(req, res){
     res.send("Removed notifications with err: " + err);
   });
 });
+
 
 
 /* FUNCTIONS */
