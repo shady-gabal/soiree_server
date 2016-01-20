@@ -116,7 +116,7 @@ notificationSchema.statics.addToOrCreateNotification = function(bodySuffix, noti
         });
     }
     else{
-       console.log("addToNotification(): idToMatch " + idToMatch + " was not found in user._notifications: " + user._notifications + ". Creating...");
+       console.log("addToNotification(): idToMatch " + idToMatch + " was not found in notificationsUser._notifications: " + notificationsUser._notifications + ". Creating...");
         Notification.createNotification(bodySuffix, notificationsUser, causingUser, post, type);
     }
 
@@ -159,7 +159,7 @@ notificationSchema.methods.jsonObject = function(){
     var obj = {
         "read" : this.read,
         "body" : this.body,
-        "id" : this.notificationId,
+        "notificationId" : this.notificationId,
         "pictureUrl" : this.pictureUrl,
         "notificationType" : this.notificationType
     };

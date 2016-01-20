@@ -274,6 +274,7 @@ router.post('/uploadDeviceToken', function(req, res, next){
 
     user.save(function(err){
       if (err){
+        console.log("Error saving user: " + err);
         ResHelper.sendError(res, ErrorCodes.ErrorSaving);
       }
       else{
