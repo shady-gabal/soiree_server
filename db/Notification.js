@@ -144,7 +144,8 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
         postId : post.postId,
         pictureUrl : causingUser.profilePictureUrl,
         notificationType : type,
-        _id : generateId(causingUser, post.postId, type)
+        _id : generateId(causingUser, post.postId, type),
+        users: [{user: causingUser._id, name: causingUser.firstName}]
     });
 
     notificationsUser._notifications.push(newNotification._id);
@@ -168,6 +169,8 @@ notificationSchema.methods.jsonObject = function(){
 };
 
 notificationSchema.virtual('body').get(function () {
+    console.log(".virtual('body'). this.users: " + this.users);
+
     var numNames = this.users.length;
 
     if (numNames == 0)

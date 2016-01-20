@@ -112,19 +112,18 @@ router.post('/postWithPostId', function(req, res, next){
 
 router.post('/createPost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
-        //var longitude = req.body.user.longitude;
-        //var latitude = req.body.user.latitude;
+        var longitude = req.body.user.longitude;
+        var latitude = req.body.user.latitude;
 
-        //var coors = LocationHelper.createPoint(longitude, latitude);
-        var coors = LocationHelper.createPoint(0, 0);
+        var coors = LocationHelper.createPoint(longitude, latitude);
 
         var text = req.body.post;
 
         CommunityPost.createPost({
             "location" : coors,
-            "text" : text,
+            "text" : text
         }, user, function(post){
-            ResHelper.sendMessage(res, 200, "created post with id: " + post.postId);
+            res.json(post.jsonObject(user));
         }, function(err){
             ResHelper.sendMessage(res, 404, "error creating post: " + err);
         });
