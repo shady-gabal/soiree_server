@@ -109,7 +109,7 @@ userSchema.methods.jsonObject = function(){
 		"profilePictureUrl" : this.profilePictureUrl,
 		"facebookUserId" : this.facebookUserId,
 		"verified" : this.verified,
-		"secretKey" : this.secretKey,
+		//"secretKey" : this.secretKey,
 		"soireeScore" : this.soireeScore,
 		"pendingVerification" : this.pendingVerification,
 		//"creditCardLast4Digits" : this.creditCardLast4Digits,
@@ -375,7 +375,7 @@ userSchema.statics.verifyUser = function(req, res, next, successCallback, failur
 	}
 	else if (user.userId) {
 		console.log("no fb access token specified in verifyUser");
-		this.findOne({"userId": user.userId, "secretKey": user.secretKey}).exec(function (err, userFound) {
+		this.findOne({"userId": user.userId}).exec(function (err, userFound) {
 			if (err || !userFound) {
 				console.log("User not found " + err);
 				failureCallback();
