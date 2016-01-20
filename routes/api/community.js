@@ -95,6 +95,20 @@ router.post('/postsNear', function(req, res, next){
     //});
 });
 
+router.post('/postWithPostId', function(req, res, next){
+   User.verifyUser(req, res, next, function(user){
+       var postId = req.body.postId;
+       if (!postId)
+        return ResHelper.sendError(res, ErrorCodes.MissingData);
+
+       CommunityPost.findPostWithId(postId, function(post){
+           res.json(post.jsonObject(user));
+       }, function(err){
+          ResHelper.sendError(res, err);
+       });
+   });
+});
+
 
 router.post('/createPost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){

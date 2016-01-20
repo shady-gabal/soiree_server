@@ -161,7 +161,8 @@ notificationSchema.methods.jsonObject = function(){
         "body" : this.body,
         "notificationId" : this.notificationId,
         "pictureUrl" : this.pictureUrl,
-        "notificationType" : this.notificationType
+        "notificationType" : this.notificationType,
+        "postId" : this.postId
     };
     return obj;
 };
