@@ -43,7 +43,7 @@ var pushNotificationHelper = (function() {
 
     return {
 
-        sendPushNotification : function (user, message) {
+        sendPushNotification : function (user, message, payload) {
             if (user.deviceToken) {
                 console.log("Sending " + message + " to " + user.firstName + "...");
                 var myDevice, note;
@@ -55,7 +55,11 @@ var pushNotificationHelper = (function() {
                 note.badge = 1;
                 //note.sound = "ping.aiff";
                 note.alert = message;
-                note.payload = {}; //additional info
+
+                if (!payload)
+                 payload = {};
+
+                note.payload = payload; //additional info
 
 
                 if (apnConnection) {
@@ -67,6 +71,11 @@ var pushNotificationHelper = (function() {
                 console.log("Attempt to send push notification '" + message + "' failed because user '" + user.firstName + "' does not have a device token");
             }
 
+        },
+        sendNotification : function(user, notification){
+            console.log("Sending notification with id: " + notification.notificationId);
+            var payload = {type: "notification", body : notification.jsonObject()};
+            this.sendPushNotification(user, notification.body, payload);
         }
         //sendPushNotificationsForSoiree : function (soiree) {
         //    for(var i = 0; i < soiree._usersAttending.length; i++){

@@ -110,7 +110,8 @@ notificationSchema.statics.addToOrCreateNotification = function(bodySuffix, noti
                 notification.pictureUrl = causingUser.profilePictureUrl;
                 notification.read = false;
                 notification.save();
-                PushNotificationHelper.sendPushNotification(notificationsUser, notification.body);
+                //PushNotificationHelper.sendPushNotification(notificationsUser, notification.body);
+                PushNotificationHelper.sendNotification(notificationsUser, notification);
 
             }
         });
@@ -151,7 +152,8 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
     notificationsUser._notifications.push(newNotification._id);
     newNotification.save();
     notificationsUser.save();
-    PushNotificationHelper.sendPushNotification(notificationsUser, newNotification.body);
+    //PushNotificationHelper.sendPushNotification(notificationsUser, newNotification.body);
+    PushNotificationHelper.sendNotification(notificationsUser, newNotification);
     console.log("Created Notification: " + newNotification.body + " for: " + notificationsUser.firstName);
     return newNotification;
 };
