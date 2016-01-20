@@ -74,7 +74,7 @@ var pushNotificationHelper = (function() {
         },
         sendNotification : function(user, notification){
             console.log("Sending notification with id: " + notification.notificationId);
-            var payload = {type: "notification", body : notification.jsonObject()};
+            var payload = {"notification" : notification.jsonObject()};
             this.sendPushNotification(user, notification.body, payload);
         }
         //sendPushNotificationsForSoiree : function (soiree) {
