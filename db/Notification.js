@@ -106,6 +106,7 @@ notificationSchema.statics.addToOrCreateNotification = function(bodySuffix, noti
                 };
 
                 notification.users = notification.users.filter(filterOutExistingUser);
+                console.log("Filtered out notification.users to: " + notification.users);
                 notification.users.push(newUser);
                 notification.pictureUrl = causingUser.profilePictureUrl;
                 notification.read = false;
