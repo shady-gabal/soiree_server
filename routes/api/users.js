@@ -250,7 +250,6 @@ router.post('/uploadDeviceToken', function(req, res, next){
 
   User.verifyUser(req, res, next, function(user){
     user.deviceToken = deviceToken;
-    user._notifications = [];
 
     user.save(function(err){
       if (err){

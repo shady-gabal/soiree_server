@@ -22,7 +22,7 @@ var SALT_LENGTH = 10;
 
 /* Schema Specific */
 var businessTypes = ["Bar", "Restaurant", "Cafe"];
-
+var tags = ["vegan options", "vegetarian options", "outdoor seating"];
 /* Helpers */
 var helpersFolderLocation = "../helpers/";
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
@@ -47,7 +47,8 @@ var businessSchema = new Schema({
         _approvedBy: {type: ObjectId, ref: "Admin"},
         email : {type: String, required: true},
         password : {type: String, required: true},
-        classType : {type: String, default: "business", enum: ['business']}
+        classType : {type: String, default: "business", enum: ['business']},
+        tags : [{type: String, enum: tags}]
 
     },
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
