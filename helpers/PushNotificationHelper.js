@@ -63,7 +63,7 @@ var pushNotificationHelper = (function() {
 
 
                 if (apnConnection) {
-                    console.log("Pushing push notification...");
+                    console.log("Pushing push notification: '" + message + "' ...");
                     apnConnection.pushNotification(note, myDevice);
                 }
             }
