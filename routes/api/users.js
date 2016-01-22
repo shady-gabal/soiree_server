@@ -358,16 +358,16 @@ router.get('/testNotification', function(req, res){
 router.get('/postNotification', function(req, res){
   User.findOne({"firstName" : "Shady"}).populate("_notifications").exec(function(err, user) {
     if (err || !user)
-      return Res.send("Error : " + err);
+      return res.send("Error : " + err);
 
     if (user._notifications.length == 0)
-      return Res.send("No notifications to show");
+      return res.send("No notifications to show");
 
     var notification = user._notifications[0];
     PushNotificationHelper.sendNotification(user, notification);
-    Res.send("Sent");
+    res.send("Sent");
   });
-  
+
 });
 
 router.get('/removeNotifications', function(req, res){
