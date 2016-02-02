@@ -102,7 +102,7 @@ router.post('/postWithPostId', function(req, res, next){
         return ResHelper.sendError(res, ErrorCodes.MissingData);
 
        CommunityPost.findPostWithId(postId, function(post){
-           res.json(post.jsonObject(user));
+           res.json(post.jsonObject(user, true));
        }, function(err){
           ResHelper.sendError(res, err);
        });
@@ -181,27 +181,28 @@ router.post('/createComment', function(req, res, next){
 
 /* Liking/Unliking */
 
-router.post('/likePost', function(req, res, next){
+router.post('/uploadEmotion', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
-        var postId = req.body.postId;
+        var emotion = req.body.emotion;
+        if (emotion) {
 
-        CommunityPost.findOne({postId : postId}, function(err, post){
-            if (err || !post){
-                ResHelper.sendMessage(res, 404, "error finding post: " + err);
-            }
-            else{
+            var postId = req.body.postId;
 
-                post.like(user, function(post){
-                    ResHelper.sendMessage(res, 200, "successfully liked post");
-                }, function(err){
-                    ResHelper.sendMessage(res, 404, "error liking post: " + err);
-                });
+            CommunityPost.findOne({postId: postId}, function (err, post) {
+                if (err || !post) {
+                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
+                }
+                else {
 
-            }
-        });
+                    post.like(user, function (post) {
+                        ResHelper.sendMessage(res, 200, "successfully liked post");
+                    }, function (err) {
+                        ResHelper.sendMessage(res, 404, "error liking post: " + err);
+                    });
 
-    }, function(err){
-        ResHelper.sendMessage(res, 404, "error finding user: " + err);
+                }
+            });
+        }
     });
 
 });

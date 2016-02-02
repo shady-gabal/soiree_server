@@ -9,14 +9,19 @@ var helpersFolderLocation = "../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Soiree = require(dbFolderLocation + 'Soiree.js');
+var SpontaneousSoireeJob = require(dbFolderLocation + 'SpontaneousSoireeJob.js');
 
 
 var SOIREE_LENGTH_IN_MINS = 10;
+var SPONTANEOUS_SOIREE_CHECK_BEFORE = 60;
+
 var deepPopulateFields = "_business _usersAttending";
 
 var scheduledTimeIdentifierNow = Soiree.createScheduledTimeIdentifier();
 var scheduledTimeIdentifierPrevious = Soiree.createScheduledTimeIdentifier(Date.now() - (SOIREE_LENGTH_IN_MINS * 60 * 1000));
 var scheduledTimeIdentifierReminder = Soiree.createScheduledTimeIdentifier(Date.now() - (30 * 60 * 1000));
+
+var scheduledTimeIdentifierSpontaneous = Soiree.createScheduledTimeIdentifier(Date.now() - (SPONTANEOUS_SOIREE_CHECK_BEFORE * 60 * 1000));
 
 console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifierNow +  " ...");
 
@@ -82,6 +87,18 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierRemi
     }
 });
 
+SpontaneousSoireeJob.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierSpontaneous}, "done" : false} ).deepPopulate(deepPopulateFields).exec(function(err, ssJobs) {
+    if (err){
+        console.log("SSJob Error in scheduledSoirees: " + err);
+    }
+    else{
+        console.log("Performing ssJobs: " + ssJobs);
+        for (var i = 0; i < ssJobs.length; i++){
+            var ssJob = ssJobs[i];
+            ssJob.perform();
+        }
+    }
+});
 //Soiree.findSoireesWithScheduledTimeIdenfitier(scheduledTimeIdentifier, function(soirees){
 //
 //}, function(err){

@@ -8,6 +8,7 @@ var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Soiree = require(dbFolderLocation + 'Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
+var SpontaneousSoireeJob = require(dbFolderLocation + 'SpontaneousSoireeJob.js');
 
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
@@ -260,6 +261,35 @@ router.post('/joinSoiree', function(req, res, next){
    });
 });
 
+router.post('/uploadSpontaneousSoiree', function(req, res, next){
+
+    User.verifyUser(req, res, next, function(user){
+
+        var availableTimes = req.body.availableTimes;
+        if (!availableTimes){
+            return ResHelper.sendError(res, ErrorCodes.MissingData);
+        }
+
+
+        var ssJob = new SpontaneousSoireeJob({
+           _user : user._id,
+            availableTimes : availableTimes
+        });
+
+        ssJob.save(function(err){
+           if (err){
+               console.log("Error saving spontaneous soiree: " + err);
+               return ResHelper.sendError(res, ErrorCodes.ErrorSaving);
+           }
+            ResHelper.sendSuccess(res);
+        });
+
+    });
+
+
+
+
+});
 
 router.post('/soireeWithId', function(req, res) {
 

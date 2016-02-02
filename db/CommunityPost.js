@@ -40,7 +40,11 @@ var postSchema = new Schema({
         },
         author: {type: String, required: [true, "No author specified"]}, /* Author */
         authorProfilePictureUrl : {type: String},
-        _likes : [{type: ObjectId, ref:"User"}],
+        _loves : [{type: ObjectId, ref:"User"}],
+        _laughs : [{type: ObjectId, ref:"User"}],
+        _cries : [{type: ObjectId, ref:"User"}],
+        _angries : [{type: ObjectId, ref:"User"}],
+
         _user : {type: ObjectId, ref:"User"}
 },
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
@@ -171,6 +175,68 @@ postSchema.methods.addComment = function(comment, user, successCallback, errorCa
     });
 };
 
+postSchema.methods.emotion = function(user, emotion, successCallback, errorCallback) {
+    if (emotion === "love"){
+        this._loves.push(user._id);
+    }
+    else if (emotion === "laugh"){
+        this._laughs.push(user._id);
+    }
+    else if (emotion === "cry"){
+        this._cries.push(user._id);
+    }
+    else if (emotion === "angry"){
+        this._angries.push(user._id);
+    }
+
+    this.save(function(err){
+        if (err){
+            errorCallback(ErrorCodes.ErrorSaving);
+        }
+        else{
+            successCallback(this);
+        }
+    });
+
+};
+
+postSchema.methods.unEmotion = function(user, emotion, successCallback, errorCallback) {
+    if (emotion === "love"){
+        var index = this._loves.indexOf(user._id);
+        if (index != -1) {
+            this._loves.splice(index, 1);
+        }
+
+    }
+    else if (emotion === "laugh"){
+        var index = this._laughs.indexOf(user._id);
+        if (index != -1) {
+            this._laughs.splice(index, 1);
+        }
+    }
+    else if (emotion === "cry"){
+        var index = this._cries.indexOf(user._id);
+        if (index != -1) {
+            this._cries.splice(index, 1);
+        }    }
+    else if (emotion === "angry"){
+        var index = this._angries.indexOf(user._id);
+        if (index != -1) {
+            this._angries.splice(index, 1);
+        }
+    }
+
+    this.save(function(err){
+        if (err){
+            errorCallback(ErrorCodes.ErrorSaving);
+        }
+        else{
+            successCallback(this);
+        }
+    });
+
+};
+
 postSchema.methods.like = function(user, successCallback, errorCallback){
     this._likes.push(user._id);
 
@@ -200,22 +266,10 @@ postSchema.methods.unlike = function(user, successCallback, errorCallback){
     });
 };
 
-postSchema.methods.jsonObject = function(user){
+postSchema.methods.jsonObject = function(user, showComments){
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
 
     var commentsJsonArray = [];
-
-    for (var i = 0; i < this._comments.length; i++){
-        var comment = this._comments[i];
-
-        if (!this.populated('_comments')) {
-            console.log("WARNING: Did not populate _comments when retrieving CommunityPost");
-        }
-
-        var jsonObject = comment.jsonObject(user);
-        commentsJsonArray.push(jsonObject);
-    }
-
 
     var likedByUser = this._likes.indexOf(user._id) != -1;
 
@@ -226,11 +280,29 @@ postSchema.methods.jsonObject = function(user){
         "author": this.author,
         "authorProfilePictureUrl" : this.authorProfilePictureUrl,
         "college" : this._user.college,
-        "numLikes" : this.numLikes,
+        "numLoves" : this.numLoves,
+        "numLaughs" : this.numLaughs,
+        "numCries" : this.numCries,
+        "numAngries" : this.numAngries,
         "numComments" : this.numComments,
-        "comments" : commentsJsonArray,
         "likedByUser" : likedByUser
     };
+
+    if (showComments) {
+        for (var i = 0; i < this._comments.length; i++) {
+            var comment = this._comments[i];
+
+            if (!this.populated('_comments')) {
+                console.log("WARNING: Did not populate _comments when retrieving CommunityPost");
+            }
+
+            var jsonObject = comment.jsonObject(user);
+            commentsJsonArray.push(jsonObject);
+        }
+        obj["comments"] = commentsJsonArray;
+
+    }
+
     return obj;
 };
 
@@ -279,8 +351,17 @@ postSchema.methods.addedComment = function(comment){
 //    return this._user.fullName;
 //});
 
-postSchema.virtual('numLikes').get(function () {
-    return this._likes.length;
+postSchema.virtual('numLoves').get(function () {
+    return this._loves.length;
+});
+postSchema.virtual('numLaughs').get(function () {
+    return this._laughs.length;
+});
+postSchema.virtual('numCries').get(function () {
+    return this._cries.length;
+});
+postSchema.virtual('numAngries').get(function () {
+    return this._angries.length;
 });
 
 postSchema.virtual('numComments').get(function () {
