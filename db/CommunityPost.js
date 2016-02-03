@@ -271,7 +271,10 @@ postSchema.methods.jsonObject = function(user, showComments){
 
     var commentsJsonArray = [];
 
-    var likedByUser = this._likes.indexOf(user._id) != -1;
+    var lovedByUser = this._loved.indexOf(user._id) != -1;
+    var laughedByUser = this._laughed.indexOf(user._id) != -1;
+    var criedByUser = this._cries.indexOf(user._id) != -1;
+    var angriedByUser = this._angries.indexOf(user._id) != -1;
 
     var obj = {
         "text" : this.text,
@@ -285,7 +288,11 @@ postSchema.methods.jsonObject = function(user, showComments){
         "numCries" : this.numCries,
         "numAngries" : this.numAngries,
         "numComments" : this.numComments,
-        "likedByUser" : likedByUser
+        "lovedByUser" : lovedByUser,
+        "laugheByUser" : laughedByUser,
+        "criedByUser" : criedByUser,
+        "angriedByUser" : angriedByUser
+
     };
 
     if (showComments) {
