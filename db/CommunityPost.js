@@ -271,8 +271,8 @@ postSchema.methods.jsonObject = function(user, showComments){
 
     var commentsJsonArray = [];
 
-    var lovedByUser = this._loved.indexOf(user._id) != -1;
-    var laughedByUser = this._laughed.indexOf(user._id) != -1;
+    var lovedByUser = this._loves.indexOf(user._id) != -1;
+    var laughedByUser = this._laughs.indexOf(user._id) != -1;
     var criedByUser = this._cries.indexOf(user._id) != -1;
     var angriedByUser = this._angries.indexOf(user._id) != -1;
 
