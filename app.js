@@ -35,6 +35,7 @@ var verificationsApi = require('./routes/api/verificationsApi');
 
 /* Admin Facing */
 var admins = require('./routes/admins/admins.js');
+var adminLogin = require('./routes/admins/adminLogin.js');
 var verifications = require('./routes/admins/idVerifications.js');
 
 
@@ -196,13 +197,13 @@ passport.deserializeUser(function(user, done) {
     //console.log("user.id: " + user.id + " user._id: " + user._id);
     if (user.classType === 'admin'){
         Admin.findById(user._id, function(err, admin) {
-            console.log("found admin:" + admin + " with err " + err);
+            //console.log("found admin:" + admin + " with err " + err);
             done(err, admin);
         });
     }
     else if (user.classType === 'business'){
         Business.findById(user._id, function(err, business) {
-            console.log("found business:" + business + " with err " + err);
+            //console.log("found business:" + business + " with err " + err);
             done(err, business);
         });
     }
@@ -215,9 +216,9 @@ passport.deserializeUser(function(user, done) {
     //});
 });
 
-/* Routes */
+/**************** Routes *****************/
 
-//API
+/******* API ********/
 app.use('/api/soirees', soirees);
 app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);
@@ -225,14 +226,22 @@ app.use('/api/businesses', businessesApi);
 app.use('/api/community', community);
 app.use('/api/verifications', verificationsApi);
 
-//Admins
+/****** Admins *******/
+
+//middleware
+app.use('/admins', Admin.checkIfLoggedIn);
+
+//routers
 app.use('/admins', admins);
+app.use('/adminLogin', adminLogin);
 app.use('/admins/verifications', verifications);
 
-//Businesses
+/****** Businesses *******/
+//routers
 app.use('/businesses', businesses);
 
-//Consumer
+/****** Consumer *******/
+//routers
 app.use('/', userIndex);
 
 app.use('/images', images);
@@ -268,6 +277,43 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+
+//var  http = require("http")
+//    , response = http.ServerResponse.prototype
+//    , _render = response.render;
+
+//override res.render
+//app.use(function(req, res, next){
+//    console.log("res.render overriden successfully");
+//    // grab reference of render
+//    var _render = express.response.render;
+//    // override logic
+//    express.response.render = function(view, options, fn ) {
+//        console.log("rendering over");
+//        // do some custom logic
+//        //if (req.admin && !options.admin){
+//        //    options.admin = req.admin;
+//        //}
+//        //else if (req.business && !options.business){
+//        //    options.business = req.business;
+//        //}
+//        //else if (req.user && !options.user){
+//        //    options.user = req.user;
+//        //}
+//
+//        if (view.indexOf("admins/") !== -1 && !options.layout){
+//            options.layout = "layout.hbs";
+//        }
+//        else if (view.indexOf("businesses/") !== -1 && !options.layout){
+//            options.layout = "layout.hbs";
+//        }
+//
+//        // continue with original render
+//        _render.call( this, view, options, fn );
+//    }
+//    next();
+//});
 
 
 module.exports = app;

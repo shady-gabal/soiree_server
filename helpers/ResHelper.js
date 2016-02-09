@@ -33,6 +33,27 @@ var resHelper = (function() {
         },
         sendError : function(res, error){
             res.status(404).json({"error" : error});
+        },
+        render : function(req, res, view, options){
+
+            if (req.admin && !options.admin){
+                options.admin = req.admin;
+            }
+            else if (req.business && !options.business){
+                options.business = req.business;
+            }
+            else if (req.user && !options.user){
+                options.user = req.user;
+            }
+
+            if (view.indexOf("admins/") !== -1 && !options.layout){
+                options.layout = "layout.hbs";
+            }
+            else if (view.indexOf("businesses/") !== -1 && !options.layout){
+                options.layout = "layout.hbs";
+            }
+
+            res.render(view, options);
         }
 
         //isNextDay: function (firstDate, secondDate) {

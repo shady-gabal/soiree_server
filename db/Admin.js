@@ -81,7 +81,23 @@ adminSchema.statics.createAdmin = function(admin, email, password, successCallba
     });
 };
 
+
+
+adminSchema.statics.checkIfLoggedIn = function(req, res, next){
+    if (!isLoggedIn(req)){
+        res.redirect('/adminLogin');
+    }
+    else{
+        res.locals.admin = req.user;
+        next();
+    }
+};
+
 adminSchema.statics.isLoggedIn = function(req){
+    return isLoggedIn(req);
+};
+
+function isLoggedIn(req){
     if (req.user && req.user.classType === 'admin') {
         return true;
     }

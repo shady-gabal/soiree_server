@@ -116,6 +116,12 @@ soireeSchema.statics.createSoiree = function(soiree, business, successCallback, 
 	});
 };
 
+soireeSchema.statics.createAppropriateSoiree = function(){
+	var date = new Date();
+	var hour = date.getHours();
+
+};
+
 soireeSchema.statics.createLunch = function(date, business, successCallback, errorCallback) {
 	//var date = new Date(todaysDate.getTime() + (7 * 24 * 60 * 60 * 1000));
 
@@ -476,6 +482,10 @@ soireeSchema.pre("save", function(next){
 	//}
 
 	next();
+});
+
+soireeSchema.post("init", function(soiree){
+
 });
 
 //soireeSchema.pre('save', function(next){
