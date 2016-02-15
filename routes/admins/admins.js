@@ -81,7 +81,7 @@ router.use(function(req, res, next){
     }
     else{
         if (!res.locals.admin)
-            res.locals.admin = req.user;
+            req.admin = req.user;
         next();
     }
 });

@@ -23,6 +23,10 @@ var ccHelper = (function() {
 
     return {
         chargeForSoiree: function (soiree, user, successCallback, errorCallback) {
+            if (process.env.LOCAL){
+                return successCallback();
+            }
+
             if (!user.stripeCustomerId)
               return errorCallback();
 

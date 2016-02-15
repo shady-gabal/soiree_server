@@ -17,7 +17,7 @@ var idHelper = (function() {
 
     }
 
-});
+}());
 
 module.exports = idHelper;
 

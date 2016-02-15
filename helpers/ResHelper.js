@@ -35,22 +35,57 @@ var resHelper = (function() {
             res.status(404).json({"error" : error});
         },
         render : function(req, res, view, options){
+            if (!options.stylesheets) options.stylesheets = [];
 
-            if (req.admin && !options.admin){
-                options.admin = req.admin;
+            var stylesheetsPerRoute = {
+                /* Businesses */
+                "businesses/login.hbs" : ["/stylesheets/shared/login.css"]
+                /* Admins */
+            };
+
+            if (view.indexOf("admins/") === 0){
+                if (req.admin && !options.admin) {
+                    options.admin = req.admin;
+                }
+                if(!options.layout) {
+                    options.layout = "admins/adminsLayout.hbs";
+                }
             }
-            else if (req.business && !options.business){
-                options.business = req.business;
+            else if (view.indexOf("businesses/") === 0){
+                if (req.business && !options.business){
+                    options.business = req.business;
+                }
+                if (!options.layout) {
+                    options.layout = "businesses/businessesLayout.hbs";
+                }
             }
-            else if (req.user && !options.user){
-                options.user = req.user;
+            else{
+                if (req.user && !options.user){
+                    options.user = req.user;
+                }
             }
 
-            if (view.indexOf("admins/") !== -1 && !options.layout){
-                options.layout = "layout.hbs";
+            if (!options.title){
+                options.title = "Soirée";
             }
-            else if (view.indexOf("businesses/") !== -1 && !options.layout){
-                options.layout = "layout.hbs";
+
+            for (var i = 0; i < options.stylesheets.length; i++){
+                var stylesheet = options.stylesheets[i];
+                if (stylesheet.indexOf("/stylesheets") !== 0){
+                    if (stylesheet.charAt(0) !== "/") {
+                        stylesheet = "/" + stylesheet;
+                    }
+                    if (stylesheet.indexOf(".css") === -1){
+                        stylesheet = stylesheet + ".css";
+                    }
+
+                    options.stylesheets[i] = "/stylesheets" + stylesheet;
+                }
+            }
+
+            var stylesheets = stylesheetsPerRoute[view];
+            if (stylesheets){
+                options.stylesheets.concat(stylesheets);
             }
 
             res.render(view, options);

@@ -36,11 +36,15 @@ var verificationsApi = require('./routes/api/verificationsApi');
 /* Admin Facing */
 var admins = require('./routes/admins/admins.js');
 var adminLogin = require('./routes/admins/adminLogin.js');
+var businessLogin = require('./routes/businesses/businessLogin.js');
 var verifications = require('./routes/admins/idVerifications.js');
 
 
 /* Business Facing */
 var businesses =  require('./routes/businesses/businesses.js');
+
+/* Testing */
+var testing = require('./routes/testing/testing.js');
 
 /* Resource Serving */
 var images =  require('./routes/images/images.js');
@@ -237,14 +241,24 @@ app.use('/adminLogin', adminLogin);
 app.use('/admins/verifications', verifications);
 
 /****** Businesses *******/
+
+//middleware
+app.use('/businesses', Business.checkIfLoggedIn);
+
 //routers
 app.use('/businesses', businesses);
+app.use('/businessLogin', businessLogin);
+
 
 /****** Consumer *******/
 //routers
 app.use('/', userIndex);
 
 app.use('/images', images);
+
+
+/****** Testing *******/
+app.use('/testing', testing);
 
 
 // catch 404 and forward to error handler

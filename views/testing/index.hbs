@@ -1,0 +1,26 @@
+<script>
+    function join(soireeId){
+        $.ajax({url: '/testing/joinSoiree', method : "POST", data: {"soireeId" : soireeId}})
+                .done(function(){
+                    alert("Succeeded");
+                }).fail(function(){
+                   alert("Failed");
+                 });
+    }
+</script>
+
+<ul>
+    {{#each soirees}}
+         <li>
+            {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledTimeIdentifier}} -
+            {{#if this.userAlreadyJoined}}
+                <button> Joined </button>
+            {{else}}
+                <button onclick="join('{{this.soireeId}}')"> Join </button>
+            {{/if}}
+         </li>
+
+    {{/each}}
+</ul>
+
+

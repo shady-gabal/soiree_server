@@ -17,12 +17,13 @@ var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var Admin = require(dbFolderLocation + 'Admin.js');
 
+var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 
 router.get('/', function(req, res){
-    res.render('admins/login', { title: 'Express' });
+    ResHelper.render(req, res, 'admins/login', { title: 'Express', stylesheets : [] });
 });
 
 router.post('/', function(req, res, next){

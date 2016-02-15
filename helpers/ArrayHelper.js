@@ -15,7 +15,10 @@ var arrHelper = (function() {
 
     }
 
-    });
+    }());
 
 module.exports = arrHelper;
+
+
+
 

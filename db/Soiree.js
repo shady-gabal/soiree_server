@@ -7,9 +7,11 @@ var ObjectId = Schema.Types.ObjectId;
 /* Other Models */
 var Business = require('./Business.js');
 var User = require('./User.js');
+var SoireeReservation = require('./SoireeReservation.js');
 
 /* Packages */
 var shortid = require('shortid');
+var _ = require("underscore");
 
 /* Helper */
 var helpersFolderLocation = "../helpers/";
@@ -44,7 +46,8 @@ var soireeSchema = new Schema({
 		photoIndexIdentifier : {type: Number, default: generatePhotoIndexIdentifier},
 		started : {type: Boolean, default: false},
 		ended : {type: Boolean, default: false},
-		inProgress : {type: Boolean, default: false}
+		inProgress : {type: Boolean, default: false},
+		_reservations : [{type: ObjectId, ref: "SoireeReservation"}]
 
 
 	},
@@ -116,6 +119,22 @@ soireeSchema.statics.createSoiree = function(soiree, business, successCallback, 
 	});
 };
 
+soireeSchema.statics.findSoireesForBusiness = function(business, options, successCallback, errorCallback){
+	if (!business)
+		return errorCallback(ErrorCodes.MissingData);
+
+	_.defaults(options, {showExpired: false, sameDay: false});
+
+	this.find({"_business" : business._id, expired: options.showExpired}).deepPopulate("_usersAttending").exec(function(err, soirees){
+		if (err){
+			errorCallback(err);
+		}
+		else{
+			successCallback(soirees);
+		}
+	});
+};
+
 soireeSchema.statics.createAppropriateSoiree = function(){
 	var date = new Date();
 	var hour = date.getHours();
@@ -173,16 +192,23 @@ soireeSchema.statics.createDrinks = function(date, business, successCallback, er
 
 soireeSchema.statics.findSoirees = function(req, user, successCallback, errorCallback){
 
-	var longitude = req.body.user.longitude;
-	var latitude = req.body.user.latitude;
-	var coors = LocationHelper.createPoint(longitude, latitude);
+	var constraints = {};
+
+	if (req.body.user){
+		var longitude = req.body.user.longitude;
+		var latitude = req.body.user.latitude;
+		var coors = LocationHelper.createPoint(longitude, latitude);
+
+		constraints.location = { $near : coors } ;
+
+	}
+
 
 	var numSoireesToFetch = 10;
 
 	var idsToIgnore = req.body.currentSoireesIds;
 
 	//var constraints = { location: { $near : coors }, "college" : user.college };
-	var constraints = { location: { $near : coors } };
 
 	if (idsToIgnore && idsToIgnore.length > 0){
 		console.log("Ignoring soirees with ids in: " + idsToIgnore);
@@ -252,11 +278,11 @@ soireeSchema.statics.findBySoireeId = function(soireeId, successCallback, errorC
 	});
 };
 
-soireeSchema.statics.joinSoireeWithId = function(soireeId, user, req, res){
+soireeSchema.statics.joinSoireeWithId = function(soireeId, user, successCallback, errorCallback){
 	this.findBySoireeId(soireeId, function(soiree){
-		soiree.join(user, req, res);
+		soiree.join(user, successCallback, errorCallback);
 	}, function(err){
-		ResHelper.sendError(res, ErrorCodes.SoireeError);
+		errorCallback(ErrorCodes.SoireeError);
 	});
 };
 
@@ -331,7 +357,7 @@ soireeSchema.methods.end = function() {
 	});
 };
 
-soireeSchema.methods.userAlreadyJoined = function(user){
+soireeSchema.methods.hasUserAlreadyJoined = function(user){
 	if (user){
 		if (this.populated("_usersAttending")){
 			for (var i = 0; i < this._usersAttending.length; i++){
@@ -352,10 +378,12 @@ soireeSchema.methods.userAlreadyJoined = function(user){
 };
 
 
-soireeSchema.methods.join = function(user, req, res){
+soireeSchema.methods.join = function(user, successCallback, errorCallback){
 	//if (this.numUsersAttending >= this.numUsersMax) {
 	//	this.full = true;
 	//}
+
+	var soiree = this;
 
 	if (!this.full){
 		//var stripeToken = req.body.stripeToken;
@@ -363,44 +391,26 @@ soireeSchema.methods.join = function(user, req, res){
 		//	return ResHelper.sendError(res, errorCodes.MissingStripeToken);
 		//}
 		if (!user.stripeCustomerId){
-			return ResHelper.sendError(res, ErrorCodes.MissingStripeCustomerId);
+			if (!process.env.LOCAL)
+				return errorCallback(ErrorCodes.MissingStripeCustomerId);
 		}
 
 		if (this._usersAttending.indexOf(user._id) != -1){
 			//user has already joined soiree
-			return ResHelper.sendError(res, ErrorCodes.UserAlreadyJoinedSoiree);
+			return errorCallback(ErrorCodes.UserAlreadyJoinedSoiree);
 		}
 
-		var soiree = this;
+		CreditCardHelper.chargeForSoiree(soiree, user, function(charge){
 
-		CreditCardHelper.chargeForSoiree(this, user, function(charge){
-			if (!soiree._usersAttending) soiree._usersAttending = [];
-
-			soiree._usersAttending.push(user._id);
-			user._soireesAttending.push(soiree._id);
-
-			user.save(function(err){
-				if (err){ ResHelper.sendError(res, ErrorCodes.Error); }
-
-				else{
-					soiree.save(function(err){
-						if (!err){
-							ResHelper.sendSuccess(res);
-						}
-						else{
-							ResHelper.sendError(res, ErrorCodes.SoireeError);
-						}
-					});
-				}
-			});
+			SoireeReservation.createSoireeReservation(user, soiree, charge, successCallback, errorCallback);
 
 		}, function(err){
-			ResHelper.sendError(res, ErrorCodes.StripeError);
+			errorCallback(ErrorCodes.StripeError);
 		});
 
 	}
 	else{
-		return ResHelper.sendError(res, ErrorCodes.SoireeFull);
+		return errorCallback(ErrorCodes.SoireeFull);
 	}
 };
 
@@ -430,7 +440,7 @@ soireeSchema.methods.jsonObject = function (user) {
 		"cityArea" : this._business.cityArea,
 		"coordinates" : this.location.coordinates,
 		"initialCharge": this.initialCharge,
-		"userAlreadyJoined" : this.userAlreadyJoined(user),
+		"userAlreadyJoined" : this.hasUserAlreadyJoined(user),
 		"photoIndexIdentifier" : this.photoIndexIdentifier,
 		"usersColleges" : usersColleges
 	};

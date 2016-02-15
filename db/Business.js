@@ -99,7 +99,7 @@ businessSchema.statics.createBusiness = function(business, email, password, succ
 };
 
 businessSchema.statics.nextBusinessToHostSoiree = function(callback){
-    this.findOne({}, function(err, obj){
+    this.findOne({email : "shady@wearethirdrail.com"}, function(err, obj){
        if (err) {
            console.log("Error finding next business to host soiree");
            callback(null);
@@ -116,6 +116,19 @@ businessSchema.statics.nextBusinessToHostSoiree = function(callback){
     });
 };
 
+businessSchema.statics.checkIfLoggedIn = function(req, res, next){
+    if (!isLoggedIn(req)){
+        res.redirect('/businessLogin');
+    }
+    else{
+        req.business = req.user;
+        next();
+    }
+};
+
+businessSchema.statics.isLoggedIn = function(req){
+    return isLoggedIn(req);
+};
 
 //businessSchema.methods.validPassword = function(password){
 //    return bcrypt.compareSync(password, this.password);
@@ -125,6 +138,13 @@ businessSchema.methods.validatePassword = function(password, callback){
     bcrypt.compare(password, this.password, callback);
 };
 
+
+function isLoggedIn(req){
+    if (req.user && req.user.classType === 'business') {
+        return true;
+    }
+    return false;
+};
 
 //businessSchema.pre('save', function(next){
 //    this.dateUpdated = new Date();

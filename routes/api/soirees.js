@@ -254,10 +254,14 @@ router.post('/joinSoiree', function(req, res, next){
         //}
 
        var soireeId = req.body.soireeId;
-       Soiree.joinSoireeWithId(soireeId, user, req, res);
+       Soiree.joinSoireeWithId(soireeId, user, function(){
+           ResHelper.sendSuccess(res);
+       }, function(error){
+           ResHelper.sendError(res, error);
+       });
 
    }, function(err){
-        ResHelper.sendMessage(res, 404, ErrorCodes.UserVerificationError);
+        ResHelper.sendError(res, ErrorCodes.UserVerificationError);
    });
 });
 

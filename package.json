@@ -31,6 +31,7 @@
     "enum" : "",
     "apn" : "",
     "bcrypt" : "",
-    "connect-flash" : ""
+    "connect-flash" : "",
+    "underscore" : ""
   }
 }

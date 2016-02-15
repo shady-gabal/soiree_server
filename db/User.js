@@ -7,6 +7,7 @@ var ObjectId = Schema.Types.ObjectId;
 /* Other Models */
 var Business = require('./Business.js');
 var Soiree = require('./Soiree.js');
+var SoireeReservation = require('./SoireeReservation.js');
 var Admin = require('./Admin.js');
 var Notification = require('./Notification.js');
 
@@ -65,8 +66,10 @@ var userSchema = new Schema({
 		dateUpdated : {type: Date, default: new Date()},
 		_approvedBy: {type: ObjectId, ref: "Admin"},
 		_notifications : [{type: String, ref: "Notification"}],
-		classType : {type: String, default: 'user', enum: ['user']}
-	//location: { /* Location */
+		classType : {type: String, default: 'user', enum: ['user']},
+		_reservations : [{type: ObjectId, ref: "SoireeReservation"}]
+
+		//location: { /* Location */
 	//	type: {type: String},
 	//	coordinates: []
 	//}
@@ -314,17 +317,29 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 	});
 };
 
+userSchema.statics.findTestUser = function(successCallback, errorCallback){
+	//if (process.env.LOCAL){
+		this.findOne({firstName : "Test", lastName : "User"}).exec(function(err, user){
+			if (err)
+				errorCallback(err);
+			else successCallback(user);
+		});
+		//return;
+	//}
+};
+
 //function createUser(req, successCallback, errorCallback){
 //
 //}
 
 userSchema.statics.verifyUser = function(req, res, next, successCallback, failureCallback){
 	if (process.env.LOCAL){
-		this.findOne({firstName : "Shady", lastName : "Gabal"}).exec(function(err, user){
-			if (err)
-				failureCallback();
-			else successCallback(user);
-		});
+		this.findTestUser(successCallback, failureCallback);
+		//this.findOne({firstName : "Shady", lastName : "Gabal"}).exec(function(err, user){
+		//	if (err)
+		//		failureCallback();
+		//	else successCallback(user);
+		//});
 		return;
 	}
 

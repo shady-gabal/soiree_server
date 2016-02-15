@@ -1,0 +1,25 @@
+{
+  "name": "Soiree",
+  "description": "This is Soiree",
+  "main": "app.js",
+  "authors": [
+    "Shady Gabal <shadygabal@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "soiree"
+  ],
+  "homepage": "https://github.com/shady-gabal/untitled-rev-server",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

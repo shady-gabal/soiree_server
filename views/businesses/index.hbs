@@ -1,2 +1,17 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}, {{business.businessName}}</p>
+<h1>Welcome to {{title}}, {{business.businessName}}</h1>
+
+{{#if reservations}}
+    <ul>
+        {{#each reservations}}
+            <li> {{this._soiree.soireeType}} {{this._soiree.scheduledTimeIdentifier}} {{this.confirmationCode}}</li>
+         {{/each}}
+    </ul>
+{{/if}}
+
+
+<form class="form-signin" action="/confirmSoireeReservation" method="post">
+    <input type="text" name="confirmationCode" class="form-control" placeholder="Confirmation Code" autofocus/>
+    <input type="submit" class="btn btn-primary btn-block" name="Confirm" />
+</form>
+
+

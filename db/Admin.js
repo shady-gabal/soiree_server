@@ -88,7 +88,7 @@ adminSchema.statics.checkIfLoggedIn = function(req, res, next){
         res.redirect('/adminLogin');
     }
     else{
-        res.locals.admin = req.user;
+        req.admin = req.user;
         next();
     }
 };
