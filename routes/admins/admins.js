@@ -19,6 +19,7 @@ var Admin = require(dbFolderLocation + 'Admin.js');
 
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
@@ -80,7 +81,7 @@ router.use(function(req, res, next){
         res.redirect('/admins/login');
     }
     else{
-        if (!res.locals.admin)
+        if (!req.admin)
             req.admin = req.user;
         next();
     }
@@ -93,13 +94,33 @@ router.get('/',  function(req, res){
 
 router.get('/registerBusiness', function(req, res){
     ResHelper.render(req, res, 'admins/registerBusiness', { } );
-
-    //res.render('admins/registerBusiness', { admin: req.admin });
 });
 
 router.post('/registerBusiness', function(req, res){
     console.log(req.body);
-    res.send("OK");
+
+    var email = req.body.email;
+    var password = req.body.password;
+    var businessName = req.body.businessName;
+    var description = req.body.description;
+    var phoneNumber = req.body.phoneNumber;
+    var longitude = req.body.longitude;
+    var latitude = req.body.latitude;
+
+    var coordinate = LocationHelper.createPoint(longitude, latitude);
+
+    Business.createBusiness({
+        businessName : businessName,
+        description : description,
+        phoneNumber : phoneNumber,
+        location : coordinate
+    }, email, password, function(business){
+        res.redirect("/admins/");
+    }, function(err){
+        console.log(err);
+        res.status(404).send("Error");
+    });
+
 });
 
 router.get('/logout', function(req, res){
@@ -113,34 +134,34 @@ router.get('/logout', function(req, res){
 
 
 
-function loggedInRedundantCheck(req, res){
-    if (Admin.isLoggedIn(req)){
-        return true;
-    }
-    else{
-        res.status(401).send("Unauthorized. The FBI has been notified.");
-        console.log("Unauthorized access attempted");
-        return false;
-    }
-};
-
-//function isLoggedIn(req) {
-//    if (req.user && req.user.classType === 'admin') {
+//function loggedInRedundantCheck(req, res){
+//    if (Admin.isLoggedIn(req)){
 //        return true;
 //    }
-//    return false;
-//}
-
-function checkIfLoggedIn(req, res, next){
-    if (Admin.isLoggedIn(req)){
-        next();
-    }
-    else{
-        res.status(401).send("Unauthorized. The FBI has been notified.");
-        console.log("Unauthorized access attempted - admins");
-        //return false;
-    }
-};
+//    else{
+//        res.status(401).send("Unauthorized. The FBI has been notified.");
+//        console.log("Unauthorized access attempted");
+//        return false;
+//    }
+//};
+//
+////function isLoggedIn(req) {
+////    if (req.user && req.user.classType === 'admin') {
+////        return true;
+////    }
+////    return false;
+////}
+//
+//function checkIfLoggedIn(req, res, next){
+//    if (Admin.isLoggedIn(req)){
+//        next();
+//    }
+//    else{
+//        res.status(401).send("Unauthorized. The FBI has been notified.");
+//        console.log("Unauthorized access attempted - admins");
+//        //return false;
+//    }
+//};
 
 
 module.exports = router;

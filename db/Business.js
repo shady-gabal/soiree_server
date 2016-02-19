@@ -70,6 +70,7 @@ businessSchema.statics.createBusiness = function(business, email, password, succ
         return errorCallback();
     }
 
+
     business.email = email;
 
     //create salt
