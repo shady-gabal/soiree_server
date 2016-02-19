@@ -440,10 +440,12 @@ soireeSchema.methods.jsonObject = function (user) {
 		"cityArea" : this._business.cityArea,
 		"coordinates" : this.location.coordinates,
 		"initialCharge": this.initialCharge,
-		"userAlreadyJoined" : this.hasUserAlreadyJoined(user),
 		"photoIndexIdentifier" : this.photoIndexIdentifier,
-		"usersColleges" : usersColleges
 	};
+
+	if (user){
+		obj.userAlreadyJoined = this.hasUserAlreadyJoined(user);
+	}
 
 	return obj;
 };

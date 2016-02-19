@@ -35,13 +35,13 @@ var resHelper = (function() {
             res.status(404).json({"error" : error});
         },
         render : function(req, res, view, options){
-            if (!options.stylesheets) options.stylesheets = [];
+            //if (!options.stylesheets) options.stylesheets = [];
 
-            var stylesheetsPerRoute = {
-                /* Businesses */
-                "businesses/login.hbs" : ["/stylesheets/shared/login.css"]
-                /* Admins */
-            };
+            //var stylesheetsPerRoute = {
+            //    /* Businesses */
+            //    "businesses/login.hbs" : ["/stylesheets/shared/login.css"]
+            //    /* Admins */
+            //};
 
             if (view.indexOf("admins/") === 0){
                 if (req.admin && !options.admin) {
@@ -69,24 +69,24 @@ var resHelper = (function() {
                 options.title = "Soirée";
             }
 
-            for (var i = 0; i < options.stylesheets.length; i++){
-                var stylesheet = options.stylesheets[i];
-                if (stylesheet.indexOf("/stylesheets") !== 0){
-                    if (stylesheet.charAt(0) !== "/") {
-                        stylesheet = "/" + stylesheet;
-                    }
-                    if (stylesheet.indexOf(".css") === -1){
-                        stylesheet = stylesheet + ".css";
-                    }
-
-                    options.stylesheets[i] = "/stylesheets" + stylesheet;
-                }
-            }
-
-            var stylesheets = stylesheetsPerRoute[view];
-            if (stylesheets){
-                options.stylesheets.concat(stylesheets);
-            }
+            //for (var i = 0; i < options.stylesheets.length; i++){
+            //    var stylesheet = options.stylesheets[i];
+            //    if (stylesheet.indexOf("/stylesheets") !== 0){
+            //        if (stylesheet.charAt(0) !== "/") {
+            //            stylesheet = "/" + stylesheet;
+            //        }
+            //        if (stylesheet.indexOf(".css") === -1){
+            //            stylesheet = stylesheet + ".css";
+            //        }
+            //
+            //        options.stylesheets[i] = "/stylesheets" + stylesheet;
+            //    }
+            //}
+            //
+            //var stylesheets = stylesheetsPerRoute[view];
+            //if (stylesheets){
+            //    options.stylesheets.concat(stylesheets);
+            //}
 
             res.render(view, options);
         }

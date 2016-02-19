@@ -5,6 +5,8 @@
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
         <link rel='stylesheet' href='/stylesheets/shared/index.css' />
         <link rel='stylesheet' href='/stylesheets/shared/login.css' />
+        {{{block "stylesheets"}}}
+
         {{#each stylesheets}}
             <link rel='stylesheet' href={{this}} />
         {{/each}}
@@ -80,6 +82,7 @@
         <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        {{{block "scripts"}}}
 
     </body>
 </html>

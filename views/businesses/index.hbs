@@ -1,3 +1,7 @@
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="/stylesheets/businesses/index.css" />
+{{/extend}}
+
 <h1>Welcome to {{title}}, {{business.businessName}}</h1>
 
 {{#if reservations}}
@@ -9,9 +13,47 @@
 {{/if}}
 
 
-<form class="form-signin" action="/confirmSoireeReservation" method="post">
-    <input type="text" name="confirmationCode" class="form-control" placeholder="Confirmation Code" autofocus/>
-    <input type="submit" class="btn btn-primary btn-block" name="Confirm" />
-</form>
+<div class="form-signin" id="confirmationCodeForm">
+    <input type="text" name="confirmationCode" id="confirmationCodeInput" class="form-control" placeholder="Confirmation Code" autofocus/>
+    <button class="btn btn-primary btn-block" onclick="confirm()">Confirm </button>
+</div>
 
+
+{{#extend "scripts"}}
+
+    <script>
+
+//        $(function() {
+//            $('#confirmationCodeInput').keyup(function() {
+//                this.value = this.value.toUpperCase();
+//            });
+//        });
+
+        function confirm(){
+            var codeInput = document.getElementById("confirmationCodeInput");
+            var confirmationCode = codeInput.value;
+            if (confirmationCode && confirmationCode.length > 0) {
+
+                $.ajax({
+                            url: "/businesses/confirmSoireeReservation",
+                            method: "POST",
+                            data: {confirmationCode: confirmationCode},
+                            success: function (responseObj) {
+                                if (responseObj.status === 'success') {
+                                }
+                                else if (responseObj.status === 'fail') {
+                                }
+                                alert(responseObj.description);
+                            },
+                            error: function () {
+                                alert("An error occurred. Please try again later.");
+                            }
+                        }
+                );
+            }
+
+        }
+    </script>
+
+{{/extend}}
 

@@ -4,7 +4,8 @@
     <title>{{title}}</title>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel='stylesheet' href='/stylesheets/shared/index.css' />
-    <link rel='stylesheet' href='/stylesheets/shared/login.css' />
+    {{{block "stylesheets"}}}
+
     {{#each stylesheets}}
         <link rel='stylesheet' href={{this}} />
     {{/each}}
@@ -40,6 +41,8 @@
                     </li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="/businesses/logout"">Logout</a></li>
+
                 </ul>
             </div><!--/.nav-collapse -->
         {{/if}}
@@ -79,7 +82,11 @@
 <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+{{{block "scripts"}}}
 
+{{#each scripts}}
+    <script src="{{this}}"></script>
+{{/each}}
 </body>
 </html>
 

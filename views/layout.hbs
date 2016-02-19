@@ -3,6 +3,8 @@
   <head>
     <title>{{title}}</title>
      <link rel='stylesheet' href='/stylesheets/style.css' />
+      {{{block "stylesheets"}}}
+
       {{#each stylesheets}}
           <link rel='stylesheet' href={{this}} />
       {{/each}}
@@ -71,6 +73,7 @@
       <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
       <script src="/bower_components/jquery/dist/jquery.min.js"></script>
       <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+      {{{block "scripts"}}}
 
   </body>
 </html>

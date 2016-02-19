@@ -62,6 +62,8 @@ router.get('/createSoirees', function(req, res){
             console.log("error saving soiree " + err);
         });
 
+        var soireesCreated = [];
+
         for (var i = 0; i < numSoirees; i++){
 
             var soireeTypes = Soiree.soireeTypes();
@@ -78,14 +80,24 @@ router.get('/createSoirees', function(req, res){
             var roundedTime = todaysDate.getTime() - ((todaysDate.getMinutes() % 10) * 60 * 1000 - (todaysDate.getSeconds() * 1000));
             var date = new Date(roundedTime + (numDays * 24 * 60 * 60 * 1000) + (numHours * 60 * 60 * 1000));
 
+            var numReturned = 0;
+
             Soiree.createSoiree({
                 soireeType: soireeType,
                 numUsersMax: randNumUsersMax,
                 initialCharge: randInitialCharge,
                 date: date
             }, nextBusiness, function(soiree){
-                   console.log("Saved soiree: " + soiree.soireeId);
+                soireesCreated.push(soiree.jsonObject());
+                console.log("Saved soiree: " + soiree.soireeId);
+
+                numReturned++;
+                if (numReturned == numSoirees){
+                    res.json(soireesCreated);
+                }
+
                 }, function(err) {
+                res.status(404).send("Error");
                 console.log("error saving soiree " + err);
             });
 
@@ -98,7 +110,6 @@ router.get('/createSoirees', function(req, res){
         }
 
 
-        res.send("OK");
 
 
 

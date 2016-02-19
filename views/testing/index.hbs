@@ -1,26 +1,49 @@
-<script>
+{{#extend "scripts"}}
+
+    <script>
     function join(soireeId){
         $.ajax({url: '/testing/joinSoiree', method : "POST", data: {"soireeId" : soireeId}})
                 .done(function(){
                     alert("Succeeded");
+
+                    var button = document.getElementById(soireeId);
+                    button.onclick = null;
+                    button.innerText = "Joined";
                 }).fail(function(){
                    alert("Failed");
                  });
     }
-</script>
 
-<ul>
+    function createSoirees(){
+        $.ajax({
+            url: '/testing/createSoirees',
+            method : GET,
+            success: function(){
+                var soireesHtml = document.getElementById("soirees");
+            },
+            error: function(){
+
+            }
+        });
+    }
+
+    </script>
+
+{{/extend}}
+
+<ul id="soirees">
     {{#each soirees}}
          <li>
             {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledTimeIdentifier}} -
             {{#if this.userAlreadyJoined}}
                 <button> Joined </button>
             {{else}}
-                <button onclick="join('{{this.soireeId}}')"> Join </button>
+                <button onclick="join('{{this.soireeId}}')" id="{{this.soireeId}}"> Join </button>
             {{/if}}
          </li>
-
     {{/each}}
 </ul>
+
+
 
 

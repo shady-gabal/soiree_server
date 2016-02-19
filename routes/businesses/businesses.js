@@ -102,33 +102,121 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 /* Everything below here will require the admin to be logged in */
 
 router.get('/', function(req, res){
-    console.log(req.business);
 
+    //SoireeReservation.findUnconfirmedReservationsForBusiness(req.business, function(reservations){
+        //console.log("Fetched soiree reservations for business: " + req.business.name + " : " + reservations);
+        req.business.deepPopulate("_unconfirmedReservations._soiree", function(err){
+            if (err){
+                return res.status(404).send("Error");
+            }
+            //console.log(req.business);
+            ResHelper.render(req, res, 'businesses/index', {reservations : req.business._unconfirmedReservations});
 
-    SoireeReservation.findReservationsForBusiness(req.business, function(reservations){
-        console.log("Fetched soiree reservations for business: " + req.business.name + " : " + reservations);
-        ResHelper.render(req, res, 'businesses/index', {reservations : reservations});
+        });
 
-    }, function(err){
-        console.log("Error fetching soirees for business: " + req.business);
-        ResHelper.render(req, res, 'businesses/index', {});
-    });
+    //}, function(err){
+    //    console.log("Error fetching soirees for business: " + req.business);
+    //    ResHelper.render(req, res, 'businesses/index', {});
+    //});
 });
 
 router.post('/confirmSoireeReservation', function(req, res){
     var confirmationCode = req.body.confirmationCode;
+    console.log("Attempting to confirm " + confirmationCode);
     if (!confirmationCode){
-        return res.send("Error");
+        return res.status(404).send("Error");
     }
 
-    SoireeReservation.findReservationWithConfirmationCode(req.business, confirmationCode, function(reservation){
+    confirmationCode = confirmationCode.toUpperCase();
+    var responseObj = {};
 
-    }, function(err){
+    req.business.findReservationWithConfirmationCode(confirmationCode, function(reservation){
+      //found reservation
+        console.log("Confirming...");
+        /* CONFIRM BLOCK */
+        reservation.confirm(confirmationCode, function(){
+            responseObj.status = "success";
+            responseObj.description = "Successfully confirmed reservation";
+
+            res.json(responseObj);
+        }, function(error){
+            if (error){
+                console.log(error);
+                responseObj.status = "fail";
+                responseObj.description = "There was an error processing your request. Please try again.";
+            }
+            else{
+                responseObj.status = "fail";
+                responseObj.description = "Incorrect Confirmation Code";
+            }
+
+            res.json(responseObj);
+        });
+        /* END CONFIRM BLOCK */
+
+    }, function(err) { //error callback for finding soirees
+        console.log(err);
+
+        if (err === ErrorCodes.NotFound) {
+            responseObj.status = "fail";
+            responseObj.description = "Incorrect Confirmation Code";
+        }
+        else {
+            responseObj.status = "fail";
+            responseObj.description = "There was an error processing your request. Please try again.";
+        }
+
+        res.json(responseObj);
+
+
 
     });
 
+    //
+    //SoireeReservation.findReservationWithConfirmationCode(req.business, confirmationCode, function(reservation){
+    //    if (reservation){
+    //        console.log("Confirming...");
+    //        reservation.confirm(confirmationCode, function(){
+    //            responseObj.status = "success";
+    //            responseObj.description = "Successfully confirmed reservation";
+    //
+    //            res.json(responseObj);
+    //        }, function(error){
+    //            if (error){
+    //                console.log(error);
+    //                responseObj.status = "fail";
+    //                responseObj.description = "There was an error processing your request. Please try again.";
+    //            }
+    //            else{
+    //                responseObj.status = "fail";
+    //                responseObj.description = "Incorrect Confirmation Code";
+    //            }
+    //
+    //            res.json(responseObj);
+    //        });
+    //
+    //    }
+    //    else{
+    //        responseObj.status = "fail";
+    //        responseObj.description = "Incorrect Confirmation Code";
+    //
+    //        res.json(responseObj);
+    //    }
+    //}, function(err){
+    //    console.log(err);
+    //    responseObj.status = "fail";
+    //    responseObj.description = "There was an error processing your request. Please try again.";
+    //
+    //    res.json(responseObj);
+    //});
 
 
+
+});
+
+router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/businessLogin');
 });
 
 

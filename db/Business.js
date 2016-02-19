@@ -12,6 +12,8 @@ var ObjectIdConstructor = mongoose.Types.ObjectId;
 //var Business = require('./Business.js');
 var User = require('./User.js');
 var Soiree = require('./Soiree.js');
+var SoireeReservation = require('./SoireeReservation.js');
+
 var Admin = require('./Admin.js');
 
 /* Packages */
@@ -37,6 +39,8 @@ var businessSchema = new Schema({
         businessName : {type: String, required: [true, "Business must have a name"]},
         businessId: {type: String, index: true, default: shortid.generate},
         _soirees : [{type: ObjectId, ref:"Soiree"}],
+        _unconfirmedReservations : [{type: ObjectId, ref:"SoireeReservation"}],
+        _confirmedReservations : [{type: ObjectId, ref:"SoireeReservation"}],
         location: {
             type: {type: String},
             coordinates: []
@@ -138,6 +142,71 @@ businessSchema.methods.validatePassword = function(password, callback){
     bcrypt.compare(password, this.password, callback);
 };
 
+businessSchema.methods.confirmSoireeReservation = function(reservation, successCallback, errorCallback){
+    if (!reservation.confirmed)
+        return errorCallback(ErrorCodes.Error);
+
+    //
+    //do backend charging stuff
+    //
+
+    //move _id from _unconfirmed to _confirmed
+    var index = this._unconfirmedReservations.indexOf(reservation._id);
+    if (index !== -1){
+        this._unconfirmedReservations.splice(index, 1);
+        //var sIndex = this._confirmedReservations.indexOf(reservation._id);
+        if (this._confirmedReservations.indexOf(reservation._id) === -1){
+            this._confirmedReservations.push(reservation._id);
+        }
+    }
+
+    this.save(function(err){
+        if (err){
+            console.log(err);
+            errorCallback(ErrorCodes.ErrorSaving);
+        }
+        else{
+            successCallback();
+        }
+
+    });
+};
+
+//businessSchema.methods.findUnconfirmedReservationsForBusiness = function(successCallback, errorCallback) {
+//    this.deepPopulate("_unconfirmedReservations", function(err, _business){
+//        if (err){
+//            return errorCallback(ErrorCodes.ErrorQuerying);
+//        }
+//        else{
+//            for (var i = 0; i < _business._unconfirmedReservations.length; i++){
+//                var reservation = _business._unconfirmedReservations[i];
+//                if (reservation.confirmed){
+//                }
+//            }
+//        }
+//        return successCallback(_business._unconfi);
+//    });
+//});
+
+businessSchema.methods.findReservationWithConfirmationCode = function(code, successCallback, errorCallback){
+    code = code.toUpperCase();
+
+    this.deepPopulate("_unconfirmedReservations", function(err, _business){
+    if (err){
+        console.log(err);
+        return errorCallback(ErrorCodes.ErrorQuerying);
+    }
+    else{
+        for (var i = 0; i < _business._unconfirmedReservations.length; i++){
+            var reservation = _business._unconfirmedReservations[i];
+            if (reservation.confirmationCode === code){
+                return successCallback(reservation);
+            }
+        }
+    }
+        return errorCallback(ErrorCodes.NotFound);
+  });
+};
 
 function isLoggedIn(req){
     if (req.user && req.user.classType === 'business') {

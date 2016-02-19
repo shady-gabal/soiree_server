@@ -102,6 +102,11 @@ router.post('/registerBusiness', function(req, res){
     res.send("OK");
 });
 
+router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/adminLogin');
+});
+
 
 
 

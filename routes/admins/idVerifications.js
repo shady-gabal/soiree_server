@@ -29,52 +29,61 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 /*** ****/
 router.use(function(req, res, next){
     if (!Admin.isLoggedIn(req)){
-        res.redirect('/admins/login');
+        res.redirect('/adminLogin');
     }
     else{
-        res.locals.admin = req.user;
+        if (!req.admin) req.admin = req.user;
         next();
     }
 });
 
+router.get('/', function(req, res){
 
+    UserVerification.findUnverifiedVerifications(req.admin, [], function(verifications){
+        res.render('admins/idVerifications', {verifications: verifications});
+    }, function(err){
+        console.log(err);
+        res.status(404).send("Error");
+    });
+});
 
-router.get('/', checkIfLoggedIn, function(req, res){
-    if (loggedInRedundantCheck(req, res)){
-        UserVerification.findUnverifiedVerifications(this, function(verifications){
-            //console.log(verifications);
-            res.render('admins/idVerifications', {verifications: verifications});
-        }, function(err){
-            res.status(404).send("Error finding verifications");
-        });
-    }
+router.post('/fetchVerifications', function(req, res){
+    var idsToIgnore = req.body.idsToIgnore;
+
+    UserVerification.findUnverifiedVerifications(req.admin, idsToIgnore, function(verifications){
+        res.json(verifications);
+    }, function(err){
+        console.log(err);
+        res.status(404).send("Error");
+    });
 });
 
 
 
 
 
-function loggedInRedundantCheck(req, res){
-    if (Admin.isLoggedIn(req)){
-        return true;
-    }
-    else{
-        res.status(401).send("Unauthorized. The FBI has been notified.");
-        console.log("Unauthorized access attempted");
-        return false;
-    }
-};
 
-function checkIfLoggedIn(req, res, next){
-    if (Admin.isLoggedIn(req)){
-        next();
-    }
-    else{
-        res.status(401).send("Unauthorized. The FBI has been notified.");
-        console.log("Unauthorized access attempted - admins");
-        //return false;
-    }
-};
+//function loggedInRedundantCheck(req, res){
+//    if (Admin.isLoggedIn(req)){
+//        return true;
+//    }
+//    else{
+//        res.status(401).send("Unauthorized. The FBI has been notified.");
+//        console.log("Unauthorized access attempted");
+//        return false;
+//    }
+//};
+//
+//function checkIfLoggedIn(req, res, next){
+//    if (Admin.isLoggedIn(req)){
+//        next();
+//    }
+//    else{
+//        res.status(401).send("Unauthorized. The FBI has been notified.");
+//        console.log("Unauthorized access attempted - admins");
+//        //return false;
+//    }
+//};
 
 
 module.exports = router;

@@ -13,6 +13,7 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var session = require('express-session');
+var hbs = require('hbs');
 
 var facebookTokenStrategy = require('passport-facebook-token');
 
@@ -60,10 +61,30 @@ var FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 var app = express();
 
 
-// view engine setup
+/****** SETUP VIEW ENGINE (hbs) ******/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+var blocks = {};
+
+hbs.registerHelper('extend', function(name, context) {
+    var block = blocks[name];
+    if (!block) {
+        block = blocks[name] = [];
+    }
+
+    block.push(context.fn(this)); // for older versions of handlebars, use block.push(context(this));
+});
+
+hbs.registerHelper('block', function(name) {
+    var val = (blocks[name] || []).join('\n');
+
+    // clear the block
+    blocks[name] = [];
+    return val;
+});
+
+/****** SETUP COOKIES/BODYPARSER ********/
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -74,6 +95,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+/********* SETUP PASSPORT AND SESSIONS *********/
  var sessionOptions = {
      secret: SESSION_SECRET,
      resave: true,
@@ -160,7 +182,7 @@ passport.use('business', new LocalStrategy(
     },
     function(email, password, done) {
         console.log("Validating business...");
-        Business.findOne({ email: email }, function (err, business) {
+        Business.findOne({ email: email }).deepPopulate("_unconfirmedReservations").exec(function (err, business) {
             if (err) { return done(err); }
             else if (!business) {
                 console.log("Incorrect email");
@@ -261,6 +283,8 @@ app.use('/images', images);
 app.use('/testing', testing);
 
 
+
+/********* ERROR HANDLERS **********/
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
