@@ -1,35 +1,54 @@
 {{#extend "scripts"}}
 
     <script>
-    function join(soireeId){
-        $.ajax({url: '/testing/joinSoiree', method : "POST", data: {"soireeId" : soireeId}})
-                .done(function(){
-                    alert("Succeeded");
 
-                    var button = document.getElementById(soireeId);
-                    button.onclick = null;
-                    button.innerText = "Joined";
-                }).fail(function(){
-                   alert("Failed");
-                 });
-    }
 
-    function createSoirees(){
-        $.ajax({
-            url: '/testing/createSoirees',
-            method : GET,
-            success: function(){
-                var soireesHtml = document.getElementById("soirees");
-            },
-            error: function(){
+        function join(soireeId){
+            $.ajax({url: '/testing/joinSoiree', method : "POST", data: {"soireeId" : soireeId}})
+                    .done(function(){
+                        alert("Succeeded");
 
-            }
-        });
-    }
+                        var button = document.getElementById(soireeId);
+                        button.onclick = null;
+                        button.innerText = "Joined";
+                    }).fail(function(){
+                       alert("Failed");
+                     });
+        };
+
+
+        function deleteSoirees(){
+            $.ajax({
+                url: '/testing/deleteSoirees',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(){
+                    alert("Error");
+                }
+            });
+        };
+
+        function createSoirees(){
+            $.ajax({
+                url: '/testing/createSoirees',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(){
+                    alert("Error");
+                }
+            });
+        };
 
     </script>
 
 {{/extend}}
+
+<button onclick='deleteSoirees()'> Delete Soirees </button>
+<button onclick='createSoirees()'> Create Soirees </button>
 
 <ul id="soirees">
     {{#each soirees}}

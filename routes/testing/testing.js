@@ -6,6 +6,8 @@ var helpersFolderLocation = "../../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Soiree = require(dbFolderLocation + 'Soiree.js');
+var SoireeReservation = require(dbFolderLocation + 'SoireeReservation.js');
+
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var Admin = require(dbFolderLocation + 'Admin.js');
@@ -26,7 +28,7 @@ User.findTestUser(function(user){
 router.get('/', function (req, res) {
 
     Soiree.find({}).limit(50).exec(function(err, soirees){
-       if (err || soirees.length == 0){
+       if (err){
            console.log("Error finding soirees in testing/ : " + err);
             res.status(404).send("Error");
        }
@@ -39,6 +41,26 @@ router.get('/', function (req, res) {
        }
     });
 });
+
+router.get('/deleteSoirees', function(req, res){
+    console.log('deleting soirees...');
+    SoireeReservation.remove({}).exec(function(err){});
+    Soiree.remove({}).exec(function(err){
+       if (err){
+           res.status(404).send("Error");
+       }
+        else{
+           res.send("OK");
+       }
+    });
+});
+
+router.get('/createSoirees', function(req, res){
+    console.log('creating soirees...');
+    res.redirect('/api/soirees/createSoirees?numSoirees=10');
+});
+
+
 
 router.post('/joinSoiree', function(req, res){
    console.log("Joining soiree with id: " + req.body.soireeId + " ....");

@@ -51,6 +51,7 @@ router.get('/createSoirees', function(req, res){
         var todaysDate = new Date();
 
         var d = new Date(todaysDate.getTime() + (todaysDate.getMinutes() % 10) * 60 * 1000);
+
         Soiree.createSoiree({
             soireeType: "Lunch",
             numUsersMax: 3,
