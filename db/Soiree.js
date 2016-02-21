@@ -5,9 +5,13 @@ var ObjectId = Schema.Types.ObjectId;
 
 
 /* Other Models */
-var Business = require('./Business.js');
-var User = require('./User.js');
-var SoireeReservation = require('./SoireeReservation.js');
+
+
+//console.log("in soiree:");
+//console.log(Business);
+//console.log(SoireeReservation);
+//console.log("USER:");
+//console.log(User);
 
 /* Packages */
 var shortid = require('shortid');
@@ -22,7 +26,7 @@ var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
 
 /* Schema Specific */
-var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date"];
+var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date", "TEST"];
 
 /* Error Codes */
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
@@ -59,7 +63,7 @@ soireeSchema.index({location: '2dsphere'});
 function generatePhotoIndexIdentifier(){
 	var rand = parseInt(Math.random() * 1000);
 	return rand;
-}
+};
 
 /* Static Methods */
 //soireeSchema.statics.errorCodes = function() {
@@ -67,7 +71,6 @@ function generatePhotoIndexIdentifier(){
 //}
 
 soireeSchema.statics.createScheduledTimeIdentifier = function(date){
-
 	if (!date){
 		date = new Date();
 	}
@@ -102,7 +105,23 @@ soireeSchema.statics.SOIREE = "Soirée";
 //	});
 //};
 
-soireeSchema.statics.createSoiree = function(soiree, business, successCallback, errorCallback) {
+soireeSchema.statics.createSoiree = function(soiree, successCallback, errorCallback){
+	var Soiree = this;
+
+	var Business = mongoose.model("Business");
+
+	Business.nextBusinessToHostSoiree(function(business){
+		if (!business){
+			return errorCallback(ErrorCodes.NotFound);
+		}
+
+		Soiree.createSoireeWithBusiness(soiree, business, successCallback, errorCallback);
+	}, function(err){
+		errorCallback(err);
+	});
+};
+
+soireeSchema.statics.createSoireeWithBusiness = function(soiree, business, successCallback, errorCallback) {
 	var newSoiree = new this(soiree);
 
 	newSoiree._business = business._id;
@@ -111,7 +130,8 @@ soireeSchema.statics.createSoiree = function(soiree, business, successCallback, 
 
 	newSoiree.save(function(err, savedSoiree){
 		if (err){
-			errorCallback(err);
+			console.log(err);
+			errorCallback(ErrorCodes.ErrorSaving);
 		}
 		else{
 			successCallback(savedSoiree);
@@ -127,7 +147,8 @@ soireeSchema.statics.findSoireesForBusiness = function(business, options, succes
 
 	this.find({"_business" : business._id, expired: options.showExpired}).deepPopulate("_usersAttending").exec(function(err, soirees){
 		if (err){
-			errorCallback(err);
+			console.log(err);
+			errorCallback(ErrorCodes.ErrorQuerying);
 		}
 		else{
 			successCallback(soirees);
@@ -299,6 +320,8 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, successCallback
 /* Methods */
 
 soireeSchema.methods.remind = function() {
+	console.log("Reminding users of soiree " + this.soireeType + " " + this.scheduledTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
+
 	for (var i = 0; i < this._usersAttending.length; i++){
 		var user = this._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
@@ -309,7 +332,7 @@ soireeSchema.methods.remind = function() {
 };
 
 soireeSchema.methods.start = function(){
-	console.log("In start function with users attending: " + this._usersAttending + " ...");
+	console.log("Starting soiree " + this.soireeType + " " + this.scheduledTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
 
 	for (var i = 0; i < this._usersAttending.length; i++){
 		var user = this._usersAttending[i];
@@ -330,6 +353,8 @@ soireeSchema.methods.start = function(){
 
 
 soireeSchema.methods.end = function() {
+	console.log("Ending soiree " + this.soireeType + " " + this.scheduledTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
+
 	this.ended = true;
 	this.inProgress = false;
 

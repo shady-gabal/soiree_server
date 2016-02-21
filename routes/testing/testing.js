@@ -60,6 +60,31 @@ router.get('/createSoirees', function(req, res){
     res.redirect('/api/soirees/createSoirees?numSoirees=10');
 });
 
+router.get('/createSoireeForSchedulerRun', function(req, res){
+
+    var today = new Date();
+    var mins = today.getMinutes();
+    var newMins = mins + (10 - (mins % 10));
+
+    var newDate = new Date();
+    newDate.setMinutes(newMins);
+
+    Soiree.createSoiree({
+        soireeType : "TEST",
+        numUsersMax : 4,
+        date : newDate,
+        initialCharge : 500
+    }, function(soiree){
+        res.send("OK");
+    }, function(err){
+        res.send("Error");
+    });
+
+
+});
+
+
+
 
 
 router.post('/joinSoiree', function(req, res){

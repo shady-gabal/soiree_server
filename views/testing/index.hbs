@@ -43,12 +43,27 @@
             });
         };
 
+        function createSoireeForSchedulerRun(){
+            $.ajax({
+                url: '/testing/createSoireeForSchedulerRun',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(){
+                    alert("Error");
+                }
+            });
+        };
+
     </script>
 
 {{/extend}}
 
 <button onclick='deleteSoirees()'> Delete Soirees </button>
 <button onclick='createSoirees()'> Create Soirees </button>
+<button onclick='createSoireeForSchedulerRun()'> Create Soiree For Next Scheduler Run </button>
+
 
 <ul id="soirees">
     {{#each soirees}}

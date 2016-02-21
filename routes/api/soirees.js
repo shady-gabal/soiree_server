@@ -45,14 +45,13 @@ router.get('/createSoirees', function(req, res){
     Business.nextBusinessToHostSoiree(function(nextBusiness) {
         if (!nextBusiness) {
             return res.status('404').send("Error");
-
         }
 
         var todaysDate = new Date();
 
         var d = new Date(todaysDate.getTime() + (todaysDate.getMinutes() % 10) * 60 * 1000);
 
-        Soiree.createSoiree({
+        Soiree.createSoireeWithBusiness({
             soireeType: "Lunch",
             numUsersMax: 3,
             initialCharge: 250,
@@ -71,7 +70,7 @@ router.get('/createSoirees', function(req, res){
 
             var numDays = parseInt(Math.random() * 7);
             var numHours = parseInt(Math.random() * 24);
-            var randSoireeTypeIndex = parseInt(Math.random() * soireeTypes.length);
+            var randSoireeTypeIndex = parseInt(Math.random() * soireeTypes.length-1);
             var soireeType = soireeTypes[randSoireeTypeIndex];
             var randNumUsersMax = parseInt(Math.random() * 3 + 2);
             var initialCharges = [100, 200, 300, 400, 500];
@@ -83,7 +82,7 @@ router.get('/createSoirees', function(req, res){
 
             var numReturned = 0;
 
-            Soiree.createSoiree({
+            Soiree.createSoireeWithBusiness({
                 soireeType: soireeType,
                 numUsersMax: randNumUsersMax,
                 initialCharge: randInitialCharge,
@@ -182,6 +181,8 @@ router.get('/createSoirees', function(req, res){
 
 
 
+    }, function(err){
+        res.status(404).send("Error");
     });
 
 
@@ -214,12 +215,8 @@ router.post('/soireesNear', function(req, res, next){
             res.json(dataToSend);
         }, function(err){
             console.log("Error finding soirees near you: " +  err);
-            ResHelper.sendError(res, ErrorCodes.SoireesCannotFindError);
+            ResHelper.sendError(res, ErrorCodes.NotFound);
         });
-
-    }, function(err) {
-        //console.log("Error finding soirees near you: " +  err);
-        ResHelper.sendError(res, ErrorCodes.SoireesCannotFindError);
 
     });
 

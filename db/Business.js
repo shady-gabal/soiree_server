@@ -61,6 +61,10 @@ var businessSchema = new Schema({
 businessSchema.index({location: '2dsphere'});
 
 
+businessSchema.statics.go = function(){
+    console.log("CALLED");
+};
+
 businessSchema.statics.createBusiness = function(business, email, password, successCallback, errorCallback){
     var Business = this;
 
@@ -69,7 +73,6 @@ businessSchema.statics.createBusiness = function(business, email, password, succ
         console.log("No username/pw specified in createBusiness()");
         return errorCallback();
     }
-
 
     business.email = email;
 
@@ -103,19 +106,19 @@ businessSchema.statics.createBusiness = function(business, email, password, succ
     });
 };
 
-businessSchema.statics.nextBusinessToHostSoiree = function(callback){
+businessSchema.statics.nextBusinessToHostSoiree = function(successCallback, errorCallback){
     this.findOne({email : "shady@wearethirdrail.com"}, function(err, obj){
        if (err) {
            console.log("Error finding next business to host soiree");
-           callback(null);
+           errorCallback(ErrorCodes.ErrorQuerying);
        }
         else{
            if (!obj) {
-               callback(obj);
+               errorCallback(ErrorCodes.NotFound);
            }
            else {
                console.log("Found next business to host soiree: " + obj.businessName);
-               callback(obj);
+               successCallback(obj);
            }
        }
     });
