@@ -61,10 +61,6 @@ var businessSchema = new Schema({
 businessSchema.index({location: '2dsphere'});
 
 
-businessSchema.statics.go = function(){
-    console.log("CALLED");
-};
-
 businessSchema.statics.createBusiness = function(business, email, password, successCallback, errorCallback){
     var Business = this;
 

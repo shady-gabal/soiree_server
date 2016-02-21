@@ -347,6 +347,7 @@ soireeSchema.methods.start = function(){
 	this.save(function(err){
 		if (err){
 			console.log("Error saving soiree - start()");
+			console.log(err);
 		}
 	});
 };
@@ -426,7 +427,7 @@ soireeSchema.methods.join = function(user, successCallback, errorCallback){
 		}
 
 		CreditCardHelper.chargeForSoiree(soiree, user, function(charge){
-
+			var SoireeReservation = mongoose.model("SoireeReservation");
 			SoireeReservation.createSoireeReservation(user, soiree, charge, successCallback, errorCallback);
 
 		}, function(err){
@@ -443,7 +444,7 @@ soireeSchema.methods.jsonObject = function (user) {
 	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
 
 	var usersColleges = [];
-	console.log("_usersAttending: " + this._usersAttending);
+	//console.log("_usersAttending: " + this._usersAttending);
 
 	for (var i = 0; i < this._usersAttending.length; i++){
 		var college = this._usersAttending[i].college;

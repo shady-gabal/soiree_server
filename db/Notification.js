@@ -171,7 +171,6 @@ notificationSchema.methods.jsonObject = function(){
 };
 
 notificationSchema.virtual('body').get(function () {
-    console.log(".virtual('body'). this.users: " + this.users);
 
     var numNames = this.users.length;
 
