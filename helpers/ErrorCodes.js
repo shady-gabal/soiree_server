@@ -22,6 +22,7 @@ var errorCodes = (function() {
         /* Misc */
         'MissingData' : 'MissingData',
         'ErrorSaving' : 'ErrorSaving',
+        'ErrorPopulating' : 'ErrorPopulating',
         'ErrorQuerying' : 'ErrorQuerying',
         'FileReadError' : 'FileReadError',
         'NotFound' : 'NotFound',

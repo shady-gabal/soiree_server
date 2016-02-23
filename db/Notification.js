@@ -27,7 +27,7 @@ var notificationSchema = new Schema({
     users: [{ user: {type: ObjectId, ref:"User"}, name:String }],
     bodySuffix : {type: String, required: true},
     postId : {type: String},
-    pictureUrl : {type: String},
+    imageUrl : {type: String},
     notificationType : {type: String, enum: notificationTypes, required: true},
     _user : {type: ObjectId, ref: "User"},
     _id : {type: String}
@@ -107,7 +107,7 @@ notificationSchema.statics.addToOrCreateNotification = function(bodySuffix, noti
                 notification.users = notification.users.filter(filterOutExistingUser);
                 console.log("Filtered out notification.users to: " + notification.users);
                 notification.users.push(newUser);
-                notification.pictureUrl = causingUser.profilePictureUrl;
+                notification.imageUrl = causingUser.profilePictureUrl;
                 notification.read = false;
                 notification.save();
                 //PushNotificationHelper.sendPushNotification(notificationsUser, notification.body);
@@ -143,7 +143,7 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
         bodySuffix : bodySuffix,
         _user : notificationsUser._id,
         postId : post.postId,
-        pictureUrl : causingUser.profilePictureUrl,
+        imageUrl : causingUser.profilePictureUrl,
         notificationType : type,
         _id : generateId(causingUser, post.postId, type),
         users: [{user: causingUser._id, name: causingUser.firstName}]
@@ -163,7 +163,7 @@ notificationSchema.methods.jsonObject = function(){
         "read" : this.read,
         "body" : this.body,
         "notificationId" : this.notificationId,
-        "pictureUrl" : this.pictureUrl,
+        "imageUrl" : this.imageUrl,
         "notificationType" : this.notificationType,
         "postId" : this.postId
     };

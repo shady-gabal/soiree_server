@@ -93,6 +93,7 @@ soireeSchema.statics.createScheduledTimeIdentifier = function(date){
 };
 
 soireeSchema.statics.SOIREE = "Soirée";
+soireeSchema.statics.SOIREE_LOWERCASE = "soirée";
 
 //soireeSchema.statics.findSoireesWithScheduledTimeIdentifier = function(scheduledTimeIdentifier, successCallback, errorCallback){
 //	Soiree.find({"scheduledTimeIdentifier" : scheduledTimeIdentifier}).populate("_business").exec(function(err, soirees){
@@ -338,7 +339,7 @@ soireeSchema.methods.start = function(){
 		var user = this._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
 
-		var message = "Your " + this.soireeType + " " + this.SOIREE + " is about to start! Open up " + this.SOIREE + " to get started.";
+		var message = "Your " + this.soireeType + " " + this.SOIREE_LOWERCASE + " is about to start! Open up " + this.SOIREE + " to get started.";
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
 
@@ -359,22 +360,22 @@ soireeSchema.methods.end = function() {
 	this.ended = true;
 	this.inProgress = false;
 
-	for (var i = 0; i < this._usersAttending.length; i++) {
-		var user = this._usersAttending[i];
-		var index = user._soireesAttending.indexOf(this._id);
-		if (index != -1){
-			user._soireesAttending.splice(index, 1);
-		}
-		if (user._soireesAttended.indexOf(this._id) == -1) {
-			user._soireesAttended.push(this._id);
-		}
-		user.save(function(err){
-			if (err){
-				console.log("Error saving user - end()");
-			}
-		});
-
-	}
+	//for (var i = 0; i < this._usersAttending.length; i++) {
+	//	var user = this._usersAttending[i];
+	//	var index = user._soireesAttending.indexOf(this._id);
+	//	if (index != -1){
+	//		user._soireesAttending.splice(index, 1);
+	//	}
+	//	if (user._soireesAttended.indexOf(this._id) == -1) {
+	//		user._soireesAttended.push(this._id);
+	//	}
+	//	user.save(function(err){
+	//		if (err){
+	//			console.log("Error saving user - end()");
+	//		}
+	//	});
+    //
+	//}
 
 	this.save(function(err){
 		if (err){

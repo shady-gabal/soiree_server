@@ -270,31 +270,30 @@ router.post('/uploadDeviceToken', function(req, res, next){
 router.post('/fetchUserSoirees', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
 
-    user.deepPopulate("_soireesAttending._business _soireesAttended._business", function(err, newUser){
-
-      if (err){
-        return ResHelper.sendError(res, ErrorCodes.Error);
-      }
+    //user.deepPopulate("_soireesAttending._business _soireesAttended._business", function(err, newUser){
+    //
+    //  if (err){
+    //    return ResHelper.sendError(res, ErrorCodes.Error);
+    //  }
 
       //console.log("newUser: " + newUser);
       //console.log("newUser._soireesAttending: " + newUser._soireesAttending);
 
-      var obj = {};
 
-      //if (newUser.populated('_soireesAttended')){
-        var arr = [];
-        for (var i = 0; i < newUser._soireesAttended.length; i++){
-          var soiree = newUser._soireesAttended[i];
-          arr.push(soiree.jsonObject(newUser));
-        }
-        obj["past"] = arr;
-      //}
-
-      //if (newUser.populated('_soireesAttending')){
+      user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
+        var obj = {};
+        var pastArr = [];
         var presentArr = [];
         var futureArr = [];
-        for (var i = 0; i < newUser._soireesAttending.length; i++) {
-          var soiree = newUser._soireesAttending[i];
+
+        for (var i = 0; i < soireesAttended.length; i++){
+          var soiree = soireesAttended[i];
+          pastArr.push(soiree.jsonObject(newUser));
+        }
+        obj["past"] = pastArr;
+
+        for (var i = 0; i < soireesAttending.length; i++) {
+          var soiree = soireesAttending[i];
 
           if (soiree.started) {
             presentArr.push(soiree.jsonObject(newUser));
@@ -306,11 +305,43 @@ router.post('/fetchUserSoirees', function(req, res, next){
         }
         obj["present"] = presentArr;
         obj["future"] = futureArr;
-      //}
 
-      res.json(obj);
+        res.json(obj);
 
-    });
+      }, function(err){
+        ResHelper.sendError(res, err);
+      });
+      //
+      ////if (newUser.populated('_soireesAttended')){
+      //  var arr = [];
+      //  for (var i = 0; i < newUser._soireesAttended.length; i++){
+      //    var soiree = newUser._soireesAttended[i];
+      //    arr.push(soiree.jsonObject(newUser));
+      //  }
+      //  obj["past"] = arr;
+      ////}
+      //
+      ////if (newUser.populated('_soireesAttending')){
+      //  var presentArr = [];
+      //  var futureArr = [];
+      //  for (var i = 0; i < newUser._soireesAttending.length; i++) {
+      //    var soiree = newUser._soireesAttending[i];
+      //
+      //    if (soiree.started) {
+      //      presentArr.push(soiree.jsonObject(newUser));
+      //    }
+      //    else {
+      //      futureArr.push(soiree.jsonObject(newUser));
+      //    }
+      //
+      //  }
+      //  obj["present"] = presentArr;
+      //  obj["future"] = futureArr;
+      ////}
+      //
+      //res.json(obj);
+
+    //});
 
   });
 });

@@ -29,6 +29,8 @@ var customSchema = new Schema({
         _user : {type: ObjectId, ref:"User", required: true},
         _soiree : {type: ObjectId, ref: "Soiree", required: true},
         _business : {type: ObjectId, ref: "Business", required: true},
+        reservationId: {type: String, index: true, default: shortid.generate},
+        soireeId: {type: String},
         confirmationCode : {type: String, default: generateConfirmationCode, uppercase: true, trim: true},
         confirmed : {type: Boolean, default: false}
 
@@ -85,6 +87,7 @@ customSchema.statics.createSoireeReservation = function(user, soiree, charge, su
     var reservation = new this({
         _user : user._id,
         _soiree : soiree._id,
+        soireeId : soiree.soireeId,
         _business : business._id
     });
 
@@ -106,11 +109,11 @@ customSchema.statics.createSoireeReservation = function(user, soiree, charge, su
         }
         else{
             soiree._reservations.push(_reservation._id);
-            user._reservations.push(_reservation._id);
+            user._pendingReservations.push(_reservation._id);
             business._unconfirmedReservations.push(_reservation._id);
 
             soiree._usersAttending.push(user._id);
-            user._soireesAttending.push(soiree._id);
+            //user._soireesAttending.push(soiree._id);
 
             var orderToSave = [business, soiree, user];
             var currSaveIndex = 0;
@@ -218,6 +221,16 @@ customSchema.methods.confirm = function(code, successCallback, errorCallback){
         });
     }
     else errorCallback();
+};
+
+customSchema.methods.jsonObject = function(){
+  return {
+      "reservationId" : this.reservationId,
+      "soireeId" : this.soireeId,
+      "confirmationCode" : this.confirmationCode,
+      "confirmed" : this.confirmed
+  };
+
 };
 
 customSchema.virtual('').get(function () {

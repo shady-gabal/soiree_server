@@ -56,8 +56,8 @@ var userSchema = new Schema({
 		phoneNumber : {type : String},
 		//secretKey : {type: String, index: true, unique: true, default: shortid.generate},
 		finishedSignUp : {type : Boolean, default: false}, /* Signup */
-		_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
-		_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
+		//_soireesAttending: [{type: ObjectId, ref:"Soiree"}],
+		//_soireesAttended: [{type: ObjectId, ref:"Soiree"}],
 		dateSignedUp: {type : Date, default: new Date()}, /* Dates */
 		dateLastSignedIn : {type: Date, default: new Date()},
 		associatedDeviceUUIDs : [{type: String}],
@@ -67,7 +67,8 @@ var userSchema = new Schema({
 		_approvedBy: {type: ObjectId, ref: "Admin"},
 		_notifications : [{type: String, ref: "Notification"}],
 		classType : {type: String, default: 'user', enum: ['user']},
-		_reservations : [{type: ObjectId, ref: "SoireeReservation"}]
+		_pendingReservations : [{type: ObjectId, ref: "SoireeReservation"}],
+		_pastReservations : [{type: ObjectId, ref: "SoireeReservation"}]
 
 		//location: { /* Location */
 	//	type: {type: String},
@@ -117,12 +118,19 @@ userSchema.methods.jsonObject = function(){
 		"pendingVerification" : this.pendingVerification,
 		//"creditCardLast4Digits" : this.creditCardLast4Digits,
 		"hasStripeCustomerId" : this.hasStripeCustomerId,
-		"deviceToken" : this.deviceToken,
+		"deviceToken" : this.deviceToken
 	};
 
 	if (this.populated("_notifications")){
 		var notifications = Notification.jsonArrayFromArray(this._notifications);
 		obj.notifications = notifications;
+	}
+	if (this.populated("_pendingReservations")){
+		var reservations = [];
+		for (var i = 0 ; i < this._pendingReservations.length; i++){
+			reservations.push(this._pendingReservations[i].jsonObject());
+		}
+		obj["pendingReservations"] = reservations;
 	}
 
 	return obj;
@@ -130,6 +138,30 @@ userSchema.methods.jsonObject = function(){
 
 userSchema.methods.verifyCode = function(code){
 	return this.verificationCode == code;
+};
+
+userSchema.methods.findSoireesAttendingAndAttended = function(successCallback, errorCallback){
+	this.deepPopulate("_pendingReservations.soiree _pastReservations.soiree", function(err, _user){
+		if (err){
+			console.log(err);
+			errorCallback(ErrorCodes.ErrorPopulating);
+		}
+		else{
+			var soireesAttending = [], soireesAttended = [];
+
+			for (var i = 0; i < _user._pendingReservations.length; i++){
+				var soiree = _user._pendingReservations[i]._soiree;
+				soireesAttending.push(soiree);
+			}
+
+			for (var j = 0; j < _user._pendingReservations.length; j++){
+				var soiree = _user._pendingReservations[j]._soiree;
+				soireesAttended.push(soiree);
+			}
+
+			successCallback(soireesAttending, soireesAttended);
+		}
+	});
 };
 
 userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){

@@ -6,6 +6,7 @@ var helpersFolderLocation = "../../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
 var Soiree = require(dbFolderLocation + 'Soiree.js');
+var SoireeReservation = require(dbFolderLocation + 'SoireeReservation.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var SpontaneousSoireeJob = require(dbFolderLocation + 'SpontaneousSoireeJob.js');
@@ -37,6 +38,7 @@ router.get('/requestingSoirees', function(req, res, next){
 
     });
 });
+
 
 router.get('/createSoirees', function(req, res){
 
@@ -272,6 +274,28 @@ router.post('/joinSoiree', function(req, res, next){
    }, function(err){
         ResHelper.sendError(res, ErrorCodes.UserVerificationError);
    });
+});
+
+router.post('/reservationForSoiree', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
+        var soireeId = req.body.soireeId;
+        if (!soireeId){
+            return ResHelper.sendError(res, ErrorCodes.MissingData);
+        }
+
+       SoireeReservation.findOne({soireeId : soireeId, _user : user._id}).exec(function(err, reservation){
+          if (err){
+              console.log(err);
+              ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
+          }
+           else if (!reservation){
+              res.json({});
+          }
+           else{
+              res.json(reservation.jsonObject());
+          }
+       });
+    });
 });
 
 router.post('/uploadSpontaneousSoiree', function(req, res, next){

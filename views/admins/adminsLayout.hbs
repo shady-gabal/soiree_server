@@ -3,8 +3,10 @@
     <head>
         <title>{{title}}</title>
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel='stylesheet' href='/stylesheets/shared/index.css' />
+        <link rel='stylesheet' href='/stylesheets/shared/base.css' />
         <link rel='stylesheet' href='/stylesheets/shared/login.css' />
+        <link rel='stylesheet' href='/stylesheets/admins/base.css' />
+
         {{{block "stylesheets"}}}
 
         {{#each stylesheets}}
@@ -14,6 +16,7 @@
 
     <body>
 
+       <!--Top Navigation Bar -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
 
@@ -50,28 +53,60 @@
             </div>
         </nav>
 
-
-        {{#if errs}}
-            <div class='alert alert-danger' role='alert'>
-                <ul>
-                    {{#each errs}}
-                        <li>{{this}}</li>
-                    {{/each}}
-                </ul>
-            </div>
+        <!--Side Navigation Bar-->
+       {{#if admin}}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li><a href="#">Analytics</a></li>
+                        <li><a href="#">Export</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li><a href="">Nav item</a></li>
+                        <li><a href="">Nav item again</a></li>
+                        <li><a href="">One more nav</a></li>
+                        <li><a href="">Another nav item</a></li>
+                        <li><a href="">More navigation</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li><a href="">Nav item again</a></li>
+                        <li><a href="">One more nav</a></li>
+                        <li><a href="">Another nav item</a></li>
+                    </ul>
+                </div>
         {{/if}}
 
-        {{#if successMsgs}}
-            <div class='alert alert-success' role='alert'>
-                <ul>
-                    {{#each successMsgs}}
-                        <li>{{this}}</li>
-                    {{/each}}
-                </ul>
-            </div>
-        {{/if}}
+                {{#if errs}}
+                    <div class='alert alert-danger' role='alert'>
+                        <ul>
+                            {{#each errs}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                {{/if}}
 
-        {{{body}}}
+                {{#if successMsgs}}
+                    <div class='alert alert-success' role='alert'>
+                        <ul>
+                            {{#each successMsgs}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                {{/if}}
+
+       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+         {{{body}}}
+       </div>
+
+       {{#if admin}}
+            </div>
+           </div>
+       {{/if}}
 
         <!-- Bootstrap core JavaScript
     ================================================== -->
