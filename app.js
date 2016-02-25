@@ -22,35 +22,6 @@ var User = require('./db/User.js');
 var Admin = require('./db/Admin.js');
 var Business = require('./db/Business.js');
 
-/* User Facing Routes */
-var userIndex = require('./routes/consumer/index');
-
-/* API Routes */
-var soirees = require('./routes/api/soirees');
-var users = require('./routes/api/users');
-var businessesApi = require('./routes/api/businessesApi');
-var questionnaire = require('./routes/api/questionnaire');
-var community = require('./routes/api/community');
-var verificationsApi = require('./routes/api/verificationsApi');
-
-
-/* Admin Facing */
-var admins = require('./routes/admins/admins.js');
-var adminLogin = require('./routes/admins/adminLogin.js');
-var businessLogin = require('./routes/businesses/businessLogin.js');
-var verifications = require('./routes/admins/idVerifications.js');
-
-
-/* Business Facing */
-var businesses =  require('./routes/businesses/businesses.js');
-
-/* Testing */
-var testing = require('./routes/testing/testing.js');
-
-/* Resource Serving */
-var images =  require('./routes/images/images.js');
-
-
 var COOKIE_SECRET = "SoIrEE12IsAmAzIng";
 var COOKIE_NAME = "cookie_name";
 var SESSION_SECRET = "SeCreTMsGSoIrEe12";
@@ -60,6 +31,32 @@ var FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
 var app = express();
 
+var http = require('http');
+var server = http.Server(app);
+var io = require('socket.io')(server);
+app.io = io;
+
+/**** Routes ****/
+/* User Facing Routes */
+var userIndex = require('./routes/consumer/index');
+/* API Routes */
+var soirees = require('./routes/api/soirees')(io);
+var users = require('./routes/api/users');
+var businessesApi = require('./routes/api/businessesApi');
+var questionnaire = require('./routes/api/questionnaire');
+var community = require('./routes/api/community');
+var verificationsApi = require('./routes/api/verificationsApi');
+/* Admin Facing */
+var admins = require('./routes/admins/admins.js');
+var adminLogin = require('./routes/admins/adminLogin.js');
+var businessLogin = require('./routes/businesses/businessLogin.js');
+var verifications = require('./routes/admins/idVerifications.js');
+/* Business Facing */
+var businesses =  require('./routes/businesses/businesses.js');
+/* Testing */
+var testing = require('./routes/testing/testing.js')(io);
+/* Resource Serving */
+var images =  require('./routes/images/images.js');
 
 /****** SETUP VIEW ENGINE (hbs) ******/
 app.set('views', path.join(__dirname, 'views'));
