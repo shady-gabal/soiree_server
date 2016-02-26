@@ -281,6 +281,9 @@ router.post('/fetchUserSoirees', function(req, res, next){
 
 
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
+        console.log("soireesAttending: " + soireesAttending);
+        console.log("soireesAttended: " + soireesAttended);
+
         var obj = {};
         var pastArr = [];
         var presentArr = [];
@@ -288,18 +291,18 @@ router.post('/fetchUserSoirees', function(req, res, next){
 
         for (var i = 0; i < soireesAttended.length; i++){
           var soiree = soireesAttended[i];
-          pastArr.push(soiree.jsonObject(newUser));
+          pastArr.push(soiree.jsonObject(user));
         }
         obj["past"] = pastArr;
 
-        for (var i = 0; i < soireesAttending.length; i++) {
-          var soiree = soireesAttending[i];
+        for (var j = 0; j < soireesAttending.length; j++) {
+          var soiree = soireesAttending[j];
 
           if (soiree.started) {
-            presentArr.push(soiree.jsonObject(newUser));
+            presentArr.push(soiree.jsonObject(user));
           }
           else {
-            futureArr.push(soiree.jsonObject(newUser));
+            futureArr.push(soiree.jsonObject(user));
           }
 
         }
