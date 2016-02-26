@@ -41,35 +41,36 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}
     }
 });
 
-//update inProgress soirees
-Soiree.find( { "scheduledTimeIdentifier" : {"$gt" : scheduledTimeIdentifierPrevious, "$lt" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "inProgress" : true} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
-    if (err){
-        console.log("Error in scheduledSoirees: " + err);
-    }
-    else{
-        console.log("Updating progress of " + soirees.length + " soirees");
-        for (var i = 0; i < soirees.length; i++){
-            var soiree = soirees[i];
-            console.log("Updating soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-            //soiree.end();
-        }
-    }
-});
+////update inProgress soirees
+//Soiree.find( { "scheduledTimeIdentifier" : {"$gt" : scheduledTimeIdentifierPrevious, "$lt" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "inProgress" : true} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+//    if (err){
+//        console.log("Error in scheduledSoirees: " + err);
+//    }
+//    else{
+//        console.log("Updating progress of " + soirees.length + " soirees");
+//        for (var i = 0; i < soirees.length; i++){
+//            var soiree = soirees[i];
+//            console.log("Updating soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+//            //soiree.end();
+//        }
+//    }
+//});
 
 //end existing soirees
-Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierPrevious}, "started" : true, "ended" : false, "inProgress" : true} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
-    if (err){
-        console.log("Error in scheduledSoirees: " + err);
-    }
-    else{
-        console.log("Ending " + soirees.length + " soirees");
-        for (var i = 0; i < soirees.length; i++){
-            var soiree = soirees[i];
-            console.log("Ending soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-            soiree.end();
-        }
-    }
-});
+
+//Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierPrevious}, "started" : true, "ended" : false, "inProgress" : true} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+//    if (err){
+//        console.log("Error in scheduledSoirees: " + err);
+//    }
+//    else{
+//        console.log("Ending " + soirees.length + " soirees");
+//        for (var i = 0; i < soirees.length; i++){
+//            var soiree = soirees[i];
+//            console.log("Ending soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+//            soiree.end();
+//        }
+//    }
+//});
 
 
 //remind people of upcoming soirees
