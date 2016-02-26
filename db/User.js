@@ -141,7 +141,7 @@ userSchema.methods.verifyCode = function(code){
 };
 
 userSchema.methods.findSoireesAttendingAndAttended = function(successCallback, errorCallback){
-	this.deepPopulate("_pendingReservations _pastReservations", function(err, _user){
+	this.deepPopulate("_pendingReservations._soiree _pastReservations._soiree", function(err, _user){
 		if (err){
 			console.log(err);
 			errorCallback(ErrorCodes.ErrorPopulating);
