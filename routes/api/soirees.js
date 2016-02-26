@@ -264,6 +264,8 @@ var returnRouter = function(io) {
 
     });
 
+    router.get('/soiree')
+
     return router;
 };
 

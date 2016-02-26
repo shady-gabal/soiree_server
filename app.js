@@ -41,6 +41,7 @@ app.io = io;
 var userIndex = require('./routes/consumer/index');
 /* API Routes */
 var soirees = require('./routes/api/soirees')(io);
+var soireeInProgress = require('./routes/api/soireeInProgress')(io);
 var users = require('./routes/api/users');
 var businessesApi = require('./routes/api/businessesApi');
 var questionnaire = require('./routes/api/questionnaire');
@@ -243,6 +244,7 @@ passport.deserializeUser(function(user, done) {
 
 /******* API ********/
 app.use('/api/soirees', soirees);
+app.use('/api/soireeInProgress', soireeInProgress);
 app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);
 app.use('/api/businesses', businessesApi);

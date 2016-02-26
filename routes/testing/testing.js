@@ -28,32 +28,15 @@ var returnRouter = function(io) {
         console.log("Error setting test user: " + err);
     });
 
-//var http = require('http');
-//var server = http.createServer(express());
-//var port = process.env.PORT || 80;
-//
-//var io = require('socket.io').listen(server);
-
-//var express = require('express'),
-//    app = express(),
-//    server = app.listen(80),
-//    io = require('socket.io').listen(server);
-
-//server.listen(port, function(){
-//    console.log('listening on *:' + port);
-//});
-
-//io.on('connection', function (socket) {
-//    console.log("socket.io connected");
-//    socket.emit('news', { hello: 'world' });
-//    socket.on('my other event', function (data) {
-//        console.log(data);
-//    });
-//});
-
-    io.on('connection', function (socket) {
-        console.log('a user connected');
-    });
+    //io.on('connection', function(socket){
+    //    //socket.on('event name', function(data){});
+    //
+    //    //io.emit('event name', data);
+    //    console.log('a user connected to testing');
+    //    socket.on('disconnect', function(){
+    //        console.log('user disconnected from testing');
+    //    });
+    //});
 
     router.get('/testSocket', function (req, res) {
         ResHelper.render(req, res, 'testing/testSocket', {});
