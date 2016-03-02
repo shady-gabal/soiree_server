@@ -281,8 +281,8 @@ router.post('/fetchUserSoirees', function(req, res, next){
 
 
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
-        console.log("soireesAttending: " + soireesAttending);
-        console.log("soireesAttended: " + soireesAttended);
+        //console.log("soireesAttending: " + soireesAttending);
+        //console.log("soireesAttended: " + soireesAttended);
 
         var obj = {};
         var pastArr = [];

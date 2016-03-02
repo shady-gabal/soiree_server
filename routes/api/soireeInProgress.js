@@ -18,6 +18,7 @@ var returnRouter = function(io) {
     var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
     router.get('/', function (req, res) {
+        console.log("/soireeInProgress requested");
         io.on('connection', function(socket){
             //socket.on('event name', function(data){});
 
