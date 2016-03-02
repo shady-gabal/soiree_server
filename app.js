@@ -244,7 +244,7 @@ passport.deserializeUser(function(user, done) {
 
 /******* API ********/
 app.use('/api/soirees', soirees);
-app.use('/api/soireeInProgress', soireeInProgress);
+app.use('/api/soirees/soireeInProgress', soireeInProgress);
 app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);
 app.use('/api/businesses', businessesApi);
