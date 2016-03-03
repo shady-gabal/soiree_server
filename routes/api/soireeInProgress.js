@@ -48,7 +48,7 @@ var returnRouter = function(io) {
     });
 
     router.get('/sendMessage', function(req, res){
-        var text = req.query.message ?: "Test Message";
+        var text = req.query.message ? req.query.message : "Test Message";
         var message = {author: SOIREE, text : text};
 
         _socket.emit('test', message);
