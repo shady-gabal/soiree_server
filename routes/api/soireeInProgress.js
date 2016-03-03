@@ -26,7 +26,7 @@ var returnRouter = function(io) {
     var _socket;
 
     io.on('connection', function(socket){
-        //_socket = socket;
+        _socket = socket;
         console.log('a user connected to soireeInProgress');
 
         //socket.on('event name', function(data){});
