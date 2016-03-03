@@ -20,16 +20,23 @@ var returnRouter = function(io) {
     var SOIREE = Soiree.SOIREE;
     var SOIREE_LOWERCASE = Soiree.SOIREE_LOWERCASE;
 
+    console.log("Soiree " + SOIREE);
+    console.log("soiree " + SOIREE_LOWERCASE);
+
+    var _socket;
+
     router.get('/', function (req, res) {
         console.log("/soireeInProgress requested");
         io.on('connection', function(socket){
+            _socket = socket;
+
             console.log('a user connected to soireeInProgress');
 
             //socket.on('event name', function(data){});
 
             var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
-            socket.emit('message', message);
-            console.log("sent message");
+            //socket.emit('test', message);
+            //console.log("sent message");
 
             //res.json({"status" : "Connected"});
 
@@ -38,6 +45,13 @@ var returnRouter = function(io) {
             });
         });
         //res.render('index', {title: 'Express'});
+    });
+
+    router.get('/sendMessage', function(req, res){
+        var text = req.query.message ?: "Test Message";
+        var message = {author: SOIREE, text : text};
+
+        _socket.emit('test', message);
     });
 
     return router;
