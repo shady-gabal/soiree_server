@@ -52,6 +52,7 @@ var returnRouter = function(io) {
         var message = {author: SOIREE, text : text};
 
         _socket.emit('test', message);
+        res.send("Sent '" + message.text + "'");
     });
 
     return router;
