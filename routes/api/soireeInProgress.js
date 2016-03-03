@@ -23,12 +23,15 @@ var returnRouter = function(io) {
     router.get('/', function (req, res) {
         console.log("/soireeInProgress requested");
         io.on('connection', function(socket){
+            console.log('a user connected to soireeInProgress');
+
             //socket.on('event name', function(data){});
 
-            io.emit('message', {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE});
+            var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
+            socket.emit('message', message);
+            console.log("sent message");
 
             //res.json({"status" : "Connected"});
-            console.log('a user connected to soireeInProgress');
 
             socket.on('disconnect', function(){
                 console.log('user disconnected from soireeInProgress');
