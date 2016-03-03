@@ -17,14 +17,17 @@ var returnRouter = function(io) {
 
     var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
+    var SOIREE = Soiree.SOIREE;
+    var SOIREE_LOWERCASE = Soiree.SOIREE_LOWERCASE;
+
     router.get('/', function (req, res) {
         console.log("/soireeInProgress requested");
         io.on('connection', function(socket){
             //socket.on('event name', function(data){});
 
-            //io.emit('event name', data);
+            io.emit('message', {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE});
 
-            res.json({"status" : "Connected"});
+            //res.json({"status" : "Connected"});
             console.log('a user connected to soireeInProgress');
 
             socket.on('disconnect', function(){
