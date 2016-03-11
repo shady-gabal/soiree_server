@@ -50,11 +50,43 @@
                 success: function(){
                     location.reload(true);
                 },
-                error: function(){
-                    alert("Error");
+                error: function(err){
+                    alert("Error: " + err);
                 }
             });
         };
+
+        function createPost(){
+            var text = $("#newPost").val()
+            $.ajax({
+                url: '/testing/createPost',
+                method : 'POST',
+                data : {text : text},
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        };
+
+        function addComment(postId){
+            var idString = "#" + postId + "comment";
+            var text = $(idString).val();
+
+            $.ajax({
+                url: '/testing/createComment',
+                method : 'POST',
+                data : {text : text, postId : postId},
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        }
 
     </script>
 
@@ -65,6 +97,7 @@
 <button onclick='createSoireeForSchedulerRun()'> Create Soiree For Next Scheduler Run </button>
 
 
+<h1> Soirees </h1>
 <ul id="soirees">
     {{#each soirees}}
          <li>
@@ -78,6 +111,35 @@
     {{/each}}
 </ul>
 
+<h1> Posts </h1>
+
+<div id="makePost">
+    <textarea id="newPost" style="height:100px; width: 200px;"></textarea>
+    <button onclick="createPost()">Post </button>
+</div>
+
+
+<ul id="posts">
+    {{#each posts}}
+        <li>
+            POST:"{{this.text}}" <br />
+            by: {{this.author}} <br />
+            postId : {{this.postId}}
+          <ul>
+                  {{#each this._comments}}
+                  <li>
+                      {{this.text}}
+                  </li>
+                  {{/each}}
+
+                  <input type="text" id="{{this.postId}}comment" />
+                  <button onclick="addComment('{{this.postId}}')"> Comment</button>
+
+
+          </ul>
+        </li>
+    {{/each}}
+</ul>
 
 
 

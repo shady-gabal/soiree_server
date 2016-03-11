@@ -68,12 +68,12 @@ var userSchema = new Schema({
 		_notifications : [{type: String, ref: "Notification"}],
 		classType : {type: String, default: 'user', enum: ['user']},
 		_pendingReservations : [{type: ObjectId, ref: "SoireeReservation"}],
-		_pastReservations : [{type: ObjectId, ref: "SoireeReservation"}]
+		_pastReservations : [{type: ObjectId, ref: "SoireeReservation"}],
 
-		//location: { /* Location */
-	//	type: {type: String},
-	//	coordinates: []
-	//}
+		location: { /* Location */
+		type: {type: String},
+		coordinates: []
+		}
 },
 	{ timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
 );

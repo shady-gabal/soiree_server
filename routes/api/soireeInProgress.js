@@ -20,9 +20,6 @@ var returnRouter = function(io) {
     var SOIREE = Soiree.SOIREE;
     var SOIREE_LOWERCASE = Soiree.SOIREE_LOWERCASE;
 
-    console.log("Soiree " + SOIREE);
-    console.log("soiree " + SOIREE_LOWERCASE);
-
     var _socket;
 
     io.on('connection', function(socket){

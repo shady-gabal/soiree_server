@@ -9,12 +9,15 @@ var returnRouter = function(io) {
     var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
     var Soiree = require(dbFolderLocation + 'Soiree.js');
     var SoireeReservation = require(dbFolderLocation + 'SoireeReservation.js');
+    var CommunityPost = require(dbFolderLocation + 'CommunityPost.js');
+    var CommunityComment = require(dbFolderLocation + 'CommunityComment.js');
 
     var Business = require(dbFolderLocation + 'Business.js');
     var User = require(dbFolderLocation + 'User.js');
     var Admin = require(dbFolderLocation + 'Admin.js');
 
     var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+    var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
     var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
     var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
@@ -23,6 +26,12 @@ var returnRouter = function(io) {
 
     User.findTestUser(function (user) {
         _user = user;
+        //if (!user.location){
+            console.log("saving user location...");
+            _user.location = LocationHelper.createPoint(44, 44);
+            _user.save();
+        //}
+
         console.log("_user set");
     }, function (err) {
         console.log("Error setting test user: " + err);
@@ -44,19 +53,24 @@ var returnRouter = function(io) {
 
     router.get('/', function (req, res) {
 
-        Soiree.find({}).limit(50).exec(function (err, soirees) {
-            if (err) {
-                console.log("Error finding soirees in testing/ : " + err);
-                res.status(404).send("Error");
-            }
-            else {
-                for (var i = 0; i < soirees.length; i++) {
-                    var soiree = soirees[i];
-                    soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+        CommunityPost.findPosts(req, null, _user, function(posts){
+            Soiree.find({}).limit(50).exec(function (err, soirees) {
+                if (err) {
+                    console.log("Error finding soirees in testing/ : " + err);
+                    res.status(404).send("Error");
                 }
-                ResHelper.render(req, res, 'testing/index', {soirees: soirees});
-            }
-        });
+                else {
+                    for (var i = 0; i < soirees.length; i++) {
+                        var soiree = soirees[i];
+                        soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+                    }
+                    ResHelper.render(req, res, 'testing/index', {soirees: soirees, posts: posts});
+                }
+            });
+        }, function(err){
+            res.send("Error finding posts : " + err);
+        })
+
     });
 
     router.get('/deleteSoirees', function (req, res) {
@@ -114,6 +128,22 @@ var returnRouter = function(io) {
 
     router.post('/createSoirees', function (req, res) {
         res.redirect('/api/soirees/createSoirees?numSoirees=10');
+    });
+
+    router.post('/createPost', function(req, res, next){
+       CommunityPost.createPost({text: req.body.text}, _user, function(){
+           res.send("OK");
+       }, function(err){
+         ResHelper.sendError(res, err);
+       });
+    });
+
+    router.post('/createComment', function(req, res, next){
+       CommunityPost.createCommentOnPost(req.body.postId, _user, {text:req.body.text}, function(comment){
+           res.send("OK");
+       }, function(err){
+          ResHelper.sendError(res, ErrorCodes.Error);
+       });
     });
 
     return router;

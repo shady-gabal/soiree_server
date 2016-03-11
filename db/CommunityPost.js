@@ -82,7 +82,11 @@ postSchema.statics.findPosts = function(req, coors, user, successCallback, error
     var idsToIgnore = req.body.currentPostsIds;
 
     //var constraints = { location: { $near : coors }, "college" : user.college };
-    var constraints = { "college" : user.college };
+    var constraints = {};
+
+    if(user.college){
+        constraints["college"] = user.college;
+    }
 
     if (idsToIgnore && idsToIgnore.length > 0){
         console.log("Ignoring posts with ids in: " + idsToIgnore);
@@ -112,9 +116,11 @@ postSchema.statics.createPost = function(post, user, successCallback, errorCallb
     newPost.college = user.college;
     newPost.author = user.fullName;
     newPost.authorProfilePictureUrl = user.profilePictureUrl;
+    newPost.location = user.location;
 
     newPost.save(function(err){
         if (err){
+            console.log(err);
             errorCallback(ErrorCodes.ErrorSaving);
         }
         else{
@@ -123,6 +129,21 @@ postSchema.statics.createPost = function(post, user, successCallback, errorCallb
     });
 };
 
+postSchema.statics.createCommentOnPost = function(postId, user, comment, successCallback, errorCallback){
+    this.findOne({postId : postId}, function(err, post){
+        if (err || !post){
+            console.log(err);
+            errorCallback(ErrorCodes.ErrorQuerying);
+            //ResHelper.sendMessage(res, 404, "error finding post: " + err);
+        }
+        else{
+            post.addComment(comment, user, successCallback
+                //res.json(_comment.jsonObject(user));
+                //ResHelper.sendMessage(res, 200, "created comment");
+            , errorCallback);
+        }
+    });
+};
 
 /* Methods */
 
