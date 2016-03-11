@@ -326,8 +326,8 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 		profilePictureUrl = req.body.profilePictureUrl;
 	}
 
-	var latitude = req.body.latitude ? req.body.latitude : 0;
-	var longitude = req.body.longitude ? req.body.longitude : 0;
+	var latitude = req.body.latitude ? req.body.latitude : 1;
+	var longitude = req.body.longitude ? req.body.longitude : 1;
 	var coors = LocationHelper.createPoint(longitude, latitude);
 
 	var newUser = new this({

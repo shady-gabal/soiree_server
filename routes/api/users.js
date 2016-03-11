@@ -20,6 +20,7 @@ var Notification = require(dbFolderLocation + 'Notification.js');
 
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
@@ -390,7 +391,8 @@ router.get('/createTestUser', function(req, res){
   var user = new User({
     firstName : "Test",
     lastName : "User",
-    gender : 'male'
+    gender : 'male',
+    location : LocationHelper.createPoint(45, 45)
   });
 
   user.save(function(err){
