@@ -3,15 +3,8 @@ var mongoose = require('./mongoose_connect.js');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
-
 /* Other Models */
 
-
-//console.log("in soiree:");
-//console.log(Business);
-//console.log(SoireeReservation);
-//console.log("USER:");
-//console.log(User);
 
 /* Packages */
 var shortid = require('shortid');
@@ -27,6 +20,7 @@ var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHe
 
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date", "TEST"];
+var numUsersMaxPerSoireeType = { "Lunch" : 4, "Dinner" : 4, "Drinks" : 6, "Blind Date" : 2 };
 
 /* Error Codes */
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
@@ -128,6 +122,10 @@ soireeSchema.statics.createSoireeWithBusiness = function(soiree, business, succe
 	newSoiree._business = business._id;
 	newSoiree.location = business.location;
 	newSoiree._usersAttending = [];
+
+	if (!soiree.numUsersMax && numUsersMaxPerSoireeType[soiree.soireeType]){
+		soiree.numUsersMax = numUsersMaxPerSoireeType[soiree.soireeType];
+	}
 
 	newSoiree.save(function(err, savedSoiree){
 		if (err){

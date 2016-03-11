@@ -28,6 +28,7 @@ var facebookTokenStrategy = require('passport-facebook-token');
 /* Helper */
 var helpersFolderLocation = "../helpers/";
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
@@ -71,8 +72,8 @@ var userSchema = new Schema({
 		_pastReservations : [{type: ObjectId, ref: "SoireeReservation"}],
 
 		location: { /* Location */
-		type: {type: String},
-		coordinates: []
+			type: {type: String},
+			coordinates: []
 		}
 },
 	{ timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
@@ -325,6 +326,10 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 		profilePictureUrl = req.body.profilePictureUrl;
 	}
 
+	var latitude = req.body.latitude ? req.body.latitude : 0;
+	var longitude = req.body.longitude ? req.body.longitude : 0;
+	var coors = LocationHelper.createPoint(longitude, latitude);
+
 	var newUser = new this({
 		facebookUserId : facebookUserId,
 		firstName : firstName,
@@ -335,6 +340,7 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 		birthday : birthday,
 		profilePictureUrl : profilePictureUrl,
 		associatedDeviceUUIDs : [deviceUUID],
+		location : coors,
 		verified: false
 	});
 
