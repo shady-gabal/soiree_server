@@ -27,9 +27,9 @@ var returnRouter = function(io) {
     User.findTestUser(function (user) {
         _user = user;
         //if (!user.location){
-            console.log("saving user location...");
-            _user.location = LocationHelper.createPoint(44, 44);
-            _user.save();
+        //    console.log("saving user location...");
+        //    _user.location = LocationHelper.createPoint(44, 44);
+        //    _user.save();
         //}
 
         console.log("_user set");
