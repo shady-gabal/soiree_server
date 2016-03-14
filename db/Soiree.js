@@ -12,9 +12,11 @@ var _ = require("underscore");
 
 /* Helper */
 var helpersFolderLocation = "../helpers/";
+var Globals = require(helpersFolderLocation + 'Globals.js');
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
+var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
 
@@ -35,6 +37,8 @@ var soireeSchema = new Schema({
 		date: {type : Date, required: [true, "A date for the Soiree is required"]},
 		//full: {type: Boolean, default: false},
 		_usersAttending : [{type : ObjectId, ref : "User"}],
+		_usersUncharged : [{type : ObjectId, ref : "User"}],
+		//_usersToCharge : [{type : ObjectId, ref : "User"}],
 		_business: {type: ObjectId, ref:"Business", required :[true, "A business that will host is required to create this Soiree"]},
 		expired: {type: Boolean, default: false},
 		location: {
@@ -45,7 +49,8 @@ var soireeSchema = new Schema({
 		started : {type: Boolean, default: false},
 		ended : {type: Boolean, default: false},
 		inProgress : {type: Boolean, default: false},
-		_reservations : [{type: ObjectId, ref: "SoireeReservation"}]
+		_unchargedReservations : [{type: ObjectId, ref: "SoireeReservation"}],
+		_chargedReservations : [{type: ObjectId, ref: "SoireeReservation"}]
 
 
 	},
@@ -166,7 +171,6 @@ soireeSchema.statics.createLunch = function(date, business, successCallback, err
 
 	var soiree = new this({
 		soireeType: "Lunch",
-		numUsersMax: 3,
 		date: date,
 		_usersAttending: [],
 		_business: business._id,
@@ -182,7 +186,6 @@ soireeSchema.statics.createDinner = function(date, business, successCallback, er
 
 	var soiree = new this({
 		soireeType: "Dinner",
-		numUsersMax: 4,
 		date: date,
 		_usersAttending: [],
 		_business: business._id,
@@ -198,7 +201,6 @@ soireeSchema.statics.createDrinks = function(date, business, successCallback, er
 
 	var soiree = new this({
 		soireeType: "Drinks",
-		numUsersMax: 4,
 		date: date,
 		_usersAttending: [],
 		_business: business._id,
@@ -382,6 +384,11 @@ soireeSchema.methods.end = function() {
 	});
 };
 
+soireeSchema.methods.cancelSoireeIfNecessary = function(){
+	if (!this.reachedNumUsersMin){
+		//cancel soiree
+	}
+}
 soireeSchema.methods.hasUserAlreadyJoined = function(user){
 	if (user){
 		if (this.populated("_usersAttending")){
@@ -402,6 +409,50 @@ soireeSchema.methods.hasUserAlreadyJoined = function(user){
 	return false;
 };
 
+soireeSchema.methods.chargedForReservation = function(reservation){
+	var soiree = this;
+
+	console.log("in chargedForReservation()");
+
+	reservation.deepPopulate("_business _user", function(err, _reservation){
+		//reservation has now been charged. Remove from unchargedReservations
+		ArrayHelper.removeObjectPopulated(soiree, "_unchargedReservations", _reservation);
+		//if (soiree.populated("_unchargedReservations")){
+		//	ArrayHelper.removeObject(soiree._unchargedReservations, _reservation);
+		//}
+		//else ArrayHelper.removeObject(soiree._unchargedReservations, _reservation._id);
+
+		//remove user from list of users that we havent charged yet
+		ArrayHelper.removeObjectPopulated(soiree, "_usersUncharged", _reservation._user);
+		//if (soiree.populated("_usersUncharged")){
+		//	ArrayHelper.removeObject(soiree._usersUncharged, _reservation._user);
+		//}
+		//else ArrayHelper.removeObject(soiree._usersUncharged, _reservation._user._id);
+
+		//add reservation to soirees chargedReservations
+		ArrayHelper.pushOnlyOncePopulated(soiree, "_chargedReservations", _reservation);
+
+		//if (soiree.populated("_chargedReservations")){
+		//	ArrayHelper.pushOnlyOnce(soiree._chargedReservations, _reservation);
+		//}
+		//else ArrayHelper.pushOnlyOnce(soiree._chargedReservations, _reservation._id);
+
+		//add user to soirees usersAttending
+		ArrayHelper.pushOnlyOncePopulated(soiree, "_usersAttending", _reservation._user);
+		//if (soiree.populated("_usersAttending")){
+		//	ArrayHelper.pushOnlyOnce(soiree._usersAttending, _reservation._user);
+		//}
+		//else ArrayHelper.pushOnlyOnce(soiree._usersAttending, _reservation._user._id);
+
+		//add reservation to business's unconfirmedReservations
+		ArrayHelper.pushOnlyOncePopulated(_reservation._business, "_unconfirmedReservations", _reservation);
+
+		soiree.save(Globals.saveErrorCallback);
+		_reservation._business.save(Globals.saveErrorCallback);
+	});
+
+
+};
 
 soireeSchema.methods.join = function(user, successCallback, errorCallback){
 	//if (this.numUsersAttending >= this.numUsersMax) {
@@ -415,29 +466,94 @@ soireeSchema.methods.join = function(user, successCallback, errorCallback){
 		//if (!stripeToken){
 		//	return ResHelper.sendError(res, errorCodes.MissingStripeToken);
 		//}
-		if (!user.stripeCustomerId){
-			if (!process.env.LOCAL)
-				return errorCallback(ErrorCodes.MissingStripeCustomerId);
+		if (!user.stripeCustomerId && !(user.testUser && Globals.development)){
+			return errorCallback(ErrorCodes.MissingStripeCustomerId);
 		}
-
-		if (this._usersAttending.indexOf(user._id) != -1){
+		if (this._usersAttending.indexOf(user._id) != -1 || this._usersUncharged.indexOf(user._id) != -1){
 			//user has already joined soiree
 			return errorCallback(ErrorCodes.UserAlreadyJoinedSoiree);
 		}
 
-		CreditCardHelper.chargeForSoiree(soiree, user, function(charge){
-			var SoireeReservation = mongoose.model("SoireeReservation");
-			SoireeReservation.createSoireeReservation(user, soiree, charge, successCallback, errorCallback);
+		else{
+			//user can join
+			//see if you should charge him now
+			//if (this.justReachedNumUsersMin) {
+			//	this.chargeUnchargedUsers();
+            //
+			//}
 
-		}, function(err){
-			errorCallback(ErrorCodes.StripeError);
-		});
+			var SoireeReservation = mongoose.model("SoireeReservation");
+			if (this.willReachNumUsersMin || this.reachedNumUsersMin){
+				if (this._unchargedReservations.length > 0 || this._usersUncharged.length > 0){
+					this.chargeUnchargedUsers();
+				}
+				SoireeReservation.createChargedSoireeReservation(user, soiree, successCallback, errorCallback);
+				//this.chargeUser(user, successCallback, errorCallback);
+			}
+			else{
+				SoireeReservation.createUnchargedSoireeReservation(user, soiree, successCallback, errorCallback);
+
+				//this._usersToCharge.push(user);
+				//successCallback();
+			}
+		}
+
+
 
 	}
 	else{
 		return errorCallback(ErrorCodes.SoireeFull);
 	}
 };
+
+//soireeSchema.methods.addUnchargedReservation = function(reservation){
+//	ArrayHelper.pushOnlyOnce(this._unchargedReservations, reservation._id);
+//};
+//
+//soireeSchema.methods.addChargedReservation = function(reservation){
+//	ArrayHelper.pushOnlyOnce(this._chargedReservations, reservation._id);
+//};
+
+soireeSchema.methods.chargeUnchargedUsers = function(){
+
+	console.log("In chargeUnchargedUses() : Charging " + this._unchargedReservations.length + " users...");
+	console.log(this._unchargedReservations);
+
+	var soiree = this;
+	this.deepPopulate("_unchargedReservations._user", function(err, _soiree){
+		if (err){
+			return console.log("ERROR POPULATING: " + err);
+		}
+		var shadowCopy = _soiree._unchargedReservations;
+		for (var i = 0; i < shadowCopy.length; i++){
+			var reservation = shadowCopy[i];
+			reservation.chargeUser(function(user){
+				console.log("Successfully charged " + user.fullName);
+				soiree.chargedForReservation(reservation);
+				//console.log(_soiree);
+			}, function(err){
+				console.log("Error charging user " + reservation._user.fullName + " : " + err);
+			});
+		}
+		console.log(_soiree._unchargedReservations);
+	});
+
+}
+
+//soireeSchema.methods.chargeUser = function(user, successCallback, errorCallback){
+//	var soiree = this;
+//
+//	CreditCardHelper.chargeForSoiree(this, user, function(charge){
+//		var SoireeReservation = mongoose.model("SoireeReservation");
+//		SoireeReservation.createSoireeReservation(user, soiree, charge, successCallback, function(err){
+//			//CANCEL CHARGE
+//
+//			errorCallback(err);
+//		});
+//	}, function(err){
+//		errorCallback(err);
+//	});
+//};
 
 soireeSchema.methods.jsonObject = function (user) {
 	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
@@ -502,10 +618,31 @@ soireeSchema.virtual('SOIREE').get(function () {
 	return "Soirée";
 });
 
+soireeSchema.virtual('reachedNumUsersMin').get(function () {
+	//var min = this.numUsersMax/2 + (this.numUsersMax % 2);
+	return this.totalNumUsers >= this.numUsersMin;
+});
+
+soireeSchema.virtual('numUsersMin').get(function () {
+	if (this.numUsersMax <= 2){
+		return this.numUsersMax;
+	}
+	return parseInt(this.numUsersMax/2) + this.numUsersMax%2; //rounds down, then round up by adding 1 if necessary
+});
+
+soireeSchema.virtual('willReachNumUsersMin').get(function () {
+	return this.totalNumUsers === this.numUsersMin-1;
+});
+
 
 soireeSchema.virtual('numUsersAttending').get(function () {
 	return this._usersAttending.length;
 });
+
+soireeSchema.virtual('totalNumUsers').get(function () {
+	return this._usersAttending.length + this._usersUncharged.length;
+});
+
 
 
 soireeSchema.pre("save", function(next){

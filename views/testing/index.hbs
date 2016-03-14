@@ -8,11 +8,13 @@
                     .done(function(){
                         alert("Succeeded");
 
-                        var button = document.getElementById(soireeId);
-                        button.onclick = null;
-                        button.innerText = "Joined";
-                    }).fail(function(){
-                       alert("Failed");
+//                        var button = document.getElementById(soireeId);
+//                        button.onclick = null;
+//                        button.innerText = "Joined";
+                        location.reload(true);
+
+                    }).fail(function(err){
+                       alert("Failed: " + err);
                      });
         };
 
@@ -24,8 +26,8 @@
                 success: function(){
                     location.reload(true);
                 },
-                error: function(){
-                    alert("Error");
+                error: function(err){
+                    alert("Error: " + err);
                 }
             });
         };
@@ -37,8 +39,8 @@
                 success: function(){
                     location.reload(true);
                 },
-                error: function(){
-                    alert("Error");
+                error: function(err){
+                    alert("Error: " + err);
                 }
             });
         };
@@ -86,7 +88,21 @@
                     alert("Error: " + err);
                 }
             });
-        }
+        };
+
+        function switchUser(userId){
+            $.ajax({
+                url: '/testing/switchTestUser',
+                method : 'POST',
+                data : {userId : userId},
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        };
 
     </script>
 
@@ -96,17 +112,35 @@
 <button onclick='createSoirees()'> Create Soirees </button>
 <button onclick='createSoireeForSchedulerRun()'> Create Soiree For Next Scheduler Run </button>
 
+<div>
+    <br />
+    <p>User Selected: {{_user.firstName}} {{_user.lastName}}</p>
+
+    {{#each _testUsers}}
+        <button onClick="switchUser('{{this._id}}')">Switch to {{this.firstName}} {{this.lastName}}</button>
+    {{/each}}
+</div>
 
 <h1> Soirees </h1>
 <ul id="soirees">
     {{#each soirees}}
          <li>
-            {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledTimeIdentifier}} -
+             {{this.soireeId}} : {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledTimeIdentifier}} -
             {{#if this.userAlreadyJoined}}
                 <button> Joined </button>
             {{else}}
                 <button onclick="join('{{this.soireeId}}')" id="{{this.soireeId}}"> Join </button>
             {{/if}}
+             <div>
+                 <ul>
+                     <li>numUsersMax : {{this.numUsersMax}}</li>
+                     <li>_usersAttending ({{this._usersAttending.length}}): [{{#each this._usersAttending}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
+                     <li>_usersUncharged ({{this._usersUncharged.length}}): [{{#each this._usersUncharged}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
+                     <li>_unchargedReservations ({{this._unchargedReservations.length}}): [ {{#each this._unchargedReservations}} {{this.reservationId}} ({{this._user.fullName}}, {{this._soiree.soireeId}}) {{/each}} ]</li>
+                     <li>_chargedReservations ({{this._chargedReservations.length}}): [ {{#each this._chargedReservations}} {{this.reservationId}} ({{this._user.fullName}} - {{this._soiree.soireeId}}) {{/each}} ]</li>
+
+                 </ul>
+             </div>
          </li>
     {{/each}}
 </ul>
@@ -128,7 +162,7 @@
           <ul>
                   {{#each this._comments}}
                   <li>
-                      {{this.text}}
+                      {{this.author}} : '{{this.text}}'
                   </li>
                   {{/each}}
 

@@ -99,7 +99,7 @@ postSchema.statics.findPosts = function(req, coors, user, successCallback, error
 
     query.exec(function(err, posts){
         if (err){
-            errorCallback(ErrorCodes.PostNotFound);
+            errorCallback(ErrorCodes.ErrorQuerying);
         }
         else{
             successCallback(posts);
@@ -349,31 +349,6 @@ postSchema.methods.addedComment = function(comment){
 
 /* Virtuals */
 
-//postSchema.virtual('jsonObject').get(function () {
-//    var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
-//
-//    var commentsJsonArray = [];
-//
-//    for (var i = 0; i < this._comments.length; i++){
-//        var comment = this._comments[i];
-//        var jsonObject = comment.jsonObject;
-//
-//        commentsJsonArray.push(jsonObject);
-//    }
-//
-//    var obj = {
-//        "text" : this.text,
-//        "dateCreated": timeIntervalSince1970InSeconds,
-//        "postId": this.postId,
-//        "author": this.author,
-//        "authorProfilePictureUrl" : this._user.profilePictureUrl,
-//        "college" : this._user.college,
-//        "numLikes" : this.numLikes,
-//        "numComments" : this.numComments,
-//        "comments" : commentsJsonArray
-//    };
-//    return obj;
-//});
 
 //postSchema.virtual('author').get(function () {
 //    return this._user.fullName;
@@ -390,6 +365,9 @@ postSchema.virtual('numCries').get(function () {
 });
 postSchema.virtual('numAngries').get(function () {
     return this._angries.length;
+});
+postSchema.virtual('numVotes').get(function () {
+    return this._angries.length + this._cries.length + this._laughs.length + this._loves.length;
 });
 
 postSchema.virtual('numComments').get(function () {

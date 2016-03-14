@@ -33,6 +33,7 @@
     "socket.io": "^1.4.5",
     "stripe": "",
     "underscore": "",
-    "validator": ""
+    "validator": "",
+    "get-env" : ""
   }
 }

@@ -6,6 +6,7 @@ var returnRouter = function(io) {
     var dbFolderLocation = "../../db/";
     var helpersFolderLocation = "../../helpers/";
 
+    var _ = require("underscore");
     var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
     var Soiree = require(dbFolderLocation + 'Soiree.js');
     var SoireeReservation = require(dbFolderLocation + 'SoireeReservation.js');
@@ -23,9 +24,16 @@ var returnRouter = function(io) {
 
 
     var _user;
+    var _testUsers = [];
 
-    User.findTestUser(function (user) {
-        _user = user;
+    User.findTestUsers(function (testUsers) {
+        if (!testUsers || testUsers.length == 0){
+            console.log("Error finding testUsers : nothing returned");
+            return;
+        }
+
+        _testUsers = testUsers;
+        _user = testUsers[0];
         //if (!user.location){
         //    console.log("saving user location...");
         //    _user.location = LocationHelper.createPoint(44, 44);
@@ -47,6 +55,70 @@ var returnRouter = function(io) {
     //    });
     //});
 
+    router.get('/deleteTestUsers', function(req, res){
+        User.remove({testUser : true}).exec(function(err){
+            if (err){
+                res.send("Error : " + err);
+            }
+            else{
+                res.send("Done");
+            }
+        });
+    });
+
+    router.get('/createTestUsers', function(req, res){
+
+
+        var firstNames = ["Robert", "Joe" , "Kevin", "Jill", "Michelle", "Naomi"];
+        var lastNames = ["Jones", "Roberts", "Dominican", "Ellis", "Grimes", "Stevens"];
+        var numReturned = 0;
+
+        var numToCreate = 6;
+        for (var i = 0; i < numToCreate; i++){
+            var first = firstNames[i];
+            var last = lastNames[i];
+
+            var user = new User({
+                firstName : first,
+                lastName : last,
+                gender : i > 2 ? 'female' : 'male',
+                location : LocationHelper.createPoint(45, 45),
+                testUser : true
+            });
+
+            user.save(function(err, testUser){
+                if (!err && testUser){
+                    if (_testUsers.length == 0)
+                        _user = testUser;
+
+                    _testUsers.push(testUser);
+
+                    numReturned++;
+                    if (numReturned == numToCreate)
+                      res.send("Done");
+
+                    console.log("Test User " + testUser.firstName + " " + testUser.lastName + " saved with err : " + err);
+                }
+                else console.log("Error saving test user: " + err);
+            });
+        }
+
+
+    });
+
+    router.post('/switchTestUser', function(req, res){
+        var _id = req.body.userId;
+
+        console.log(_id);
+        for (var i = 0; i < _testUsers.length; i++){
+           if (_testUsers[i]._id.equals(_id)){
+               _user = _testUsers[i];
+               return res.send("OK");
+           }
+       }
+        res.status(404).send("Error");
+    });
+
     router.get('/testSocket', function (req, res) {
         ResHelper.render(req, res, 'testing/testSocket', {});
     });
@@ -54,7 +126,7 @@ var returnRouter = function(io) {
     router.get('/', function (req, res) {
 
         CommunityPost.findPosts(req, null, _user, function(posts){
-            Soiree.find({}).limit(50).exec(function (err, soirees) {
+            Soiree.find({}).limit(50).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, soirees) {
                 if (err) {
                     console.log("Error finding soirees in testing/ : " + err);
                     res.status(404).send("Error");
@@ -64,7 +136,8 @@ var returnRouter = function(io) {
                         var soiree = soirees[i];
                         soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
                     }
-                    ResHelper.render(req, res, 'testing/index', {soirees: soirees, posts: posts});
+                    var testUsers = _.without(_testUsers, _user);
+                    ResHelper.render(req, res, 'testing/index', {soirees: soirees, posts: posts, _testUsers : testUsers, _user : _user});
                 }
             });
         }, function(err){

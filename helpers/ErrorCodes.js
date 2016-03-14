@@ -27,6 +27,7 @@ var errorCodes = (function() {
         'FileReadError' : 'FileReadError',
         'NotFound' : 'NotFound',
         'InvalidInput' : 'InvalidInput',
+        'AlreadyExists' : 'AlreadyExists',
         'Error' : 'Error'
     }
 

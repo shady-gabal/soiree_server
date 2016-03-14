@@ -387,19 +387,6 @@ router.get('/createUser', function(req, res){
 //
 //});
 
-router.get('/createTestUser', function(req, res){
-  var user = new User({
-    firstName : "Test",
-    lastName : "User",
-    gender : 'male',
-    location : LocationHelper.createPoint(45, 45)
-  });
-
-  user.save(function(err){
-    res.send("User saved with err : " + err);
-  });
-
-});
 
 router.get('/testNotification', function(req, res){
   User.findOne({"firstName" : "Shady"}).exec(function(err, user) {

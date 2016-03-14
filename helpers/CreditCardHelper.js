@@ -18,13 +18,15 @@
 var stripe = require("stripe")(
     process.env.STRIPE_SECRET_KEY
 );
+/* Helper */
+var Globals = require('./Globals.js');
 
 var ccHelper = (function() {
 
     return {
         chargeForSoiree: function (soiree, user, successCallback, errorCallback) {
-            if (process.env.LOCAL){
-                return successCallback();
+            if (user.testUser && Globals.development){
+                return successCallback({test : "test"});
             }
 
             if (!user.stripeCustomerId)

@@ -3,7 +3,6 @@ var mongoose = require('./mongoose_connect.js');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
-
 /* Other Models */
 var Business = require('./Business.js');
 var Soiree = require('./Soiree.js');
@@ -27,6 +26,7 @@ var facebookTokenStrategy = require('passport-facebook-token');
 
 /* Helper */
 var helpersFolderLocation = "../helpers/";
+var Globals = require(helpersFolderLocation + 'Globals.js');
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
@@ -68,8 +68,9 @@ var userSchema = new Schema({
 		_approvedBy: {type: ObjectId, ref: "Admin"},
 		_notifications : [{type: String, ref: "Notification"}],
 		classType : {type: String, default: 'user', enum: ['user']},
-		_pendingReservations : [{type: ObjectId, ref: "SoireeReservation"}],
+		_currentReservations : [{type: ObjectId, ref: "SoireeReservation"}],
 		_pastReservations : [{type: ObjectId, ref: "SoireeReservation"}],
+		testUser : {type: Boolean, default: false},
 
 		location: { /* Location */
 			type: {type: String},
@@ -126,10 +127,10 @@ userSchema.methods.jsonObject = function(){
 		var notifications = Notification.jsonArrayFromArray(this._notifications);
 		obj.notifications = notifications;
 	}
-	if (this.populated("_pendingReservations")){
+	if (this.populated("_currentReservations")){
 		var reservations = [];
-		for (var i = 0 ; i < this._pendingReservations.length; i++){
-			reservations.push(this._pendingReservations[i].jsonObject());
+		for (var i = 0 ; i < this._currentReservations.length; i++){
+			reservations.push(this._currentReservations[i].jsonObject());
 		}
 		obj["pendingReservations"] = reservations;
 	}
@@ -142,7 +143,7 @@ userSchema.methods.verifyCode = function(code){
 };
 
 userSchema.methods.findSoireesAttendingAndAttended = function(successCallback, errorCallback){
-	this.deepPopulate("_pendingReservations._soiree _pastReservations._soiree", function(err, _user){
+	this.deepPopulate("_currentReservations._soiree _pastReservations._soiree", function(err, _user){
 		if (err){
 			console.log(err);
 			errorCallback(ErrorCodes.ErrorPopulating);
@@ -150,13 +151,13 @@ userSchema.methods.findSoireesAttendingAndAttended = function(successCallback, e
 		else{
 			var soireesAttending = [], soireesAttended = [];
 
-			for (var i = 0; i < _user._pendingReservations.length; i++){
-				var soiree = _user._pendingReservations[i]._soiree;
+			for (var i = 0; i < _user._currentReservations.length; i++){
+				var soiree = _user._currentReservations[i]._soiree;
 				soireesAttending.push(soiree);
 			}
 
-			for (var j = 0; j < _user._pendingReservations.length; j++){
-				var soiree = _user._pendingReservations[j]._soiree;
+			for (var j = 0; j < _user._currentReservations.length; j++){
+				var soiree = _user._currentReservations[j]._soiree;
 				soireesAttended.push(soiree);
 			}
 
@@ -355,14 +356,25 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 	});
 };
 
-userSchema.statics.findTestUser = function(successCallback, errorCallback){
+userSchema.statics.findTestUsers = function(successCallback, errorCallback){
 	//if (process.env.LOCAL){
-		this.findOne({firstName : "Test", lastName : "User"}).exec(function(err, user){
+		this.find({testUser : true}).exec(function(err, users){
 			if (err)
 				errorCallback(err);
-			else successCallback(user);
+			else successCallback(users);
 		});
 		//return;
+	//}
+};
+
+userSchema.statics.findTestUser = function(successCallback, errorCallback){
+	//if (process.env.LOCAL){
+	this.find({testUser : true}).limit(1).exec(function(err, users){
+		if (err || users.length == 0)
+			errorCallback(err);
+		else successCallback(users[0]);
+	});
+	//return;
 	//}
 };
 
@@ -473,6 +485,15 @@ userSchema.virtual('fullName').get(function(){
 		return this.lastName;
 
 	return this.firstName + " " + this.lastName;
+});
+
+userSchema.pre("save", function(next) {
+	//var production = (process.env.NODE_ENV === "production");
+
+	if (this.testUser && Globals.development){
+		next("Error");
+	}
+	else next();
 });
 
 

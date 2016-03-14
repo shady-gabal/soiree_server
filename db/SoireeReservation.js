@@ -18,6 +18,8 @@ var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
+var Globals = require(helpersFolderLocation + 'Globals.js');
+var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
 var MongooseHelper = require(helpersFolderLocation + 'MongooseHelper.js');
 
@@ -31,8 +33,12 @@ var customSchema = new Schema({
         _business : {type: ObjectId, ref: "Business", required: true},
         reservationId: {type: String, index: true, default: shortid.generate},
         soireeId: {type: String},
+        charged : {type: Boolean, default: false},
+        charge : {type: Schema.Types.Mixed},
         confirmationCode : {type: String, default: generateConfirmationCode, uppercase: true, trim: true},
-        confirmed : {type: Boolean, default: false}
+        confirmed : {type: Boolean, default: false},
+        confirmationCodeSet : {type: Boolean, default: false}
+
 
     },
     {timestamps: {createdAt: 'dateCreated', updatedAt: 'dateUpdated'}}
@@ -68,20 +74,7 @@ function generateConfirmationCode(){
     //return "A";
 };
 
-customSchema.statics.createSoireeReservation = function(user, soiree, charge, successCallback, errorCallback){
-    if (MongooseHelper.isObjectId(soiree))
-        return errorCallback(ErrorCodes.MissingData);
-
-    if (!soiree.populated("_business")){
-        return errorCallback(ErrorCodes.InvalidInput);
-    }
-
-    //var businessId = MongooseHelper.isObjectId(soiree._business) ? soiree._business : soiree._business._id;
-    //if (MongooseHelper.isObjectId(soiree)){
-    //    businessId = _business;
-    //}
-    //else businessId = _business._id;
-
+customSchema.statics.createUnchargedSoireeReservation = function(user, soiree, successCallback, errorCallback){
     var business = soiree._business;
 
     var reservation = new this({
@@ -91,28 +84,105 @@ customSchema.statics.createSoireeReservation = function(user, soiree, charge, su
         _business : business._id
     });
 
-    //var retries = 0;
+    reservation.save(function(err, _reservation) {
+        if (err) {
+            console.log("Error saving reservation: " + err);
+        }
+        else{
+            //common
+            ArrayHelper.pushOnlyOnce(user._currentReservations, _reservation._id);
+            //specific
+            ArrayHelper.pushOnlyOnce(soiree._unchargedReservations, reservation._id);
+            ArrayHelper.pushOnlyOnce(soiree._usersUncharged, user._id);
+
+            var orderToSave = [soiree, user];
+            var currSaveIndex = 0;
+
+            var saveErrorCallback = function(err){
+                if (err){
+                    console.log(err);
+                    errorCallback(ErrorCodes.ErrorSaving);
+                }
+                else{
+                    currSaveIndex++;
+                    if (currSaveIndex >= orderToSave.length){
+                        successCallback();
+                    }
+                    else{
+                        var nextObj = orderToSave[currSaveIndex];
+                        nextObj.save(saveErrorCallback);
+                    }
+                }
+            };
+
+            orderToSave[0].save(saveErrorCallback);
+        }
+    });
+};
+
+customSchema.statics.createChargedSoireeReservation = function(user, soiree, successCallback, errorCallback) {
+    if (soiree._chargedReservations.indexOf(user._id) != -1){
+        return errorCallback(ErrorCodes.AlreadyExists);
+    }
+    else if (soiree._unchargedReservations.indexOf(user._id) != -1){
+        return errorCallback(ErrorCodes.AlreadyExists);
+    }
+    else{
+        console.log("In createChargedSoireeReservation() : charging " + user.fullName);
+        CreditCardHelper.chargeForSoiree(this, user, function(charge) {
+            if (!charge){ return errorCallback(ErrorCodes.StripeError); }
+            createChargedSoireeReservationAfterCharge(user, soiree, charge, successCallback, errorCallback);
+        }, function(err){
+            errorCallback(err);
+        });
+    }
+};
+
+function createChargedSoireeReservationAfterCharge(user, soiree, charge, successCallback, errorCallback){
+    if (MongooseHelper.isObjectId(soiree))
+        return errorCallback(ErrorCodes.MissingData);
+
+    if (!soiree.populated("_business")){
+        return errorCallback(ErrorCodes.InvalidInput);
+    }
+
+    if (!charge) {
+        return errorCallback(ErrorCodes.StripeError);
+    }
+
+    console.log("Creating charged soiree reservation...");
+
+    var business = soiree._business;
+
+    var SoireeReservation = mongoose.model("SoireeReservation");
+
+    var reservation = new SoireeReservation({
+        _user : user._id,
+        _soiree : soiree._id,
+        soireeId : soiree.soireeId,
+        _business : business._id,
+        charge : charge,
+        charged : true
+    });
+
 
     reservation.save(function(err, _reservation){
         if (err){
             console.log("Error saving reservation: " + err);
-
-            //if (err.code == "11000" && retries < 5){
-            //    retries++;
-            //    console.log("Retrying num " + retries + "...");
-            //    reservation.confirmationCode = generateConfirmationCode();
-            //    reservation.save(saveCallback);
-            //}
-            //else{
-                errorCallback(ErrorCodes.ErrorSaving);
-            //}
+            errorCallback(ErrorCodes.ErrorSaving);
         }
         else{
-            soiree._reservations.push(_reservation._id);
-            user._pendingReservations.push(_reservation._id);
-            business._unconfirmedReservations.push(_reservation._id);
+            //common
+            ArrayHelper.pushOnlyOnce(user._currentReservations, _reservation._id);
+            //specific
+            ArrayHelper.pushOnlyOnce(soiree._chargedReservations, _reservation._id);
+            ArrayHelper.pushOnlyOnce(business._unconfirmedReservations, _reservation._id);
+            ArrayHelper.pushOnlyOnce(soiree._usersAttending, user._id);
 
-            soiree._usersAttending.push(user._id);
+            //user._currentReservations.push(_reservation._id);
+            //business._unconfirmedReservations.push(_reservation._id);
+
+            //soiree._usersAttending.push(user._id);
             //user._soireesAttending.push(soiree._id);
 
             var orderToSave = [business, soiree, user];
@@ -137,45 +207,37 @@ customSchema.statics.createSoireeReservation = function(user, soiree, charge, su
             };
             orderToSave[0].save(saveErrorCallback);
 
-            //user.save(function(err){
-            //    if (err){ console.log(err); errorCallback(ErrorCodes.ErrorSaving); }
-            //    else{
-            //        soiree.save(function(err){
-            //            if (err){ console.log(err); errorCallback(ErrorCodes.ErrorSaving); }
-            //        });
-            //    }
-            //});
         }
     });
+};
 
-    //reservation.save(saveCallback);
+customSchema.methods.chargeUser = function(successCallback, errorCallback){
+    if (!this.charged){
+        console.log("about to charge " + this._user.fullName);
+
+        this.deepPopulate("_soiree _user", function(err, _reservation){
+            CreditCardHelper.chargeForSoiree(_reservation._soiree, _reservation._user, function(charge) {
+                if (!charge){ return errorCallback(ErrorCodes.StripeError); }
+
+                _reservation.charged = true;
+                _reservation.charge = charge;
+
+                _reservation.save(function(err){
+                    if (err){
+                        console.log(err);
+                        //TODO: Refund Charge
+                        errorCallback(err);
+                    }
+                    else successCallback(_reservation._user);
+                });
+            }, function(err){
+                errorCallback(err);
+            });
+        });
+    }
 
 };
 
-//customSchema.statics.findReservationWithConfirmationCode = function(business, code, successCallback, errorCallback){
-//    code = code.toUpperCase();
-//
-//    this.findOne({confirmationCode : code, _business : business._id, confirmed: false}).deepPopulate("_soiree _user _business").exec(function(err, reservation){
-//       if (err){
-//           console.log("Error finding reservation: " + err);
-//           errorCallback();
-//       }
-//        else{
-//           successCallback(reservation);
-//       }
-//    });
-//};
-
-//customSchema.statics.findUnconfirmedReservationsForBusiness = function(business, successCallback, errorCallback){
-//    this.find({_business : business._id, confirmed: false}).deepPopulate("_soiree _user _business").exec(function(err, reservations){
-//        if (err){
-//            errorCallback();
-//        }
-//        else{
-//            successCallback(reservations);
-//        }
-//    });
-//};
 
 customSchema.statics.checkIfConfirmationCodeIsUnique = function(reservation, successCallback, errorCallback){
     SoireeReservation.find({confirmationCode : reservation.confirmationCode, _business : reservation._business, confirmed: false}).exec(function(err, reservations){
@@ -239,7 +301,7 @@ customSchema.virtual('').get(function () {
 
 
 customSchema.pre("save", function (next) {
-    if (!this.confirmed){
+    if (!this.confirmationCodeSet && !this.confirmed  && this.charged && this.charge){
         var retries = 0;
 
         var reservation = this;
@@ -248,6 +310,7 @@ customSchema.pre("save", function (next) {
             SoireeReservation.checkIfConfirmationCodeIsUnique(reservation, function(unique){
                 if (unique){
                     console.log(reservation.confirmationCode + " worked. ");
+                    this.confirmationCodeSet = true;
                     next();
                 }
                 else{
