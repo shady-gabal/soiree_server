@@ -194,10 +194,10 @@ router.post('/uploadEmotion', function(req, res, next){
                 }
                 else {
 
-                    post.like(user, function (post) {
-                        ResHelper.sendMessage(res, 200, "successfully liked post");
+                    post.emotion(user, emotion, function (post) {
+                        ResHelper.sendMessage(res, 200, "successfully emotioned post");
                     }, function (err) {
-                        ResHelper.sendMessage(res, 404, "error liking post: " + err);
+                        ResHelper.sendMessage(res, 404, "error emotioning post: " + err);
                     });
 
                 }

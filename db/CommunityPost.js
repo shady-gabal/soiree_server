@@ -258,34 +258,34 @@ postSchema.methods.unEmotion = function(user, emotion, successCallback, errorCal
 
 };
 
-postSchema.methods.like = function(user, successCallback, errorCallback){
-    this._likes.push(user._id);
-
-    this.save(function(err){
-        if (err){
-            errorCallback(ErrorCodes.ErrorSaving);
-        }
-        else{
-            successCallback(this);
-        }
-    });
-};
-
-postSchema.methods.unlike = function(user, successCallback, errorCallback){
-    var index = this._likes.indexOf(user._id);
-    if (index != -1) {
-        this._likes.splice(index, 1);
-    }
-
-    this.save(function(err){
-        if (err){
-            errorCallback(ErrorCodes.ErrorSaving);
-        }
-        else{
-            successCallback(this);
-        }
-    });
-};
+//postSchema.methods.like = function(user, successCallback, errorCallback){
+//    this._likes.push(user._id);
+//
+//    this.save(function(err){
+//        if (err){
+//            errorCallback(ErrorCodes.ErrorSaving);
+//        }
+//        else{
+//            successCallback(this);
+//        }
+//    });
+//};
+//
+//postSchema.methods.unlike = function(user, successCallback, errorCallback){
+//    var index = this._likes.indexOf(user._id);
+//    if (index != -1) {
+//        this._likes.splice(index, 1);
+//    }
+//
+//    this.save(function(err){
+//        if (err){
+//            errorCallback(ErrorCodes.ErrorSaving);
+//        }
+//        else{
+//            successCallback(this);
+//        }
+//    });
+//};
 
 postSchema.methods.jsonObject = function(user, showComments){
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;
@@ -294,7 +294,7 @@ postSchema.methods.jsonObject = function(user, showComments){
 
     var lovedByUser = this._loves.indexOf(user._id) != -1;
     var laughedByUser = this._laughs.indexOf(user._id) != -1;
-    var criedByUser = this._cries.indexOf(user._id) != -1;
+    //var criedByUser = this._cries.indexOf(user._id) != -1;
     var angriedByUser = this._angries.indexOf(user._id) != -1;
 
     var obj = {
@@ -310,8 +310,8 @@ postSchema.methods.jsonObject = function(user, showComments){
         "numAngries" : this.numAngries,
         "numComments" : this.numComments,
         "lovedByUser" : lovedByUser,
-        "laugheByUser" : laughedByUser,
-        "criedByUser" : criedByUser,
+        "laughedByUser" : laughedByUser,
+        //"criedByUser" : criedByUser,
         "angriedByUser" : angriedByUser
 
     };

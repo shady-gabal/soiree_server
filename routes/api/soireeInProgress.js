@@ -92,10 +92,10 @@ var returnRouter = function(io) {
                         socket.join(roomId, function(err){
                             if (err){
                                 console.log("Error joining room " + roomId + " : " + err);
-                                socket.emit('error joining room', {});
+                                socket.emit('error joining room', {roomId : roomId});
                             }
                             else{
-                                socket.emit('joined room', {});
+                                socket.emit('joined room', {roomId : roomId});
                                 console.log("Successfully joined room " + roomId);
                                 console.log("This socket's rooms: " + JSON.stringify(socket.rooms));
                             }
