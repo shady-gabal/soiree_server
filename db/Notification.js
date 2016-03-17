@@ -123,6 +123,9 @@ notificationSchema.statics.addToOrCreateNotification = function(bodySuffix, noti
 
 };
 
+notificationSchema.statics.notificationsForUser = function(user, successCallback, errorCallback) {
+};
+
 notificationSchema.statics.jsonArrayFromArray = function(_notifications) {
     var notifications = [];
     for (var i = _notifications.length-1; i >= 0; i--){
@@ -131,9 +134,6 @@ notificationSchema.statics.jsonArrayFromArray = function(_notifications) {
     }
     return notifications;
 };
-
-
-
 
 
 notificationSchema.statics.createNotification = function(bodySuffix, notificationsUser, causingUser, post, type){
@@ -197,7 +197,7 @@ notificationSchema.virtual('body').get(function () {
 
 function generateId(user, idSuffix, type){
     var id = user._id + "_" + idSuffix + "_" + type;
-    console.log("generateId(): " + id);
+    console.log("Notification.generateId(): " + id);
     return id;
 }
 

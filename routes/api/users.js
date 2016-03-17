@@ -192,7 +192,6 @@ router.post('/createUser', function(req, res, next){
 
 router.post('/fetchNotifications', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
-
   });
 });
 

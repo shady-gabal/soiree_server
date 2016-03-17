@@ -15,6 +15,7 @@ var returnRouter = function(io) {
     var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
     var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
     var MongooseHelper = require(helpersFolderLocation + 'MongooseHelper.js');
+    var Globals = require(helpersFolderLocation + 'Globals.js');
 
     var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
@@ -69,28 +70,39 @@ var returnRouter = function(io) {
         if (!soireeId){
             return ResHelper.sendError(res, ErrorCodes.MissingData);
         }
+        var roomId = soireeId;
 
-        User.verifyUser(req, res, next, function(user){
-
-            Soiree.findBySoireeId(soireeId, function(soiree){
-
-                var valid = false;
-                for (var i = 0; i < user._soireesAttending.length; i++){
-                    if(MongooseHelper.isEqualPopulated(user._soireesAttending[i], soiree._id)){
-                        valid = true;
-                        break;
-                    }
-                }
-
-                if (valid){
+        //User.verifyUser(req, res, next, function(user){
+        //
+        //    Soiree.findBySoireeId(soireeId, function(soiree){
+        //
+        //        var valid = false;
+        //        for (var i = 0; i < user._soireesAttending.length; i++){
+        //            if(MongooseHelper.isEqualPopulated(user._soireesAttending[i], soiree._id)){
+        //                valid = true;
+        //                break;
+        //            }
+        //        }
+        //
+        //        if (valid){
+                     console.log("connecting...");
                     io.on('connection', function(socket){
-                        console.log('a user connected to soireeInProgress. Joining room ' + soireeId);
+                        console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
-                        socket.join(soireeId);
-                        console.log("This socket's rooms: " + socket.rooms);
+                        socket.join(roomId, function(err){
+                            if (err){
+                                console.log("Error joining room " + roomId + " : " + err);
+                                socket.emit('error joining room', {});
+                            }
+                            else{
+                                socket.emit('joined room', {});
+                                console.log("Successfully joined room " + roomId);
+                                console.log("This socket's rooms: " + JSON.stringify(socket.rooms));
+                            }
+                        });
 
-                        var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
-                        socket.emit('test', message);
+                        //var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
+                        //socket.emit('test', message);
                         //console.log("sent message");
 
                         //res.json({"status" : "Connected"});
@@ -100,18 +112,23 @@ var returnRouter = function(io) {
                         });
                     });
 
-                    res.send("OK");
-                }
-                else{
-                    console.log("User does not have this soiree in his _soireesAttending");
-                    ResHelper.sendError(res, ErrorCodes.InvalidInput);
-                }
-
-            }, function(err){
-                ResHelper.sendError(res, err);
-            });
-
-        });
+                    if (Globals.development){
+                        res.render('testing/testSocket', {});
+                    }
+                    else{
+                        res.send("OK");
+                    }
+        //        }
+        //        else{
+        //            console.log("User does not have this soiree in his _soireesAttending");
+        //            ResHelper.sendError(res, ErrorCodes.InvalidInput);
+        //        }
+        //
+        //    }, function(err){
+        //        ResHelper.sendError(res, err);
+        //    });
+        //
+        //});
 
     });
 
