@@ -63,7 +63,7 @@ var returnRouter = function(io) {
         res.send("Sent '" + message.text + "'" + "to room " + room);
     });
 
-    router.post('/:soireeId', function(req, res, next){
+    router.get('/:soireeId', function(req, res, next){
         //TODO: add security that ensures that only users who are signed up for soiree can join
         var soireeId = req.params.soireeId;
         if (!soireeId){
@@ -103,6 +103,7 @@ var returnRouter = function(io) {
                     res.send("OK");
                 }
                 else{
+                    console.log("User does not have this soiree in his _soireesAttending");
                     ResHelper.sendError(res, ErrorCodes.InvalidInput);
                 }
 
