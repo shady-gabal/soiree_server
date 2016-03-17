@@ -8,12 +8,11 @@
     var socket = io();
 
 //    var socket = io.connect('http://localhost');
-//    socket.on('news', function (data) {
-//        console.log(data);
-//        socket.emit('my other event', { my: 'data' });
-//    });
+    socket.on('test', function (data) {
+        alert("received :" + data);
+    });
 </script>
 {{/extend}}
 
 
-<h1> Test Socket </h1>
+<h1> Test Socket: {{namespace}} </h1>

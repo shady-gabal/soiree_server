@@ -22,34 +22,78 @@ var returnRouter = function(io) {
 
     var _socket;
 
-    io.on('connection', function(socket){
-        _socket = socket;
-        console.log('a user connected to soireeInProgress');
+    //io.on('connection', function(socket){
+    //    _socket = socket;
+    //    console.log('a user connected to soireeInProgress');
+    //
+    //    //socket.on('event name', function(data){});
+    //
+    //    var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
+    //    socket.emit('test', message);
+    //    //console.log("sent message");
+    //
+    //    //res.json({"status" : "Connected"});
+    //
+    //    socket.on('disconnect', function(){
+    //        console.log('user disconnected from soireeInProgress');
+    //    });
+    //});
 
-        //socket.on('event name', function(data){});
+    //router.get('/', function (req, res) {
+    //    console.log("/soireeInProgress requested");
+    //    //res.render('index', {title: 'Express'});
+    //});
 
-        var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
-        socket.emit('test', message);
-        //console.log("sent message");
-
-        //res.json({"status" : "Connected"});
-
-        socket.on('disconnect', function(){
-            console.log('user disconnected from soireeInProgress');
-        });
-    });
-
-    router.get('/', function (req, res) {
-        console.log("/soireeInProgress requested");
-        //res.render('index', {title: 'Express'});
-    });
 
     router.get('/sendMessage', function(req, res){
         var text = req.query.message ? req.query.message : "Test Message";
+        var room = req.query.room ? req.query.room : null;
+
         var message = {author: SOIREE, text : text};
 
-        _socket.emit('test', message);
-        res.send("Sent '" + message.text + "'");
+        if (room){
+            io.to(room).emit('test', message);
+        }
+        else{
+            io.emit('test', message);
+        }
+
+
+        res.send("Sent '" + message.text + "'" + "to room " + room);
+    });
+
+    router.get('/:soireeId', function(req, res){
+        //TODO: add security that ensures that only users who are signed up for soiree can join
+        var soireeId = req.params.soireeId;
+        if (!soireeId){
+            return ResHelper.sendError(res, ErrorCodes.MissingData);
+        }
+
+        //var namespaceId = '/' + soireeId;
+
+        //console.log("Connecting to " + namespaceId  + " ...");
+        //var nsp = io.of(namespaceId);
+
+
+        io.on('connection', function(socket){
+            console.log('a user connected to soireeInProgress. Joining room ' + soireeId);
+
+            socket.join(soireeId);
+
+            var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
+            socket.emit('test', message);
+            //console.log("sent message");
+
+            //res.json({"status" : "Connected"});
+
+            socket.on('disconnect', function(){
+                console.log('user disconnected from soireeInProgress');
+            });
+        });
+
+        res.send("OK");
+        //res.render('testing/testSocket', {});
+
     });
 
     return router;

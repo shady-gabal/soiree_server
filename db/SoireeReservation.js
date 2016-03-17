@@ -173,17 +173,11 @@ function createChargedSoireeReservationAfterCharge(user, soiree, charge, success
         }
         else{
             //common
-            ArrayHelper.pushOnlyOnce(user._currentReservations, _reservation._id);
+            ArrayHelper.pushOnlyOncePopulated(user, "_currentReservations", _reservation);
             //specific
-            ArrayHelper.pushOnlyOnce(soiree._chargedReservations, _reservation._id);
-            ArrayHelper.pushOnlyOnce(business._unconfirmedReservations, _reservation._id);
-            ArrayHelper.pushOnlyOnce(soiree._usersAttending, user._id);
-
-            //user._currentReservations.push(_reservation._id);
-            //business._unconfirmedReservations.push(_reservation._id);
-
-            //soiree._usersAttending.push(user._id);
-            //user._soireesAttending.push(soiree._id);
+            ArrayHelper.pushOnlyOncePopulated(soiree, "_chargedReservations", _reservation);
+            ArrayHelper.pushOnlyOncePopulated(business, "_unconfirmedReservations", _reservation);
+            ArrayHelper.pushOnlyOncePopulated(soiree, "_usersAttending", user);
 
             var orderToSave = [business, soiree, user];
             var currSaveIndex = 0;

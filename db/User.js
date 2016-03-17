@@ -243,6 +243,32 @@ userSchema.methods.generateVerificationCode = function(){
 	this.verificationCode = code;
 };
 
+userSchema.methods.endedSoiree = function(soiree){
+	this.deepPopulate("_currentReservations._soiree", function(err){
+		if (err) return console.log(err);
+		for (var i = 0; i < this._currentReservations.length; i++){
+			var reservation = this._currentReservations[i];
+			if (reservation._soiree._id.isEqual(soiree._id)){
+				this._currentReservations.splice(i, 1);
+				ArrayHelper.pushOnlyOnce(this._pastReservations, reservation._id);
+				this.save(Globals.saveErrorCallback);
+			};
+		}
+	});
+
+	//var index = this._soireesAttending.indexOf(this._id);
+	//if (index != -1){
+	//	user._soireesAttending.splice(index, 1);
+	//}
+	//if (user._soireesAttended.indexOf(this._id) == -1) {
+	//	user._soireesAttended.push(this._id);
+	//}
+	//user.save(function(err){
+	//	if (err){
+	//		console.log("Error saving user - end()");
+	//	}
+	//});
+};
 //userSchema.methods.chargeForSoiree = function(soiree, successCallback, errorCallback){
 //	if (!this.stripeToken)
 //		return errorCallback();
@@ -358,7 +384,7 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 
 userSchema.statics.findTestUsers = function(successCallback, errorCallback){
 	//if (process.env.LOCAL){
-		this.find({testUser : true}).exec(function(err, users){
+		this.find({testUser : true}).deepPopulate("_currentReservations _pastReservations").exec(function(err, users){
 			if (err)
 				errorCallback(err);
 			else successCallback(users);

@@ -19,6 +19,7 @@ var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
+var Globals = require(helpersFolderLocation + 'Globals.js');
 
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date", "TEST"];
@@ -308,16 +309,6 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, successCallback
 	});
 };
 
-
-
-//function(){
-//	res.type('text/plain');
-//	res.status('200').send("Done");
-//}, function(err){
-//	res.type('text/plain');
-//	ResHelper.sendMessage(res, 404, "error finding soiree");
-//});
-
 /* Methods */
 
 soireeSchema.methods.remind = function() {
@@ -357,30 +348,21 @@ soireeSchema.methods.start = function(){
 soireeSchema.methods.end = function() {
 	console.log("Ending soiree " + this.soireeType + " " + this.scheduledTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
 
-	this.ended = true;
-	this.inProgress = false;
-
-	//for (var i = 0; i < this._usersAttending.length; i++) {
-	//	var user = this._usersAttending[i];
-	//	var index = user._soireesAttending.indexOf(this._id);
-	//	if (index != -1){
-	//		user._soireesAttending.splice(index, 1);
-	//	}
-	//	if (user._soireesAttended.indexOf(this._id) == -1) {
-	//		user._soireesAttended.push(this._id);
-	//	}
-	//	user.save(function(err){
-	//		if (err){
-	//			console.log("Error saving user - end()");
-	//		}
-	//	});
-    //
-	//}
-
-	this.save(function(err){
+	this.deepPopulate("_usersAttending", function(err){
 		if (err){
-			console.log("Error saving soiree - end()");
+			console.log("Error ending soiree: " + err);
 		}
+		else{
+			console.log(this);
+			for (var i = 0; i < this._usersAttending.length; i++) {
+				var user = this._usersAttending[i];
+				user.endedSoiree(this);
+			}
+		}
+		this.ended = true;
+		this.inProgress = false;
+		this.save(Globals.saveErrorCallback);
+
 	});
 };
 
@@ -417,32 +399,15 @@ soireeSchema.methods.chargedForReservation = function(reservation){
 	reservation.deepPopulate("_business _user", function(err, _reservation){
 		//reservation has now been charged. Remove from unchargedReservations
 		ArrayHelper.removeObjectPopulated(soiree, "_unchargedReservations", _reservation);
-		//if (soiree.populated("_unchargedReservations")){
-		//	ArrayHelper.removeObject(soiree._unchargedReservations, _reservation);
-		//}
-		//else ArrayHelper.removeObject(soiree._unchargedReservations, _reservation._id);
 
 		//remove user from list of users that we havent charged yet
 		ArrayHelper.removeObjectPopulated(soiree, "_usersUncharged", _reservation._user);
-		//if (soiree.populated("_usersUncharged")){
-		//	ArrayHelper.removeObject(soiree._usersUncharged, _reservation._user);
-		//}
-		//else ArrayHelper.removeObject(soiree._usersUncharged, _reservation._user._id);
 
 		//add reservation to soirees chargedReservations
 		ArrayHelper.pushOnlyOncePopulated(soiree, "_chargedReservations", _reservation);
 
-		//if (soiree.populated("_chargedReservations")){
-		//	ArrayHelper.pushOnlyOnce(soiree._chargedReservations, _reservation);
-		//}
-		//else ArrayHelper.pushOnlyOnce(soiree._chargedReservations, _reservation._id);
-
 		//add user to soirees usersAttending
 		ArrayHelper.pushOnlyOncePopulated(soiree, "_usersAttending", _reservation._user);
-		//if (soiree.populated("_usersAttending")){
-		//	ArrayHelper.pushOnlyOnce(soiree._usersAttending, _reservation._user);
-		//}
-		//else ArrayHelper.pushOnlyOnce(soiree._usersAttending, _reservation._user._id);
 
 		//add reservation to business's unconfirmedReservations
 		ArrayHelper.pushOnlyOncePopulated(_reservation._business, "_unconfirmedReservations", _reservation);
@@ -455,10 +420,6 @@ soireeSchema.methods.chargedForReservation = function(reservation){
 };
 
 soireeSchema.methods.join = function(user, successCallback, errorCallback){
-	//if (this.numUsersAttending >= this.numUsersMax) {
-	//	this.full = true;
-	//}
-
 	var soiree = this;
 
 	if (!this.full){
@@ -477,24 +438,15 @@ soireeSchema.methods.join = function(user, successCallback, errorCallback){
 		else{
 			//user can join
 			//see if you should charge him now
-			//if (this.justReachedNumUsersMin) {
-			//	this.chargeUnchargedUsers();
-            //
-			//}
-
 			var SoireeReservation = mongoose.model("SoireeReservation");
 			if (this.willReachNumUsersMin || this.reachedNumUsersMin){
 				if (this._unchargedReservations.length > 0 || this._usersUncharged.length > 0){
 					this.chargeUnchargedUsers();
 				}
 				SoireeReservation.createChargedSoireeReservation(user, soiree, successCallback, errorCallback);
-				//this.chargeUser(user, successCallback, errorCallback);
 			}
 			else{
 				SoireeReservation.createUnchargedSoireeReservation(user, soiree, successCallback, errorCallback);
-
-				//this._usersToCharge.push(user);
-				//successCallback();
 			}
 		}
 
@@ -582,6 +534,9 @@ soireeSchema.methods.jsonObject = function (user) {
 		"coordinates" : this.location.coordinates,
 		"initialCharge": this.initialCharge,
 		"photoIndexIdentifier" : this.photoIndexIdentifier,
+		"reachedNumUsersMin" : this.reachedNumUsersMin,
+		"willReachNumUsersMin" : this.willReachNumUsersMin,
+		"numUsersMin" : this.numUsersMin
 	};
 
 	if (user){
