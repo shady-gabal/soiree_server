@@ -87,6 +87,7 @@ var returnRouter = function(io) {
                         console.log('a user connected to soireeInProgress. Joining room ' + soireeId);
 
                         socket.join(soireeId);
+                        console.log("This socket's rooms: " + socket.rooms);
 
                         var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
                         socket.emit('test', message);
