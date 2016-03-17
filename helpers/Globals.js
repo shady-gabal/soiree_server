@@ -4,6 +4,8 @@ var env = require('get-env')({
 });
 
 var helper = (function () {
+    var ResHelper = require('./ResHelper.js');
+
     return {
         func: function () {
 
@@ -14,6 +16,12 @@ var helper = (function () {
             if (err){
                 console.log(err);
             }
+        },
+        fetchErrorCallback : function(res){
+            return function(err){
+                ResHelper.sendError(res, error);
+            };
+
         }
 }
 

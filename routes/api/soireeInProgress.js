@@ -14,6 +14,7 @@ var returnRouter = function(io) {
 
     var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
     var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+    var MongooseHelper = require(helpersFolderLocation + 'MongooseHelper.js');
 
     var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
@@ -62,37 +63,53 @@ var returnRouter = function(io) {
         res.send("Sent '" + message.text + "'" + "to room " + room);
     });
 
-    router.get('/:soireeId', function(req, res){
+    router.get('/:soireeId', function(req, res, next){
         //TODO: add security that ensures that only users who are signed up for soiree can join
         var soireeId = req.params.soireeId;
         if (!soireeId){
             return ResHelper.sendError(res, ErrorCodes.MissingData);
         }
 
-        //var namespaceId = '/' + soireeId;
+        User.verifyUser(req, res, next, function(user){
 
-        //console.log("Connecting to " + namespaceId  + " ...");
-        //var nsp = io.of(namespaceId);
+            Soiree.findBySoireeId(soireeId, function(soiree){
 
+                var valid = false;
+                for (var i = 0; i < user._soireesAttending.length; i++){
+                    if(MongooseHelper.isEqualPopulated(user._soireesAttending[i], soiree._id)){
+                        valid = true;
+                        break;
+                    }
+                }
 
-        io.on('connection', function(socket){
-            console.log('a user connected to soireeInProgress. Joining room ' + soireeId);
+                if (valid){
+                    io.on('connection', function(socket){
+                        console.log('a user connected to soireeInProgress. Joining room ' + soireeId);
 
-            socket.join(soireeId);
+                        socket.join(soireeId);
 
-            var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
-            socket.emit('test', message);
-            //console.log("sent message");
+                        var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
+                        socket.emit('test', message);
+                        //console.log("sent message");
 
-            //res.json({"status" : "Connected"});
+                        //res.json({"status" : "Connected"});
 
-            socket.on('disconnect', function(){
-                console.log('user disconnected from soireeInProgress');
+                        socket.on('disconnect', function(){
+                            console.log('user disconnected from soireeInProgress');
+                        });
+                    });
+
+                    res.send("OK");
+                }
+                else{
+                    ResHelper.sendError(res, ErrorCodes.InvalidInput);
+                }
+
+            }, function(err){
+                ResHelper.sendError(res, err);
             });
-        });
 
-        res.send("OK");
-        //res.render('testing/testSocket', {});
+        });
 
     });
 
