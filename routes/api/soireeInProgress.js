@@ -63,7 +63,7 @@ var returnRouter = function(io) {
         res.send("Sent '" + message.text + "'" + "to room " + room);
     });
 
-    router.get('/:soireeId', function(req, res, next){
+    router.post('/:soireeId', function(req, res, next){
         //TODO: add security that ensures that only users who are signed up for soiree can join
         var soireeId = req.params.soireeId;
         if (!soireeId){
