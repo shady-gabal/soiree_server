@@ -221,7 +221,7 @@ postSchema.methods.emotion = function(user, emotion, successCallback, errorCallb
 
 };
 
-postSchema.methods.unEmotion = function(user, emotion, successCallback, errorCallback) {
+postSchema.methods.unemotion = function(user, emotion, successCallback, errorCallback) {
     if (emotion === "love"){
         var index = this._loves.indexOf(user._id);
         if (index != -1) {

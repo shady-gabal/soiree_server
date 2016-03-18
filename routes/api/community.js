@@ -207,6 +207,32 @@ router.post('/uploadEmotion', function(req, res, next){
 
 });
 
+router.post('/uploadUnemotion', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
+        var emotion = req.body.emotion;
+        if (emotion) {
+
+            var postId = req.body.postId;
+
+            CommunityPost.findOne({postId: postId}, function (err, post) {
+                if (err || !post) {
+                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
+                }
+                else {
+
+                    post.unemotion(user, emotion, function (post) {
+                        ResHelper.sendMessage(res, 200, "successfully unemotioned post");
+                    }, function (err) {
+                        ResHelper.sendMessage(res, 404, "error unemotioning post: " + err);
+                    });
+
+                }
+            });
+        }
+    });
+
+});
+
 
 router.post('/unlikePost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
