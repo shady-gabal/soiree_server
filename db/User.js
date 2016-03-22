@@ -411,11 +411,6 @@ userSchema.statics.findTestUser = function(successCallback, errorCallback){
 userSchema.statics.verifyUser = function(req, res, next, successCallback, failureCallback){
 	if (process.env.LOCAL){
 		this.findTestUser(successCallback, failureCallback);
-		//this.findOne({firstName : "Shady", lastName : "Gabal"}).exec(function(err, user){
-		//	if (err)
-		//		failureCallback();
-		//	else successCallback(user);
-		//});
 		return;
 	}
 
@@ -450,17 +445,6 @@ userSchema.statics.verifyUser = function(req, res, next, successCallback, failur
 				successCallback(userFound);
 			}
 		})(req, res, next);
-
-		//this.findOne({"facebookUserId": user.facebookUserId, "secretKey": user.secretKey}).exec(function (err, userFound) {
-		//	if (err || !userFound) {
-		//		console.log("User not found " + err);
-		//		failureCallback(err);
-		//	}
-		//	else {
-		//		console.log("User found " + userFound.userId);
-		//		successCallback(userFound);
-		//	}
-		//});
 
 
 	}

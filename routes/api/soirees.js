@@ -122,18 +122,6 @@ var returnRouter = function(io) {
 
     router.post('/soireesNear', function (req, res, next) {
         User.verifyUser(req, res, next, function (user) {
-            console.log("soirees near callback");
-
-
-            //user.location = coors;
-            //user.save(function(err){
-            //   if (err){
-            //       console.log("Error saving user's location in soireesNear");
-            //   }
-            //   else{
-            //       console.log("Saved user's location in soireesNear");
-            //   }
-            //});
 
             Soiree.findSoirees(req, user, function (soirees) {
                 var dataToSend = [];
@@ -173,9 +161,6 @@ var returnRouter = function(io) {
                 res.json(dataToSend);
             }
         });
-        //}, function(err){
-        //    res.status('404').send("Error finding user");
-        //});
 
     });
 
@@ -234,11 +219,6 @@ var returnRouter = function(io) {
             if (!startTime || !endTime) {
                 return ResHelper.sendError(res, ErrorCodes.MissingData);
             }
-            //var availableTimes = req.body.availableTimes;
-            //if (!availableTimes){
-            //    return ResHelper.sendError(res, ErrorCodes.MissingData);
-            //}
-
 
             var availableTimes = [{start: startTime, end: endTime}];
 

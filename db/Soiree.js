@@ -617,6 +617,15 @@ soireeSchema.post("init", function(soiree){
 
 });
 
+//var autoPopulate = function(next){
+//	this.populate("_business");
+//	this.populate("_user");
+//	next();
+//};
+//
+//soireeSchema.pre("findOne", autoPopulate);
+//soireeSchema.pre("find", autoPopulate);
+
 //soireeSchema.pre('save', function(next){
 //	//if (!this.timeAtString) {
 //	this.timeAtString = soireeSchema.statics.timeAtStringFromDate(this.date);

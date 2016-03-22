@@ -44,6 +44,7 @@ var customSchema = new Schema({
     {timestamps: {createdAt: 'dateCreated', updatedAt: 'dateUpdated'}}
 );
 
+
 //customSchema.index({ confirmationCode: 1, _business: 1, confirmed: 1}, { unique: true }, function(err, indexName){
 //   console.log("index callback with err: " + err + " index: " + indexName);
 //});
@@ -279,6 +280,26 @@ customSchema.methods.confirm = function(code, successCallback, errorCallback){
     else errorCallback();
 };
 
+customSchema.statics.addReservationsForSoirees = function(soirees, user, successCallback){
+    var ans = {};
+    var numReturned = 0;
+
+    for (var i = 0; i < soirees.length; i++){
+        var soireeId = soirees[i].soireeId;
+        this.findOne({soireeId: soireeId, _user: user._id}).exec(function (err, reservation) {
+            numReturned++;
+            if (err || !reservation) {
+            }
+            else {
+                ans[soireeId] = reservation.jsonObject();
+                if (numReturned === soirees.length){
+                    successCallback(ans);
+                }
+            }
+        });
+    }
+};
+
 customSchema.methods.jsonObject = function(){
   return {
       "reservationId" : this.reservationId,
@@ -286,11 +307,9 @@ customSchema.methods.jsonObject = function(){
       "confirmationCode" : this.confirmationCode,
       "confirmed" : this.confirmed
   };
-
 };
 
 customSchema.virtual('').get(function () {
-
 });
 
 
@@ -334,6 +353,15 @@ customSchema.pre("save", function (next) {
 customSchema.post("init", function (soiree) {
 
 });
+
+var autoPopulate = function(next){
+    this.populate("_business");
+    this.populate("_soiree");
+    next();
+};
+
+customSchema.pre("findOne", autoPopulate);
+customSchema.pre("find", autoPopulate);
 
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var options = {};

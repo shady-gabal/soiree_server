@@ -26,29 +26,6 @@ var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHe
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 
-//router.get('/findUser', function(req, res){
-//  var facebookUserId = req.query.facebookUserId;
-//  if (!facebookUserId){
-//    return res.status('404').send("No facebook user id specified");
-//  }
-//
-//  User.findOne({"facebookUserId" : facebookUserId}).exec(function(err, user){
-//    if (err){
-//      res.status('404').send("Error finding user with facebook id: " + fbUserId);
-//    }
-//    else{
-//      if (!user){
-//        //no user found
-//        res.json({});
-//      }
-//      else{
-//        sendUser(res, user);
-//      }
-//    }
-//  });
-//});
-
-
 router.post('/findUser', function(req, res, next){
   console.log("in findUser...");
 
@@ -71,17 +48,6 @@ router.post('/findUser', function(req, res, next){
           sendUser(res, user);
         });
 
-
-              //remove stripe customer id
-              //user.stripeCustomerId = null;
-
-              //user.save(function(err){
-              //  if (err) console.log("Error setting stripe customer id to null - findUser " + err);
-              //});
-            //}
-            //else{
-            //  sendUser(res, user);
-            //}
       }
     })(req, res, next);
 
@@ -270,84 +236,49 @@ router.post('/uploadDeviceToken', function(req, res, next){
 router.post('/fetchUserSoirees', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
 
-    //user.deepPopulate("_soireesAttending._business _soireesAttended._business", function(err, newUser){
-    //
-    //  if (err){
-    //    return ResHelper.sendError(res, ErrorCodes.Error);
-    //  }
-
-      //console.log("newUser: " + newUser);
-      //console.log("newUser._soireesAttending: " + newUser._soireesAttending);
-
-
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
         //console.log("soireesAttending: " + soireesAttending);
         //console.log("soireesAttended: " + soireesAttended);
 
-        var obj = {};
-        var pastArr = [];
-        var presentArr = [];
-        var futureArr = [];
 
-        for (var i = 0; i < soireesAttended.length; i++){
-          var soiree = soireesAttended[i];
-          pastArr.push(soiree.jsonObject(user));
-        }
-        obj["past"] = pastArr;
+        SoireeReservation.addReservationsForSoirees(soireesAttending, user, function(reservationsDict){
 
-        for (var j = 0; j < soireesAttending.length; j++) {
-          var soiree = soireesAttending[j];
+          var obj = {};
+          var pastArr = [], presentArr = [], futureArr = [];
 
-          if (soiree.started) {
-            presentArr.push(soiree.jsonObject(user));
+          for (var i = 0; i < soireesAttended.length; i++){
+            var soiree = soireesAttended[i];
+            pastArr.push(soiree.jsonObject(user));
           }
-          else {
-            futureArr.push(soiree.jsonObject(user));
+          obj["past"] = pastArr;
+
+          for (var j = 0; j < soireesAttending.length; j++) {
+            var soiree = soireesAttending[j];
+            var jsonDict = soiree.jsonObject(user);
+            if (reservationsDict[soiree.soireeId]){
+              jsonDict["reservation"] = reservationsDict[soiree.soireeId];
+            }
+
+            if (soiree.started) {
+              presentArr.push(jsonDict);
+            }
+            else {
+              futureArr.push(jsonDict);
+            }
           }
+          obj["present"] = presentArr;
+          obj["future"] = futureArr;
 
-        }
-        obj["present"] = presentArr;
-        obj["future"] = futureArr;
-
-        res.json(obj);
+          res.json(obj);
+        });
 
       }, function(err){
         ResHelper.sendError(res, err);
       });
-      //
-      ////if (newUser.populated('_soireesAttended')){
-      //  var arr = [];
-      //  for (var i = 0; i < newUser._soireesAttended.length; i++){
-      //    var soiree = newUser._soireesAttended[i];
-      //    arr.push(soiree.jsonObject(newUser));
-      //  }
-      //  obj["past"] = arr;
-      ////}
-      //
-      ////if (newUser.populated('_soireesAttending')){
-      //  var presentArr = [];
-      //  var futureArr = [];
-      //  for (var i = 0; i < newUser._soireesAttending.length; i++) {
-      //    var soiree = newUser._soireesAttending[i];
-      //
-      //    if (soiree.started) {
-      //      presentArr.push(soiree.jsonObject(newUser));
-      //    }
-      //    else {
-      //      futureArr.push(soiree.jsonObject(newUser));
-      //    }
-      //
-      //  }
-      //  obj["present"] = presentArr;
-      //  obj["future"] = futureArr;
-      ////}
-      //
-      //res.json(obj);
-
-    //});
 
   });
 });
+
 
 
 
