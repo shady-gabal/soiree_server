@@ -34,6 +34,7 @@
     "stripe": "",
     "underscore": "",
     "validator": "",
-    "get-env" : ""
+    "get-env" : "",
+    "socketio-auth" : ""
   }
 }

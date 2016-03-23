@@ -15,6 +15,12 @@
     socket.on('test', function (data) {
         alert("received :" + data);
     });
+
+    socket.emit('authentication', {username: "John", password: "secret"});
+    socket.on('authenticated', function() {
+        // use the socket as usual
+        alert("authenticated");
+    });
 </script>
 {{/extend}}
 

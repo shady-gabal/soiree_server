@@ -36,6 +36,9 @@ var server = http.Server(app);
 var io = require('socket.io')(server);
 app.io = io;
 
+
+
+
 /**** Routes ****/
 /* User Facing Routes */
 var userIndex = require('./routes/consumer/index');

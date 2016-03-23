@@ -24,6 +24,27 @@ var returnRouter = function(io) {
 
     var _socket;
 
+    var socketAuthenticate = function(socket, data, callback){
+        console.log("socket authenticate called");
+        var user = data.user;
+        var soireeId = data.soireeId;
+
+        var makeshiftReq = {};
+        makeShiftReq.body = {user: user};
+
+        User.verifyUser(makeshiftReq, null, function(){console.log("fake next called")}, function(user){
+            //check if soiree with id is in soirees attending
+            return callback(null, true);
+        }, function(err){
+            return callback(null, false);
+        });
+    };
+
+    require('socketio-auth')(io, {
+        authenticate : socketAuthenticate,
+        timeout: 1000
+    });
+
     //io.on('connection', function(socket){
     //    _socket = socket;
     //    console.log('a user connected to soireeInProgress');
@@ -65,6 +86,7 @@ var returnRouter = function(io) {
     });
 
     router.get('/:soireeId', function(req, res, next){
+        console.log("/:soireeId called");
         //TODO: add security that ensures that only users who are signed up for soiree can join
         var soireeId = req.params.soireeId;
         if (!soireeId){
