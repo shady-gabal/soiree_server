@@ -70,7 +70,7 @@ var returnRouter = function(io) {
         var text = req.query.message ? req.query.message : "Test Message";
         var room = req.query.room ? req.query.room : null;
 
-        var message = {author: SOIREE, text : text};
+        var message = {author: Soiree.SOIREE, text : text};
 
         if (room){
             io.to(room).emit('test', message);
