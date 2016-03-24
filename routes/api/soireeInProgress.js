@@ -83,12 +83,12 @@ var returnRouter = function(io) {
         });
     });
 
-    if (Globals.development){
-        res.render('testing/testSocket', {});
-    }
-    else{
-        res.send("OK");
-    }
+    //if (Globals.development){
+    //    res.render('testing/testSocket', {});
+    //}
+    //else{
+    //    res.send("OK");
+    //}
 
 
     //});
