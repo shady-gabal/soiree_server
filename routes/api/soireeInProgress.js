@@ -74,8 +74,8 @@ var returnRouter = function(io) {
             }
         });
 
-        //var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
-        //socket.emit('test', message);
+        var message = {author: "Debug", text : "Connected to " + SOIREE_LOWERCASE};
+        socket.emit('test', message);
         //console.log("sent message");
 
         //res.json({"status" : "Connected"});
