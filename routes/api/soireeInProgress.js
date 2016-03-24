@@ -46,54 +46,52 @@ var returnRouter = function(io) {
     });
 
 
-    //
-    //
-    //
-    router.get('/', function(req, res){
+    //router.get('/', function(req, res){
         console.log("soireeInProgress called");
     //    //TODO: add security that ensures that only users who are signed up for soiree can join
-        var soireeId = req.query.soireeId;
-        if (!soireeId){
-            return ResHelper.sendError(res, ErrorCodes.MissingData);
-        }
-        var roomId = soireeId;
+    //    var soireeId = req.query.soireeId;
+    //    if (!soireeId){
+    //        return ResHelper.sendError(res, ErrorCodes.MissingData);
+    //    }
+    //    var roomId = soireeId;
 
-         console.log("connecting to room " + roomId + "...");
-        io.on('connection', function(socket){
-            console.log('a user connected to soireeInProgress. Joining room ' + roomId);
+    var roomId = "41g0GseQal";
+     console.log("connecting to room " + roomId + "...");
+    io.on('connection', function(socket){
+        console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
-            socket.join(roomId, function(err){
-                if (err){
-                    console.log("Error joining room " + roomId + " : " + err);
-                    socket.emit('error joining room', {roomId : roomId});
-                }
-                else{
-                    socket.emit('joined room', {roomId : roomId});
-                    console.log("Successfully joined room " + roomId);
-                    console.log("This socket's rooms: " + JSON.stringify(socket.rooms));
-                }
-            });
-
-            //var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
-            //socket.emit('test', message);
-            //console.log("sent message");
-
-            //res.json({"status" : "Connected"});
-
-            socket.on('disconnect', function(){
-                console.log('user disconnected from soireeInProgress');
-            });
+        socket.join(roomId, function(err){
+            if (err){
+                console.log("Error joining room " + roomId + " : " + err);
+                socket.emit('error joining room', {roomId : roomId});
+            }
+            else{
+                socket.emit('joined room', {roomId : roomId});
+                console.log("Successfully joined room " + roomId);
+                console.log("This socket's rooms: " + JSON.stringify(socket.rooms));
+            }
         });
 
-        if (Globals.development){
-            res.render('testing/testSocket', {});
-        }
-        else{
-            res.send("OK");
-        }
+        //var message = {author: SOIREE, text : "Connected to " + SOIREE_LOWERCASE};
+        //socket.emit('test', message);
+        //console.log("sent message");
 
+        //res.json({"status" : "Connected"});
 
+        socket.on('disconnect', function(){
+            console.log('user disconnected from soireeInProgress');
+        });
     });
+
+    if (Globals.development){
+        res.render('testing/testSocket', {});
+    }
+    else{
+        res.send("OK");
+    }
+
+
+    //});
 
     return router;
 };
