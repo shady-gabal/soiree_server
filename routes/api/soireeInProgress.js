@@ -34,6 +34,7 @@ var returnRouter = function(io) {
 
         User.verifyUser(makeshiftReq, null, function(){console.log("fake next called")}, function(user){
             //check if soiree with id is in soirees attending
+            console.log("user authenticated");
             return callback(null, true);
         }, function(err){
             return callback(null, false);
@@ -55,9 +56,10 @@ var returnRouter = function(io) {
     //    }
     //    var roomId = soireeId;
 
-    var roomId = "41g0GseQal";
-     console.log("connecting to room " + roomId + "...");
+
     io.on('connection', function(socket){
+        var roomId = "41g0GseQal";
+        console.log(socket);
         console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
         socket.join(roomId, function(err){
@@ -92,6 +94,24 @@ var returnRouter = function(io) {
 
 
     //});
+
+
+    router.get('/sendMessage', function(req, res){
+        var text = req.query.message ? req.query.message : "Test Message";
+        var room = req.query.room ? req.query.room : null;
+
+        var message = {author: Soiree.SOIREE, text : text};
+
+        if (room){
+            io.to(room).emit('test', message);
+        }
+        else{
+            io.emit('test', message);
+        }
+
+
+        res.send("Sent '" + message.text + "'" + "to room " + room);
+    });
 
     return router;
 };

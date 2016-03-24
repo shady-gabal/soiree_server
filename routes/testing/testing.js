@@ -66,22 +66,6 @@ var returnRouter = function(io) {
         });
     });
 
-    router.get('/sendMessage', function(req, res){
-        var text = req.query.message ? req.query.message : "Test Message";
-        var room = req.query.room ? req.query.room : null;
-
-        var message = {author: Soiree.SOIREE, text : text};
-
-        if (room){
-            io.to(room).emit('test', message);
-        }
-        else{
-            io.emit('test', message);
-        }
-
-
-        res.send("Sent '" + message.text + "'" + "to room " + room);
-    });
 
     router.get('/createTestUsers', function(req, res){
 
