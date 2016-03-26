@@ -55,8 +55,8 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
                 return;
             }
 
-            if (!user._id.equals(post._user._id)){
-                var body = user.firstName + ' commented on your post "' + post.text + '"';
+            if (!userThatCommented._id.equals(post._user._id)){
+                var body = userThatCommented.firstName + ' commented on your post "' + post.text + '"';
                 Notification.sendCommunityNotification(body, post._user, comment._user, post, Notification.notificationTypes.commented);
                 //Notification.createNotification(bodySuffix, post._user, post, "commented");
             }
@@ -65,10 +65,10 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
             for (var i = 0; i < post._comments; i++){
                 var postComment = post._comments[i];
                 var commentUser = postComment._user;
-                if (commentUsersNotified.indexOf(commentUser._id) == -1 && !commentUser._id.equals(user._id) && !commentUser._id.equals(post._user._id)){
+                if (commentUsersNotified.indexOf(commentUser._id) == -1 && !commentUser._id.equals(userThatCommented._id) && !commentUser._id.equals(post._user._id)){
                 //if (commentUsersNotified.indexOf(commentUser._id) == -1){
-                    var body = user.firstName + " commented on a post you commented on \"" + post.text + "\"";
-                    Notification.sendCommunityNotification(body, commentUser, user, post, Notification.notificationTypes.commented);
+                    var body = userThatCommented.firstName + " commented on a post you commented on \"" + post.text + "\"";
+                    Notification.sendCommunityNotification(body, commentUser, userThatCommented, post, Notification.notificationTypes.commented);
                     commentUsersNotified.push(commentUser._id);
                 }
             }
