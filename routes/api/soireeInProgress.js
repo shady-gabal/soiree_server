@@ -102,6 +102,8 @@ var returnRouter = function(io) {
 
         var message = {author: Soiree.SOIREE, text : text};
 
+        console.log(io.sockets);
+        
         if (room){
             io.to(room).emit('test', message);
         }
