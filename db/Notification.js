@@ -50,7 +50,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
     //        return;
     //    }
 
-        upPost.deepPopulate("_user _comments", function(err2, post){
+        upPost.deepPopulate("_user _comments._user", function(err2, post){
             if (err2 || !post){
                 console.log("Error fetching post: " + err2);
                 return;
@@ -70,7 +70,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
                 //if (commentUsersNotified.indexOf(commentUser._id) == -1){
                     var body = userThatCommented.firstName + " commented on a post you commented on \"" + post.text + "\"";
                     Notification.sendCommunityNotification(body, commentUser, userThatCommented, post, Notification.notificationTypes.commented);
-                    commentUsersNotified.push(MongooseHelper._id(commentUser));
+                    commentUsersNotified.push(commentUser._id);
                 }
             }
 

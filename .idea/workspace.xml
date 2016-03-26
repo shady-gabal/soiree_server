@@ -97,8 +97,8 @@
       <file leaf-file-name="Notification.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db/Notification.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.086363636">
-              <caret line="64" column="16" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.25151515">
+              <caret line="68" column="91" selection-start-line="68" selection-start-column="91" selection-end-line="68" selection-end-column="108" />
               <folding />
             </state>
           </provider>
@@ -108,7 +108,7 @@
         <entry file="file://$PROJECT_DIR$/helpers/MongooseHelper.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
+              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -989,15 +989,15 @@
     <entry file="file://$PROJECT_DIR$/helpers/MongooseHelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db/Notification.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.086363636">
-          <caret line="64" column="16" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.25151515">
+          <caret line="68" column="91" selection-start-line="68" selection-start-column="91" selection-end-line="68" selection-end-column="108" />
           <folding />
         </state>
       </provider>

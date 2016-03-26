@@ -13,17 +13,25 @@ var helper = (function () {
             else return obj._id;
         },
         isEqualPopulated : function(obj1, obj2){
-            if(obj1._id && obj2._id || (!obj1._id && !obj2._id)){
-                return obj1.isEqual(obj2);
-            }
-            else if (obj1._id){
-                return obj1._id.isEqual(obj2);
+            try {
+                if (obj1._id && obj2._id) {
+                    return obj1._id.isEqual(obj2._id);
+                }
+                else if (obj1._id) {
+                    return obj1._id.isEqual(obj2);
 
+                }
+                else if (obj2._id) {
+                    return obj2._id.isEqual(obj1);
+                }
+                else {
+                    return obj1.isEqual(obj2);
+                }
             }
-            else if (obj2._id){
-                return obj2._id.isEqual(obj1);
+            catch(err){
+                console.log("Error in isEqualPopulated: " + err);
+                return false;
             }
-            else return false;
         }
     }
 
