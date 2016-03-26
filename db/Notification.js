@@ -18,6 +18,7 @@ var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
 var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
+var MongooseHelper = require(helpersFolderLocation + 'MongooseHelper.js');
 
 var notificationTypes = ["commented", "liked"];
 
@@ -55,7 +56,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
                 return;
             }
 
-            if (!userThatCommented._id.equals(post._user._id)){
+            if (!MongooseHelper.isEqualPopulated(userThatCommented, post._user)){
                 var body = userThatCommented.firstName + ' commented on your post "' + post.text + '"';
                 Notification.sendCommunityNotification(body, post._user, comment._user, post, Notification.notificationTypes.commented);
                 //Notification.createNotification(bodySuffix, post._user, post, "commented");
@@ -65,11 +66,11 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
             for (var i = 0; i < post._comments; i++){
                 var postComment = post._comments[i];
                 var commentUser = postComment._user;
-                if (commentUsersNotified.indexOf(commentUser._id) == -1 && !commentUser._id.equals(userThatCommented._id) && !commentUser._id.equals(post._user._id)){
+                if (commentUsersNotified.indexOf(commentUser._id) == -1 && !MongooseHelper.isEqualPopulated(commentUser, userThatCommented) && !MongooseHelper.isEqualPopulated(commentUser, post._user)){
                 //if (commentUsersNotified.indexOf(commentUser._id) == -1){
                     var body = userThatCommented.firstName + " commented on a post you commented on \"" + post.text + "\"";
                     Notification.sendCommunityNotification(body, commentUser, userThatCommented, post, Notification.notificationTypes.commented);
-                    commentUsersNotified.push(commentUser._id);
+                    commentUsersNotified.push(MongooseHelper._id(commentUser));
                 }
             }
 
@@ -78,7 +79,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
 };
 
 notificationSchema.statics.sendCommunityNotification = function(bodySuffix, notificationsUser, causingUser,  post, type){
-    console.log("addToOrCreateNotification()");
+    console.log("sendCommunityNotification()");
     var Notification = this;
 
     var idToMatch = generateId(causingUser, post.postId, type);

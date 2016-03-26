@@ -7,6 +7,11 @@ var helper = (function () {
         isObjectId: function (obj) {
             return ObjectId.isValid(obj);
         },
+        _id : function(obj){
+            if (this.isObjectId(obj))
+                return obj;
+            else return obj._id;
+        },
         isEqualPopulated : function(obj1, obj2){
             if(obj1._id && obj2._id || (!obj1._id && !obj2._id)){
                 return obj1.isEqual(obj2);
