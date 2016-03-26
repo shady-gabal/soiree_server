@@ -183,7 +183,7 @@ commentSchema.methods.jsonObject = function(user){
     var lovedByUser = this._loves.indexOf(user._id) != -1;
     var laughedByUser = this._laughs.indexOf(user._id) != -1;
     var angriedByUser = this._angries.indexOf(user._id) != -1;
-    
+
     var obj = {
         "text" : this.text,
         "dateCreated": timeIntervalSince1970InSeconds,
@@ -200,16 +200,16 @@ commentSchema.methods.jsonObject = function(user){
     return obj;
 };
 
-postSchema.virtual('numLoves').get(function () {
+commentSchema.virtual('numLoves').get(function () {
     return this._loves.length;
 });
-postSchema.virtual('numLaughs').get(function () {
+commentSchema.virtual('numLaughs').get(function () {
     return this._laughs.length;
 });
-postSchema.virtual('numAngries').get(function () {
+commentSchema.virtual('numAngries').get(function () {
     return this._angries.length;
 });
-postSchema.virtual('numVotes').get(function () {
+commentSchema.virtual('numVotes').get(function () {
     return this._angries.length + this._cries.length + this._laughs.length + this._loves.length;
 });
 

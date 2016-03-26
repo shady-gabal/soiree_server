@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/CommunityComment.js" afterPath="$PROJECT_DIR$/db/CommunityComment.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/CommunityPost.js" afterPath="$PROJECT_DIR$/db/CommunityPost.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,8 +56,8 @@
       <file leaf-file-name="CommunityComment.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.535662">
-              <caret line="185" column="4" selection-start-line="185" selection-start-column="4" selection-end-line="185" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.6404658">
+              <caret line="210" column="3" selection-start-line="210" selection-start-column="3" selection-end-line="210" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -934,8 +933,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.535662">
-          <caret line="185" column="4" selection-start-line="185" selection-start-column="4" selection-end-line="185" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.6404658">
+          <caret line="210" column="3" selection-start-line="210" selection-start-column="3" selection-end-line="210" selection-end-column="3" />
           <folding />
         </state>
       </provider>
