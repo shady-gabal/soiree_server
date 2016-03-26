@@ -42,7 +42,6 @@ var postSchema = new Schema({
         authorProfilePictureUrl : {type: String},
         _loves : [{type: ObjectId, ref:"User"}],
         _laughs : [{type: ObjectId, ref:"User"}],
-        _cries : [{type: ObjectId, ref:"User"}],
         _angries : [{type: ObjectId, ref:"User"}],
 
         _user : {type: ObjectId, ref:"User"}

@@ -32,8 +32,10 @@ var commentSchema = new Schema({
     author: {type: String, required: [true, "No author specified"]}, /* Author */
     authorProfilePictureUrl : {type: String},
     _post: {type: ObjectId, ref:"CommunityPost"},
-    _likes : [{type: ObjectId, ref:"User"}],
-    _user : {type: ObjectId, ref:"User"}
+    _user : {type: ObjectId, ref:"User"},
+    _loves : [{type: ObjectId, ref:"User"}],
+    _laughs : [{type: ObjectId, ref:"User"}],
+    _angries : [{type: ObjectId, ref:"User"}]
     //dateCreated : {type: Date, default: new Date()}
 },
     { timestamps: { createdAt: 'dateCreated', updatedAt: 'dateUpdated' } }
@@ -113,6 +115,68 @@ var commentSchema = new Schema({
 //    });
 //
 //};
+
+commentSchema.methods.emotion = function(user, emotion, successCallback, errorCallback) {
+    if (emotion === "love"){
+        this._loves.push(user._id);
+    }
+    else if (emotion === "laugh"){
+        this._laughs.push(user._id);
+    }
+    else if (emotion === "cry"){
+        this._cries.push(user._id);
+    }
+    else if (emotion === "angry"){
+        this._angries.push(user._id);
+    }
+
+    this.save(function(err){
+        if (err){
+            errorCallback(ErrorCodes.ErrorSaving);
+        }
+        else{
+            successCallback(this);
+        }
+    });
+
+};
+
+commentSchema.methods.unemotion = function(user, emotion, successCallback, errorCallback) {
+    if (emotion === "love"){
+        var index = this._loves.indexOf(user._id);
+        if (index != -1) {
+            this._loves.splice(index, 1);
+        }
+
+    }
+    else if (emotion === "laugh"){
+        var index = this._laughs.indexOf(user._id);
+        if (index != -1) {
+            this._laughs.splice(index, 1);
+        }
+    }
+    else if (emotion === "cry"){
+        var index = this._cries.indexOf(user._id);
+        if (index != -1) {
+            this._cries.splice(index, 1);
+        }    }
+    else if (emotion === "angry"){
+        var index = this._angries.indexOf(user._id);
+        if (index != -1) {
+            this._angries.splice(index, 1);
+        }
+    }
+
+    this.save(function(err){
+        if (err){
+            errorCallback(ErrorCodes.ErrorSaving);
+        }
+        else{
+            successCallback(this);
+        }
+    });
+
+};
 
 commentSchema.methods.jsonObject = function(user){
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000.;

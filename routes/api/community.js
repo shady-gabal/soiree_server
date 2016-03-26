@@ -183,14 +183,14 @@ router.post('/createComment', function(req, res, next){
     });
 });
 
-/* Liking/Unliking */
+/* Emotioning/Unemotioning */
 
-router.post('/uploadEmotion', function(req, res, next){
+router.post('/uploadEmotionForPost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         var emotion = req.body.emotion;
-        if (emotion) {
+        var postId = req.body.postId;
 
-            var postId = req.body.postId;
+        if (emotion && postId) {
 
             CommunityPost.findOne({postId: postId}, function (err, post) {
                 if (err || !post) {
@@ -198,7 +198,7 @@ router.post('/uploadEmotion', function(req, res, next){
                 }
                 else {
 
-                    post.emotion(user, emotion, function (post) {
+                    post.emotion(user, emotion, function (_post) {
                         ResHelper.sendMessage(res, 200, "successfully emotioned post");
                     }, function (err) {
                         ResHelper.sendMessage(res, 404, "error emotioning post: " + err);
@@ -208,15 +208,14 @@ router.post('/uploadEmotion', function(req, res, next){
             });
         }
     });
-
 });
 
-router.post('/uploadUnemotion', function(req, res, next){
+router.post('/uploadUnemotionForPost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         var emotion = req.body.emotion;
-        if (emotion) {
+        var postId = req.body.postId;
 
-            var postId = req.body.postId;
+        if (emotion && postId) {
 
             CommunityPost.findOne({postId: postId}, function (err, post) {
                 if (err || !post) {
@@ -224,7 +223,7 @@ router.post('/uploadUnemotion', function(req, res, next){
                 }
                 else {
 
-                    post.unemotion(user, emotion, function (post) {
+                    post.unemotion(user, emotion, function (_post) {
                         ResHelper.sendMessage(res, 200, "successfully unemotioned post");
                     }, function (err) {
                         ResHelper.sendMessage(res, 404, "error unemotioning post: " + err);
@@ -238,30 +237,82 @@ router.post('/uploadUnemotion', function(req, res, next){
 });
 
 
-router.post('/unlikePost', function(req, res, next){
+router.post('/uploadEmotionForComment', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
-        var postId = req.body.postId;
+        var emotion = req.body.emotion;
+        var commentId = req.body.commentId;
 
-        CommunityPost.findOne({postId : postId}, function(err, post){
-            if (err || !post){
-                ResHelper.sendMessage(res, 404, "error finding post: " + err);
-            }
-            else{
+        if (emotion && commentId) {
 
-                post.unlike(user, function(post){
-                    ResHelper.sendMessage(res, 200, "successfully unliked post");
-                }, function(err){
-                    ResHelper.sendMessage(res, 404, "error unliking post: " + err);
-                });
+            CommunityComment.findOne({commentId: commentId}, function (err, comment) {
+                if (err || !comment) {
+                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
+                }
+                else {
 
-            }
-        });
+                    comment.emotion(user, emotion, function (_comment) {
+                        ResHelper.sendMessage(res, 200, "successfully emotioned comment");
+                    }, function (err) {
+                        ResHelper.sendMessage(res, 404, "error emotioning comment: " + err);
+                    });
 
-    }, function(err){
-        ResHelper.sendMessage(res, 404, "error finding user: " + err);
+                }
+            });
+        }
+    });
+});
+
+router.post('/uploadUnemotionForComment', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
+        var emotion = req.body.emotion;
+        var commentId = req.body.commentId;
+
+        if (emotion && commentId) {
+
+            CommunityComment.findOne({commentId: commentId}, function (err, comment) {
+                if (err || !comment) {
+                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
+                }
+                else {
+
+                    comment.unemotion(user, emotion, function (_comment) {
+                        ResHelper.sendMessage(res, 200, "successfully unemotioned comment");
+                    }, function (err) {
+                        ResHelper.sendMessage(res, 404, "error unemotioning comment: " + err);
+                    });
+
+                }
+            });
+        }
     });
 
 });
+
+
+//router.post('/unlikePost', function(req, res, next){
+//    User.verifyUser(req, res, next, function(user){
+//        var postId = req.body.postId;
+//
+//        CommunityPost.findOne({postId : postId}, function(err, post){
+//            if (err || !post){
+//                ResHelper.sendMessage(res, 404, "error finding post: " + err);
+//            }
+//            else{
+//
+//                post.unlike(user, function(post){
+//                    ResHelper.sendMessage(res, 200, "successfully unliked post");
+//                }, function(err){
+//                    ResHelper.sendMessage(res, 404, "error unliking post: " + err);
+//                });
+//
+//            }
+//        });
+//
+//    }, function(err){
+//        ResHelper.sendMessage(res, 404, "error finding user: " + err);
+//    });
+//
+//});
 
 //router.get('/createComment', function(req, res){
 //   CommunityComment.createComment({
