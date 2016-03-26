@@ -248,7 +248,7 @@ userSchema.methods.endedSoiree = function(soiree){
 		if (err) return console.log(err);
 		for (var i = 0; i < this._currentReservations.length; i++){
 			var reservation = this._currentReservations[i];
-			if (reservation._soiree._id.isEqual(soiree._id)){
+			if (reservation._soiree._id.equals(soiree._id)){
 				this._currentReservations.splice(i, 1);
 				ArrayHelper.pushOnlyOnce(this._pastReservations, reservation._id);
 				this.save(Globals.saveErrorCallback);

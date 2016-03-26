@@ -12,20 +12,20 @@ var helper = (function () {
                 return obj;
             else return obj._id;
         },
-        isEqualPopulated : function(obj1, obj2){
+        equalsPopulated : function(obj1, obj2){
             try {
                 if (obj1._id && obj2._id) {
-                    return obj1._id.isEqual(obj2._id);
+                    return obj1._id.equals(obj2._id);
                 }
                 else if (obj1._id) {
-                    return obj1._id.isEqual(obj2);
+                    return obj1._id.equals(obj2);
 
                 }
                 else if (obj2._id) {
-                    return obj2._id.isEqual(obj1);
+                    return obj2._id.equals(obj1);
                 }
                 else {
-                    return obj1.isEqual(obj2);
+                    return obj1.equals(obj2);
                 }
             }
             catch(err){

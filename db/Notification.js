@@ -56,7 +56,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
                 return;
             }
 
-            if (!MongooseHelper.isEqualPopulated(userThatCommented, post._user)){
+            if (!MongooseHelper.equalsPopulated(userThatCommented, post._user)){
                 var body = userThatCommented.firstName + ' commented on your post "' + post.text + '"';
                 Notification.sendCommunityNotification(body, post._user, comment._user, post, Notification.notificationTypes.commented);
                 //Notification.createNotification(bodySuffix, post._user, post, "commented");
@@ -66,7 +66,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
             for (var i = 0; i < post._comments; i++){
                 var postComment = post._comments[i];
                 var commentUser = postComment._user;
-                if (commentUsersNotified.indexOf(commentUser._id) == -1 && !MongooseHelper.isEqualPopulated(commentUser, userThatCommented) && !MongooseHelper.isEqualPopulated(commentUser, post._user)){
+                if (commentUsersNotified.indexOf(commentUser._id) == -1 && !MongooseHelper.equalsPopulated(commentUser, userThatCommented) && !MongooseHelper.equalsPopulated(commentUser, post._user)){
                 //if (commentUsersNotified.indexOf(commentUser._id) == -1){
                     var body = userThatCommented.firstName + " commented on a post you commented on \"" + post.text + "\"";
                     Notification.sendCommunityNotification(body, commentUser, userThatCommented, post, Notification.notificationTypes.commented);
@@ -100,8 +100,10 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
             else{
                 var newUser = {user: causingUser._id, name: causingUser.firstName};
 
-                var filterOutExistingUser = function (userObj){
-                    return !userObj.user.isEqual(newUser.user);
+                var filterOutExistingUsers = function (userObj){
+                    console.log(userObj);
+                    return true;
+                    //return !userObj.user.equals(newUser.user);
                 };
 
                 notification.users = notification.users.filter(filterOutExistingUser);
