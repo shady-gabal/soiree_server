@@ -293,7 +293,6 @@ postSchema.methods.jsonObject = function(user, showComments){
 
     var lovedByUser = this._loves.indexOf(user._id) != -1;
     var laughedByUser = this._laughs.indexOf(user._id) != -1;
-    //var criedByUser = this._cries.indexOf(user._id) != -1;
     var angriedByUser = this._angries.indexOf(user._id) != -1;
 
     var obj = {
@@ -305,12 +304,10 @@ postSchema.methods.jsonObject = function(user, showComments){
         "college" : this._user.college,
         "numLoves" : this.numLoves,
         "numLaughs" : this.numLaughs,
-        "numCries" : this.numCries,
         "numAngries" : this.numAngries,
         "numComments" : this.numComments,
         "lovedByUser" : lovedByUser,
         "laughedByUser" : laughedByUser,
-        //"criedByUser" : criedByUser,
         "angriedByUser" : angriedByUser
 
     };
@@ -359,9 +356,9 @@ postSchema.virtual('numLoves').get(function () {
 postSchema.virtual('numLaughs').get(function () {
     return this._laughs.length;
 });
-postSchema.virtual('numCries').get(function () {
-    return this._cries.length;
-});
+//postSchema.virtual('numCries').get(function () {
+//    return this._cries.length;
+//});
 postSchema.virtual('numAngries').get(function () {
     return this._angries.length;
 });

@@ -180,18 +180,38 @@ commentSchema.methods.unemotion = function(user, emotion, successCallback, error
 
 commentSchema.methods.jsonObject = function(user){
     var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000.;
-    var likedByUser = this._likes.indexOf(user._id) != -1;
-
+    var lovedByUser = this._loves.indexOf(user._id) != -1;
+    var laughedByUser = this._laughs.indexOf(user._id) != -1;
+    var angriedByUser = this._angries.indexOf(user._id) != -1;
+    
     var obj = {
         "text" : this.text,
         "dateCreated": timeIntervalSince1970InSeconds,
         "commentId": this.commentId,
         "author": this.author,
         "authorProfilePictureUrl" : this.authorProfilePictureUrl,
-        "likedByUser" : likedByUser
+        "numLoves" : this.numLoves,
+        "numLaughs" : this.numLaughs,
+        "numAngries" : this.numAngries,
+        "lovedByUser" : lovedByUser,
+        "laughedByUser" : laughedByUser,
+        "angriedByUser" : angriedByUser
     };
     return obj;
 };
+
+postSchema.virtual('numLoves').get(function () {
+    return this._loves.length;
+});
+postSchema.virtual('numLaughs').get(function () {
+    return this._laughs.length;
+});
+postSchema.virtual('numAngries').get(function () {
+    return this._angries.length;
+});
+postSchema.virtual('numVotes').get(function () {
+    return this._angries.length + this._cries.length + this._laughs.length + this._loves.length;
+});
 
 //commentSchema.virtual('jsonObject').get(function () {
 //    var timeIntervalSince1970InSeconds = this.dateCreated.getTime() / 1000;

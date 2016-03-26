@@ -4,7 +4,6 @@
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/CommunityComment.js" afterPath="$PROJECT_DIR$/db/CommunityComment.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/CommunityPost.js" afterPath="$PROJECT_DIR$/db/CommunityPost.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/community.js" afterPath="$PROJECT_DIR$/routes/api/community.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,10 +34,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="community.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="community.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api/community.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58515286">
+            <state vertical-scroll-proportion="0.0">
               <caret line="198" column="12" selection-start-line="198" selection-start-column="12" selection-end-line="198" selection-end-column="12" />
               <folding />
             </state>
@@ -49,17 +48,17 @@
         <entry file="file://$PROJECT_DIR$/db/CommunityPost.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="181" column="9" selection-start-line="181" selection-start-column="9" selection-end-line="181" selection-end-column="9" />
+              <caret line="304" column="30" selection-start-line="304" selection-start-column="30" selection-end-line="304" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommunityComment.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CommunityComment.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="161" column="14" selection-start-line="161" selection-start-column="14" selection-end-line="161" selection-end-column="14" />
+            <state vertical-scroll-proportion="4.535662">
+              <caret line="185" column="4" selection-start-line="185" selection-start-column="4" selection-end-line="185" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -133,9 +132,9 @@
         <option value="$PROJECT_DIR$/helpers/MongooseHelper.js" />
         <option value="$PROJECT_DIR$/db/Notification.js" />
         <option value="$PROJECT_DIR$/db/User.js" />
+        <option value="$PROJECT_DIR$/routes/api/community.js" />
         <option value="$PROJECT_DIR$/db/CommunityPost.js" />
         <option value="$PROJECT_DIR$/db/CommunityComment.js" />
-        <option value="$PROJECT_DIR$/routes/api/community.js" />
       </list>
     </option>
   </component>
@@ -917,10 +916,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
+    <entry file="file://$PROJECT_DIR$/routes/api/community.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="161" column="14" selection-start-line="161" selection-start-column="14" selection-end-line="161" selection-end-column="14" />
+          <caret line="198" column="12" selection-start-line="198" selection-start-column="12" selection-end-line="198" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -928,15 +927,15 @@
     <entry file="file://$PROJECT_DIR$/db/CommunityPost.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="181" column="9" selection-start-line="181" selection-start-column="9" selection-end-line="181" selection-end-column="9" />
+          <caret line="304" column="30" selection-start-line="304" selection-start-column="30" selection-end-line="304" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/community.js">
+    <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58515286">
-          <caret line="198" column="12" selection-start-line="198" selection-start-column="12" selection-end-line="198" selection-end-column="12" />
+        <state vertical-scroll-proportion="4.535662">
+          <caret line="185" column="4" selection-start-line="185" selection-start-column="4" selection-end-line="185" selection-end-column="4" />
           <folding />
         </state>
       </provider>
