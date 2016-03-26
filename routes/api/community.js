@@ -64,6 +64,10 @@ router.get('/postsNear', function(req, res){
 });
 
 router.post('/postsNear', function(req, res, next){
+    /* Possible Error Codes:
+        ErrorQuerying
+     */
+
     User.verifyUser(req, res, next, function(user){
 
         var longitude = req.body.user.longitude;
@@ -82,12 +86,12 @@ router.post('/postsNear', function(req, res, next){
             res.json({"posts": jsonArray});
 
         }, function (err) {
-            ResHelper.sendMessage(res, 404, "error finding posts: " + err);
+            ResHelper.sendError(res, err);
         });
 
 
     }, function(err){
-        ResHelper.sendMessage(res, 404, "error finding user: " + err);
+        ResHelper.sendError(res, err);
     });
 
     //}, function(err){
