@@ -59,7 +59,6 @@ var verifications = require('./routes/admins/idVerifications.js');
 var businesses =  require('./routes/businesses/businesses.js');
 /* Testing */
 var testing = require('./routes/testing/testing.js')(io);
-/* Resource Serving */
 var images =  require('./routes/images/images.js');
 
 /****** SETUP VIEW ENGINE (hbs) ******/

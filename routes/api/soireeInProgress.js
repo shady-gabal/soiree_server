@@ -22,8 +22,6 @@ var returnRouter = function(io) {
     var SOIREE = Soiree.SOIREE;
     var SOIREE_LOWERCASE = Soiree.SOIREE_LOWERCASE;
 
-    var _socket;
-
     var socketAuthenticate = function(socket, data, callback){
         console.log("socket authenticate called");
         var user = data.user;
@@ -41,10 +39,10 @@ var returnRouter = function(io) {
         });
     };
 
-    require('socketio-auth')(io, {
-        authenticate : socketAuthenticate,
-        timeout: 1000
-    });
+    //require('socketio-auth')(io, {
+    //    authenticate : socketAuthenticate,
+    //    timeout: 1000
+    //});
 
 
     //router.get('/', function(req, res){
@@ -103,7 +101,7 @@ var returnRouter = function(io) {
         var message = {author: Soiree.SOIREE, text : text};
 
         console.log(io.sockets);
-        
+
         if (room){
             io.to(room).emit('test', message);
         }
