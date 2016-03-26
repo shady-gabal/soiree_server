@@ -188,7 +188,7 @@ postSchema.methods.addComment = function(comment, user, successCallback, errorCa
                     errorCallback(ErrorCodes.ErrorSaving);
                 }
                 else{
-                    post.addedComment(savedComment);
+                    post.userAddedComment(user, savedComment);
                     successCallback(savedComment);
                 }
             });
@@ -222,8 +222,6 @@ postSchema.methods.emotion = function(user, emotion, successCallback, errorCallb
 };
 
 postSchema.methods.unemotion = function(user, emotion, successCallback, errorCallback) {
-    console.log(this);
-
     if (emotion === "love"){
         var index = this._loves.indexOf(user._id);
         if (index != -1) {
@@ -336,9 +334,9 @@ postSchema.methods.jsonObject = function(user, showComments){
     return obj;
 };
 
-postSchema.methods.addedComment = function(comment){
+postSchema.methods.userAddedComment = function(user, comment){
     console.log("addedComment()");
-    Notification.createCommentedOnPostNotifications(this, comment);
+    Notification.createCommentedOnPostNotifications(user, this, comment);
     //if (!this.populated("_user")){
     //    this.deepPopulate("_user", function(err, post){
     //        if (err || !post){ return; }

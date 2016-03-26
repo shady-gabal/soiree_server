@@ -39,15 +39,15 @@ notificationSchema.statics.notificationTypes = {
     "liked" : "liked"
 };
 
-notificationSchema.statics.createCommentedOnPostNotifications = function(upPost, upComment){//up = un populated
+notificationSchema.statics.createCommentedOnPostNotifications = function(userThatCommented, upPost, comment){//up = un populated
     var Notification = this;
     console.log("createCommentedOnPostNotification()");
 
-    upComment.deepPopulate("_user", function(err, comment){
-        if (err || !comment){
-            console.log("Error fetching comment: " + err);
-            return;
-        }
+    //upComment.deepPopulate("_user", function(err, comment){
+    //    if (err || !comment){
+    //        console.log("Error fetching comment: " + err);
+    //        return;
+    //    }
 
         upPost.deepPopulate("_user _comments", function(err2, post){
             if (err2 || !post){
@@ -55,10 +55,9 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(upPost,
                 return;
             }
 
-            if (!comment._user._id.equals(post._user._id)){
-                var name = comment._user.firstName;
-                var bodySuffix = ' commented on your post "' + post.text + '"';
-                Notification.addToOrCreateNotification(bodySuffix, post._user, comment._user, post, Notification.notificationTypes.commented);
+            if (!user._id.equals(post._user._id)){
+                var body = user.firstName + ' commented on your post "' + post.text + '"';
+                Notification.sendCommunityNotification(body, post._user, comment._user, post, Notification.notificationTypes.commented);
                 //Notification.createNotification(bodySuffix, post._user, post, "commented");
             }
 
@@ -66,19 +65,19 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(upPost,
             for (var i = 0; i < post._comments; i++){
                 var postComment = post._comments[i];
                 var commentUser = postComment._user;
-                if (commentUsersNotified.indexOf(commentUser._id) == -1 && !commentUser._id.equals(comment._user._id) && !commentUser._id.equals(post._user._id)){
+                if (commentUsersNotified.indexOf(commentUser._id) == -1 && !commentUser._id.equals(user._id) && !commentUser._id.equals(post._user._id)){
                 //if (commentUsersNotified.indexOf(commentUser._id) == -1){
-                    var b = comment._user.firstName + " commented on a post you commented on \"" + post.text + "\"";
-                    Notification.addToOrCreateNotification(bodySuffix, commentUser, comment._user, post, Notification.notificationTypes.commented);
+                    var body = user.firstName + " commented on a post you commented on \"" + post.text + "\"";
+                    Notification.sendCommunityNotification(body, commentUser, user, post, Notification.notificationTypes.commented);
                     commentUsersNotified.push(commentUser._id);
                 }
             }
 
         });
-    });
+    //});
 };
 
-notificationSchema.statics.addToOrCreateNotification = function(bodySuffix, notificationsUser, causingUser,  post, type){
+notificationSchema.statics.sendCommunityNotification = function(bodySuffix, notificationsUser, causingUser,  post, type){
     console.log("addToOrCreateNotification()");
     var Notification = this;
 
