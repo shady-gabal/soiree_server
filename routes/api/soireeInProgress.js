@@ -39,10 +39,10 @@ var returnRouter = function(io) {
         });
     };
 
-    //require('socketio-auth')(io, {
-    //    authenticate : socketAuthenticate,
-    //    timeout: 1000
-    //});
+    require('socketio-auth')(io, {
+        authenticate : socketAuthenticate,
+        timeout: 1000
+    });
 
 
         console.log("soireeInProgress called");
