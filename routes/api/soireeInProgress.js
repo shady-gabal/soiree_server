@@ -45,7 +45,6 @@ var returnRouter = function(io) {
     //});
 
 
-    //router.get('/', function(req, res){
         console.log("soireeInProgress called");
     //    //TODO: add security that ensures that only users who are signed up for soiree can join
     //    var soireeId = req.query.soireeId;
@@ -56,7 +55,8 @@ var returnRouter = function(io) {
 
 
     io.on('connection', function(socket){
-        var roomId = socket.handshake.query.soireeId;
+        //var roomId = socket.handshake.query.soireeId;
+        var roomId = "1211";
         //console.log(socket);
         console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
@@ -83,15 +83,16 @@ var returnRouter = function(io) {
         });
     });
 
-    //if (Globals.development){
-    //    res.render('testing/testSocket', {});
-    //}
-    //else{
-    //    res.send("OK");
-    //}
+    router.get('/', function(req, res){
 
+        if (Globals.development){
+            res.render('testing/testSocket', {});
+        }
+        else{
+            res.send("OK");
+        }
 
-    //});
+    });
 
 
     router.get('/sendMessage', function(req, res){

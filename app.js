@@ -37,8 +37,6 @@ var io = require('socket.io')(server);
 app.io = io;
 
 
-
-
 /**** Routes ****/
 /* User Facing Routes */
 var userIndex = require('./routes/consumer/index');
@@ -282,7 +280,6 @@ app.use('/images', images);
 
 /****** Testing *******/
 app.use('/testing', testing);
-
 
 
 /********* ERROR HANDLERS **********/
