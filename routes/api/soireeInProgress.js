@@ -82,14 +82,13 @@ var returnRouter = function(io) {
     io.on('connection', function(socket){
         console.log('io.on connection');
 
-        io.on('client_authenticated', function(socket){
-            console.log('io.on authenticated');
+        socket.on('client-authenticated', function(){
+            console.log('socket authenticated event');
             console.log(socket.client.soiree);
             console.log(socket.client.user);
             console.log(socket.auth);
 
-            if (socket.client.soiree && socket.client.user && socket.auth) {
-
+            if (socket.auth) {
 
                 var roomId = socket.handshake.query.soireeId;
                 console.log('a user connected to soireeInProgress. Joining room ' + roomId);
@@ -113,8 +112,12 @@ var returnRouter = function(io) {
                 });
             }
         });
-
     });
+
+    //io.on('testing', function(socket){
+    //   console.log("received testing");
+    //    socket.emot('message', {author: 'debug', messge:'received confirmation'});
+    //});
 
 
 
