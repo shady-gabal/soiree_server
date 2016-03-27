@@ -80,29 +80,39 @@ var returnRouter = function(io) {
 
     /* Socket.io */
     io.on('connection', function(socket){
+        console.log('io.on connection');
+    });
+
+    io.on('authenticated', function(socket){
+        console.log('io.on authenticated');
         console.log(socket.client.soiree);
         console.log(socket.client.user);
+        console.log(socket.auth);
+        
+        if (socket.client.soiree && socket.client.user && socket.auth) {
 
-        var roomId = socket.handshake.query.soireeId;
-        console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
-        socket.join(roomId, function(err){
-            if (err){
-                console.log("Error joining room " + roomId + " : " + err);
-                socket.emit('error joining room', {roomId : roomId});
-            }
-            else{
-                socket.emit('joined room', {roomId : roomId});
-                console.log("Successfully joined room " + roomId);
-                console.log("This socket's rooms: " + JSON.stringify(socket.rooms));
-            }
-        });
+            var roomId = socket.handshake.query.soireeId;
+            console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
-        var message = {author: "Debug", text : "Connected to " + SOIREE_LOWERCASE};
-        socket.emit('message', message);
-        socket.on('disconnect', function(){
-            console.log('user disconnected from soireeInProgress');
-        });
+            socket.join(roomId, function (err) {
+                if (err) {
+                    console.log("Error joining room " + roomId + " : " + err);
+                    socket.emit('error joining room', {roomId: roomId});
+                }
+                else {
+                    socket.emit('joined room', {roomId: roomId});
+                    console.log("Successfully joined room " + roomId);
+                    console.log("This socket's rooms: " + JSON.stringify(socket.rooms));
+                }
+            });
+
+            var message = {author: "Debug", text: "Connected to " + SOIREE_LOWERCASE};
+            socket.emit('message', message);
+            socket.on('disconnect', function () {
+                console.log('user disconnected from soireeInProgress');
+            });
+        }
     });
 
     router.get('/', function(req, res){
