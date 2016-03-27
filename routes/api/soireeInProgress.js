@@ -55,8 +55,8 @@ var returnRouter = function(io) {
 
 
     io.on('connection', function(socket){
-        //var roomId = socket.handshake.query.soireeId;
-        var roomId = "1211";
+        var roomId = socket.handshake.query.soireeId;
+        //var roomId = "1211";
         //console.log(socket);
         console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
