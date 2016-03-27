@@ -32,9 +32,20 @@ var returnRouter = function(io) {
 
         User.verifyUser(makeshiftReq, null, function(){console.log("fake next called")}, function(user){
             //check if soiree with id is in soirees attending
+            user.deepPopulate("_currentReservations", function(err, _user){
+               if (err || !_user)
+                   return callback(null, false);
+               for (var i = 0; i < _user._currentReservations.length; i++){
+                   if (soireeId === _user._currentReservations[i].soireeId){
+                       return callback(null, true);
+                   }
+               }
+                return callback(null, false);
+            });
             console.log("user authenticated");
             return callback(null, true);
         }, function(err){
+            console.log("Error verifying user: " + err);
             return callback(null, false);
         });
     };
