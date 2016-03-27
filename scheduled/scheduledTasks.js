@@ -12,14 +12,14 @@ var Soiree = require(dbFolderLocation + 'Soiree.js');
 var SpontaneousSoireeJob = require(dbFolderLocation + 'SpontaneousSoireeJob.js');
 
 
-var SOIREE_LENGTH_IN_MINS = 10;
+var SOIREE_REMIND_BEFORE = 30;
 var SPONTANEOUS_SOIREE_CHECK_BEFORE = 60;
 
 var deepPopulateFields = "_business _usersAttending";
 
 var scheduledTimeIdentifierNow = Soiree.createScheduledTimeIdentifier();
-var scheduledTimeIdentifierPrevious = Soiree.createScheduledTimeIdentifier(Date.now() - (SOIREE_LENGTH_IN_MINS * 60 * 1000));
-var scheduledTimeIdentifierReminder = Soiree.createScheduledTimeIdentifier(Date.now() - (30 * 60 * 1000));
+//var scheduledTimeIdentifierEnd = Soiree.createScheduledTimeIdentifierPast(SOIREE_LENGTH_IN_MINS);
+var scheduledTimeIdentifierReminder = Soiree.createScheduledTimeIdentifierFuture(SOIREE_REMIND_BEFORE);
 
 var scheduledTimeIdentifierSpontaneous = Soiree.createScheduledTimeIdentifier(Date.now() - (SPONTANEOUS_SOIREE_CHECK_BEFORE * 60 * 1000));
 
@@ -27,7 +27,7 @@ console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + sch
 
 
 //start
-Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
     if (err){
         console.log("Error in scheduledSoirees: " + err);
     }
@@ -57,24 +57,23 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}
 //});
 
 //end existing soirees
-
-//Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierPrevious}, "started" : true, "ended" : false, "inProgress" : true} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
-//    if (err){
-//        console.log("Error in scheduledSoirees: " + err);
-//    }
-//    else{
-//        console.log("Ending " + soirees.length + " soirees");
-//        for (var i = 0; i < soirees.length; i++){
-//            var soiree = soirees[i];
-//            console.log("Ending soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-//            soiree.end();
-//        }
-//    }
-//});
+Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+    if (err){
+        console.log("Error in scheduledSoirees: " + err);
+    }
+    else{
+        console.log("Ending " + soirees.length + " soirees");
+        for (var i = 0; i < soirees.length; i++){
+            var soiree = soirees[i];
+            console.log("Ending soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+            soiree.end();
+        }
+    }
+});
 
 
 //remind people of upcoming soirees
-Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
     if (err){
         console.log("Error in scheduledSoirees: " + err);
     }
@@ -83,23 +82,23 @@ Soiree.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierRemi
         for (var i = 0; i < soirees.length; i++){
             var soiree = soirees[i];
             console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-            soiree.remind();
+            soiree.remind(SOIREE_REMIND_BEFORE + "");
         }
     }
 });
 
-SpontaneousSoireeJob.find( { "scheduledTimeIdentifier" : {"$lte" : scheduledTimeIdentifierSpontaneous}, "done" : false} ).deepPopulate(deepPopulateFields).exec(function(err, ssJobs) {
-    if (err){
-        console.log("SSJob Error in scheduledSoirees: " + err);
-    }
-    else{
-        console.log("Performing ssJobs: " + ssJobs);
-        for (var i = 0; i < ssJobs.length; i++){
-            var ssJob = ssJobs[i];
-            ssJob.perform();
-        }
-    }
-});
+//SpontaneousSoireeJob.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierSpontaneous}, "done" : false} ).deepPopulate(deepPopulateFields).exec(function(err, ssJobs) {
+//    if (err){
+//        console.log("SSJob Error in scheduledSoirees: " + err);
+//    }
+//    else{
+//        console.log("Performing ssJobs: " + ssJobs);
+//        for (var i = 0; i < ssJobs.length; i++){
+//            var ssJob = ssJobs[i];
+//            ssJob.perform();
+//        }
+//    }
+//});
 //Soiree.findSoireesWithScheduledTimeIdenfitier(scheduledTimeIdentifier, function(soirees){
 //
 //}, function(err){

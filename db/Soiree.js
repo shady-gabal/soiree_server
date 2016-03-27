@@ -24,6 +24,7 @@ var Globals = require(helpersFolderLocation + 'Globals.js');
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date", "TEST"];
 var numUsersMaxPerSoireeType = { "Lunch" : 4, "Dinner" : 4, "Drinks" : 6, "Blind Date" : 2 };
+var AVERAGE_SOIREE_LENGTH = 60;
 
 /* Error Codes */
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
@@ -32,14 +33,13 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 var soireeSchema = new Schema({
 		soireeType : {type: String, required: true, enum: soireeTypes},
 		numUsersMax: {type : Number, required: true},
-		scheduledTimeIdentifier : {type: String},
+		scheduledStartTimeIdentifier : {type: String},
+		scheduledEndTimeIdentifier : {type: String},
 		soireeId: {type: String, index: true, default: shortid.generate},
 		initialCharge: {type: Number, required: [true, "Forgot to include how much soiree will cost"]}, //in cents
 		date: {type : Date, required: [true, "A date for the Soiree is required"]},
-		//full: {type: Boolean, default: false},
 		_usersAttending : [{type : ObjectId, ref : "User"}],
 		_usersUncharged : [{type : ObjectId, ref : "User"}],
-		//_usersToCharge : [{type : ObjectId, ref : "User"}],
 		_business: {type: ObjectId, ref:"Business", required :[true, "A business that will host is required to create this Soiree"]},
 		expired: {type: Boolean, default: false},
 		location: {
@@ -49,7 +49,8 @@ var soireeSchema = new Schema({
 		photoIndexIdentifier : {type: Number, default: generatePhotoIndexIdentifier},
 		started : {type: Boolean, default: false},
 		ended : {type: Boolean, default: false},
-		inProgress : {type: Boolean, default: false},
+		open : {type: Boolean, default: false},
+		length : {type: Number, default: AVERAGE_SOIREE_LENGTH},
 		_unchargedReservations : [{type: ObjectId, ref: "SoireeReservation"}],
 		_chargedReservations : [{type: ObjectId, ref: "SoireeReservation"}]
 
@@ -59,6 +60,10 @@ var soireeSchema = new Schema({
 );
 
 soireeSchema.index({location: '2dsphere'});
+
+soireeSchema.statics.SOIREE = "Soirée";
+soireeSchema.statics.SOIREE_LOWERCASE = "soirée";
+soireeSchema.statics.AVERAGE_SOIREE_LENGTH = AVERAGE_SOIREE_LENGTH;
 
 function generatePhotoIndexIdentifier(){
 	var rand = parseInt(Math.random() * 1000);
@@ -92,8 +97,14 @@ soireeSchema.statics.createScheduledTimeIdentifier = function(date){
 	return "" + year + "." + month + "." + day + "." + hours + "." + mins;
 };
 
-soireeSchema.statics.SOIREE = "Soirée";
-soireeSchema.statics.SOIREE_LOWERCASE = "soirée";
+soireeSchema.statics.createScheduledTimeIdentifierPast = function(mins){
+	return this.createScheduledTimeIdentifier(Date.now() - (mins * 60 * 1000));
+};
+
+soireeSchema.statics.createScheduledTimeIdentifierFuture = function(mins){
+	return this.createScheduledTimeIdentifier(Date.now() + (mins * 60 * 1000));
+};
+
 
 //soireeSchema.statics.findSoireesWithScheduledTimeIdentifier = function(scheduledTimeIdentifier, successCallback, errorCallback){
 //	Soiree.find({"scheduledTimeIdentifier" : scheduledTimeIdentifier}).populate("_business").exec(function(err, soirees){
@@ -311,37 +322,46 @@ soireeSchema.statics.joinSoireeWithId = function(soireeId, user, successCallback
 
 /* Methods */
 
-soireeSchema.methods.remind = function() {
-	console.log("Reminding users of soiree " + this.soireeType + " " + this.scheduledTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
+soireeSchema.methods.remind = function(mins) {
+	console.log("Reminding users of soiree " + this.soireeType + " " + this.scheduledStartTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
 
 	for (var i = 0; i < this._usersAttending.length; i++){
 		var user = this._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
 
-		var message = "Hey boo. Don't forget that your " + this.soireeType + " " + this.SOIREE + " will start in 30 minutes. See you there. xoxo";
+		var message = "Hey boo. Don't forget that your " + this.soireeType + " " + this.SOIREE + " will start in " + mins + " minutes. See you there. xoxo";
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
 };
 
 soireeSchema.methods.start = function(){
-	console.log("Starting soiree " + this.soireeType + " " + this.scheduledTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
+	this.deepPopulate("_usersAttending", function(err, _soiree){
+		console.log("Starting soiree " + this.soireeType + " " + this.scheduledStartTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
 
-	for (var i = 0; i < this._usersAttending.length; i++){
-		var user = this._usersAttending[i];
+		alertUsersThatSoireeStarted(this);
+
+		this.started = true;
+		this.inProgress = true;
+
+		this.save(function(err){
+			if (err){
+				console.log("Error saving soiree - start()");
+				console.log(err);
+			}
+		});
+
+	});
+
+};
+
+function alertUsersThatSoireeStarted(soiree){
+	for (var i = 0; i < soiree._usersAttending.length; i++){
+		var user = soiree._usersAttending[i];
 		console.log("Sending push notification to " + user.firstName);
 
-		var message = "Your " + this.soireeType + " " + this.SOIREE_LOWERCASE + " is about to start! Open up " + this.SOIREE + " to get started.";
+		var message = "Your " + soiree.soireeType + " " + soiree.SOIREE_LOWERCASE + " is about to start! Open up " + soiree.SOIREE + " to get started.";
 		PushNotificationHelper.sendPushNotification(user, message);
 	}
-
-	this.started = true;
-	this.inProgress = true;
-	this.save(function(err){
-		if (err){
-			console.log("Error saving soiree - start()");
-			console.log(err);
-		}
-	});
 };
 
 
@@ -370,7 +390,8 @@ soireeSchema.methods.cancelSoireeIfNecessary = function(){
 	if (!this.reachedNumUsersMin){
 		//cancel soiree
 	}
-}
+};
+
 soireeSchema.methods.hasUserAlreadyJoined = function(user){
 	if (user){
 		if (this.populated("_usersAttending")){
@@ -450,21 +471,11 @@ soireeSchema.methods.join = function(user, successCallback, errorCallback){
 			}
 		}
 
-
-
 	}
 	else{
 		return errorCallback(ErrorCodes.SoireeFull);
 	}
 };
-
-//soireeSchema.methods.addUnchargedReservation = function(reservation){
-//	ArrayHelper.pushOnlyOnce(this._unchargedReservations, reservation._id);
-//};
-//
-//soireeSchema.methods.addChargedReservation = function(reservation){
-//	ArrayHelper.pushOnlyOnce(this._chargedReservations, reservation._id);
-//};
 
 soireeSchema.methods.chargeUnchargedUsers = function(){
 
@@ -490,22 +501,7 @@ soireeSchema.methods.chargeUnchargedUsers = function(){
 		console.log(_soiree._unchargedReservations);
 	});
 
-}
-
-//soireeSchema.methods.chargeUser = function(user, successCallback, errorCallback){
-//	var soiree = this;
-//
-//	CreditCardHelper.chargeForSoiree(this, user, function(charge){
-//		var SoireeReservation = mongoose.model("SoireeReservation");
-//		SoireeReservation.createSoireeReservation(user, soiree, charge, successCallback, function(err){
-//			//CANCEL CHARGE
-//
-//			errorCallback(err);
-//		});
-//	}, function(err){
-//		errorCallback(err);
-//	});
-//};
+};
 
 soireeSchema.methods.jsonObject = function (user) {
 	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
@@ -546,22 +542,6 @@ soireeSchema.methods.jsonObject = function (user) {
 	return obj;
 };
 
-//soireeSchema.methods.createDataObjectToSend = function(){
-//	var timeIntervalSince1970InSeconds = this.date.getTime() / 1000;
-//
-//	var obj = {
-//		"soireeType": this.soireeType,
-//		"numUsersAttending": this.numUsersAttending,
-//		"numUsersMax": this.numUsersMax,
-//		"date": timeIntervalSince1970InSeconds,
-//		"soireeId": this.soireeId,
-//		"businessName": this._business.businessName,
-//		"coordinates" : this._business.location.coordinates
-//	};
-//	return obj;
-//};
-
-
 
 /* Virtuals */
 
@@ -589,7 +569,6 @@ soireeSchema.virtual('willReachNumUsersMin').get(function () {
 	return this.totalNumUsers === this.numUsersMin-1;
 });
 
-
 soireeSchema.virtual('numUsersAttending').get(function () {
 	return this._usersAttending.length;
 });
@@ -598,17 +577,19 @@ soireeSchema.virtual('totalNumUsers').get(function () {
 	return this._usersAttending.length + this._usersUncharged.length;
 });
 
+soireeSchema.virtual('inProgress').get(function () {
+	return this.started && !this.ended;
+});
 
 
 soireeSchema.pre("save", function(next){
-	//this.dateUpdated = new Date();
-	this.scheduledTimeIdentifier = this.constructor.createScheduledTimeIdentifier(this.date);
-	//console.log("num users attending: " + this.numUsersAttending);
-	//this.full = (this.numUsersAttending >= this.numUsersMax);
-
-	//if (!this._usersAttending){
-	//	this._usersAttending = [];
-	//}
+	if (!this.scheduledStartTimeIdentifier) {
+		this.scheduledStartTimeIdentifier = this.constructor.createScheduledTimeIdentifier(this.date);
+	}
+	if (!this.scheduledEndTimeIdentifier){
+		this.scheduledEndTimeIdentifier = this.constructor.createScheduledTimeIdentifierFuture(this.length);
+	}
+	console.log("this.length: " + this.length);
 
 	next();
 });

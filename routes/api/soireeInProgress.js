@@ -37,37 +37,51 @@ var returnRouter = function(io) {
                    return callback(null, false);
                for (var i = 0; i < _user._currentReservations.length; i++){
                    if (soireeId === _user._currentReservations[i].soireeId){
+                       console.log("user authenticated");
                        return callback(null, true);
                    }
                }
                 return callback(null, false);
             });
-            console.log("user authenticated");
         }, function(err){
             console.log("Error verifying user: " + err);
             return callback(null, false);
         });
     };
 
-    require('socketio-auth')(io, {
-        authenticate : socketAuthenticate,
-        timeout: 1000
-    });
+    var postAuthenticate = function(socket, data){
+        var user = data.user;
+        var soireeId = data.soireeId;
 
+        Soiree.findBySoireeId(soireeId, function(soiree){
+            socket.client.soiree = soiree;
+            soiree.connectedSockets.push(socket);
+        }, function(err){
+           console.log("Error in postAuthenticate soiree : " + err);
+        });
+
+        var makeshiftReq = {};
+        makeshiftReq.body = {user: user};
+
+        User.verifyUser(makeshiftReq, null, null, function(user){
+           socket.client.user = user;
+        }, function(err){
+            console.log("Error in postAuthenticate user: " + err);
+        });
+    };
+
+        require('socketio-auth')(io, {
+            authenticate : socketAuthenticate,
+            postAuthenticate : postAuthenticate,
+            timeout: 2000
+        });
 
         console.log("soireeInProgress called");
-    //    //TODO: add security that ensures that only users who are signed up for soiree can join
-    //    var soireeId = req.query.soireeId;
-    //    if (!soireeId){
-    //        return ResHelper.sendError(res, ErrorCodes.MissingData);
-    //    }
-    //    var roomId = soireeId;
 
 
+    /* Socket.io */
     io.on('connection', function(socket){
         var roomId = socket.handshake.query.soireeId;
-        //var roomId = "1211";
-        //console.log(socket);
         console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
         socket.join(roomId, function(err){
@@ -84,11 +98,8 @@ var returnRouter = function(io) {
 
         var message = {author: "Debug", text : "Connected to " + SOIREE_LOWERCASE};
         socket.emit('test', message);
-        //console.log("sent message");
-
-        //res.json({"status" : "Connected"});
-
         socket.on('disconnect', function(){
+            socket.client.soiree
             console.log('user disconnected from soireeInProgress');
         });
     });
