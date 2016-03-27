@@ -83,12 +83,12 @@ var returnRouter = function(io) {
         console.log('io.on connection');
     });
 
-    io.on('authenticated', function(socket){
+    io.on('client_authenticated', function(socket){
         console.log('io.on authenticated');
         console.log(socket.client.soiree);
         console.log(socket.client.user);
         console.log(socket.auth);
-        
+
         if (socket.client.soiree && socket.client.user && socket.auth) {
 
 
