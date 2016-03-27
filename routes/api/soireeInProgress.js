@@ -55,7 +55,6 @@ var returnRouter = function(io) {
 
         Soiree.findBySoireeId(soireeId, function(soiree){
             socket.client.soiree = soiree;
-            soiree.connectedSockets.push(socket);
         }, function(err){
            console.log("Error in postAuthenticate soiree : " + err);
         });
@@ -81,7 +80,9 @@ var returnRouter = function(io) {
 
     /* Socket.io */
     io.on('connection', function(socket){
-        console.log(socket.client);
+        console.log(socket.client.soiree);
+        console.log(socket.client.user);
+
         var roomId = socket.handshake.query.soireeId;
         console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
