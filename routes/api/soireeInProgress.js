@@ -43,7 +43,6 @@ var returnRouter = function(io) {
                 return callback(null, false);
             });
             console.log("user authenticated");
-            return callback(null, true);
         }, function(err){
             console.log("Error verifying user: " + err);
             return callback(null, false);
