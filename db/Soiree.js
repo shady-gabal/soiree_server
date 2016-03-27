@@ -382,7 +382,15 @@ soireeSchema.methods.end = function() {
 		this.ended = true;
 		this.inProgress = false;
 		this.save(Globals.saveErrorCallback);
+	});
+};
 
+soireeSchema.methods.open = function() {
+	this.open = true;
+	this.save(function(err){
+		if (err){
+			console.log("Error opening soiree: " + err);
+		}
 	});
 };
 

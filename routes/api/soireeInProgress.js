@@ -81,6 +81,7 @@ var returnRouter = function(io) {
 
     /* Socket.io */
     io.on('connection', function(socket){
+        console.log(socket.client);
         var roomId = socket.handshake.query.soireeId;
         console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
@@ -97,9 +98,8 @@ var returnRouter = function(io) {
         });
 
         var message = {author: "Debug", text : "Connected to " + SOIREE_LOWERCASE};
-        socket.emit('test', message);
+        socket.emit('message', message);
         socket.on('disconnect', function(){
-            socket.client.soiree
             console.log('user disconnected from soireeInProgress');
         });
     });

@@ -82,6 +82,7 @@ Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifie
         for (var i = 0; i < soirees.length; i++){
             var soiree = soirees[i];
             console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+            soiree.open();
             soiree.remind(SOIREE_REMIND_BEFORE + "");
         }
     }
