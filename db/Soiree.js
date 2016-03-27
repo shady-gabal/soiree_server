@@ -385,7 +385,7 @@ soireeSchema.methods.end = function() {
 	});
 };
 
-soireeSchema.methods.open = function() {
+soireeSchema.methods.openToUsers = function() {
 	this.open = true;
 	this.save(function(err){
 		if (err){
