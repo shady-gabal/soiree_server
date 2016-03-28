@@ -99,6 +99,7 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
             }
             else{
                 var newUser = {user: causingUser._id, name: causingUser.firstName};
+                console.log("newUser: " + newUser);
 
                 var filterOutExistingUsers = function (userObj){
                     console.log(userObj);
@@ -106,7 +107,7 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
                     //return !userObj.user.equals(newUser.user);
                 };
 
-                notification.users = notification.users.filter(filterOutExistingUsers);
+                //notification.users = notification.users.filter(filterOutExistingUsers);
                 console.log("Filtered out notification.users to: " + notification.users);
                 notification.users.push(newUser);
                 notification.imageUrl = causingUser.profilePictureUrl;
