@@ -102,7 +102,8 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
                 //newUser.user = causingUser._id + "";
                 newUser.name = causingUser.firstName;
 
-                console.log("newUser: " + JSON.stringify(newUser));
+                console.log("newUser.name: " + newUser.name);
+                console.log("newUser.user: " + newUser.user);
 
                 var filterOutExistingUsers = function (userObj){
                     console.log(userObj);
