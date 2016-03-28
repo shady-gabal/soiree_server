@@ -142,7 +142,7 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
     var Notification = this;
 
     var firstUser = {user: causingUser._id, name: causingUser.firstName};
-    
+
     var newNotification = new Notification({
         bodySuffix : bodySuffix,
         _user : notificationsUser._id,
@@ -176,7 +176,10 @@ notificationSchema.methods.jsonObject = function(){
 
 notificationSchema.virtual('body').get(function () {
 
-    console.log("this.users: " + this.users);
+    console.log("this.users:");
+    for (var k = 0; k < this.users.length; k++){
+        console.log(this.users[k]);
+    }
 
     var numNames = this.users.length;
 
