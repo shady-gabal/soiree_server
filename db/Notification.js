@@ -42,7 +42,7 @@ notificationSchema.statics.notificationTypes = {
 
 notificationSchema.statics.createCommentedOnPostNotifications = function(userThatCommented, upPost, comment){//up = un populated
     var Notification = this;
-    console.log("createCommentedOnPostNotification() with " + userThatCommented + " and comment " + comment);
+    console.log("createCommentedOnPostNotification()");
 
     //upComment.deepPopulate("_user", function(err, comment){
     //    if (err || !comment){
@@ -99,7 +99,7 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
             }
             else{
                 var newUser = {};
-                //newUser.user = causingUser._id + "";
+                newUser.user = causingUser.id;
                 newUser.name = causingUser.firstName;
 
                 console.log("newUser.name: " + newUser.name);
@@ -146,7 +146,7 @@ notificationSchema.statics.jsonArrayFromArray = function(_notifications) {
 notificationSchema.statics.createNotification = function(bodySuffix, notificationsUser, causingUser, post, type){
     var Notification = this;
 
-    var firstUser = {user: causingUser._id, name: causingUser.firstName};
+    var firstUser = {user: causingUser.id, name: causingUser.firstName};
 
     var newNotification = new Notification({
         bodySuffix : bodySuffix,
@@ -210,7 +210,7 @@ notificationSchema.virtual('body').get(function () {
 });
 
 function generateId(user, idSuffix, type){
-    var id = user._id + "_" + idSuffix + "_" + type;
+    var id = user.id + "_" + idSuffix + "_" + type;
     console.log("Notification.generateId(): " + id);
     return id;
 }
