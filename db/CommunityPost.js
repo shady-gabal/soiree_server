@@ -331,7 +331,7 @@ postSchema.methods.jsonObject = function(user, showComments){
 };
 
 postSchema.methods.userAddedComment = function(user, comment){
-    console.log("addedComment()");
+    console.log("userAddedComment() with " + user);
     Notification.createCommentedOnPostNotifications(user, this, comment);
     //if (!this.populated("_user")){
     //    this.deepPopulate("_user", function(err, post){

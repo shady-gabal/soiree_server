@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/Notification.js" afterPath="$PROJECT_DIR$/db/Notification.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/soireeInProgress.js" afterPath="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/CommunityPost.js" afterPath="$PROJECT_DIR$/db/CommunityPost.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,21 +73,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Notification.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/Notification.js">
+      <file leaf-file-name="CommunityPost.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/CommunityPost.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37905237">
-              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+            <state vertical-scroll-proportion="-2.584516">
+              <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="soireeInProgress.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/api/soireeInProgress.js">
+      <file leaf-file-name="Notification.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db/Notification.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="98" column="19" selection-start-line="98" selection-start-column="19" selection-end-line="98" selection-end-column="19" />
+            <state vertical-scroll-proportion="-10.259259">
+              <caret line="42" column="43" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="community.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/api/community.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.555555">
+              <caret line="21" column="8" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -97,8 +106,8 @@
       <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+            <state vertical-scroll-proportion="-9.555555">
+              <caret line="184" column="20" selection-start-line="184" selection-start-column="14" selection-end-line="184" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -164,7 +173,6 @@
         <option value="$PROJECT_DIR$/helpers/MongooseHelper.js" />
         <option value="$PROJECT_DIR$/db/User.js" />
         <option value="$PROJECT_DIR$/routes/api/community.js" />
-        <option value="$PROJECT_DIR$/db/CommunityPost.js" />
         <option value="$PROJECT_DIR$/db/CommunityComment.js" />
         <option value="$PROJECT_DIR$/bin/www" />
         <option value="$PROJECT_DIR$/routes/testing/chat.js" />
@@ -175,6 +183,7 @@
         <option value="$PROJECT_DIR$/scheduled/scheduledTasks.js" />
         <option value="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
         <option value="$PROJECT_DIR$/db/Notification.js" />
+        <option value="$PROJECT_DIR$/db/CommunityPost.js" />
       </list>
     </option>
   </component>
@@ -826,26 +835,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/CommunityPost.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="304" column="30" selection-start-line="304" selection-start-column="30" selection-end-line="304" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="210" column="3" selection-start-line="210" selection-start-column="3" selection-end-line="210" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/community.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="198" column="12" selection-start-line="198" selection-start-column="12" selection-end-line="198" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -946,22 +939,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/soireeInProgress.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="98" column="19" selection-start-line="98" selection-start-column="19" selection-end-line="98" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/User.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -970,10 +947,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/soireeInProgress.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3029925">
+          <caret line="98" column="19" selection-start-line="98" selection-start-column="19" selection-end-line="98" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/users.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.555555">
+          <caret line="184" column="20" selection-start-line="184" selection-start-column="14" selection-end-line="184" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/db/Notification.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37905237">
-          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+        <state vertical-scroll-proportion="-10.259259">
+          <caret line="42" column="43" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/community.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.555555">
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/CommunityPost.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.584516">
+          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
           <folding />
         </state>
       </provider>
