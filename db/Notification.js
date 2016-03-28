@@ -25,7 +25,7 @@ var notificationTypes = ["commented", "liked"];
 var notificationSchema = new Schema({
     notificationId: {type: String, index: true, default: shortid.generate}, /* IDs */
     read: {type: Boolean, default: false},
-    users: [{ user: {type: ObjectId, ref:"User"}, name:String }],
+    users: [{}],
     bodySuffix : {type: String, required: true},
     postId : {type: String},
     imageUrl : {type: String},
@@ -42,7 +42,7 @@ notificationSchema.statics.notificationTypes = {
 
 notificationSchema.statics.createCommentedOnPostNotifications = function(userThatCommented, upPost, comment){//up = un populated
     var Notification = this;
-    console.log("createCommentedOnPostNotification()");
+    console.log("createCommentedOnPostNotification() with " + userThatCommented + " and comment " + comment);
 
     //upComment.deepPopulate("_user", function(err, comment){
     //    if (err || !comment){
@@ -106,7 +106,7 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
                     //return !userObj.user.equals(newUser.user);
                 };
 
-                notification.users = notification.users.filter(filterOutExistingUser);
+                notification.users = notification.users.filter(filterOutExistingUsers);
                 console.log("Filtered out notification.users to: " + notification.users);
                 notification.users.push(newUser);
                 notification.imageUrl = causingUser.profilePictureUrl;
@@ -141,6 +141,8 @@ notificationSchema.statics.jsonArrayFromArray = function(_notifications) {
 notificationSchema.statics.createNotification = function(bodySuffix, notificationsUser, causingUser, post, type){
     var Notification = this;
 
+    var firstUser = {user: causingUser._id, name: causingUser.firstName};
+    
     var newNotification = new Notification({
         bodySuffix : bodySuffix,
         _user : notificationsUser._id,
@@ -148,7 +150,7 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
         imageUrl : causingUser.profilePictureUrl,
         notificationType : type,
         _id : generateId(causingUser, post.postId, type),
-        users: [{user: causingUser._id, name: causingUser.firstName}]
+        users: [firstUser]
     });
 
     notificationsUser._notifications.push(newNotification._id);

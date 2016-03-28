@@ -58,9 +58,6 @@ router.get('/postsNear', function(req, res){
            }
         });
 
-    //}, function(err){
-    //    res.status('404').send("Error finding user");
-    //});
 });
 
 router.post('/postsNear', function(req, res, next){
@@ -94,9 +91,6 @@ router.post('/postsNear', function(req, res, next){
         ResHelper.sendError(res, err);
     });
 
-    //}, function(err){
-    //    res.status('404').send("Error finding user");
-    //});
 });
 
 router.post('/postWithPostId', function(req, res, next){
@@ -154,7 +148,7 @@ router.post('/updatePost', function(req, res, next){
        ResHelper.sendMessage(res, 404, "error finding user: " + err);
    });
 });
-/* Comments */
+                                    /* Comments */
 
 router.post('/createComment', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
@@ -183,7 +177,9 @@ router.post('/createComment', function(req, res, next){
     });
 });
 
-/* Emotioning/Unemotioning */
+
+
+                                /* Emotioning/Unemotioning */
 
 router.post('/uploadEmotionForPost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
@@ -288,40 +284,5 @@ router.post('/uploadUnemotionForComment', function(req, res, next){
 
 });
 
-
-//router.post('/unlikePost', function(req, res, next){
-//    User.verifyUser(req, res, next, function(user){
-//        var postId = req.body.postId;
-//
-//        CommunityPost.findOne({postId : postId}, function(err, post){
-//            if (err || !post){
-//                ResHelper.sendMessage(res, 404, "error finding post: " + err);
-//            }
-//            else{
-//
-//                post.unlike(user, function(post){
-//                    ResHelper.sendMessage(res, 200, "successfully unliked post");
-//                }, function(err){
-//                    ResHelper.sendMessage(res, 404, "error unliking post: " + err);
-//                });
-//
-//            }
-//        });
-//
-//    }, function(err){
-//        ResHelper.sendMessage(res, 404, "error finding user: " + err);
-//    });
-//
-//});
-
-//router.get('/createComment', function(req, res){
-//   CommunityComment.createComment({
-//       "text" : "this is a comment"
-//   }, function(comment){
-//       res.send("Successful");
-//   }, function(err){
-//       res.send("Error: " + err);
-//   });
-//});
 
 module.exports = router;
