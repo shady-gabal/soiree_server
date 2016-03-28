@@ -75,22 +75,15 @@ var returnRouter = function(io) {
             timeout: 2000
         });
 
-        console.log("soireeInProgress called");
-
-
     /* Socket.io */
     io.on('connection', function(socket){
         console.log('io.on connection');
 
         socket.on('client-authenticated', function(){
             console.log('socket authenticated event');
-            console.log(socket.client.soiree);
-            console.log(socket.client.user);
-            console.log(socket.auth);
 
-            if (socket.auth) {
-
-                var roomId = socket.handshake.query.soireeId;
+            if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.open) {
+                var roomId = socket.client.soiree.soireeId;
                 console.log('a user connected to soireeInProgress. Joining room ' + roomId);
 
                 socket.join(roomId, function (err) {
@@ -114,22 +107,15 @@ var returnRouter = function(io) {
         });
     });
 
-    //io.on('testing', function(socket){
-    //   console.log("received testing");
-    //    socket.emot('message', {author: 'debug', messge:'received confirmation'});
-    //});
-
 
 
     router.get('/', function(req, res){
-
         if (Globals.development){
             res.render('testing/testSocket', {});
         }
         else{
             res.send("OK");
         }
-
     });
 
 

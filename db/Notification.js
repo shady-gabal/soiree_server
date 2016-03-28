@@ -56,11 +56,11 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
                 return;
             }
 
-            if (!MongooseHelper.equalsPopulated(userThatCommented, post._user)){
+            //if (!MongooseHelper.equalsPopulated(userThatCommented, post._user)){
                 var body = userThatCommented.firstName + ' commented on your post "' + post.text + '"';
                 Notification.sendCommunityNotification(body, post._user, comment._user, post, Notification.notificationTypes.commented);
                 //Notification.createNotification(bodySuffix, post._user, post, "commented");
-            }
+            //}
 
             var commentUsersNotified = [];
             for (var i = 0; i < post._comments; i++){
@@ -173,6 +173,8 @@ notificationSchema.methods.jsonObject = function(){
 };
 
 notificationSchema.virtual('body').get(function () {
+
+    console.log("this.users: " + this.users);
 
     var numNames = this.users.length;
 
