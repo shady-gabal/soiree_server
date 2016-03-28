@@ -167,6 +167,7 @@ router.post('/createComment', function(req, res, next){
                     res.json(comment.jsonObject(user));
                     //ResHelper.sendMessage(res, 200, "created comment");
                 }, function(err){
+                    console.log(err);
                     ResHelper.sendError(res, err);
                 });
             }
@@ -195,9 +196,10 @@ router.post('/uploadEmotionForPost', function(req, res, next){
                 else {
 
                     post.emotion(user, emotion, function (_post) {
-                        ResHelper.sendMessage(res, 200, "successfully emotioned post");
+                        ResHelper.sendSuccess(res);
                     }, function (err) {
-                        ResHelper.sendMessage(res, 404, "error emotioning post: " + err);
+                        console.log(err);
+                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
                     });
 
                 }
@@ -220,9 +222,10 @@ router.post('/uploadUnemotionForPost', function(req, res, next){
                 else {
 
                     post.unemotion(user, emotion, function (_post) {
-                        ResHelper.sendMessage(res, 200, "successfully unemotioned post");
+                        ResHelper.sendSuccess(res);
                     }, function (err) {
-                        ResHelper.sendMessage(res, 404, "error unemotioning post: " + err);
+                        console.log(err);
+                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
                     });
 
                 }
@@ -247,9 +250,10 @@ router.post('/uploadEmotionForComment', function(req, res, next){
                 else {
 
                     comment.emotion(user, emotion, function (_comment) {
-                        ResHelper.sendMessage(res, 200, "successfully emotioned comment");
+                        ResHelper.sendSuccess(res);
                     }, function (err) {
-                        ResHelper.sendMessage(res, 404, "error emotioning comment: " + err);
+                        console.log(err);
+                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
                     });
 
                 }
@@ -272,9 +276,10 @@ router.post('/uploadUnemotionForComment', function(req, res, next){
                 else {
 
                     comment.unemotion(user, emotion, function (_comment) {
-                        ResHelper.sendMessage(res, 200, "successfully unemotioned comment");
+                        ResHelper.sendSuccess(res);
                     }, function (err) {
-                        ResHelper.sendMessage(res, 404, "error unemotioning comment: " + err);
+                        console.log(err);
+                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
                     });
 
                 }

@@ -147,7 +147,8 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
     var Notification = this;
 
     var firstUser = {user: causingUser.id, name: causingUser.firstName};
-
+    console.log("firstUser: " + JSON.stringify(firstUser));
+    
     var newNotification = new Notification({
         bodySuffix : bodySuffix,
         _user : notificationsUser._id,

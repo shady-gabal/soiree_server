@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/users.js" afterPath="$PROJECT_DIR$/routes/api/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/Notification.js" afterPath="$PROJECT_DIR$/db/Notification.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/community.js" afterPath="$PROJECT_DIR$/routes/api/community.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Notification.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Notification.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db/Notification.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.851852">
-              <caret line="101" column="45" selection-start-line="101" selection-start-column="45" selection-end-line="101" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.5096774">
+              <caret line="150" column="4" selection-start-line="150" selection-start-column="4" selection-end-line="150" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -96,17 +97,17 @@
       <file leaf-file-name="community.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api/community.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.666666">
-              <caret line="284" column="3" selection-start-line="284" selection-start-column="3" selection-end-line="284" selection-end-column="3" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="169" column="37" selection-start-line="169" selection-start-column="37" selection-end-line="169" selection-end-column="37" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="users.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="8.26808">
+            <state vertical-scroll-proportion="0.0">
               <caret line="354" column="50" selection-start-line="354" selection-start-column="50" selection-end-line="354" selection-end-column="50" />
               <folding />
             </state>
@@ -180,10 +181,10 @@
         <option value="$PROJECT_DIR$/db/Soiree.js" />
         <option value="$PROJECT_DIR$/scheduled/scheduledTasks.js" />
         <option value="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
-        <option value="$PROJECT_DIR$/routes/api/community.js" />
         <option value="$PROJECT_DIR$/db/CommunityPost.js" />
-        <option value="$PROJECT_DIR$/db/Notification.js" />
         <option value="$PROJECT_DIR$/routes/api/users.js" />
+        <option value="$PROJECT_DIR$/routes/api/community.js" />
+        <option value="$PROJECT_DIR$/db/Notification.js" />
       </list>
     </option>
   </component>
@@ -955,10 +956,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/users.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="354" column="50" selection-start-line="354" selection-start-column="50" selection-end-line="354" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/community.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.666666">
-          <caret line="284" column="3" selection-start-line="284" selection-start-column="3" selection-end-line="284" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="169" column="37" selection-start-line="169" selection-start-column="37" selection-end-line="169" selection-end-column="37" />
           <folding />
         </state>
       </provider>
@@ -973,16 +982,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db/Notification.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.851852">
-          <caret line="101" column="45" selection-start-line="101" selection-start-column="45" selection-end-line="101" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="8.26808">
-          <caret line="354" column="50" selection-start-line="354" selection-start-column="50" selection-end-line="354" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.5096774">
+          <caret line="150" column="4" selection-start-line="150" selection-start-column="4" selection-end-line="150" selection-end-column="4" />
           <folding />
         </state>
       </provider>
