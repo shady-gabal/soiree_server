@@ -351,8 +351,11 @@ router.get('/postNotification', function(req, res){
 
 router.get('/removeNotifications', function(req, res){
   Notification.remove({}, function(err){
+  });
+  User.update({}, { $set: { _notifications : [] } }, function(err){
     res.send("Removed notifications with err: " + err);
   });
+
 });
 
 
