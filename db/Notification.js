@@ -52,7 +52,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
 
     upPost.deepPopulate("_user _comments._user", function(err2, post){
         if (err2 || !post){ return console.log("Error fetching post: " + err2); }
-        
+
         upComment.deepPopulate("_user", function(err3, comment){
             if (err3 || !comment){ return console.log("Error fetching comment: " + err3); }
 
@@ -99,20 +99,18 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
                 Notification.createNotification(bodySuffix, notificationsUser, causingUser, post, type);
             }
             else{
-                var newUser = {};
-                newUser.user = causingUser.id;
-                newUser.name = causingUser.firstName;
+                var newUser = {user : causingUser.id, name: causingUser.firstName};
+                //newUser.user = causingUser.id;
+                //newUser.name = causingUser.firstName;
 
                 console.log("newUser.name: " + newUser.name);
                 console.log("newUser.user: " + newUser.user);
 
                 var filterOutExistingUsers = function (userObj){
-                    console.log(userObj);
-                    return true;
-                    //return !userObj.user.equals(newUser.user);
+                    return !userObj.user.equals(newUser.user);
                 };
 
-                //notification.users = notification.users.filter(filterOutExistingUsers);
+                notification.users = notification.users.filter(filterOutExistingUsers);
                 console.log("Filtered out notification.users to: " + notification.users);
                 notification.users.push(newUser);
                 notification.imageUrl = causingUser.profilePictureUrl;
