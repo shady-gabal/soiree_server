@@ -40,7 +40,7 @@ notificationSchema.statics.notificationTypes = {
     "liked" : "liked"
 };
 
-notificationSchema.statics.createCommentedOnPostNotifications = function(userThatCommented, upPost, comment){//up = un populated
+notificationSchema.statics.createCommentedOnPostNotifications = function(userThatCommented, upPost, upComment){//up = un populated
     var Notification = this;
     console.log("createCommentedOnPostNotification()");
 
@@ -50,16 +50,16 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
     //        return;
     //    }
 
-        upPost.deepPopulate("_user _comments._user", function(err2, post){
-            if (err2 || !post){
-                console.log("Error fetching post: " + err2);
-                return;
-            }
+    upPost.deepPopulate("_user _comments._user", function(err2, post){
+        if (err2 || !post){ return console.log("Error fetching post: " + err2); }
+        
+        upComment.deepPopulate("_user", function(err3, comment){
+            if (err3 || !comment){ return console.log("Error fetching comment: " + err3); }
 
             //if (!MongooseHelper.equalsPopulated(userThatCommented, post._user)){
-                var body = ' commented on your post "' + post.text + '"';
-                Notification.sendCommunityNotification(body, post._user, comment._user, post, Notification.notificationTypes.commented);
-                //Notification.createNotification(bodySuffix, post._user, post, "commented");
+            var body = ' commented on your post "' + post.text + '"';
+            Notification.sendCommunityNotification(body, post._user, comment._user, post, Notification.notificationTypes.commented);
+            //Notification.createNotification(bodySuffix, post._user, post, "commented");
             //}
 
             var commentUsersNotified = [];
@@ -67,7 +67,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
                 var postComment = post._comments[i];
                 var commentUser = postComment._user;
                 if (commentUsersNotified.indexOf(commentUser._id) == -1 && !MongooseHelper.equalsPopulated(commentUser, userThatCommented) && !MongooseHelper.equalsPopulated(commentUser, post._user)){
-                //if (commentUsersNotified.indexOf(commentUser._id) == -1){
+                    //if (commentUsersNotified.indexOf(commentUser._id) == -1){
                     var bodySuffix = " commented on a post you commented on \"" + post.text + "\"";
                     Notification.sendCommunityNotification(bodySuffix, commentUser, userThatCommented, post, Notification.notificationTypes.commented);
                     commentUsersNotified.push(commentUser._id);
@@ -75,6 +75,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
             }
 
         });
+    });
     //});
 };
 
