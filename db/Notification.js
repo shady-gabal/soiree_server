@@ -25,7 +25,7 @@ var notificationTypes = ["commented", "liked"];
 var notificationSchema = new Schema({
     notificationId: {type: String, index: true, default: shortid.generate}, /* IDs */
     read: {type: Boolean, default: false},
-    users: [{user : ObjectId, name: String}],
+    users: [{user : String, name: String}],
     bodySuffix : {type: String, required: true},
     postId : {type: String},
     imageUrl : {type: String},
@@ -99,7 +99,7 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
             }
             else{
                 var newUser = {};
-                newUser.user = causingUser._id;
+                //newUser.user = causingUser._id + "";
                 newUser.name = causingUser.firstName;
 
                 console.log("newUser: " + JSON.stringify(newUser));
