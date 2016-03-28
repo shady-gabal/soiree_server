@@ -68,8 +68,8 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
                 var commentUser = postComment._user;
                 if (commentUsersNotified.indexOf(commentUser._id) == -1 && !MongooseHelper.equalsPopulated(commentUser, userThatCommented) && !MongooseHelper.equalsPopulated(commentUser, post._user)){
                 //if (commentUsersNotified.indexOf(commentUser._id) == -1){
-                    var body = userThatCommented.firstName + " commented on a post you commented on \"" + post.text + "\"";
-                    Notification.sendCommunityNotification(body, commentUser, userThatCommented, post, Notification.notificationTypes.commented);
+                    var bodySuffix = " commented on a post you commented on \"" + post.text + "\"";
+                    Notification.sendCommunityNotification(bodySuffix, commentUser, userThatCommented, post, Notification.notificationTypes.commented);
                     commentUsersNotified.push(commentUser._id);
                 }
             }
@@ -148,7 +148,7 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
 
     var firstUser = {user: causingUser.id, name: causingUser.firstName};
     console.log("firstUser: " + JSON.stringify(firstUser));
-    
+
     var newNotification = new Notification({
         bodySuffix : bodySuffix,
         _user : notificationsUser._id,
