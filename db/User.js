@@ -384,7 +384,7 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 
 userSchema.statics.findTestUsers = function(successCallback, errorCallback){
 	//if (process.env.LOCAL){
-		this.find({testUser : true}).deepPopulate("_currentReservations _pastReservations").exec(function(err, users){
+		this.find({testUser : true}).deepPopulate("_currentReservations _pastReservations _notifications").exec(function(err, users){
 			if (err)
 				errorCallback(err);
 			else successCallback(users);

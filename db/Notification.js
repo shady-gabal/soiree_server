@@ -158,6 +158,7 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
     notificationsUser._notifications.push(newNotification._id);
     newNotification.save();
     notificationsUser.save();
+    console.log(notificationsUser._notifications);
     PushNotificationHelper.sendNotification(notificationsUser, newNotification);
     console.log("Created Notification: " + newNotification.body + " for: " + notificationsUser.firstName);
     return newNotification;

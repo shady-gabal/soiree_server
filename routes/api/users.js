@@ -159,6 +159,16 @@ router.post('/createUser', function(req, res, next){
 
 router.post('/fetchNotifications', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
+    user.deepPopulate("_notifications", function(err){
+      if (err){
+        console.log(err);
+        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
+      }
+      else{
+        var notifications = Notification.jsonArrayFromArray(user._notifications);
+        res.json({"notifications" : notifications});
+      }
+    })
   });
 });
 

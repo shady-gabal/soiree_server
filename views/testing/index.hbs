@@ -118,6 +118,7 @@
     <ul>
         <li>_currentReservations : [{{#each _user._currentReservations}}{{this.reservationId}} - {{/each}}]</li>
         <li>_pastReservations : [{{#each _user._pastReservations}}{{this.reservationId}} - {{/each}}]</li>
+        <li>_notifications : [{{#each _user._notifications}}{{this.notificationId}}{{/each}}]</li>
     </ul>
 
     {{#each _testUsers}}

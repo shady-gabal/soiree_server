@@ -40,7 +40,7 @@ var returnRouter = function(io) {
         //    _user.save();
         //}
 
-        console.log("_user set");
+        //console.log("_user set");
     }, function (err) {
         console.log("Error setting test user: " + err);
     });
@@ -125,6 +125,8 @@ var returnRouter = function(io) {
     });
 
     router.get('/', function (req, res) {
+
+        //console.log(_user);
 
         CommunityPost.findPosts(req, null, _user, function(posts){
             Soiree.find({}).limit(50).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, soirees) {
