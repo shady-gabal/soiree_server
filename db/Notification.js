@@ -81,7 +81,7 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
 
 notificationSchema.statics.sendCommunityNotification = function(bodySuffix, notificationsUser, causingUser,  post, type){
     //if notification already exists, modify it to add this on. if not, create one
-    
+
     console.log("sendCommunityNotification() with user: " + causingUser);
     var Notification = this;
 

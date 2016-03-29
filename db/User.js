@@ -126,6 +126,7 @@ userSchema.methods.jsonObject = function(){
 	if (this.populated("_notifications")){
 		var notifications = Notification.jsonArrayFromArray(this._notifications);
 		obj.notifications = notifications;
+		console.log(notifications);
 	}
 	if (this.populated("_currentReservations")){
 		var reservations = [];

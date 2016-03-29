@@ -76,6 +76,8 @@ postSchema.statics.findPostWithId = function(postId, successCallback, errorCallb
 
 postSchema.statics.findPosts = function(req, coors, user, successCallback, errorCallback){
     //this.find({ location: { $near : coors }, "college" : user.college }).deepPopulate("_comments._user _user").exec(function(err, posts){
+    if (!user) return errorCallback(ErrorCodes.InvalidInput);
+
     var numPostsToFetch = 10;
 
     var idsToIgnore = req.body.currentPostsIds;
