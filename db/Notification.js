@@ -100,8 +100,6 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
             }
             else{
                 var newUser = {user : causingUser.id, name: causingUser.firstName};
-                //newUser.user = causingUser.id;
-                //newUser.name = causingUser.firstName;
 
                 console.log("newUser.name: " + newUser.name);
                 console.log("newUser.user: " + newUser.user);
@@ -116,7 +114,6 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
                 notification.imageUrl = causingUser.profilePictureUrl;
                 notification.read = false;
                 notification.save();
-                //PushNotificationHelper.sendPushNotification(notificationsUser, notification.body);
                 PushNotificationHelper.sendNotification(notificationsUser, notification);
 
             }
@@ -161,7 +158,6 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
     notificationsUser._notifications.push(newNotification._id);
     newNotification.save();
     notificationsUser.save();
-    //PushNotificationHelper.sendPushNotification(notificationsUser, newNotification.body);
     PushNotificationHelper.sendNotification(notificationsUser, newNotification);
     console.log("Created Notification: " + newNotification.body + " for: " + notificationsUser.firstName);
     return newNotification;

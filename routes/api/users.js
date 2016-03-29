@@ -406,7 +406,6 @@ function sendUser(res, user, firstSignUp){
 
       res.json(obj);
     });
-
 }
 
 
