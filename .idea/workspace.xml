@@ -2,19 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/admins/adminLogin.js" afterPath="$PROJECT_DIR$/routes/admins/adminLogin.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/admins/admins.js" afterPath="$PROJECT_DIR$/routes/admins/admins.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/businesses/businessLogin.js" afterPath="$PROJECT_DIR$/routes/businesses/businessLogin.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/businesses/businesses.js" afterPath="$PROJECT_DIR$/routes/businesses/businesses.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/businessesApi.js" afterPath="$PROJECT_DIR$/routes/api/businessesApi.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/community.js" afterPath="$PROJECT_DIR$/routes/api/community.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/admins/idVerifications.js" afterPath="$PROJECT_DIR$/routes/admins/idVerifications.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/questionnaire.js" afterPath="$PROJECT_DIR$/routes/api/questionnaire.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/soireeInProgress.js" afterPath="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/soirees.js" afterPath="$PROJECT_DIR$/routes/api/soirees.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/testing/testing.js" afterPath="$PROJECT_DIR$/routes/testing/testing.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/users.js" afterPath="$PROJECT_DIR$/routes/api/users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/verificationsApi.js" afterPath="$PROJECT_DIR$/routes/api/verificationsApi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/admins/adminsLayout.hbs" afterPath="$PROJECT_DIR$/views/admins/adminsLayout.hbs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/admins/idVerifications.hbs" afterPath="$PROJECT_DIR$/views/admins/idVerifications.hbs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,16 +30,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="businessesApi.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/api/businessesApi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -97,11 +77,51 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommunityComment.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CommunityComment.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.915423">
+            <state vertical-scroll-proportion="0.0">
               <caret line="210" column="3" selection-start-line="210" selection-start-column="3" selection-end-line="210" selection-end-column="3" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Soiree.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db/Soirees/Soiree.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.hbs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/admins/index.hbs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminsLayout.hbs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/admins/adminsLayout.hbs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-12.214286">
+              <caret line="46" column="67" selection-start-line="46" selection-start-column="67" selection-end-line="46" selection-end-column="67" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="idVerifications.hbs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/admins/idVerifications.hbs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.2693299">
+              <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -135,7 +155,6 @@
         <option value="$PROJECT_DIR$/views/admins/registerBusiness.hbs" />
         <option value="$PROJECT_DIR$/db/Business.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/admins/base.css" />
-        <option value="$PROJECT_DIR$/views/admins/adminsLayout.hbs" />
         <option value="$PROJECT_DIR$/scheduled/scheduledSoirees.js" />
         <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/views/businesses/businessesLayout.hbs" />
@@ -159,7 +178,6 @@
         <option value="$PROJECT_DIR$/helpers/Globals.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/admins/idVerifications.css" />
-        <option value="$PROJECT_DIR$/views/admins/idVerifications.hbs" />
         <option value="$PROJECT_DIR$/db/Soiree.js" />
         <option value="$PROJECT_DIR$/db/Soirees/SpontaneousSoireeJob.js" />
         <option value="$PROJECT_DIR$/db/Soirees/Soiree.js" />
@@ -178,6 +196,8 @@
         <option value="$PROJECT_DIR$/routes/businesses/businesses.js" />
         <option value="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
         <option value="$PROJECT_DIR$/routes/businesses/businessLogin.js" />
+        <option value="$PROJECT_DIR$/views/admins/adminsLayout.hbs" />
+        <option value="$PROJECT_DIR$/views/admins/idVerifications.hbs" />
       </list>
     </option>
   </component>
@@ -717,20 +737,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/get-env/node_modules/lodash/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5925927">
-          <caret line="134" column="88" selection-start-line="134" selection-start-column="88" selection-end-line="134" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/get-env/node_modules/lodash/dist/lodash.compat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1316" column="36" selection-start-line="1316" selection-start-column="36" selection-end-line="1316" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/socketio-auth/node_modules/lodash/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="26.886364">
@@ -909,14 +915,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/admins/idVerifications.hbs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.75">
-          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/UserVerification.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1081,14 +1079,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/Soirees/Soiree.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30721393">
-          <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/Business.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1109,8 +1099,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db/CommunityComment.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.915423">
+        <state vertical-scroll-proportion="0.0">
           <caret line="210" column="3" selection-start-line="210" selection-start-column="3" selection-end-line="210" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/Soirees/Soiree.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/admins/index.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/admins/adminsLayout.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.214286">
+          <caret line="46" column="67" selection-start-line="46" selection-start-column="67" selection-end-line="46" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/admins/idVerifications.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2693299">
+          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
           <folding />
         </state>
       </provider>
