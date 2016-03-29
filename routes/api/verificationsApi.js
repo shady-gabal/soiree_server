@@ -15,7 +15,7 @@ var multer = require('multer');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
-var Soiree = require(dbFolderLocation + 'Soiree.js');
+var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 var Image = require(dbFolderLocation + 'Image.js');

@@ -5,11 +5,11 @@ var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soiree.js');
-var SoireeReservation = require(dbFolderLocation + 'SoireeReservation.js');
+var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
+var SoireeReservation = require(dbFolderLocation + 'Soirees/SoireeReservation.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
-var SpontaneousSoireeJob = require(dbFolderLocation + 'SpontaneousSoireeJob.js');
+var SpontaneousSoireeJob = require(dbFolderLocation + 'Soirees/SpontaneousSoireeJob.js');
 
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');

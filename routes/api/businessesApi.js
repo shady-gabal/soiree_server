@@ -8,7 +8,7 @@ var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soiree.js');
+var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
 var Business = require(dbFolderLocation + 'Business.js');
 var User = require(dbFolderLocation + 'User.js');
 

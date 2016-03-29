@@ -6,8 +6,8 @@ var helpersFolderLocation = "../../helpers/";
 
 var _ = require("underscore");
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soiree.js');
-var SoireeReservation = require(dbFolderLocation + 'SoireeReservation.js');
+var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
+var SoireeReservation = require(dbFolderLocation + 'Soirees/SoireeReservation.js');
 var CommunityPost = require(dbFolderLocation + 'CommunityPost.js');
 var CommunityComment = require(dbFolderLocation + 'CommunityComment.js');
 
