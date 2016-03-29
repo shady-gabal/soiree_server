@@ -11,8 +11,8 @@ var ObjectIdConstructor = mongoose.Types.ObjectId;
 /* Other Models */
 //var Business = require('./Business.js');
 var User = require('./User.js');
-var Soiree = require('./Soiree.js');
-var SoireeReservation = require('./SoireeReservation.js');
+var Soiree = require('./Soirees/Soiree.js');
+var SoireeReservation = require('./Soirees/SoireeReservation.js');
 
 var Admin = require('./Admin.js');
 

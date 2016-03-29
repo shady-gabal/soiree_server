@@ -5,8 +5,8 @@ var ObjectId = Schema.Types.ObjectId;
 
 /* Other Models */
 var Business = require('./Business.js');
-var Soiree = require('./Soiree.js');
-var SoireeReservation = require('./SoireeReservation.js');
+var Soiree = require('./Soirees/Soiree.js');
+var SoireeReservation = require('./Soirees/SoireeReservation.js');
 var Admin = require('./Admin.js');
 var Notification = require('./Notification.js');
 

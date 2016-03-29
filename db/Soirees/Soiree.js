@@ -1,5 +1,5 @@
 /* Setup */
-var mongoose = require('./mongoose_connect.js');
+var mongoose = require('./../mongoose_connect.js');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
@@ -11,7 +11,7 @@ var shortid = require('shortid');
 var _ = require("underscore");
 
 /* Helper */
-var helpersFolderLocation = "../helpers/";
+var helpersFolderLocation = "../../helpers/";
 var Globals = require(helpersFolderLocation + 'Globals.js');
 var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
@@ -19,7 +19,6 @@ var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
-var Globals = require(helpersFolderLocation + 'Globals.js');
 
 /* Schema Specific */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date", "TEST"];

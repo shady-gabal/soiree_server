@@ -3,28 +3,47 @@ var env = require('get-env')({
     production : ['prod', 'production']
 });
 
-var helper = (function () {
-    var ResHelper = require('./ResHelper.js');
+var ResHelper = require('./ResHelper.js');
 
-    return {
-        func: function () {
 
-        },
-        development : env === 'development',
-        production : env === 'production',
-        saveErrorCallback : function(err){
-            if (err){
-                console.log(err);
-            }
-        },
-        fetchErrorCallback : function(res){
-            return function(err){
-                ResHelper.sendError(res, error);
-            };
-
+var Globals = {
+    io : {},
+    development: env === 'development',
+    production : env === 'production',
+    saveErrorCallback : function(err){
+        if (err){
+            console.log(err);
         }
-}
+    },
+    fetchErrorCallback : function(res){
+        return function(err){
+            ResHelper.sendError(res, error);
+        };
 
-}());
+    }
+};
+//var helper = (function () {
+//    var ResHelper = require('./ResHelper.js');
+//
+//    return {
+//        func: function () {
+//
+//        },
+//        development : env === 'development',
+//        production : env === 'production',
+//        saveErrorCallback : function(err){
+//            if (err){
+//                console.log(err);
+//            }
+//        },
+//        fetchErrorCallback : function(res){
+//            return function(err){
+//                ResHelper.sendError(res, error);
+//            };
+//
+//        }
+//}
+//
+//}());
 
-module.exports = helper;
+module.exports = Globals;

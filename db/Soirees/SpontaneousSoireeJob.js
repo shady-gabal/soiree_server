@@ -2,17 +2,17 @@
  * Created by shadygabal on 1/31/16.
  */
 /* Setup */
-var mongoose = require('./mongoose_connect.js');
+var mongoose = require('./../mongoose_connect.js');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 
 /* Other Models */
-var Business = require('./Business.js');
+var Business = require('./../Business.js');
 var Soiree = require('./Soiree.js');
-var User = require('./User.js');
-var Admin = require('./Admin.js');
-var Image = require('./Image.js');
+var User = require('./../User.js');
+var Admin = require('./../Admin.js');
+var Image = require('./../Image.js');
 
 /* Packages */
 var shortid = require('shortid');

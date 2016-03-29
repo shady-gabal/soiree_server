@@ -9,7 +9,7 @@ var ObjectId = Schema.Types.ObjectId;
 
 /* Other Models */
 var Business = require('./Business.js');
-var Soiree = require('./Soiree.js');
+var Soiree = require('./Soirees/Soiree.js');
 var User = require('./User.js');
 var Admin = require('./Admin.js');
 var Image = require('./Image.js');

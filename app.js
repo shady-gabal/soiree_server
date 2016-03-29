@@ -4,6 +4,14 @@ require('dotenv').config({silent: true});
 require('enum').register();
 
 var express = require('express');
+var app = express();
+var http = require('http');
+var server = http.Server(app);
+var io = require('socket.io')(server);
+app.io = io;
+var Globals = require('./helpers/Globals.js');
+Globals.io = io;
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -29,20 +37,13 @@ var SESSION_SECRET = "SeCreTMsGSoIrEe12";
 var FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 var FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
-var app = express();
-
-var http = require('http');
-var server = http.Server(app);
-var io = require('socket.io')(server);
-app.io = io;
-
 
 /**** Routes ****/
 /* User Facing Routes */
 var userIndex = require('./routes/consumer/index');
 /* API Routes */
 var soirees = require('./routes/api/soirees')(io);
-var soireeInProgress = require('./routes/api/soireeInProgress')(io);
+var soireeInProgress = require('./routes/api/soireeInProgress');
 var users = require('./routes/api/users');
 var businessesApi = require('./routes/api/businessesApi');
 var questionnaire = require('./routes/api/questionnaire');
@@ -56,7 +57,7 @@ var verifications = require('./routes/admins/idVerifications.js');
 /* Business Facing */
 var businesses =  require('./routes/businesses/businesses.js');
 /* Testing */
-var testing = require('./routes/testing/testing.js')(io);
+var testing = require('./routes/testing/testing.js');
 var images =  require('./routes/images/images.js');
 
 /****** SETUP VIEW ENGINE (hbs) ******/
@@ -251,6 +252,8 @@ app.use('/api/businesses', businessesApi);
 app.use('/api/community', community);
 app.use('/api/verifications', verificationsApi);
 
+
+
 /****** Admins *******/
 
 //middleware
@@ -260,6 +263,8 @@ app.use('/admins', Admin.checkIfLoggedIn);
 app.use('/admins', admins);
 app.use('/adminLogin', adminLogin);
 app.use('/admins/verifications', verifications);
+
+
 
 /****** Businesses *******/
 
