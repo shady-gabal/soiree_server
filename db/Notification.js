@@ -80,11 +80,16 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
 };
 
 notificationSchema.statics.sendCommunityNotification = function(bodySuffix, notificationsUser, causingUser,  post, type){
+    //if notification already exists, modify it to add this on. if not, create one
+    
     console.log("sendCommunityNotification() with user: " + causingUser);
     var Notification = this;
 
     var idToMatch = generateId(causingUser, post.postId, type);
     console.log("idToMatch: " + idToMatch);
+    for (var i = 0; i < notificationsUser._notifications.length; i++){
+        console.log("notificationsUser._notifications " + i + ": " + notificationsUser._notifications[i]);
+    }
     var index = notificationsUser._notifications.indexOf(idToMatch);
     if (index != -1){
         console.log("index: " + index + " _notifications : " + notificationsUser._notifications);
