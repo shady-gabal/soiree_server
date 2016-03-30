@@ -338,30 +338,30 @@ soireeSchema.methods.start = function(){
 	if (!this.open){
 		this.openToUsers();
 	}
-	this.deepPopulate("_usersAttending", function(err, _soiree){
+	this.deepPopulate("_usersAttending", function(err, soiree){
 		if (err){
 			console.log(err);
 		}
 
-		console.log("Starting soiree " + this.soireeType + " " + this.scheduledStartTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
+		console.log("Starting soiree " + soiree.soireeType + " " + soiree.scheduledStartTimeIdentifier + " with users attending: " + soiree._usersAttending + " ...");
 
-		if (!this._host){
+		if (!soiree._host){
 			var SoireeHost = mongoose.model('SoireeHost');
 
 			var host = new SoireeHost({
-				_soiree : this._id,
-				roomId : this.soireeId
+				_soiree : soiree._id,
+				roomId : soiree.soireeId
 			});
-			this._host = host._id;
+			soiree._host = host._id;
 			host.save(Globals.saveErrorCallback);
 		}
 
-		alertUsersThatSoireeStarted(this);
+		alertUsersThatSoireeStarted(soiree);
 
-		this.started = true;
-		this.inProgress = true;
+		soiree.started = true;
+		soiree.inProgress = true;
 
-		this.save(Globals.saveErrorCallback);
+		soiree.save(Globals.saveErrorCallback);
 	});
 };
 
