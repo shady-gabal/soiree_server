@@ -325,7 +325,7 @@ app.use(function(err, req, res, next) {
 });
 
 function scheduleCron(){
-    var cronExpression = '0 0/10 * 1/1 * * *';
+    var cronExpression = '0 0/10 * 1/1 * *';
     var CronJob = require('cron').CronJob;
 
     try{
