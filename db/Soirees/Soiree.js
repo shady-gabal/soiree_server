@@ -51,7 +51,8 @@ var soireeSchema = new Schema({
 		open : {type: Boolean, default: false},
 		length : {type: Number, default: AVERAGE_SOIREE_LENGTH},
 		_unchargedReservations : [{type: ObjectId, ref: "SoireeReservation"}],
-		_chargedReservations : [{type: ObjectId, ref: "SoireeReservation"}]
+		_chargedReservations : [{type: ObjectId, ref: "SoireeReservation"}],
+		_host : {type: ObjectId, ref: "SoireeHost"}
 
 
 	},
@@ -335,22 +336,30 @@ soireeSchema.methods.remind = function(mins) {
 
 soireeSchema.methods.start = function(){
 	this.deepPopulate("_usersAttending", function(err, _soiree){
+		if (err){
+			console.log(err);
+		}
+
 		console.log("Starting soiree " + this.soireeType + " " + this.scheduledStartTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
+
+		if (!this._host){
+			var SoireeHost = mongoose.model('SoireeHost');
+
+			var host = new SoireeHost({
+				_soiree : this._id,
+				roomId : this.soireeId
+			});
+			this._host = host._id;
+			host.save(Globals.saveErrorCallback);
+		}
 
 		alertUsersThatSoireeStarted(this);
 
 		this.started = true;
 		this.inProgress = true;
 
-		this.save(function(err){
-			if (err){
-				console.log("Error saving soiree - start()");
-				console.log(err);
-			}
-		});
-
+		this.save(Globals.saveErrorCallback);
 	});
-
 };
 
 function alertUsersThatSoireeStarted(soiree){

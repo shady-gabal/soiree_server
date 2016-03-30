@@ -8,8 +8,8 @@ var dbFolderLocation = "../db/";
 var helpersFolderLocation = "../helpers/";
 
 var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soiree.js');
-var SpontaneousSoireeJob = require(dbFolderLocation + 'SpontaneousSoireeJob.js');
+var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
+var SpontaneousSoireeJob = require(dbFolderLocation + 'Soirees/SpontaneousSoireeJob.js');
 
 
 var SOIREE_REMIND_BEFORE = 30;

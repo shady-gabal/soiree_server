@@ -54,10 +54,13 @@ var postAuthenticate = function(socket, data){
     var user = data.user;
     var soireeId = data.soireeId;
 
-    Soiree.findBySoireeId(soireeId, function(soiree){
-        socket.client.soiree = soiree;
-    }, function(err){
-       console.log("Error in postAuthenticate soiree : " + err);
+    Soiree.findOne({soireeId : soireeId}).deepPopulate("_host").exec(function(err, soiree) {
+        if (err) {
+            console.log("Error in postAuthenticate soiree : " + err);
+        }
+        else {
+            socket.client.soiree = soiree;
+        }
     });
 
     var makeshiftReq = {};
@@ -84,23 +87,9 @@ io.on('connection', function(socket){
         console.log('socket authenticated event');
 
         if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.open) {
-            var roomId = socket.client.soiree.soireeId;
-            console.log('a user connected to soireeInProgress. Joining room ' + roomId);
+            socket.client.soiree._host.joinUser(user, socket);
 
-            socket.join(roomId, function (err) {
-                if (err) {
-                    console.log("Error joining room " + roomId + " : " + err);
-                    socket.emit('error joining room', {roomId: roomId});
-                }
-                else {
-                    socket.emit('joined room', {roomId: roomId});
-                    console.log("Successfully joined room " + roomId);
-                    console.log("This socket's rooms: " + JSON.stringify(socket.rooms));
-                }
-            });
 
-            var message = {author: "Debug", text: "Connected to " + SOIREE_LOWERCASE};
-            socket.emit('message', message);
             socket.on('disconnect', function () {
                 console.log('user disconnected from soireeInProgress');
             });
