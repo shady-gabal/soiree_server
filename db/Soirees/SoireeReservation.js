@@ -281,6 +281,10 @@ customSchema.methods.confirm = function(code, successCallback, errorCallback){
 };
 
 customSchema.statics.addReservationsForSoirees = function(soirees, user, successCallback){
+    if (soirees.length === 0){
+        return successCallback({});
+    }
+    
     var ans = {};
     var numReturned = 0;
 
