@@ -324,11 +324,13 @@ app.use(function(err, req, res, next) {
 });
 
 function scheduleCron(){
-    var pattern =  '* * * * * *';
+    var cronExpression = '0 0/10 * 1/1 * ? *';
     var CronJob = require('cron').CronJob;
 
-    new CronJob(pattern, scheduledTasks, null, true, 'America/New_York');
+    new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
+    new CronJob(cronExpression, scheduledTasks, null, true, 'America/New_York');
 }
+
 
 //var  http = require("http")
 //    , response = http.ServerResponse.prototype
