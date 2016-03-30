@@ -325,14 +325,13 @@ app.use(function(err, req, res, next) {
 });
 
 function scheduleCron(){
-    var cronExpression = '0 0/10 * * * *';
+    var cronExpression = '0 0-59/10 * * * *';
     var CronJob = require('cron').CronJob;
 
     try{
+        new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
         //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
-        new CronJob('0-59/10 * * * * *', function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
-
-        //new CronJob(cronExpression, scheduledTasks, null, true, 'America/New_York');
+        new CronJob(cronExpression, scheduledTasks, null, true, 'America/New_York');
     }
     catch(err){
         console.log(err);
