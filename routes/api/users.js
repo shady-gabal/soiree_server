@@ -247,40 +247,40 @@ router.post('/uploadDeviceToken', function(req, res, next){
 router.post('/fetchUserSoirees', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
 
+    console.log('1');
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
-        //console.log("soireesAttending: " + soireesAttending);
-        //console.log("soireesAttended: " + soireesAttended);
-
+        console.log('2');
 
         SoireeReservation.addReservationsForSoirees(soireesAttending, user, function(reservationsDict){
+          console.log('3');
 
           var obj = {};
-          var pastArr = [], presentArr = [], futureArr = [];
+            var pastArr = [], presentArr = [], futureArr = [];
 
-          for (var i = 0; i < soireesAttended.length; i++){
-            var soiree = soireesAttended[i];
-            pastArr.push(soiree.jsonObject(user));
-          }
-          obj["past"] = pastArr;
-
-          for (var j = 0; j < soireesAttending.length; j++) {
-            var soiree = soireesAttending[j];
-            var jsonDict = soiree.jsonObject(user);
-            if (reservationsDict[soiree.soireeId]){
-              jsonDict["reservation"] = reservationsDict[soiree.soireeId];
+            for (var i = 0; i < soireesAttended.length; i++){
+              var soiree = soireesAttended[i];
+              pastArr.push(soiree.jsonObject(user));
             }
+            obj["past"] = pastArr;
 
-            if (soiree.started) {
-              presentArr.push(jsonDict);
-            }
-            else {
-              futureArr.push(jsonDict);
-            }
-          }
-          obj["present"] = presentArr;
-          obj["future"] = futureArr;
+            for (var j = 0; j < soireesAttending.length; j++) {
+              var soiree = soireesAttending[j];
+              var jsonDict = soiree.jsonObject(user);
+              if (reservationsDict[soiree.soireeId]){
+                jsonDict["reservation"] = reservationsDict[soiree.soireeId];
+              }
 
-          res.json(obj);
+              if (soiree.started) {
+                presentArr.push(jsonDict);
+              }
+              else {
+                futureArr.push(jsonDict);
+              }
+            }
+            obj["present"] = presentArr;
+            obj["future"] = futureArr;
+
+           res.json(obj);
         });
 
       }, function(err){

@@ -289,12 +289,13 @@ customSchema.statics.addReservationsForSoirees = function(soirees, user, success
         this.findOne({soireeId: soireeId, _user: user._id}).exec(function (err, reservation) {
             numReturned++;
             if (err || !reservation) {
+                console.log(err);
             }
             else {
                 ans[soireeId] = reservation.jsonObject();
-                if (numReturned === soirees.length){
-                    successCallback(ans);
-                }
+            }
+            if (numReturned === soirees.length){
+                successCallback(ans);
             }
         });
     }
