@@ -335,6 +335,9 @@ soireeSchema.methods.remind = function(mins) {
 };
 
 soireeSchema.methods.start = function(){
+	if (!this.open){
+		this.openToUsers();
+	}
 	this.deepPopulate("_usersAttending", function(err, _soiree){
 		if (err){
 			console.log(err);

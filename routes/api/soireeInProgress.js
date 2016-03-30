@@ -89,7 +89,6 @@ io.on('connection', function(socket){
         if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.open) {
             socket.client.soiree._host.joinUser(user, socket);
 
-
             socket.on('disconnect', function () {
                 console.log('user disconnected from soireeInProgress');
             });
