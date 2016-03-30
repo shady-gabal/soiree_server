@@ -33,8 +33,6 @@ var customSchema = new Schema({
     {timestamps: {createdAt: 'dateCreated', updatedAt: 'dateUpdated'}}
 );
 
-customSchema.methods.
-
 customSchema.virtual('').get(function () {
 });
 

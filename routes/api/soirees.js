@@ -6,8 +6,8 @@ var returnRouter = function(io) {
     var helpersFolderLocation = "../../helpers/";
 
     var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-    var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
     var SoireeHost = require(dbFolderLocation + 'Soirees/SoireeHost.js');
+    var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
     var SoireeReservation = require(dbFolderLocation + 'Soirees/SoireeReservation.js');
     var Business = require(dbFolderLocation + 'Business.js');
     var User = require(dbFolderLocation + 'User.js');
