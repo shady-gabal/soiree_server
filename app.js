@@ -62,6 +62,7 @@ var images =  require('./routes/images/images.js');
 
 var scheduledTasks = require('./scheduled/scheduledTasks.js');
 
+/* Schedules Cron Tasks that start and end soirees */
 scheduleCron();
 
 /****** SETUP VIEW ENGINE (hbs) ******/
@@ -324,11 +325,17 @@ app.use(function(err, req, res, next) {
 });
 
 function scheduleCron(){
-    var cronExpression = '0 0/10 * 1/1 * ? *';
+    var cronExpression = '0 0/10 * 1/1 * * *';
     var CronJob = require('cron').CronJob;
 
-    new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
-    new CronJob(cronExpression, scheduledTasks, null, true, 'America/New_York');
+    try{
+        new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
+        new CronJob(cronExpression, scheduledTasks, null, true, 'America/New_York');
+    }
+    catch(err){
+        console.log(err);
+    }
+
 }
 
 
