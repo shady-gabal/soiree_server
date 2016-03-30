@@ -35,6 +35,7 @@
     "underscore": "",
     "validator": "",
     "get-env" : "",
-    "socketio-auth" : ""
+    "socketio-auth" : "",
+    "cron" : ""
   }
 }

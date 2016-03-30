@@ -106,6 +106,17 @@ router.get('/createTestUsers', function(req, res){
 
 });
 
+router.get('/testCron', function(req, res, next){
+   var pattern = req.query.pattern ? req.query.pattern : '* * * * * *';
+    var CronJob = require('cron').CronJob;
+
+    new CronJob(pattern, function() {
+        console.log('You will see this message every second');
+    }, null, true, 'America/New_York');
+
+    res.send("OK");
+});
+
 router.post('/switchTestUser', function(req, res){
     var _id = req.body.userId;
 
