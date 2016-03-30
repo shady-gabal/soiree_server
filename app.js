@@ -60,6 +60,10 @@ var businesses =  require('./routes/businesses/businesses.js');
 var testing = require('./routes/testing/testing.js');
 var images =  require('./routes/images/images.js');
 
+var scheduledTasks = require('./scheduled/scheduledTasks.js');
+
+scheduleCron();
+
 /****** SETUP VIEW ENGINE (hbs) ******/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -319,6 +323,12 @@ app.use(function(err, req, res, next) {
     });
 });
 
+function scheduleCron(){
+    var pattern =  '* * * * * *';
+    var CronJob = require('cron').CronJob;
+
+    new CronJob(pattern, scheduledTasks, null, true, 'America/New_York');
+}
 
 //var  http = require("http")
 //    , response = http.ServerResponse.prototype
