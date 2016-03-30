@@ -284,7 +284,7 @@ customSchema.statics.addReservationsForSoirees = function(soirees, user, success
     if (soirees.length === 0){
         return successCallback({});
     }
-    
+
     var ans = {};
     var numReturned = 0;
 

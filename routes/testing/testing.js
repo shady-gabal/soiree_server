@@ -67,7 +67,7 @@ router.get('/deleteTestUsers', function(req, res){
 
 
 router.get('/createTestUsers', function(req, res){
-
+    _testUsers = [];
 
     var firstNames = ["Robert", "Joe" , "Kevin", "Jill", "Michelle", "Naomi"];
     var lastNames = ["Jones", "Roberts", "Dominican", "Ellis", "Grimes", "Stevens"];
