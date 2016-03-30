@@ -23,11 +23,11 @@ var scheduledTimeIdentifierReminder = Soiree.createScheduledTimeIdentifierFuture
 
 var scheduledTimeIdentifierSpontaneous = Soiree.createScheduledTimeIdentifier(Date.now() - (SPONTANEOUS_SOIREE_CHECK_BEFORE * 60 * 1000));
 
-console.log("Running scheduled soirees task for scheduledTimeIdentifier: " + scheduledTimeIdentifierNow +  " ...");
-
+console.log("Running scheduled soirees task for scheduledTimeIdentifierNow: " + scheduledTimeIdentifierNow +  " ...");
+console.log("Running scheduled soirees task for scheduledTimeIdentifierReminder: " + scheduledTimeIdentifierReminder +  " ...");
 
 //start
-Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
     if (err){
         console.log("Error in scheduledSoirees: " + err);
     }
@@ -73,7 +73,7 @@ Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierN
 
 
 //remind people of upcoming soirees
-Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "inProgress" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
     if (err){
         console.log("Error in scheduledSoirees: " + err);
     }
