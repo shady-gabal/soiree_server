@@ -157,8 +157,8 @@ userSchema.methods.findSoireesAttendingAndAttended = function(successCallback, e
 				soireesAttending.push(soiree);
 			}
 
-			for (var j = 0; j < _user._currentReservations.length; j++){
-				var soiree = _user._currentReservations[j]._soiree;
+			for (var j = 0; j < _user._pastReservations.length; j++){
+				var soiree = _user._pastReservations[j]._soiree;
 				soireesAttended.push(soiree);
 			}
 

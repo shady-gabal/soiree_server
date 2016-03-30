@@ -247,12 +247,11 @@ router.post('/uploadDeviceToken', function(req, res, next){
 router.post('/fetchUserSoirees', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
 
-    console.log('1');
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
-        console.log('2');
 
         SoireeReservation.addReservationsForSoirees(soireesAttending, user, function(reservationsDict){
-          console.log('3');
+          console.log('soirees attending : ' + soireesAttending);
+          console.log('attended ' + soireesAttended);
 
           var obj = {};
             var pastArr = [], presentArr = [], futureArr = [];
@@ -270,7 +269,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
                 jsonDict["reservation"] = reservationsDict[soiree.soireeId];
               }
 
-              if (soiree.started) {
+              if (soiree.open) {
                 presentArr.push(jsonDict);
               }
               else {

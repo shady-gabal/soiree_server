@@ -551,7 +551,8 @@ soireeSchema.methods.jsonObject = function (user) {
 		"photoIndexIdentifier" : this.photoIndexIdentifier,
 		"reachedNumUsersMin" : this.reachedNumUsersMin,
 		"willReachNumUsersMin" : this.willReachNumUsersMin,
-		"numUsersMin" : this.numUsersMin
+		"numUsersMin" : this.numUsersMin,
+		"open" : this.open
 	};
 
 	if (user){
