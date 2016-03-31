@@ -250,8 +250,6 @@ router.post('/fetchUserSoirees', function(req, res, next){
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
 
         SoireeReservation.addReservationsForSoirees(soireesAttending, user, function(reservationsDict){
-          console.log('soirees attending : ' + soireesAttending);
-          console.log('attended ' + soireesAttended);
 
           var obj = {};
             var pastArr = [], presentArr = [], futureArr = [];
