@@ -377,22 +377,23 @@ function alertUsersThatSoireeStarted(soiree){
 
 
 soireeSchema.methods.end = function() {
-	console.log("Ending soiree " + this.soireeType + " " + this.scheduledTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
+	console.log("Ending soiree " + this.soireeType + " " + this.scheduledStartTimeIdentifier + " with users attending: " + this._usersAttending + " ...");
+
+	var soiree = this;
 
 	this.deepPopulate("_usersAttending", function(err){
 		if (err){
 			console.log("Error ending soiree: " + err);
 		}
 		else{
-			console.log(this);
-			for (var i = 0; i < this._usersAttending.length; i++) {
-				var user = this._usersAttending[i];
-				user.endedSoiree(this);
+			for (var i = 0; i < soiree._usersAttending.length; i++) {
+				var user = soire._usersAttending[i];
+				user.endedSoiree(soiree);
 			}
 		}
-		this.ended = true;
-		this.inProgress = false;
-		this.save(Globals.saveErrorCallback);
+		soiree.ended = true;
+		soiree.inProgress = false;
+		soiree.save(Globals.saveErrorCallback);
 	});
 };
 
