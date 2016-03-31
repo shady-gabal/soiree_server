@@ -130,7 +130,7 @@
 <ul id="soirees">
     {{#each soirees}}
          <li>
-             {{this.soireeId}} : {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledTimeIdentifier}} -
+             {{this.soireeId}} : {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledStartTimeIdentifier}} -
             {{#if this.userAlreadyJoined}}
                 <button> Joined </button>
             {{else}}

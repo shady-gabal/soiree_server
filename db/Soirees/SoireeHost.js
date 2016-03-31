@@ -49,16 +49,19 @@ customSchema.post("init", function (soiree) {
 customSchema.methods.joinUser = function(user, socket){
     console.log('a user connected to soireeInProgress. Joining room ' + this.roomId);
 
+
+    var host = this;
+
     socket.join(this.roomId, function (err) {
         if (err) {
-            console.log("Error joining room " + roomId + " : " + err);
-            socket.emit('error joining room', {roomId: roomId});
+            console.log("Error joining room " + host.roomId + " : " + err);
+            socket.emit('error joining room', {roomId: host.roomId});
         }
         else {
-            this._usersJoined.push(user._id);
+            host._usersJoined.push(user._id);
             var message = user.firstName + " joined the party.";
-            io.to(this.roomId).emit('joined room', message);
-            this.save();
+            io.to(host.roomId).emit('joined room', message);
+            host.save();
 
             //socket.emit('joined room', {roomId: roomId});
             //console.log("Successfully joined room " + roomId);
