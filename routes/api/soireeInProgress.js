@@ -67,6 +67,7 @@ var postAuthenticate = function(socket, data){
     makeshiftReq.body = {user: user};
 
     User.verifyUser(makeshiftReq, null, null, function(user){
+        console.log('setting user in postAuthenticate...');
        socket.client.user = user;
     }, function(err){
         console.log("Error in postAuthenticate user: " + err);
@@ -91,7 +92,7 @@ io.on('connection', function(socket){
 
         if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.open) {
             console.log("joining room...");
-            socket.client.soiree._host.joinUser(user, socket);
+            socket.client.soiree._host.joinUser(socket.client.user, socket);
 
             socket.on('disconnect', function () {
                 console.log('user disconnected from soireeInProgress');
