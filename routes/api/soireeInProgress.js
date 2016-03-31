@@ -39,6 +39,7 @@ var socketAuthenticate = function(socket, data, callback){
            for (var i = 0; i < _user._currentReservations.length; i++){
                if (soireeId === _user._currentReservations[i].soireeId){
                    console.log("user authenticated");
+                   socket.client.user = user;
                    return callback(null, true);
                }
            }
@@ -76,7 +77,7 @@ var postAuthenticate = function(socket, data){
 
     require('socketio-auth')(io, {
         authenticate : socketAuthenticate,
-        postAuthenticate : postAuthenticate,
+        //postAuthenticate : postAuthenticate,
         timeout: 2000
     });
 
