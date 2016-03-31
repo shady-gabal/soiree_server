@@ -36,6 +36,7 @@ var socketAuthenticate = function(socket, data, callback){
         user.deepPopulate("_currentReservations", function(err, _user){
            if (err || !_user)
                return callback(null, false);
+
            for (var i = 0; i < _user._currentReservations.length; i++){
                if (soireeId === _user._currentReservations[i].soireeId){
                    console.log("user authenticated");
@@ -43,16 +44,19 @@ var socketAuthenticate = function(socket, data, callback){
                    socket.client.user = user;
 
                    Soiree.findOne({soireeId : soireeId}).deepPopulate("_host").exec(function(err, soiree) {
-                       if (err) {console.log("Error in postAuthenticate soiree : " + err);}
+                       if (err) {
+                           console.log("Error in postAuthenticate soiree : " + err);
+                           return callback(null, false);
+                       }
                        else {
                            socket.client.soiree = soiree;
+                           return callback(null, true);
                        }
-                       return callback(null, true);
                    });
 
                }
            }
-            return callback(null, false);
+            //return callback(null, false);
         });
     }, function(err){
         console.log("Error verifying user: " + err);
@@ -96,8 +100,8 @@ io.on('connection', function(socket){
     socket.on('client-authenticated', function(){
         console.log('socket authenticated event');
 
-        console.log(socket.client.user);
-        console.log(socket.client.soiree);
+        //console.log(socket.client.user);
+        //console.log(socket.client.soiree);
 
         if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.open) {
             console.log("joining room...");
