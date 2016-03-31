@@ -86,7 +86,7 @@ var socketAuthenticate = function(socket, data, callback){
 
     require('socketio-auth')(io, {
         authenticate : socketAuthenticate,
-        timeout: 7000
+        timeout: 'none'
     });
 
 /* Socket.io */
