@@ -85,8 +85,11 @@ io.on('connection', function(socket){
 
     socket.on('client-authenticated', function(){
         console.log('socket authenticated event');
+        
+        console.log(socket);
 
         if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.open) {
+            console.log("joining room...");
             socket.client.soiree._host.joinUser(user, socket);
 
             socket.on('disconnect', function () {
