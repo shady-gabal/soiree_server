@@ -39,8 +39,17 @@ var socketAuthenticate = function(socket, data, callback){
            for (var i = 0; i < _user._currentReservations.length; i++){
                if (soireeId === _user._currentReservations[i].soireeId){
                    console.log("user authenticated");
+                   /* populate user and soiree */
                    socket.client.user = user;
-                   return callback(null, true);
+
+                   Soiree.findOne({soireeId : soireeId}).deepPopulate("_host").exec(function(err, soiree) {
+                       if (err) {console.log("Error in postAuthenticate soiree : " + err);}
+                       else {
+                           socket.client.soiree = soiree;
+                       }
+                       return callback(null, true);
+                   });
+
                }
            }
             return callback(null, false);
@@ -51,33 +60,32 @@ var socketAuthenticate = function(socket, data, callback){
     });
 };
 
-var postAuthenticate = function(socket, data){
-    var user = data.user;
-    var soireeId = data.soireeId;
-
-    Soiree.findOne({soireeId : soireeId}).deepPopulate("_host").exec(function(err, soiree) {
-        if (err) {
-            console.log("Error in postAuthenticate soiree : " + err);
-        }
-        else {
-            socket.client.soiree = soiree;
-        }
-    });
-
-    var makeshiftReq = {};
-    makeshiftReq.body = {user: user};
-
-    User.verifyUser(makeshiftReq, null, null, function(user){
-        console.log('setting user in postAuthenticate...');
-       socket.client.user = user;
-    }, function(err){
-        console.log("Error in postAuthenticate user: " + err);
-    });
-};
+//var postAuthenticate = function(socket, data){
+//    var user = data.user;
+//    var soireeId = data.soireeId;
+//
+//    Soiree.findOne({soireeId : soireeId}).deepPopulate("_host").exec(function(err, soiree) {
+//        if (err) {
+//            console.log("Error in postAuthenticate soiree : " + err);
+//        }
+//        else {
+//            socket.client.soiree = soiree;
+//        }
+//    });
+//
+//    var makeshiftReq = {};
+//    makeshiftReq.body = {user: user};
+//
+//    User.verifyUser(makeshiftReq, null, null, function(user){
+//        console.log('setting user in postAuthenticate...');
+//       socket.client.user = user;
+//    }, function(err){
+//        console.log("Error in postAuthenticate user: " + err);
+//    });
+//};
 
     require('socketio-auth')(io, {
         authenticate : socketAuthenticate,
-        //postAuthenticate : postAuthenticate,
         timeout: 2000
     });
 
