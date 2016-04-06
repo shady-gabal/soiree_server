@@ -20,9 +20,10 @@ var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
 
-/* Schema Specific */
+/* Defaults */
 var soireeTypes = ["Lunch", "Dinner", "Drinks", "Blind Date", "TEST"];
 var numUsersMaxPerSoireeType = { "Lunch" : 4, "Dinner" : 4, "Drinks" : 6, "Blind Date" : 2 };
+
 var AVERAGE_SOIREE_LENGTH = 60;
 
 /* Error Codes */
@@ -31,6 +32,7 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 var soireeSchema = new Schema({
 		soireeType : {type: String, required: true, enum: soireeTypes},
+		soireeDescription : {type: String},
 		numUsersMax: {type : Number, required: true},
 		scheduledStartTimeIdentifier : {type: String},
 		scheduledEndTimeIdentifier : {type: String},
@@ -69,6 +71,7 @@ function generatePhotoIndexIdentifier(){
 	var rand = parseInt(Math.random() * 1000);
 	return rand;
 };
+
 
 /* Static Methods */
 //soireeSchema.statics.errorCodes = function() {
@@ -552,6 +555,7 @@ soireeSchema.methods.jsonObject = function (user) {
 		"photoIndexIdentifier" : this.photoIndexIdentifier,
 		"reachedNumUsersMin" : this.reachedNumUsersMin,
 		"willReachNumUsersMin" : this.willReachNumUsersMin,
+		"soireeDescription" : this.soireeDescription,
 		"numUsersMin" : this.numUsersMin,
 		"open" : this.open
 	};
@@ -561,6 +565,42 @@ soireeSchema.methods.jsonObject = function (user) {
 	}
 
 	return obj;
+};
+
+soireeSchema.methods.createDescription = function(){
+	var soireeType = this.soireeType.toLowerCase();
+	var description = "";
+
+	if (soireeType === "lunch"){
+		description =
+				"Come grab lunch with " + this.numUsersMax +
+				" other amazing people! Eat delicious food while " +
+				"playing games and chatting with soon-to-be new friends. Not sure how to break the ice? " +
+				"We'll do all the work, don't worry. We know what we're doing";
+	}
+	else if (soireeType === "dinner"){
+		description =
+			"Come grab dinner with " + this.numUsersMax +
+			" other amazing people! Eat delicious food while " +
+			"playing games and chatting with soon-to-be new friends. Not sure how to break the ice? " +
+			"We'll do all the work, don't worry. We know what we're doing";
+
+	}
+	else if (soireeType === "drinks"){
+		description =
+			"Come grab drinks with " + this.numUsersMax +
+			" other amazing people! Drink quality alcoholic drinks while " +
+			"playing games and chatting with soon-to-be new friends. Not sure how to break the ice? " +
+			"We'll do all the work, don't worry. We know what we're doing";
+	}
+	else if (soireeType === "blind date"){
+		description =
+			"Want to meet a new love interest, but not sure how? Worried about all the creeps out there," +
+			"or about the date being boring? Try a " + this.SOIREE + " blind date! " +
+			"We'll make sure the person on the other end is not a creep, and the date is exciting. Not sure how to break the ice? " +
+			"We'll do all the work, don't worry. We know what we're doing";
+	}
+	return description;
 };
 
 
@@ -609,6 +649,9 @@ soireeSchema.pre("save", function(next){
 	}
 	if (!this.scheduledEndTimeIdentifier){
 		this.scheduledEndTimeIdentifier = this.constructor.createScheduledTimeIdentifierFuture(this.length);
+	}
+	if (!this.soireeDescription){
+		this.soireeDescription = this.createDescription();
 	}
 	console.log("this.length: " + this.length);
 
