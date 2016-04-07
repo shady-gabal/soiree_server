@@ -82,17 +82,17 @@ notificationSchema.statics.createCommentedOnPostNotifications = function(userTha
 notificationSchema.statics.sendCommunityNotification = function(bodySuffix, notificationsUser, causingUser,  post, type){
     //if notification already exists, modify it to add this on. if not, create one
 
-    console.log("sendCommunityNotification() with user: " + causingUser);
+    console.log("sendCommunityNotification() with notifications user: " + causingUser);
     var Notification = this;
 
     var idToMatch = generateId(causingUser, post.postId, type);
-    console.log("idToMatch: " + idToMatch);
-    for (var i = 0; i < notificationsUser._notifications.length; i++){
-        console.log("notificationsUser._notifications " + i + ": " + notificationsUser._notifications[i]);
-    }
+    //console.log("idToMatch: " + idToMatch);
+    //for (var i = 0; i < notificationsUser._notifications.length; i++){
+        //console.log("notificationsUser._notifications " + i + ": " + notificationsUser._notifications[i]);
+    //}
     var index = notificationsUser._notifications.indexOf(idToMatch);
     if (index != -1){
-        console.log("index: " + index + " _notifications : " + notificationsUser._notifications);
+        //console.log("index: " + index + " _notifications : " + notificationsUser._notifications);
         var notificationId = notificationsUser._notifications[index];
 
         Notification.findOne({_id : notificationId}).exec(function(err, notification){
@@ -106,8 +106,8 @@ notificationSchema.statics.sendCommunityNotification = function(bodySuffix, noti
             else{
                 var newUser = {user : causingUser.id, name: causingUser.firstName};
 
-                console.log("newUser.name: " + newUser.name);
-                console.log("newUser.user: " + newUser.user);
+                //console.log("newUser.name: " + newUser.name);
+                //console.log("newUser.user: " + newUser.user);
 
                 var filterOutExistingUsers = function (userObj){
                     return userObj.user !== newUser.user;
@@ -148,7 +148,7 @@ notificationSchema.statics.createNotification = function(bodySuffix, notificatio
     var Notification = this;
 
     var firstUser = {user: causingUser.id, name: causingUser.firstName};
-    console.log("firstUser: " + JSON.stringify(firstUser));
+    //console.log("firstUser: " + JSON.stringify(firstUser));
 
     var newNotification = new Notification({
         bodySuffix : bodySuffix,

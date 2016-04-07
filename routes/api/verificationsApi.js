@@ -30,20 +30,25 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         var email = req.body.email;
+        console.log('verified user, sending email...');
 
         if (EmailHelper.validateEmail(email)){
+            user.email = email;
+            user.save();
             EmailHelper.sendVerificationEmail(email, user, function(){
-                ResHelper.sendMessage(res, 200, "email sent");
+                ResHelper.sendSuccess(res);
             }, function(err){
-                ResHelper.sendMessage(res, 404, "error sending email");
+                ResHelper.sendError(res, ErrorCodes.Error);
             });
         }
         else{
-            ResHelper.sendMessage(res, 418, "email invalid");
+            ResHelper.sendError(res, ErrorCodes.InvalidInput);
         }
 
     }, function(err){
-        ResHelper.sendMessage(res, 404, "error finding user");
+        console.log('error verifying user, not sending email... ' + err);
+
+        ResHelper.sendMessage(res, ErrorCodes.UserVerificationError);
     });
 });
 

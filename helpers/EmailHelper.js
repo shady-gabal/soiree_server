@@ -24,7 +24,7 @@ var emailHelper = (function() {
 
             // setup e-mail data with unicode symbols
             var mailOptions = {
-                from: 'Soirée <donotreply@soiree.com>', // sender address
+                //from: 'Soirée <donotreply@experiencesoiree.com>', // sender address
                 to: email, // list of receivers
                 subject: "Start experiencing Soirée", // Subject line
                 text: "Hey " + user.firstName + ",\n\n" +
