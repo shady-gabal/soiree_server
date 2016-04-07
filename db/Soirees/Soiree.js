@@ -143,9 +143,6 @@ soireeSchema.statics.createSoireeWithBusiness = function(soiree, business, succe
 	newSoiree.location = business.location;
 	newSoiree._usersAttending = [];
 
-	if (!soiree.numUsersMax && numUsersMaxPerSoireeType[soiree.soireeType]){
-		soiree.numUsersMax = numUsersMaxPerSoireeType[soiree.soireeType];
-	}
 
 	newSoiree.save(function(err, savedSoiree){
 		if (err){
@@ -573,32 +570,32 @@ soireeSchema.methods.createDescription = function(){
 
 	if (soireeType === "lunch"){
 		description =
-				"Come grab lunch with " + this.numUsersMax +
+				"Come grab lunch with " + this.numUsersMax-1 +
 				" other amazing people! Eat delicious food while " +
 				"playing games and chatting with soon-to-be new friends. Not sure how to break the ice? " +
-				"We'll do all the work, don't worry. We know what we're doing";
+				"We'll do all the work, don't worry.";
 	}
 	else if (soireeType === "dinner"){
 		description =
-			"Come grab dinner with " + this.numUsersMax +
+			"Come grab dinner with " + this.numUsersMax-1 +
 			" other amazing people! Eat delicious food while " +
 			"playing games and chatting with soon-to-be new friends. Not sure how to break the ice? " +
-			"We'll do all the work, don't worry. We know what we're doing";
+			"We'll do all the work, don't worry.";
 
 	}
 	else if (soireeType === "drinks"){
 		description =
-			"Come grab drinks with " + this.numUsersMax +
+			"Come grab drinks with " + this.numUsersMax-1 +
 			" other amazing people! Drink quality alcoholic drinks while " +
 			"playing games and chatting with soon-to-be new friends. Not sure how to break the ice? " +
-			"We'll do all the work, don't worry. We know what we're doing";
+			"We'll do all the work, don't worry.";
 	}
 	else if (soireeType === "blind date"){
 		description =
 			"Want to meet a new love interest, but not sure how? Worried about all the creeps out there," +
 			"or about the date being boring? Try a " + this.SOIREE + " blind date! " +
 			"We'll make sure the person on the other end is not a creep, and the date is exciting. Not sure how to break the ice? " +
-			"We'll do all the work, don't worry. We know what we're doing";
+			"We'll do all the work, don't worry.";
 	}
 	return description;
 };
@@ -649,6 +646,9 @@ soireeSchema.pre("save", function(next){
 	}
 	if (!this.scheduledEndTimeIdentifier){
 		this.scheduledEndTimeIdentifier = this.constructor.createScheduledTimeIdentifierFuture(this.length);
+	}
+	if (!this.numUsersMax && numUsersMaxPerSoireeType[soiree.soireeType]){
+		this.numUsersMax = numUsersMaxPerSoireeType[soiree.soireeType];
 	}
 	if (!this.soireeDescription){
 		this.soireeDescription = this.createDescription();

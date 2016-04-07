@@ -19,8 +19,9 @@ var Globals = {
         return function(err){
             ResHelper.sendError(res, error);
         };
+    },
+    RETRIES_ON_DUPLICATE_CONFIRMATION_CODE: 5,
 
-    }
 };
 //var helper = (function () {
 //    var ResHelper = require('./ResHelper.js');

@@ -2,7 +2,6 @@
  * Created by shadygabal on 12/11/15.
  */
 var scheduledTasks = function(){
-
     var express = require('express');
     var router = express.Router();
 
@@ -24,6 +23,8 @@ var scheduledTasks = function(){
     var scheduledTimeIdentifierReminder = Soiree.createScheduledTimeIdentifierFuture(SOIREE_REMIND_BEFORE);
 
     var scheduledTimeIdentifierSpontaneous = Soiree.createScheduledTimeIdentifier(Date.now() - (SPONTANEOUS_SOIREE_CHECK_BEFORE * 60 * 1000));
+
+    console.log("Running scheduled tasks...");
 
     console.log("Running scheduled soirees task for scheduledTimeIdentifierNow: " + scheduledTimeIdentifierNow +  " ...");
     console.log("Running scheduled soirees task for scheduledTimeIdentifierReminder: " + scheduledTimeIdentifierReminder +  " ...");

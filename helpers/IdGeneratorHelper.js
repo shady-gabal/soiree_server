@@ -3,19 +3,30 @@
  */
 var idHelper = (function() {
     return {
-        idGenerator : function(len) {
-            var alphabets = ['A', 'B', 'C', 'D', 'E', 'F','G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-            var nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            var alphanumeric = alphabets + nums;
-            var id = "";
-
-            for (var i = 1; i < len+1; i++){
-
+        generateId : function(len, addLowercase){
+            var letters = "abcdefghjklmnpqrstuvwxyz".toUpperCase().split(""); //No o,i
+            if (addLowercase){
+                letters.concat(letters.toUpperCase().split(""));
             }
+            var numbers = "123456789".split("");//no 0
+            var both = letters.concat(numbers);
 
-        }
+            var code = "";
+            for (var i = 1; i < len+1; i++){//not i=0 because of i%2 call
+                var arr;
+                if (i % 3 != 0){
+                    arr = both;
+                }
+                else{
+                    arr = numbers;
+                }
+                var randIndex = parseInt(Math.random() * arr.length);
+                code += arr[randIndex];
+            }
+            return code;
+         }
 
-    }
+}
 
 }());
 

@@ -22,6 +22,8 @@ var facebookProvider = providers[0];
 var userPwProvider = providers[1];
 
 var passport = require('passport');
+var bcrypt = require('bcrypt');
+
 var facebookTokenStrategy = require('passport-facebook-token');
 
 /* Helper */
@@ -31,6 +33,8 @@ var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
 var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
 var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+var IdGeneratorHelper = require(helpersFolderLocation + 'IdGeneratorHelper.js');
+
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 //var interestedIn = ["male", "female"];
@@ -140,7 +144,7 @@ userSchema.methods.jsonObject = function(){
 };
 
 userSchema.methods.verifyCode = function(code){
-	return this.verificationCode == code;
+	return this.verificationCode == code && !user.verified;
 };
 
 userSchema.methods.findSoireesAttendingAndAttended = function(successCallback, errorCallback){
@@ -231,17 +235,7 @@ userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
 
 
 userSchema.methods.generateVerificationCode = function(){
-	var length = 6;
-	var code = '';
-
-	var nums = '0123456789';
-
-	for (var i = 0; i < length; i++){
-		var c = nums[parseInt(Math.random() * (nums.length))];
-		code += c;
-	}
-
-	this.verificationCode = code;
+	this.verificationCode = IdGeneratorHelper.generateId(6, false);
 };
 
 userSchema.methods.endedSoiree = function(soiree){
@@ -501,9 +495,13 @@ userSchema.virtual('fullName').get(function(){
 userSchema.pre("save", function(next) {
 	//var production = (process.env.NODE_ENV === "production");
 
-	if (this.testUser && Globals.development){
-		next("Error");
+	if (this.testUser && !Globals.development){
+		return next("Error");
 	}
+	if (!this.verified && !this.verificationCode) {
+		this.generateVerificationCode();
+	}
+
 	else next();
 });
 

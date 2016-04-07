@@ -22,10 +22,9 @@ var Globals = require(helpersFolderLocation + 'Globals.js');
 var ArrayHelper = require(helpersFolderLocation + 'ArrayHelper.js');
 var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
 var MongooseHelper = require(helpersFolderLocation + 'MongooseHelper.js');
+var IdGeneratorHelper = require(helpersFolderLocation + 'IdGeneratorHelper.js');
 
 var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
-
-var RETRIES_ON_DUPLICATE_CONFIRMATION_CODE = 5;
 
 var customSchema = new Schema({
         _user : {type: ObjectId, ref:"User", required: true},
@@ -50,29 +49,27 @@ var customSchema = new Schema({
 //});
 
 function generateConfirmationCode(){
-    var letters = "abcdefghjklmnpqrstuvwxyz".toUpperCase().split(""); //No o,i
-    var numbers = "123456789".split("");//no 0
-    var both = letters.concat(numbers);
+    return IdGeneratorHelper.generateId(3);
 
-    var code = "";
-    var numDigits = 3;
-    for (var i = 0; i < numDigits; i++){
-        var arr;
-        if (i != 1){
-            arr = both;
-        }
-        else{
-            arr = numbers;
-        }
-        var randIndex = parseInt(Math.random() * arr.length);
-        code += arr[randIndex];
-
-    }
-    return code;
-
-    //return "" + (parseInt(Math.random() * 3));
-
-    //return "A";
+    //var letters = "abcdefghjklmnpqrstuvwxyz".toUpperCase().split(""); //No o,i
+    //var numbers = "123456789".split("");//no 0
+    //var both = letters.concat(numbers);
+    //
+    //var code = "";
+    //var numDigits = 3;
+    //for (var i = 0; i < numDigits; i++){
+    //    var arr;
+    //    if (i != 1){
+    //        arr = both;
+    //    }
+    //    else{
+    //        arr = numbers;
+    //    }
+    //    var randIndex = parseInt(Math.random() * arr.length);
+    //    code += arr[randIndex];
+    //
+    //}
+    //return code;
 };
 
 customSchema.statics.createUnchargedSoireeReservation = function(user, soiree, successCallback, errorCallback){
@@ -333,7 +330,7 @@ customSchema.pre("save", function (next) {
                 }
                 else{
                     console.log(reservation.confirmationCode + " didnt work. ");
-                    if (retries < RETRIES_ON_DUPLICATE_CONFIRMATION_CODE){
+                    if (retries < Globals.RETRIES_ON_DUPLICATE_CONFIRMATION_CODE){
                         reservation.confirmationCode = generateConfirmationCode();
                         retries++;
                         check();

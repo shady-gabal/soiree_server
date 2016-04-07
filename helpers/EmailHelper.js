@@ -19,7 +19,7 @@ var emailHelper = (function() {
     return {
         sendVerificationEmail: function (email, user, successCallback, errorCallback) {
 
-            user.generateVerificationCode();
+            //user.generateVerificationCode();
             var code = user.verificationCode;
 
             // setup e-mail data with unicode symbols

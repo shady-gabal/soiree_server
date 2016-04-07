@@ -62,18 +62,19 @@ router.get('/sendVerificationEmail', function(req, res){
         }
 });
 
-router.post('/verifyCode', function(req, res){
-   User.verifyUser(req.body.user, function(user) {
+router.post('/verifyCode', function(req, res, next){
+   User.verifyUser(req, res, next, function(user) {
+       if (!req.body.code) ResHelper.sendError(ErrorCodes.MissingData);
+
        if (user.verifyCode(req.body.code) || user.verified) {
-            user.verified = true;
-           ResHelper.sendMessage(res, 200, "user verified");
+           user.verified = true;
+           user.save();
+           ResHelper.sendSuccess(res);
        }
        else{
-           ResHelper.sendMessage(res, 418, "incorrect code");
+           ResHelper.sendError(ErrorCodes.InvalidInput);
        }
 
-   }, function(err){
-       ResHelper.sendMessage(res, 404, "error finding user");
    });
 });
 

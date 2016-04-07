@@ -329,7 +329,7 @@ function scheduleCron(){
     var CronJob = require('cron').CronJob;
 
     try{
-        new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
+        //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
         //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
         new CronJob(cronExpression, scheduledTasks, null, true, 'America/New_York');
     }
