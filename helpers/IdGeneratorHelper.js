@@ -6,7 +6,7 @@ var idHelper = (function() {
         generateId : function(len, addLowercase){
             var letters = "abcdefghjklmnpqrstuvwxyz".toUpperCase().split(""); //No o,i
             if (addLowercase){
-                letters.concat(letters.toUpperCase().split(""));
+                letters.concat(letters.toLowerCase().split(""));
             }
             var numbers = "123456789".split("");//no 0
             var both = letters.concat(numbers);
@@ -23,6 +23,7 @@ var idHelper = (function() {
                 var randIndex = parseInt(Math.random() * arr.length);
                 code += arr[randIndex];
             }
+            console.log("generated code: " + code);
             return code;
          }
 

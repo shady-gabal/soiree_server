@@ -235,7 +235,9 @@ userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
 
 
 userSchema.methods.generateVerificationCode = function(){
+	console.log("about to generate code...");
 	this.verificationCode = IdGeneratorHelper.generateId(6, false);
+	this.save();
 };
 
 userSchema.methods.endedSoiree = function(soiree){
