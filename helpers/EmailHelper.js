@@ -21,6 +21,10 @@ var emailHelper = (function() {
 
             //user.generateVerificationCode();
             var code = user.verificationCode;
+            if (!code){
+                user.generateVerificationCode();
+            }
+            console.log('sendEmail: ' + code);
 
             // setup e-mail data with unicode symbols
             var mailOptions = {
