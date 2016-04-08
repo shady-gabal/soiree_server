@@ -237,5 +237,35 @@ router.get('/globals', function(req, res){
     console.log(Globals);
 });
 
+router.get('/deleteUsers', function(req, res){
+    User.remove({}, function(){
+        res.send("Done");
+    });
+});
+
+router.get('/createUser', function(req, res){
+    var user = new User({
+        firstName : "Shady",
+        lastName : "Gabal",
+        gender : 'male'
+    });
+
+    user.save(function(err){
+        res.send("User saved with err : " + err);
+    });
+
+});
+
+router.get('/deletePosts', function(req, res){
+    CommunityPost.remove({}, function(){
+        res.send("Done");
+    });
+});
+
+router.get('/deleteComments', function(req, res){
+    CommunityComment.remove({}, function(){
+        res.send("Done");
+    });
+});
 
 module.exports = router;

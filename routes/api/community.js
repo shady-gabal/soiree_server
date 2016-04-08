@@ -33,11 +33,7 @@ var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
 
 /* Posts */
 
-router.get('/deletePosts', function(req, res){
-   CommunityPost.remove({}, function(){
-       res.send("Done");
-   });
-});
+
 
 router.get('/postsNear', function(req, res){
     //User.verifyUser(req.body.user, function(user){

@@ -71,7 +71,7 @@ router.post('/verifyCode', function(req, res, next){
    User.verifyUser(req, res, next, function(user) {
        if (!req.body.code) ResHelper.sendError(ErrorCodes.MissingData);
 
-       if (user.verifyCode(req.body.code) || user.verified) {
+       if (user.verifyCode(req.body.code.toUpperCase()) || user.verified) {
            user.verified = true;
            user.save();
            ResHelper.sendSuccess(res);
