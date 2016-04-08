@@ -12,7 +12,7 @@ var idHelper = (function() {
             var both = letters.concat(numbers);
 
             var code = "";
-            for (var i = 1; i < len+1; i++){//not i=0 because of i%2 call
+            for (var i = 1; i < len+1; i++){//not i=0 because of i%3 call
                 var arr;
                 if (i % 3 != 0){
                     arr = both;

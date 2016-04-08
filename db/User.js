@@ -144,7 +144,7 @@ userSchema.methods.jsonObject = function(){
 };
 
 userSchema.methods.verifyCode = function(code){
-	return this.verificationCode == code && !user.verified;
+	return this.verificationCode == code && !this.verified;
 };
 
 userSchema.methods.findSoireesAttendingAndAttended = function(successCallback, errorCallback){
