@@ -73,6 +73,7 @@ router.post('/verifyCode', function(req, res, next){
 
        if (user.verifyCode(req.body.code.toUpperCase()) || user.verified) {
            user.verified = true;
+           user.pendingVerification = false;
            user.save();
            ResHelper.sendSuccess(res);
        }

@@ -105,7 +105,9 @@ router.post('/postWithPostId', function(req, res, next){
 
 
 router.post('/createPost', function(req, res, next){
+    console.log('creating post...');
     User.verifyUser(req, res, next, function(user){
+        console.log("verified user");
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
 
@@ -117,9 +119,10 @@ router.post('/createPost', function(req, res, next){
             "location" : coors,
             "text" : text
         }, user, function(post){
+            console.log("user created");
             res.json(post.jsonObject(user));
         }, function(err){
-            ResHelper.sendMessage(res, 404, "error creating post: " + err);
+            ResHelper.sendError(res, ErrorCodes.MongoError);
         });
 
     }, function(err){

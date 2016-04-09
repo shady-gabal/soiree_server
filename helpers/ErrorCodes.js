@@ -21,9 +21,10 @@ var errorCodes = (function() {
         'UserCreationError' : 'UserCreationError',
         /* Misc */
         'MissingData' : 'MissingData',
-        'ErrorSaving' : 'ErrorSaving',
-        'ErrorPopulating' : 'ErrorPopulating',
-        'ErrorQuerying' : 'ErrorQuerying',
+        'ErrorSaving' : 'MongoError',
+        'ErrorPopulating' : 'MongoError',
+        'ErrorQuerying' : 'MongoError',
+        'MongoError' : 'MongoError',
         'FileReadError' : 'FileReadError',
         'NotFound' : 'NotFound',
         'InvalidInput' : 'InvalidInput',

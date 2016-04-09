@@ -48,6 +48,8 @@ var emailHelper = (function() {
                 }
                 else {
                     console.log('Message sent: ' + info.response);
+                    user.pendingVerification = true;
+                    user.save();
                     successCallback();
                 }
 
