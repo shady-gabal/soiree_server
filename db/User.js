@@ -235,10 +235,13 @@ userSchema.methods.checkDeviceUUIDAndDeviceToken = function(req, callback){
 
 
 userSchema.methods.generateVerificationCode = function(){
-	console.log("about to generate code...");
-	this.verificationCode = IdGeneratorHelper.generateId(6, false);
+	this.verificationCode = generateVerificationCode();
 	this.save();
 };
+
+function generateVerificationCode(){
+	return IdGeneratorHelper.generateId(6, false);
+}
 
 userSchema.methods.endedSoiree = function(soiree){
 	this.deepPopulate("_currentReservations._soiree", function(err){
@@ -502,7 +505,7 @@ userSchema.pre("save", function(next) {
 		return next("Error");
 	}
 	if (!this.verified && !this.verificationCode) {
-		this.generateVerificationCode();
+		this.verificationCode = generateVerificationCode();
 	}
 
 	else next();
