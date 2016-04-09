@@ -508,7 +508,7 @@ userSchema.pre("save", function(next) {
 		this.verificationCode = generateVerificationCode();
 	}
 
-	else next();
+	next();
 });
 
 
