@@ -25,24 +25,29 @@ var Globals = require(helpersFolderLocation + 'Globals.js');
 var _user;
 var _testUsers = [];
 
-User.findTestUsers(function (testUsers) {
-    if (!testUsers || testUsers.length == 0){
-        console.log("Error finding testUsers : nothing returned");
-        return;
-    }
+findTestUsers();
 
-    _testUsers = testUsers;
-    _user = testUsers[0];
-    //if (!user.location){
-    //    console.log("saving user location...");
-    //    _user.location = LocationHelper.createPoint(44, 44);
-    //    _user.save();
-    //}
+function findTestUsers(){
+    User.findTestUsers(function (testUsers) {
+        if (!testUsers || testUsers.length == 0){
+            console.log("Error finding testUsers : nothing returned");
+            return;
+        }
 
-    //console.log("_user set");
-}, function (err) {
-    console.log("Error setting test user: " + err);
-});
+        _testUsers = testUsers;
+        _user = testUsers[0];
+        //if (!user.location){
+        //    console.log("saving user location...");
+        //    _user.location = LocationHelper.createPoint(44, 44);
+        //    _user.save();
+        //}
+
+        //console.log("_user set");
+    }, function (err) {
+        console.log("Error setting test user: " + err);
+    });
+}
+
 
 //io.on('connection', function(socket){
 //    //socket.on('event name', function(data){});
@@ -93,13 +98,15 @@ router.get('/createTestUsers', function(req, res){
 
                 _testUsers.push(testUser);
 
-                numReturned++;
-                if (numReturned == numToCreate)
-                  res.send("Done");
-
                 console.log("Test User " + testUser.firstName + " " + testUser.lastName + " saved with err : " + err);
             }
             else console.log("Error saving test user: " + err);
+
+            numReturned++;
+            if (numReturned == numToCreate) {
+                findTestUsers();
+                res.send("Done");
+            }
         });
     }
 

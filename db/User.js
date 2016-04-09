@@ -365,7 +365,8 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 		profilePictureUrl : profilePictureUrl,
 		associatedDeviceUUIDs : [deviceUUID],
 		location : coors,
-		verified: false
+		verified: false,
+		soireeScore: 200
 	});
 
 	newUser.save(function(err, user){
