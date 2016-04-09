@@ -72,6 +72,7 @@ router.get('/deleteTestUsers', function(req, res){
 
 
 router.get('/createTestUsers', function(req, res){
+    console.log('1');
     _testUsers = [];
 
     var firstNames = ["Robert", "Joe" , "Kevin", "Jill", "Michelle", "Naomi"];
@@ -92,6 +93,7 @@ router.get('/createTestUsers', function(req, res){
         });
 
         user.save(function(err, testUser){
+
             if (!err && testUser){
                 if (_testUsers.length == 0)
                     _user = testUser;
@@ -103,6 +105,8 @@ router.get('/createTestUsers', function(req, res){
             else console.log("Error saving test user: " + err);
 
             numReturned++;
+            console.log('saved num ' + numReturned);
+
             if (numReturned == numToCreate) {
                 findTestUsers();
                 res.send("Done");
