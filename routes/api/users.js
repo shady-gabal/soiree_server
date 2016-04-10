@@ -162,7 +162,7 @@ router.post('/fetchNotifications', function(req, res, next){
     user.deepPopulate("_notifications", function(err){
       if (err){
         console.log(err);
-        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
+        ResHelper.sendError(res, ErrorCodes.MongoError);
       }
       else{
         var notifications = Notification.jsonArrayFromArray(user._notifications);
