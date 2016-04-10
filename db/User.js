@@ -342,6 +342,7 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 	var birthday = req.body.birthday;
 
 	var deviceUUID = req.deviceUUID;
+	var deviceToken = req.deviceToken;
 
 	var profilePictureUrl;
 
@@ -371,6 +372,8 @@ userSchema.statics.createUser = function(req, successCallback, errorCallback){
 		verified: false,
 		soireeScore: 200
 	});
+
+	newUser.deviceToken = deviceToken;
 
 	newUser.save(function(err, user){
 		if (err || !user) {
