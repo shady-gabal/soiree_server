@@ -8,24 +8,24 @@ var router = express.Router();
 var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
+var mongoose = require('app/db/mongoose_connect.js');
 var fs = require('fs');
 
 var multer = require('multer');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
-var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var Image = require(dbFolderLocation + 'Image.js');
+var Soiree = require('app/db/Soiree.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var Image = require('app/db/Image.js');
 
-var UserVerification = require(dbFolderLocation + 'UserVerification.js');
+var UserVerification = require('app/db/UserVerification.js');
 
-var EmailHelper = require(helpersFolderLocation + 'EmailHelper.js');
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var EmailHelper = require('app/helpers/EmailHelper.js');
+var DateHelper = require('app/helpers/DateHelper.js');
+var ResHelper = require('app/helpers/ResHelper.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){

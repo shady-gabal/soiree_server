@@ -11,16 +11,16 @@ var helpersFolderLocation = "../../helpers/";
 var passport = require('passport');
 var bcrypt = require('bcrypt');
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-var SoireeReservation = require(dbFolderLocation + 'Soirees/SoireeReservation.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var Admin = require(dbFolderLocation + 'Admin.js');
+var mongoose = require('app/db/mongoose_connect.js');
+var Soiree = require('app/db/Soiree.js');
+var SoireeReservation = require('app/db/SoireeReservation.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var Admin = require('app/db/Admin.js');
 
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var DateHelper = require('app/helpers/DateHelper.js');
+var ResHelper = require('app/helpers/ResHelper.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 
 //router.get('/login', function(req, res){

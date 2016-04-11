@@ -8,14 +8,14 @@ var router = express.Router();
 var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Image = require(dbFolderLocation + 'Image.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var Admin = require(dbFolderLocation + 'Admin.js');
+var mongoose = require('app/db/mongoose_connect.js');
+var Image = require('app/db/Image.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var Admin = require('app/db/Admin.js');
 
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var DateHelper = require('app/helpers/DateHelper.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 
 router.get('/:fileName', function(req, res){

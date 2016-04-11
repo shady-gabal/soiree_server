@@ -4,7 +4,7 @@ var router = express.Router();
 var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
+var mongoose = require('app/db/mongoose_connect.js');
 var fs = require('fs');
 var multer = require('multer');
 
@@ -12,19 +12,19 @@ var passport = require('passport');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
-var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-var SoireeReservation = require(dbFolderLocation + 'Soirees/SoireeReservation.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var UserVerification = require(dbFolderLocation + 'UserVerification.js');
-var Notification = require(dbFolderLocation + 'Notification.js');
+var Soiree = require('app/db/Soiree.js');
+var SoireeReservation = require('app/db/SoireeReservation.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var UserVerification = require('app/db/UserVerification.js');
+var Notification = require('app/db/Notification.js');
 
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
-var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
-var CreditCardHelper = require(helpersFolderLocation + 'CreditCardHelper.js');
-var PushNotificationHelper = require(helpersFolderLocation + 'PushNotificationHelper.js');
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var DateHelper = require('app/helpers/DateHelper.js');
+var ResHelper = require('app/helpers/ResHelper.js');
+var LocationHelper = require('app/helpers/LocationHelper.js');
+var CreditCardHelper = require('app/helpers/CreditCardHelper.js');
+var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 
 router.post('/findUser', function(req, res, next){

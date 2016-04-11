@@ -4,11 +4,11 @@
 var express = require('express');
 var router = express.Router();
 
-var dbFolderLocation = "../../db/";
-var helpersFolderLocation = "../../helpers/";
-var assetsFolderLocation = "../../assets/";
+//var dbFolderLocation = "../../db/";
+//var helpersFolderLocation = "../../helpers/";
+//var assetsFolderLocation = "../../assets/";
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
+var mongoose = require('app/db/mongoose_connect.js');
 var fs = require('fs');
 var path = require('path');
 var multer = require('multer');
@@ -17,23 +17,22 @@ var multer = require('multer');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
-var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var UserVerification = require(dbFolderLocation + 'UserVerification.js');
-var CommunityPost = require(dbFolderLocation + 'CommunityPost.js');
-var CommunityComment = require(dbFolderLocation + 'CommunityComment.js');
+var Soiree = require('app/db/Soiree.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var UserVerification = require('app/db/UserVerification.js');
+var CommunityPost = require('app/db/CommunityPost.js');
+var CommunityComment = require('app/db/CommunityComment.js');
 
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var LocationHelper = require(helpersFolderLocation + 'LocationHelper.js');
-var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var DateHelper = require('app/helpers/DateHelper.js');
+var LocationHelper = require('app/helpers/LocationHelper.js');
+var ResHelper = require('app/helpers/ResHelper.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
+
 
 
 
 /* Posts */
-
-
 
 router.get('/postsNear', function(req, res){
     //User.verifyUser(req.body.user, function(user){

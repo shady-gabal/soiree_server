@@ -5,21 +5,18 @@
 var express = require('express');
 var router = express.Router();
 
-var dbFolderLocation = "../../db/";
-var helpersFolderLocation = "../../helpers/";
-
 var passport = require('passport');
 var bcrypt = require('bcrypt');
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var Admin = require(dbFolderLocation + 'Admin.js');
+var mongoose = require('app/db/mongoose_connect.js');
+var Soiree = require('app/db/Soiree.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var Admin = require('app/db/Admin.js');
 
-var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var ResHelper = require('app/helpers/ResHelper.js');
+var DateHelper = require('app/helpers/DateHelper.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 
 router.get('/', function(req, res){

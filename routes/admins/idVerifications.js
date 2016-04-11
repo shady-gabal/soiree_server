@@ -11,15 +11,16 @@ var helpersFolderLocation = "../../helpers/";
 var passport = require('passport');
 var bcrypt = require('bcrypt');
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var UserVerification = require(dbFolderLocation + 'UserVerification.js');
-var Admin = require(dbFolderLocation + 'Admin.js');
 
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var mongoose = require('app/db/mongoose_connect.js');
+var Soiree = require('app/db/Soiree.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var UserVerification = require('app/db/UserVerification.js');
+var Admin = require('app/db/Admin.js');
+
+var DateHelper = require('app/helpers/DateHelper.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 /****** ******/
 /* Everything below here will require the admin to be logged in */

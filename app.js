@@ -9,7 +9,7 @@ var http = require('http');
 var server = http.Server(app);
 var io = require('socket.io')(server);
 app.io = io;
-var Globals = require('./helpers/Globals.js');
+var Globals = require('app/helpers/Globals.js');
 Globals.io = io;
 
 var path = require('path');
@@ -26,9 +26,9 @@ var hbs = require('hbs');
 var facebookTokenStrategy = require('passport-facebook-token');
 
 /* Database */
-var User = require('./db/User.js');
-var Admin = require('./db/Admin.js');
-var Business = require('./db/Business.js');
+var User = require('app/db/User.js');
+var Admin = require('app/db/Admin.js');
+var Business = require('app/db/Business.js');
 
 var COOKIE_SECRET = "SoIrEE12IsAmAzIng";
 var COOKIE_NAME = "cookie_name";
@@ -60,7 +60,8 @@ var businesses =  require('./routes/businesses/businesses.js');
 var testing = require('./routes/testing/testing.js');
 var images =  require('./routes/images/images.js');
 
-var scheduledTasks = require('./scheduled/scheduledTasks.js');
+var soireeStarterStopper = require('./scheduled/soireeStarterStopper.js');
+var soireeCreator = require('./scheduled/soireeCreator.js');
 
 /* Schedules Cron Tasks that start and end soirees */
 scheduleCron();
@@ -331,7 +332,9 @@ function scheduleCron(){
     try{
         //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
         //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
-        new CronJob(cronExpression, scheduledTasks, null, true, 'America/New_York');
+        new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
+        new CronJob('0 0 6 * * *', soireeCreator, null, true, 'America/New_York');
+
     }
     catch(err){
         console.log(err);

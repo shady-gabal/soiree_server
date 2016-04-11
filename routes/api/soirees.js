@@ -5,18 +5,18 @@ var returnRouter = function(io) {
     var dbFolderLocation = "../../db/";
     var helpersFolderLocation = "../../helpers/";
 
-    var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-    var SoireeHost = require(dbFolderLocation + 'Soirees/SoireeHost.js');
-    var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-    var SoireeReservation = require(dbFolderLocation + 'Soirees/SoireeReservation.js');
-    var Business = require(dbFolderLocation + 'Business.js');
-    var User = require(dbFolderLocation + 'User.js');
-    var SpontaneousSoireeJob = require(dbFolderLocation + 'Soirees/SpontaneousSoireeJob.js');
+    var mongoose = require('app/db/mongoose_connect.js');
+    var SoireeHost = require('app/db/SoireeHost.js');
+    var Soiree = require('app/db/Soiree.js');
+    var SoireeReservation = require('app/db/SoireeReservation.js');
+    var Business = require('app/db/Business.js');
+    var User = require('app/db/User.js');
+    var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob.js');
 
-    var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-    var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
+    var DateHelper = require('app/helpers/DateHelper.js');
+    var ResHelper = require('app/helpers/ResHelper.js');
 
-    var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+    var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 
 
@@ -46,7 +46,9 @@ var returnRouter = function(io) {
 
         var numSoirees = req.query.numSoirees ? req.query.numSoirees : 1;
 
-        Business.nextBusinessToHostSoiree(function (nextBusiness) {
+        var colleges = req.query.colleges ? req.query.colleges : ['nyu'];
+
+        Business.nextBusinessToHostSoiree(college, function (nextBusiness) {
             if (!nextBusiness) {
                 return res.status('404').send("Error");
             }
@@ -60,7 +62,7 @@ var returnRouter = function(io) {
                 numUsersMax: 3,
                 initialCharge: 250,
                 date: d
-            }, nextBusiness, function (soiree) {
+            }, colleges, nextBusiness, function (soiree) {
                 console.log("Saved soiree: " + soiree.soireeId);
             }, function (err) {
                 console.log("error saving soiree " + err);
@@ -91,7 +93,7 @@ var returnRouter = function(io) {
                     numUsersMax: randNumUsersMax,
                     initialCharge: randInitialCharge,
                     date: date
-                }, nextBusiness, function (soiree) {
+                }, colleges, nextBusiness, function (soiree) {
                     soireesCreated.push(soiree.jsonObject());
                     console.log("Saved soiree: " + soiree.soireeId);
 

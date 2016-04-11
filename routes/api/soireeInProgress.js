@@ -4,19 +4,19 @@ var router = express.Router();
 var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-var SoireeReservation = require(dbFolderLocation + 'Soirees/SoireeReservation.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var SpontaneousSoireeJob = require(dbFolderLocation + 'Soirees/SpontaneousSoireeJob.js');
+var mongoose = require('app/db/mongoose_connect.js');
+var Soiree = require('app/db/Soiree.js');
+var SoireeReservation = require('app/db/SoireeReservation.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob.js');
 
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
-var MongooseHelper = require(helpersFolderLocation + 'MongooseHelper.js');
-var Globals = require(helpersFolderLocation + 'Globals.js');
+var DateHelper = require('app/helpers/DateHelper.js');
+var ResHelper = require('app/helpers/ResHelper.js');
+var MongooseHelper = require('app/helpers/MongooseHelper.js');
+var Globals = require('app/helpers/Globals.js');
 
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 var SOIREE = Soiree.SOIREE;
 var SOIREE_LOWERCASE = Soiree.SOIREE_LOWERCASE;

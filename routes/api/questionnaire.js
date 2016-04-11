@@ -8,7 +8,7 @@ var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 var assetsFolderLocation = "../../assets/";
 
-var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
+var mongoose = require('app/db/mongoose_connect.js');
 var fs = require('fs');
 var path = require('path');
 var multer = require('multer');
@@ -17,14 +17,14 @@ var multer = require('multer');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
-var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-var Business = require(dbFolderLocation + 'Business.js');
-var User = require(dbFolderLocation + 'User.js');
-var UserVerification = require(dbFolderLocation + 'UserVerification.js');
+var Soiree = require('app/db/Soiree.js');
+var Business = require('app/db/Business.js');
+var User = require('app/db/User.js');
+var UserVerification = require('app/db/UserVerification.js');
 
-var DateHelper = require(helpersFolderLocation + 'DateHelper.js');
-var ResHelper = require(helpersFolderLocation + 'ResHelper.js');
-var ErrorCodes = require(helpersFolderLocation + 'ErrorCodes.js');
+var DateHelper = require('app/helpers/DateHelper.js');
+var ResHelper = require('app/helpers/ResHelper.js');
+var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 var questionnaire;
 

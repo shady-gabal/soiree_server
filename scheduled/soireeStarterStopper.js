@@ -8,9 +8,9 @@ var scheduledTasks = function(){
     var dbFolderLocation = "../db/";
     var helpersFolderLocation = "../helpers/";
 
-    var mongoose = require(dbFolderLocation + 'mongoose_connect.js');
-    var Soiree = require(dbFolderLocation + 'Soirees/Soiree.js');
-    var SpontaneousSoireeJob = require(dbFolderLocation + 'Soirees/SpontaneousSoireeJob.js');
+    var mongoose = require('app/db/mongoose_connect.js');
+    var Soiree = require('app/db/Soiree.js');
+    var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob.js');
 
 
     var SOIREE_REMIND_BEFORE = 30;
