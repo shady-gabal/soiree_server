@@ -57,13 +57,17 @@ router.get('/sendVerificationEmail', function(req, res){
 
         if (EmailHelper.validateEmail(email)){
             EmailHelper.sendVerificationEmail(email, null, function(){
-                ResHelper.sendMessage(res, 200, "email sent");
+                user.pendingVerification = true;
+                user.save();
+
+                ResHelper.sendSuccess(res);
             }, function(err){
-                ResHelper.sendMessage(res, 404, "error sending email");
+                console.log(err);
+                ResHelper.sendError(res, ErrorCodes.Error);
             });
         }
         else{
-            ResHelper.sendMessage(res, 418, "email invalid");
+            ResHelper.sendError(res, ErrorCodes.Error);
         }
 });
 
@@ -82,6 +86,19 @@ router.post('/verifyCode', function(req, res, next){
        }
 
    });
+});
+
+router.post('/uploadCollege', function(req, res, next){
+    User.verifyUser(req, res, next, function(user) {
+        var college = req.body.college;
+        if (!college) return ResHelper.sendError(ErrorCodes.MissingData);
+
+        user.college = college;
+        user.save(function(err){
+            if (err) ResHelper.sendError(ErrorCodes.MongoError);
+            else ResHelper.sendSuccess(res);
+        });
+    });
 });
 
 router.get('/verificationPhoto', function(req, res){
