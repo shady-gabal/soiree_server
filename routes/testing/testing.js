@@ -279,4 +279,37 @@ router.get('/deleteComments', function(req, res){
     });
 });
 
+router.get('/deleteBusinesses', function(req, res){
+   Business.remove({}, function(err){
+       res.send("Completed with err: " + err);
+   });
+});
+
+router.get('/createBusinesses', function(req, res){
+    var longitude = 40.762755;
+    var latitude = -73.882201;
+
+    var business = new Business({
+        businessType : "Bar",
+        _soirees : [],
+        businessName : "Paddy's Pub",
+        cityArea: "SoHo",
+        location : {type: "Point", coordinates:[longitude, latitude]},
+        colleges : Globals.colleges,
+        email: "shady@wearethirdrail.com",
+        password: "9701",
+        phoneNumber: 3472102276
+    });
+
+    business.save(function(err){
+        res.send("Complete with err: " + err);
+    });
+});
+
+router.get('/soireeCreator', function(req, res){
+    var soireeCreator = require('../../scheduled/soireeCreator.js');
+    soireeCreator();
+    res.send("OK");
+});
+
 module.exports = router;

@@ -46,77 +46,85 @@ var returnRouter = function(io) {
 
         var numSoirees = req.query.numSoirees ? req.query.numSoirees : 1;
 
-        var colleges = req.query.colleges ? req.query.colleges : ['nyu'];
+        var college = req.query.college ? req.query.college : 'nyu';
 
-        Business.nextBusinessToHostSoiree(college, function (nextBusiness) {
-            if (!nextBusiness) {
-                return res.status('404').send("Error");
-            }
-
-            var todaysDate = new Date();
-
-            var d = new Date(todaysDate.getTime() + (todaysDate.getMinutes() % 10) * 60 * 1000);
-
-            Soiree.createSoireeWithBusiness({
-                soireeType: "Lunch",
-                numUsersMax: 3,
-                initialCharge: 250,
-                date: d
-            }, colleges, nextBusiness, function (soiree) {
-                console.log("Saved soiree: " + soiree.soireeId);
-            }, function (err) {
-                console.log("error saving soiree " + err);
-            });
-
-            var soireesCreated = [];
-
-            for (var i = 0; i < numSoirees; i++) {
-
-                var soireeTypes = Soiree.soireeTypes();
-
-                var numDays = parseInt(Math.random() * 7);
-                var numHours = parseInt(Math.random() * 24);
-                var randSoireeTypeIndex = parseInt(Math.random() * soireeTypes.length - 1);
-                var soireeType = soireeTypes[randSoireeTypeIndex];
-                var randNumUsersMax = parseInt(Math.random() * 3 + 2);
-                var initialCharges = [100, 200, 300, 400, 500];
-                var randInitialChargeIndex = parseInt(Math.random() * initialCharges.length);
-                var randInitialCharge = initialCharges[randInitialChargeIndex];
-
-                var roundedTime = todaysDate.getTime() - ((todaysDate.getMinutes() % 10) * 60 * 1000 - (todaysDate.getSeconds() * 1000));
-                var date = new Date(roundedTime + (numDays * 24 * 60 * 60 * 1000) + (numHours * 60 * 60 * 1000));
-
-                var numReturned = 0;
-
-                Soiree.createSoireeWithBusiness({
-                    soireeType: soireeType,
-                    numUsersMax: randNumUsersMax,
-                    initialCharge: randInitialCharge,
-                    date: date
-                }, colleges, nextBusiness, function (soiree) {
-                    soireesCreated.push(soiree.jsonObject());
-                    console.log("Saved soiree: " + soiree.soireeId);
-
-                    numReturned++;
-                    if (numReturned == numSoirees) {
-                        res.json(soireesCreated);
-                    }
-
-                }, function (err) {
-                    res.status(404).send("Error");
-                    console.log("error saving soiree " + err);
-                });
-
-                //Soiree.createLunch(date, nextBusiness, function(soiree){
-                //    console.log("Saved soiree");
-                //    res.send("OK");
-                //}, function(err){
-                //    console.log("error saving soiree " + err);
-                //});
-            }
-        }, function (err) {
-            res.status(404).send("Error");
+        Soiree.createLunch(college, function(soiree){
+            console.log(soiree);
+            res.send("OK");
+        }, function(err){
+            console.log(err);
+           res.send("Error");
         });
+
+        //Business.nextBusinessToHostSoiree(college, function (nextBusiness) {
+        //    if (!nextBusiness) {
+        //        return res.status('404').send("Error");
+        //    }
+        //
+        //    var todaysDate = new Date();
+        //
+        //    var d = new Date(todaysDate.getTime() + (todaysDate.getMinutes() % 10) * 60 * 1000);
+        //
+        //    Soiree.createSoireeWithBusiness({
+        //        soireeType: "Lunch",
+        //        numUsersMax: 3,
+        //        initialCharge: 250,
+        //        date: d
+        //    }, colleges, nextBusiness, function (soiree) {
+        //        console.log("Saved soiree: " + soiree.soireeId);
+        //    }, function (err) {
+        //        console.log("error saving soiree " + err);
+        //    });
+        //
+        //    var soireesCreated = [];
+        //
+        //    for (var i = 0; i < numSoirees; i++) {
+        //
+        //        var soireeTypes = Globals.soireeTypes();
+        //
+        //        var numDays = parseInt(Math.random() * 7);
+        //        var numHours = parseInt(Math.random() * 24);
+        //        var randSoireeTypeIndex = parseInt(Math.random() * soireeTypes.length - 1);
+        //        var soireeType = soireeTypes[randSoireeTypeIndex];
+        //        var randNumUsersMax = parseInt(Math.random() * 3 + 2);
+        //        var initialCharges = [100, 200, 300, 400, 500];
+        //        var randInitialChargeIndex = parseInt(Math.random() * initialCharges.length);
+        //        var randInitialCharge = initialCharges[randInitialChargeIndex];
+        //
+        //        var roundedTime = todaysDate.getTime() - ((todaysDate.getMinutes() % 10) * 60 * 1000 - (todaysDate.getSeconds() * 1000));
+        //        var date = new Date(roundedTime + (numDays * 24 * 60 * 60 * 1000) + (numHours * 60 * 60 * 1000));
+        //
+        //        var numReturned = 0;
+        //
+        //        Soiree.createSoireeWithBusiness({
+        //            soireeType: soireeType,
+        //            numUsersMax: randNumUsersMax,
+        //            initialCharge: randInitialCharge,
+        //            date: date
+        //        }, colleges, nextBusiness, function (soiree) {
+        //            soireesCreated.push(soiree.jsonObject());
+        //            console.log("Saved soiree: " + soiree.soireeId);
+        //
+        //            numReturned++;
+        //            if (numReturned == numSoirees) {
+        //                res.json(soireesCreated);
+        //            }
+        //
+        //        }, function (err) {
+        //            res.status(404).send("Error");
+        //            console.log("error saving soiree " + err);
+        //        });
+        //
+        //        //Soiree.createLunch(date, nextBusiness, function(soiree){
+        //        //    console.log("Saved soiree");
+        //        //    res.send("OK");
+        //        //}, function(err){
+        //        //    console.log("error saving soiree " + err);
+        //        //});
+        //    }
+        //}, function (err) {
+        //    res.status(404).send("Error");
+        //});
 
 
     });

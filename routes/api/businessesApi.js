@@ -14,25 +14,8 @@ var User = require('app/db/User.js');
 
 var DateHelper = require('app/helpers/DateHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
+var Globals = require('app/helpers/Globals.js');
 
-
-
-router.get('/createBusinesses', function(req, res){
-    var longitude = 40.762755;
-    var latitude = -73.882201;
-
-   var business = new Business({
-       businessType : "Bar",
-       _soirees : [],
-       businessName : "Paddy's Pub",
-       cityArea: "SoHo",
-       location : {type: "Point", coordinates:[longitude, latitude]}
-   });
-
-    business.save(function(){
-        res.send("Complete");
-    });
-});
 
 router.get('/businessWithName', function(req, res){
     var name = req.query.name;
