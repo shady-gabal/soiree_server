@@ -48,14 +48,12 @@ var returnRouter = function(io) {
 
         var college = req.query.college ? req.query.college : 'nyu';
 
-        Soiree.createLunch(college, function(soiree){
-            console.log(soiree);
-            res.send("OK");
-        }, function(err){
-            console.log(err);
-           res.send("Error");
-        });
+        for (var i = 0; i < Globals.soireeTypes.length; i++){
+            var st = Globals.soireeTypes[i];
+            Soiree.createSoireeWithType(st, college, function(){}, function(){});
+        }
 
+        res.send("OK");
         //Business.nextBusinessToHostSoiree(college, function (nextBusiness) {
         //    if (!nextBusiness) {
         //        return res.status('404').send("Error");
