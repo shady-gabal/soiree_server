@@ -91,11 +91,11 @@ router.post('/verifyCode', function(req, res, next){
 router.post('/uploadCollege', function(req, res, next){
     User.verifyUser(req, res, next, function(user) {
         var college = req.body.college;
-        if (!college) return ResHelper.sendError(ErrorCodes.MissingData);
+        if (!college) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
         user.college = college;
         user.save(function(err){
-            if (err) ResHelper.sendError(ErrorCodes.MongoError);
+            if (err) ResHelper.sendError(res, ErrorCodes.MongoError);
             else ResHelper.sendSuccess(res);
         });
     });
