@@ -15,6 +15,7 @@ var returnRouter = function(io) {
 
     var DateHelper = require('app/helpers/DateHelper.js');
     var ResHelper = require('app/helpers/ResHelper.js');
+    var Globals = require('app/helpers/Globals.js');
 
     var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
