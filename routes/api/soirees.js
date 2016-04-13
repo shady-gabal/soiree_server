@@ -64,8 +64,6 @@ var returnRouter = function(io) {
 
             });
         }
-
-        res.send("OK");
         //Business.nextBusinessToHostSoiree(college, function (nextBusiness) {
         //    if (!nextBusiness) {
         //        return res.status('404').send("Error");
