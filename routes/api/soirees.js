@@ -54,13 +54,19 @@ var returnRouter = function(io) {
 
         for (var i = 0; i < numToReturn; i++){
             var st = Globals.soireeTypes[i % Globals.soireeTypes.length];
+            console.log('creating ' + st + 'for college ' + college +' ...');
+
             Soiree.createSoireeWithType(st, college, function(){
                 numReturned++;
-                if (numReturned === numToReturn) res.send("OK with errs : " + errs);
+                console.log(numReturned + ' returned.');
+                if (numReturned >= numToReturn) res.send("OK with errs : " + errs);
             }, function(err){
                 numReturned++;
+
+                console.log(numReturned + ' returned with err ' + err);
+
                 errs.push(err);
-                if (numReturned === numToReturn) res.send("OK with errs : " + errs);
+                if (numReturned >= numToReturn) res.send("OK with errs : " + errs);
 
             });
         }

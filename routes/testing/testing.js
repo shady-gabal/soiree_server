@@ -284,13 +284,14 @@ router.get('/createBusinesses', function(req, res){
         cityArea: "SoHo",
         location : {type: "Point", coordinates:[longitude, latitude]},
         colleges : Globals.colleges,
-        email: "shady@wearethirdrail.com",
-        password: "9701",
         phoneNumber: 3472102276
     });
 
-    business.save(function(err){
+    Business.createBusiness(business, 'shady@wearethirdrail.com', '9701', function(_business){
+        res.send("Created");
+    }, function(err){
         res.send("Complete with err: " + err);
+
     });
 });
 
