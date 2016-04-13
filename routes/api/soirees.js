@@ -45,13 +45,24 @@ var returnRouter = function(io) {
 
     router.get('/createSoirees', function (req, res) {
 
-        var numSoirees = req.query.numSoirees ? req.query.numSoirees : 1;
+        var numSoirees = req.query.numSoirees ? req.query.numSoirees : 5;
 
         var college = req.query.college ? req.query.college : 'NYU';
+        var numReturned = 0;
+        var numToReturn = numSoirees;
+        var errs = [];
 
-        for (var i = 0; i < Globals.soireeTypes.length; i++){
+        for (var i = 0; i < numToReturn; i++){
             var st = Globals.soireeTypes[i];
-            Soiree.createSoireeWithType(st, college, function(){}, function(){});
+            Soiree.createSoireeWithType(st, college, function(){
+                numReturned++;
+                if (numReturned === numToReturn) res.send("OK with errs : " + errs);
+            }, function(err){
+                numReturned++;
+                errs.push(err);
+                if (numReturned === numToReturn) res.send("OK with errs : " + errs);
+
+            });
         }
 
         res.send("OK");
