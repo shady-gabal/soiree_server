@@ -53,7 +53,7 @@ var returnRouter = function(io) {
         var errs = [];
 
         for (var i = 0; i < numToReturn; i++){
-            var st = Globals.soireeTypes[i];
+            var st = Globals.soireeTypes[i % Globals.soireeTypes.length];
             Soiree.createSoireeWithType(st, college, function(){
                 numReturned++;
                 if (numReturned === numToReturn) res.send("OK with errs : " + errs);
