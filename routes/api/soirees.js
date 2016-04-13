@@ -47,7 +47,7 @@ var returnRouter = function(io) {
 
         var numSoirees = req.query.numSoirees ? req.query.numSoirees : 1;
 
-        var college = req.query.college ? req.query.college : 'nyu';
+        var college = req.query.college ? req.query.college : 'NYU';
 
         for (var i = 0; i < Globals.soireeTypes.length; i++){
             var st = Globals.soireeTypes[i];

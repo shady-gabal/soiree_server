@@ -204,10 +204,10 @@ router.get('/createSoireeForSchedulerRun', function (req, res) {
 router.post('/joinSoiree', function (req, res) {
     console.log("Joining soiree with id: " + req.body.soireeId + " ....");
     Soiree.joinSoireeWithId(req.body.soireeId, _user, function () {
-        res.send("OK");
+        ResHelper.sendSuccess(res);
     }, function (err) {
         console.log("Error joining soiree: " + err);
-        res.status(404).send("Error");
+        ResHelper.sendError(res, err);
     });
 });
 

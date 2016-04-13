@@ -93,9 +93,14 @@ router.post('/uploadCollege', function(req, res, next){
         var college = req.body.college;
         if (!college) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
+        college = college.toLowerCase();
+
         user.college = college;
         user.save(function(err){
-            if (err) ResHelper.sendError(res, ErrorCodes.MongoError);
+            if (err){
+                ResHelper.sendError(res, ErrorCodes.MongoError);
+                console.log('error');
+            }
             else ResHelper.sendSuccess(res);
         });
     });
