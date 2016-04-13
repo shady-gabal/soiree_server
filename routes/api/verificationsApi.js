@@ -92,9 +92,7 @@ router.post('/uploadCollege', function(req, res, next){
     User.verifyUser(req, res, next, function(user) {
         var college = req.body.college;
         if (!college) return ResHelper.sendError(res, ErrorCodes.MissingData);
-
-        college = college.toLowerCase();
-
+        
         user.college = college;
         user.save(function(err){
             if (err){
