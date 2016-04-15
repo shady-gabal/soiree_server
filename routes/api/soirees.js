@@ -246,7 +246,7 @@ var returnRouter = function(io) {
                 return ResHelper.sendError(res, ErrorCodes.MissingData);
             }
 
-            var availableTimes = [{start: startTime, end: endTime}];
+            var availableTimes = {start: startTime, end: endTime};
 
             var ssJob = new SpontaneousSoireeJob({
                 _user: user._id,

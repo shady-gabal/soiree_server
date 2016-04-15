@@ -7,6 +7,8 @@ var helpersFolderLocation = "../../helpers/";
 var _ = require("underscore");
 var mongoose = require('app/db/mongoose_connect.js');
 var Soiree = require('app/db/Soiree.js');
+var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob.js');
+
 var SoireeReservation = require('app/db/SoireeReservation.js');
 var CommunityPost = require('app/db/CommunityPost.js');
 var CommunityComment = require('app/db/CommunityComment.js');
@@ -267,6 +269,12 @@ router.get('/deleteComments', function(req, res){
     });
 });
 
+router.get('/deleteSSJobs', function(req, res){
+    SpontaneousSoireeJob.remove({}, function(){
+        res.send("Done");
+    });
+});
+
 router.get('/deleteBusinesses', function(req, res){
    Business.remove({}, function(err){
        res.send("Completed with err: " + err);
@@ -298,6 +306,53 @@ router.get('/createBusinesses', function(req, res){
 router.get('/soireeCreator', function(req, res){
     var soireeCreator = require('../../scheduled/soireeCreator.js');
     soireeCreator();
+    res.send("OK");
+});
+
+router.get('/deleteSpontaneousSoireeJobs', function(req, res) {
+    SpontaneousSoireeJob.remove({}, function(err){
+       res.send("Completed with err: " + err);
+    });
+});
+
+router.get('/createSpontaneousSoireeJobs', function(req, res){
+    var numJobs = req.query.numJobs ? req.query.numJobs : 10;
+    for (var i = 0; i < numJobs; i++){
+
+        var randStartIndex = parseInt(Math.random() * (Globals.spontaneousSoireeAvailableTimes.length - 5));
+        var randEndIndex = parseInt(Math.random() * (Globals.spontaneousSoireeAvailableTimes.length - randStartIndex)) + randStartIndex;
+
+        var randCollegeIndex = parseInt(Math.random() * Globals.colleges.length);
+        var college = Globals.colleges[randCollegeIndex];
+
+        var startTime = Globals.spontaneousSoireeAvailableTimes[randStartIndex];
+        var endTime = Globals.spontaneousSoireeAvailableTimes[randEndIndex];
+
+        var startDate = DateHelper.dateFromTime(startTime);
+        var endDate = DateHelper.dateFromTime(endTime);
+
+        var randTypeIndex = parseInt(Math.random() * Globals.soireeTypes.length);
+        var soireeType = Globals.soireeTypes[randTypeIndex];
+
+        var ssJob = new SpontaneousSoireeJob({
+            availableTimes : {start:startDate, end: endDate},
+            soireeType: soireeType,
+            _user : _user._id,
+            college : college
+        });
+
+        ssJob.save(function(err){
+            console.log("saved ssjob with err: " + err);
+        })
+
+    }
+
+    res.send("Done");
+
+});
+
+router.get('/performSpontaneousSoireeJobs', function(req, res){
+   SpontaneousSoireeJob.perform();
     res.send("OK");
 });
 
