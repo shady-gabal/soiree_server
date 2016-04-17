@@ -83,12 +83,11 @@ router.get('/createTestUsers', function(req, res){
 
     var numToCreate = 6;
     var profilePictureUrls = [
-        "https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg"
-        , "https://i.ytimg.com/vi/KY4IzMcjX3Y/maxresdefault.jpg"
-        , "http://www.healthiswealthofheart.com/wp-content/uploads/2015/08/horse.jpg"
-        , "http://kids.nationalgeographic.com/content/dam/kids/photos/animals/Mammals/H-P/pig-full-body.jpg.adapt.945.1.jpg"
+        "https://s-media-cache-ak0.pinimg.com/736x/d8/7f/0e/d87f0e1ecddb955a74f41e1032a8a136.jpg"        , "https://i.ytimg.com/vi/KY4IzMcjX3Y/maxresdefault.jpg"
+        , "https://s-media-cache-ak0.pinimg.com/736x/2b/28/50/2b285083bff26dbc1b74a7473adf054d.jpg"
+        , "https://pbs.twimg.com/media/CdzAPxRWIAACmIr.jpg"
         , "https://upload.wikimedia.org/wikipedia/commons/9/96/Carassius_wild_golden_fish_2013_G1.jpg"
-        , "http://rivista-cdn.reptilesmagazine.com/collared-lizard3.jpg?ver=1406063859"
+        , "https://s-media-cache-ak0.pinimg.com/736x/94/92/f3/9492f3f78bbc088940efe012c1bc24ef.jpg"
     ];
 
     for (var i = 0; i < numToCreate; i++){
