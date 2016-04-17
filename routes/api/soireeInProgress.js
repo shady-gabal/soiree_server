@@ -9,7 +9,7 @@ var Soiree = require('app/db/Soiree.js');
 var SoireeReservation = require('app/db/SoireeReservation.js');
 var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
-var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob.js');
+var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
 
 var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');

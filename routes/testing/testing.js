@@ -7,7 +7,7 @@ var helpersFolderLocation = "../../helpers/";
 var _ = require("underscore");
 var mongoose = require('app/db/mongoose_connect.js');
 var Soiree = require('app/db/Soiree.js');
-var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob.js');
+var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
 
 var SoireeReservation = require('app/db/SoireeReservation.js');
 var CommunityPost = require('app/db/CommunityPost.js');
@@ -82,16 +82,29 @@ router.get('/createTestUsers', function(req, res){
     var numReturned = 0;
 
     var numToCreate = 6;
+    var profilePictureUrls = [
+        "https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg"
+        , "https://i.ytimg.com/vi/KY4IzMcjX3Y/maxresdefault.jpg"
+        , "http://www.healthiswealthofheart.com/wp-content/uploads/2015/08/horse.jpg"
+        , "http://kids.nationalgeographic.com/content/dam/kids/photos/animals/Mammals/H-P/pig-full-body.jpg.adapt.945.1.jpg"
+        , "https://upload.wikimedia.org/wikipedia/commons/9/96/Carassius_wild_golden_fish_2013_G1.jpg"
+        , "http://rivista-cdn.reptilesmagazine.com/collared-lizard3.jpg?ver=1406063859"
+    ];
+
     for (var i = 0; i < numToCreate; i++){
         var first = firstNames[i];
         var last = lastNames[i];
+
+        var profilePictureUrl = profilePictureUrls[i % numToCreate];
+
 
         var user = new User({
             firstName : first,
             lastName : last,
             gender : i > 2 ? 'female' : 'male',
             location : LocationHelper.createPoint(45, 45),
-            testUser : true
+            testUser : true,
+            profilePictureUrl : profilePictureUrl
         });
 
         user.save(function(err, testUser){
@@ -270,7 +283,7 @@ router.get('/deleteComments', function(req, res){
 });
 
 router.get('/deleteSSJobs', function(req, res){
-    SpontaneousSoireeJob.remove({}, function(){
+    ScheduledSoireeJob.remove({}, function(){
         res.send("Done");
     });
 });
@@ -309,24 +322,24 @@ router.get('/soireeCreator', function(req, res){
     res.send("OK");
 });
 
-router.get('/deleteSpontaneousSoireeJobs', function(req, res) {
-    SpontaneousSoireeJob.remove({}, function(err){
+router.get('/deleteScheduledSoireeJobs', function(req, res) {
+    ScheduledSoireeJob.remove({}, function(err){
        res.send("Completed with err: " + err);
     });
 });
 
-router.get('/createSpontaneousSoireeJobs', function(req, res){
+router.get('/createScheduledSoireeJobs', function(req, res){
     var numJobs = req.query.numJobs ? req.query.numJobs : 10;
     for (var i = 0; i < numJobs; i++){
 
-        var randStartIndex = parseInt(Math.random() * (Globals.spontaneousSoireeAvailableTimes.length - 5));
-        var randEndIndex = parseInt(Math.random() * (Globals.spontaneousSoireeAvailableTimes.length - randStartIndex)) + randStartIndex;
+        var randStartIndex = parseInt(Math.random() * (Globals.scheduledSoireeAvailableTimes.length - 5));
+        var randEndIndex = parseInt(Math.random() * (Globals.scheduledSoireeAvailableTimes.length - randStartIndex)) + randStartIndex;
 
         var randCollegeIndex = parseInt(Math.random() * Globals.colleges.length);
         var college = Globals.colleges[randCollegeIndex];
 
-        var startTime = Globals.spontaneousSoireeAvailableTimes[randStartIndex];
-        var endTime = Globals.spontaneousSoireeAvailableTimes[randEndIndex];
+        var startTime = Globals.scheduledSoireeAvailableTimes[randStartIndex];
+        var endTime = Globals.scheduledSoireeAvailableTimes[randEndIndex];
 
         var startDate = DateHelper.dateFromTime(startTime);
         var endDate = DateHelper.dateFromTime(endTime);
@@ -334,7 +347,7 @@ router.get('/createSpontaneousSoireeJobs', function(req, res){
         var randTypeIndex = parseInt(Math.random() * Globals.soireeTypes.length);
         var soireeType = Globals.soireeTypes[randTypeIndex];
 
-        var ssJob = new SpontaneousSoireeJob({
+        var ssJob = new ScheduledSoireeJob({
             availableTimes : {start:startDate, end: endDate},
             soireeType: soireeType,
             _user : _user._id,
@@ -351,8 +364,8 @@ router.get('/createSpontaneousSoireeJobs', function(req, res){
 
 });
 
-router.get('/performSpontaneousSoireeJobs', function(req, res){
-   SpontaneousSoireeJob.perform();
+router.get('/performScheduledSoireeJobs', function(req, res){
+   ScheduledSoireeJob.perform();
     res.send("OK");
 });
 

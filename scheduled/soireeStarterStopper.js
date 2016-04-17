@@ -10,7 +10,7 @@ var scheduledTasks = function(){
 
     var mongoose = require('app/db/mongoose_connect.js');
     var Soiree = require('app/db/Soiree.js');
-    var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob.js');
+    var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
 
 
     var SOIREE_REMIND_BEFORE = 30;
@@ -91,7 +91,7 @@ var scheduledTasks = function(){
         }
     });
 
-//SpontaneousSoireeJob.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierSpontaneous}, "done" : false} ).deepPopulate(deepPopulateFields).exec(function(err, ssJobs) {
+//ScheduledSoireeJob.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierSpontaneous}, "done" : false} ).deepPopulate(deepPopulateFields).exec(function(err, ssJobs) {
 //    if (err){
 //        console.log("SSJob Error in scheduledSoirees: " + err);
 //    }

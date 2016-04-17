@@ -11,7 +11,7 @@ var returnRouter = function(io) {
     var SoireeReservation = require('app/db/SoireeReservation.js');
     var Business = require('app/db/Business.js');
     var User = require('app/db/User.js');
-    var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob.js');
+    var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
 
     var DateHelper = require('app/helpers/DateHelper.js');
     var ResHelper = require('app/helpers/ResHelper.js');
@@ -236,7 +236,7 @@ var returnRouter = function(io) {
         });
     });
 
-    router.post('/uploadSpontaneousSoiree', function (req, res, next) {
+    router.post('/uploadScheduledSoiree', function (req, res, next) {
 
         User.verifyUser(req, res, next, function (user) {
 
@@ -248,7 +248,7 @@ var returnRouter = function(io) {
 
             var availableTimes = {start: startTime, end: endTime};
 
-            var ssJob = new SpontaneousSoireeJob({
+            var ssJob = new ScheduledSoireeJob({
                 _user: user._id,
                 availableTimes: availableTimes
             });

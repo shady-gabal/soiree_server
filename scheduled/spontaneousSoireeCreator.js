@@ -1,16 +1,16 @@
 var helper = function () {
 
-    var SpontaneousSoireeJob = require('app/db/SpontaneousSoireeJob');
+    var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob');
 
     console.log("Performing spontaneous soiree job...");
 
     for (var i = 0; i < Globals.colleges.length; i++){
         var college = Globals.colleges[i];
 
-        SpontaneousSoireeJob.performForCollege(college);
+        ScheduledSoireeJob.performForCollege(college);
     }
 
-    //SpontaneousSoireeJob.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierSpontaneous}, "done" : false} ).deepPopulate(deepPopulateFields).exec(function(err, ssJobs) {
+    //ScheduledSoireeJob.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierSpontaneous}, "done" : false} ).deepPopulate(deepPopulateFields).exec(function(err, ssJobs) {
     //if (err){
     //    console.log("SSJob Error in scheduledSoirees: " + err);
     //}
