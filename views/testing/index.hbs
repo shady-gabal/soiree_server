@@ -163,12 +163,12 @@
     {{#each posts}}
         <li>
             POST:"{{this.text}}" <br />
-            by: {{this.author}} <br />
+            by: {{this._user.fullName}} <br />
             postId : {{this.postId}}
           <ul>
                   {{#each this._comments}}
                   <li>
-                      {{this.author}} : '{{this.text}}'
+                      {{this._user.fullName}} : '{{this.text}}'
                   </li>
                   {{/each}}
 

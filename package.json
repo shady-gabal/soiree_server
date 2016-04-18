@@ -37,6 +37,7 @@
     "get-env" : "",
     "socketio-auth" : "",
     "cron" : "",
-    "moment" : ""
+    "moment" : "",
+    "mongoose-autopopulate" : ""
   }
 }

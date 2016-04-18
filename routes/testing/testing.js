@@ -164,6 +164,7 @@ router.get('/', function (req, res) {
     //console.log(_user);
 
     CommunityPost.findPosts(req, null, _user, function(posts){
+        console.log(posts);
         Soiree.find({}).limit(50).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, soirees) {
             if (err) {
                 console.log("Error finding soirees in testing/ : " + err);
