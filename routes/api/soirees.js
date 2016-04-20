@@ -172,8 +172,6 @@ router.post('/findNextSoiree', function(req, res, next){
     if (!idsToIgnore) idsToIgnore = [];
 
     User.verifyUser(req, res, next, function(user){
-        var college = req.body.college;
-
         Soiree.findNextSoiree(user, idsToIgnore, function(soiree){
             if (!soiree){
                 res.json({});
