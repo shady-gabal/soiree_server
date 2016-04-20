@@ -176,10 +176,10 @@ router.post('/findNextSoiree', function(req, res, next){
 
         Soiree.findNextSoiree(user, idsToIgnore, function(soiree){
             if (!soiree){
-                res.json([]);
+                res.json({});
             }
             else{
-                res.json(soiree.jsonObject(user));
+                res.json({"soiree" : soiree.jsonObject(user)});
             }
         }, function(err){
             ResHelper.sendError(res, err);
