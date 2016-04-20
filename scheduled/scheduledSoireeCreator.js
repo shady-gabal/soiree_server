@@ -2,7 +2,7 @@ var helper = function () {
 
     var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob');
 
-    console.log("Performing spontaneous soiree job...");
+    console.log("Performing scheduled soiree job...");
 
     for (var i = 0; i < Globals.colleges.length; i++){
         var college = Globals.colleges[i];

@@ -163,24 +163,28 @@ router.get('/', function (req, res) {
 
     //console.log(_user);
 
-    CommunityPost.findPosts(req, null, _user, function(posts){
-        console.log(posts);
+    var cb = function(posts){
+        if (!posts) posts=[];
         Soiree.find({}).limit(50).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, soirees) {
-            if (err) {
-                console.log("Error finding soirees in testing/ : " + err);
-                res.status(404).send("Error");
+        if (err) {
+            console.log("Error finding soirees in testing/ : " + err);
+            res.status(404).send("Error");
+        }
+        else {
+            for (var i = 0; i < soirees.length; i++) {
+                var soiree = soirees[i];
+                soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
             }
-            else {
-                for (var i = 0; i < soirees.length; i++) {
-                    var soiree = soirees[i];
-                    soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
-                }
-                var testUsers = _.without(_testUsers, _user);
-                ResHelper.render(req, res, 'testing/index', {soirees: soirees, posts: posts, _testUsers : testUsers, _user : _user});
-            }
-        });
+            var testUsers = _.without(_testUsers, _user);
+            ResHelper.render(req, res, 'testing/index', {soirees: soirees, posts: posts, _testUsers : testUsers, _user : _user});
+        }
+    });
+    };
+
+    CommunityPost.findPosts(req, null, _user, function(posts){
+        cb(posts);
     }, function(err){
-        res.send("Error finding posts : " + err);
+        cb();
     })
 
 });
@@ -201,8 +205,104 @@ router.get('/deleteSoirees', function (req, res) {
 
 router.get('/createSoirees', function (req, res) {
     console.log('creating soirees...');
-    res.redirect('/api/soirees/createSoirees?numSoirees=10');
-});
+
+        var numSoirees = req.query.numSoirees ? req.query.numSoirees : 10;
+
+        var college = req.query.college ? req.query.college : 'NYU';
+        var numReturned = 0;
+        var numToReturn = numSoirees;
+        var errs = [];
+
+        for (var i = 0; i < numToReturn; i++){
+            var st = Globals.soireeTypes[i % Globals.soireeTypes.length];
+            console.log('creating ' + st + 'for college ' + college +' ...');
+
+            Soiree.createSoireeWithType(st, college, function(){
+                numReturned++;
+                console.log(numReturned + ' returned.');
+                if (numReturned >= numToReturn) res.send("OK with errs : " + errs);
+            }, function(err){
+                numReturned++;
+
+                console.log(numReturned + ' returned with err ' + err);
+
+                errs.push(err);
+                if (numReturned >= numToReturn) res.send("OK with errs : " + errs);
+
+            });
+        }
+        //Business.nextBusinessToHostSoiree(college, function (nextBusiness) {
+        //    if (!nextBusiness) {
+        //        return res.status('404').send("Error");
+        //    }
+        //
+        //    var todaysDate = new Date();
+        //
+        //    var d = new Date(todaysDate.getTime() + (todaysDate.getMinutes() % 10) * 60 * 1000);
+        //
+        //    Soiree.createSoireeWithBusiness({
+        //        soireeType: "Lunch",
+        //        numUsersMax: 3,
+        //        initialCharge: 250,
+        //        date: d
+        //    }, colleges, nextBusiness, function (soiree) {
+        //        console.log("Saved soiree: " + soiree.soireeId);
+        //    }, function (err) {
+        //        console.log("error saving soiree " + err);
+        //    });
+        //
+        //    var soireesCreated = [];
+        //
+        //    for (var i = 0; i < numSoirees; i++) {
+        //
+        //        var soireeTypes = Globals.soireeTypes();
+        //
+        //        var numDays = parseInt(Math.random() * 7);
+        //        var numHours = parseInt(Math.random() * 24);
+        //        var randSoireeTypeIndex = parseInt(Math.random() * soireeTypes.length - 1);
+        //        var soireeType = soireeTypes[randSoireeTypeIndex];
+        //        var randNumUsersMax = parseInt(Math.random() * 3 + 2);
+        //        var initialCharges = [100, 200, 300, 400, 500];
+        //        var randInitialChargeIndex = parseInt(Math.random() * initialCharges.length);
+        //        var randInitialCharge = initialCharges[randInitialChargeIndex];
+        //
+        //        var roundedTime = todaysDate.getTime() - ((todaysDate.getMinutes() % 10) * 60 * 1000 - (todaysDate.getSeconds() * 1000));
+        //        var date = new Date(roundedTime + (numDays * 24 * 60 * 60 * 1000) + (numHours * 60 * 60 * 1000));
+        //
+        //        var numReturned = 0;
+        //
+        //        Soiree.createSoireeWithBusiness({
+        //            soireeType: soireeType,
+        //            numUsersMax: randNumUsersMax,
+        //            initialCharge: randInitialCharge,
+        //            date: date
+        //        }, colleges, nextBusiness, function (soiree) {
+        //            soireesCreated.push(soiree.jsonObject());
+        //            console.log("Saved soiree: " + soiree.soireeId);
+        //
+        //            numReturned++;
+        //            if (numReturned == numSoirees) {
+        //                res.json(soireesCreated);
+        //            }
+        //
+        //        }, function (err) {
+        //            res.status(404).send("Error");
+        //            console.log("error saving soiree " + err);
+        //        });
+        //
+        //        //Soiree.createLunch(date, nextBusiness, function(soiree){
+        //        //    console.log("Saved soiree");
+        //        //    res.send("OK");
+        //        //}, function(err){
+        //        //    console.log("error saving soiree " + err);
+        //        //});
+        //    }
+        //}, function (err) {
+        //    res.status(404).send("Error");
+        //});
+
+
+    });
 
 router.get('/createSoireeForSchedulerRun', function (req, res) {
 
@@ -225,6 +325,8 @@ router.post('/joinSoiree', function (req, res) {
         ResHelper.sendError(res, err);
     });
 });
+
+
 
 router.post('/createSoirees', function (req, res) {
     res.redirect('/api/soirees/createSoirees?numSoirees=10');
@@ -252,6 +354,10 @@ router.get('/globals', function(req, res){
 });
 
 router.get('/deleteUsers', function(req, res){
+    CommunityComment.remove({}, function(){
+    });
+    CommunityPost.remove({}, function(){
+    });
     User.remove({}, function(){
         res.send("Done");
     });
@@ -367,6 +473,22 @@ router.get('/createScheduledSoireeJobs', function(req, res){
 router.get('/performScheduledSoireeJobs', function(req, res){
    ScheduledSoireeJob.perform();
     res.send("OK");
+});
+
+router.get('/findNextSoiree', function(req, res, next){
+    //var idsToIgnore = req.body.idsToIgnore;
+    //if (!idsToIgnore) idsToIgnore = [];
+
+    //User.verifyUser(req, res, next, function(user){
+    var college = req.query.college;
+
+    Soiree.findNextSoiree({college : college}, [], function(soiree){
+        res.json(soiree.jsonObject());
+    }, function(err){
+        ResHelper.sendError(res, err);
+    });
+    //});
+
 });
 
 module.exports = router;

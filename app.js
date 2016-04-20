@@ -42,7 +42,7 @@ var FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 /* User Facing Routes */
 var userIndex = require('./routes/consumer/index');
 /* API Routes */
-var soirees = require('./routes/api/soirees')(io);
+var soirees = require('./routes/api/soirees');
 var soireeInProgress = require('./routes/api/soireeInProgress');
 var users = require('./routes/api/users');
 var businessesApi = require('./routes/api/businessesApi');

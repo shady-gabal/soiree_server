@@ -104,6 +104,32 @@
             });
         };
 
+        function createSSJobs(){
+            $.ajax({
+                url: '/testing/createScheduledSoireeJobs',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        };
+
+        function performSSJobs(){
+            $.ajax({
+                url: '/testing/performScheduledSoireeJobs',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        };
+
     </script>
 
 {{/extend}}
@@ -111,6 +137,8 @@
 <button onclick='deleteSoirees()'> Delete Soirees </button>
 <button onclick='createSoirees()'> Create Soirees </button>
 <button onclick='createSoireeForSchedulerRun()'> Create Soiree For Next Scheduler Run </button>
+<button onclick='createSSJobs()'> Create SSJobs </button>
+<button onclick='performSSJobs()'> Perform SSJobs </button>
 
 <div>
     <br />
