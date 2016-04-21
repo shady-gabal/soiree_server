@@ -184,6 +184,7 @@ router.get('/', function (req, res) {
     CommunityPost.findPosts(req, null, _user, function(posts){
         cb(posts);
     }, function(err){
+        console.log(err);
         cb();
     })
 
