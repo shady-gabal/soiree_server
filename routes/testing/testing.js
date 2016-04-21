@@ -306,7 +306,7 @@ router.get('/createSoirees', function (req, res) {
 
 router.get('/createSoireeForSchedulerRun', function (req, res) {
 
-    Soiree.createSoireeWithType("TEST", function (soiree) {
+    Soiree.createSoireeWithType("TEST", "NYU", function (soiree) {
         res.send("OK");
     }, function (err) {
         res.send("Error");
