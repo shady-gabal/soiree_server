@@ -16,6 +16,7 @@ var CommunityComment = require('app/db/CommunityComment.js');
 var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
 var Admin = require('app/db/Admin.js');
+var Notification = require('app/db/Notification.js');
 
 var ResHelper = require('app/helpers/ResHelper.js');
 var LocationHelper = require('app/helpers/LocationHelper.js');
@@ -379,6 +380,12 @@ router.get('/createUser', function(req, res){
 
 router.get('/deletePosts', function(req, res){
     CommunityPost.remove({}, function(){
+        res.send("Done");
+    });
+});
+
+router.get('/deleteNotifications', function(req, res){
+    Notification.remove({}, function(){
         res.send("Done");
     });
 });

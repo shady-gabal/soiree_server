@@ -9,7 +9,7 @@ var func = function(){
     var Globals = require('app/helpers/Globals.js');
 
     var numToCreatePerType = {
-      "lunch" : 2, "dinner" : 2, "drinks" : 2, "blind date" : 2
+      "Lunch" : 2, "Dinner" : 2, "Drinks" : 2, "Blind Date" : 2
     };
 
     for (var i = 0; i < Globals.soireeTypes.length; i++){
