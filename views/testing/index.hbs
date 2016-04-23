@@ -143,6 +143,32 @@
             });
         };
 
+        function createBusiness(){
+            $.ajax({
+                url: '/testing/createBusiness',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        }
+
+        function deleteEverything(){
+            $.ajax({
+                url: '/testing/deleteEverything',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        }
+
     </script>
 
 {{/extend}}
@@ -151,8 +177,10 @@
 <button onclick='createSoirees()'> Create Soirees </button>
 <button onclick='createSoireeForSchedulerRun()'> Create Soiree For Next Scheduler Run </button>
 <button onclick='createSSJobs()'> Create SSJobs </button>
+<button onclick='createBusiness()'> Create Business </button>
 <button onclick='performSSJobs()'> Perform SSJobs </button>
 <button onclick='deleteUsers()'> Delete Users </button>
+<button onclick='deleteEverything()'> Delete Everything </button>
 
 <div>
     <br />

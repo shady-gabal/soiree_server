@@ -8,6 +8,7 @@ var _ = require("underscore");
 var mongoose = require('app/db/mongoose_connect.js');
 var Soiree = require('app/db/Soiree.js');
 var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
+var SoireeHost = require('app/db/SoireeHost.js');
 
 var SoireeReservation = require('app/db/SoireeReservation.js');
 var CommunityPost = require('app/db/CommunityPost.js');
@@ -187,7 +188,7 @@ router.get('/', function (req, res) {
     }, function(err){
         console.log(err);
         cb();
-    })
+    }, {deepPopulate : "_comments"})
 
 });
 
@@ -408,7 +409,21 @@ router.get('/deleteBusinesses', function(req, res){
    });
 });
 
-router.get('/createBusinesses', function(req, res){
+router.get('/deleteEverything', function(req, res){
+    Business.remove({}, Globals.saveErrorCallback);
+    ScheduledSoireeJob.remove({},Globals.saveErrorCallback);
+    Notification.remove({},Globals.saveErrorCallback);
+    CommunityComment.remove({},Globals.saveErrorCallback);
+    CommunityPost.remove({},Globals.saveErrorCallback);
+    User.remove({},Globals.saveErrorCallback);
+    Soiree.remove({},Globals.saveErrorCallback);
+    SoireeReservation.remove({},Globals.saveErrorCallback);
+    SoireeHost.remove({},Globals.saveErrorCallback);
+
+    res.send("Done");
+});
+
+router.get('/createBusiness', function(req, res){
     var longitude = 40.762755;
     var latitude = -73.882201;
 
