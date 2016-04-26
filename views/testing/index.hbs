@@ -40,6 +40,16 @@
                     });
         };
 
+        function remindSoiree(soireeId){
+            $.ajax({url: '/testing/remindSoiree', method : "GET", data: {"soireeId" : soireeId}})
+                    .done(function(){
+                        alert("Succeeded");
+                        location.reload(true);
+
+                    }).fail(function(err){
+                        alert("Failed: " + err);
+                    });
+        };
 
         function deleteSoirees(){
             $.ajax({
@@ -230,20 +240,22 @@
                 <button onclick="join('{{this.soireeId}}')" id="{{this.soireeId}}"> Join </button>
             {{/if}}
              {{#if this.inProgress}}
-                 <button onclick="endSoiree('{{this.soireeId}}')" id="{{this.soireeId}}"> End </button>
+                 <button onclick="endSoiree('{{this.soireeId}}')"> End </button>
              {{else}}
                  {{#if this.started}}
                  {{else}}
-                     <button onclick="startSoiree('{{this.soireeId}}')" id="{{this.soireeId}}"> Start </button>
+                     <button onclick="startSoiree('{{this.soireeId}}')"> Start </button>
                  {{/if}}
              {{/if}}
+             <button onclick="remindSoiree('{{this.soireeId}}')"> Remind Users </button>
+
 
              <div>
                  <ul>
                      <li>numUsersMax : {{this.numUsersMax}}</li>
                      <li>_usersAttending ({{this._usersAttending.length}}): [{{#each this._usersAttending}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
                      <li>_usersUncharged ({{this._usersUncharged.length}}): [{{#each this._usersUncharged}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
-                     <li>_unchargedReservations ({{this._unchargedReservations.length}}): [ {{#each this._unchargedReservations}} {{this.reservationId}} ({{this._user.fullName}}, {{this._soiree.soireeId}}) {{/each}} ]</li>
+                     <li>_unchargedReservations ({{this._unchargedReservations.length}}): [ {{#each this._unchargedReservations}} {{this.reservationId}} ({{this._user.fullName}}) {{/each}} ]</li>
                      <li>_chargedReservations ({{this._chargedReservations.length}}): [ {{#each this._chargedReservations}} {{this.reservationId}} ({{this._user.fullName}} - {{this._soiree.soireeId}}) {{/each}} ]</li>
                      <li > college : {{this.college}}</li>
                  </ul>

@@ -85,8 +85,13 @@ var scheduledTasks = function(){
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
                 console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-                soiree.openToUsers();
-                soiree.remind(SOIREE_REMIND_BEFORE + "");
+                if (soiree.reachedNumUsersMin){
+                    soiree.cancelSoireeIfNecessary();
+                }
+                else{
+                    soiree.openToUsers();
+                    soiree.remind(SOIREE_REMIND_BEFORE + "");
+                }
             }
         }
     });

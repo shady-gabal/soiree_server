@@ -368,6 +368,21 @@ router.get('/endSoiree', function(req, res){
     }
 });
 
+router.get('/remindSoiree', function(req, res){
+    var soireeId = req.query.soireeId;
+    if (soireeId){
+        Soiree.findOne({soireeId : soireeId}, function(err, soiree){
+            if (err|| !soiree){
+                console.log("error starting soiree: " + err);
+                res.status(404).send("Error");
+            }
+            else{
+                soiree.remind();
+                res.send("OK");
+            }
+        });
+    }
+});
 
 router.post('/createPost', function(req, res, next){
    CommunityPost.createPost({text: req.body.text}, _user, function(){
