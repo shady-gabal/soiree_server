@@ -105,7 +105,8 @@ router.get('/createTestUsers', function(req, res){
             gender : i > 2 ? 'female' : 'male',
             location : LocationHelper.createPoint(45, 45),
             testUser : true,
-            profilePictureUrl : profilePictureUrl
+            profilePictureUrl : profilePictureUrl,
+            college : "NYU"
         });
 
         user.save(function(err, testUser){
@@ -335,6 +336,39 @@ router.post('/createSoirees', function (req, res) {
     res.redirect('/api/soirees/createSoirees?numSoirees=10');
 });
 
+router.get('/startSoiree', function(req, res){
+    var soireeId = req.query.soireeId;
+    if (soireeId){
+        Soiree.findOne({soireeId : soireeId}, function(err, soiree){
+            if (err|| !soiree){
+                console.log("error starting soiree: " + err);
+                res.status(404).send("Error");
+            }
+            else{
+                soiree.start();
+                res.send("OK");
+            }
+        });
+    }
+});
+
+router.get('/endSoiree', function(req, res){
+    var soireeId = req.query.soireeId;
+    if (soireeId){
+        Soiree.findOne({soireeId : soireeId}, function(err, soiree){
+            if (err|| !soiree){
+                console.log("error starting soiree: " + err);
+                res.status(404).send("Error");
+            }
+            else{
+                soiree.end();
+                res.send("OK");
+            }
+        });
+    }
+});
+
+
 router.post('/createPost', function(req, res, next){
    CommunityPost.createPost({text: req.body.text}, _user, function(){
        res.send("OK");
@@ -513,5 +547,6 @@ router.get('/findNextSoiree', function(req, res, next){
     //});
 
 });
+
 
 module.exports = router;
