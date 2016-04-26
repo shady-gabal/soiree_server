@@ -249,7 +249,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
 
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
 
-        SoireeReservation.addReservationsForSoirees(soireesAttending, user, function(reservationsDict){
+        //SoireeReservation.addReservationsForSoirees(soireesAttending, user, function(reservationsDict){
 
           var obj = {};
             var pastArr = [], presentArr = [], futureArr = [];
@@ -263,8 +263,8 @@ router.post('/fetchUserSoirees', function(req, res, next){
             for (var j = 0; j < soireesAttending.length; j++) {
               var soiree = soireesAttending[j];
               var jsonDict = soiree.jsonObject(user);
-              if (reservationsDict[soiree.soireeId]){
-                jsonDict["reservation"] = reservationsDict[soiree.soireeId];
+              if (!MongooseHelper.isObjectId(soiree._reservation)){
+                jsonDict["reservation"] = soiree._reservation;
               }
 
               if (soiree.open) {
@@ -284,7 +284,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
         ResHelper.sendError(res, err);
       });
 
-  });
+  //});
 });
 
 
