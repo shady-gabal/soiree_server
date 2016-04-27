@@ -267,7 +267,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
                 jsonDict["reservation"] = soiree._reservation;
               }
 
-              if (soiree.open) {
+              if (soiree.openToUsers) {
                 presentArr.push(jsonDict);
               }
               else {

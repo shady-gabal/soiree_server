@@ -51,6 +51,17 @@
                     });
         };
 
+        function cancelSoiree(soireeId){
+            $.ajax({url: '/testing/cancelSoiree', method : "GET", data: {"soireeId" : soireeId}})
+                    .done(function(){
+                        alert("Succeeded");
+                        location.reload(true);
+
+                    }).fail(function(err){
+                        alert("Failed: " + err);
+                    });
+        };
+
         function deleteSoirees(){
             $.ajax({
                 url: '/testing/deleteSoirees',
@@ -245,6 +256,11 @@
                  {{#if this.started}}
                  {{else}}
                      <button onclick="startSoiree('{{this.soireeId}}')"> Start </button>
+                     {{#if this.cancelled}}
+                     <button> Cancelled </button>
+                     {{else}}
+                     <button onclick="cancelSoiree('{{this.soireeId}}')"> Cancel </button>
+                     {{/if}}
                  {{/if}}
              {{/if}}
              <button onclick="remindSoiree('{{this.soireeId}}')"> Remind Users </button>
@@ -256,7 +272,7 @@
                      <li>_usersAttending ({{this._usersAttending.length}}): [{{#each this._usersAttending}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
                      <li>_usersUncharged ({{this._usersUncharged.length}}): [{{#each this._usersUncharged}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
                      <li>_unchargedReservations ({{this._unchargedReservations.length}}): [ {{#each this._unchargedReservations}} {{this.reservationId}} ({{this._user.fullName}}) {{/each}} ]</li>
-                     <li>_chargedReservations ({{this._chargedReservations.length}}): [ {{#each this._chargedReservations}} {{this.reservationId}} ({{this._user.fullName}} - {{this._soiree.soireeId}}) {{/each}} ]</li>
+                     <li>_chargedReservations ({{this._chargedReservations.length}}): [ {{#each this._chargedReservations}} {{this.reservationId}} ({{this._user.fullName}} - {{this.confirmationCode}} - confirmed: {{this.confirmed}}) {{/each}} ]</li>
                      <li > college : {{this.college}}</li>
                  </ul>
              </div>

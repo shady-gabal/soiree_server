@@ -103,7 +103,7 @@ io.on('connection', function(socket){
         //console.log(socket.client.user);
         //console.log(socket.client.soiree);
 
-        if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.open) {
+        if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.openToUsers) {
             console.log("joining room...");
             socket.client.soiree._host.joinUser(socket.client.user, socket);
 

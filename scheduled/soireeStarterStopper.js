@@ -38,8 +38,16 @@ var scheduledTasks = function(){
             console.log("Starting " + soirees.length + " soirees");
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
-                console.log("Starting soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-                soiree.start();
+                if (soiree.reachedNumUsersMin){
+                    soiree.open();
+                    console.log("Starting soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+                    soiree.start();
+                }
+                else{
+                    soiree.cancel();
+                }
+
+
             }
         }
     });
@@ -75,7 +83,7 @@ var scheduledTasks = function(){
     });
 
 
-//remind people of upcoming soirees
+//remind people of upcoming soirees or cancel if necessary
     Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
         if (err){
             console.log("Error in scheduledSoirees: " + err);
@@ -86,11 +94,11 @@ var scheduledTasks = function(){
                 var soiree = soirees[i];
                 console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
                 if (soiree.reachedNumUsersMin){
-                    soiree.cancelSoireeIfNecessary();
+                    soiree.open();
+                    soiree.remind(SOIREE_REMIND_BEFORE + "");
                 }
                 else{
-                    soiree.openToUsers();
-                    soiree.remind(SOIREE_REMIND_BEFORE + "");
+                    soiree.cancel();
                 }
             }
         }
