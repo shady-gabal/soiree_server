@@ -39,7 +39,7 @@ router.post('/findUser', function(req, res, next){
     passport.authenticate('facebook-token', function (err, user, info) {
       if (err) {
         console.log("User not found: " + err);
-        return ResHelper.sendMessage(res, 404, "Error fetching user specified");
+        return ResHelper.sendError(res, ErrorCodes.FacebookOAuthError)
       }
       else if (!user){
         res.json({});
