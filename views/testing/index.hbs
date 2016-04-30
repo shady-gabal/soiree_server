@@ -245,9 +245,9 @@
     <p>User Selected: {{_user.firstName}} {{_user.lastName}}</p>
     <img src="{{_user.profilePictureUrl}}" style="width:100px; height: 100px;" />
     <ul>
-        <li>_currentReservations : [{{#each _user._currentReservations}}{{this.reservationId}} &nbsp;&nbsp;|&nbsp;&nbsp; {{/each}}]</li>
-        <li>_pastReservations : [{{#each _user._pastReservations}}{{this.reservationId}} &nbsp;&nbsp;|&nbsp;&nbsp; {{/each}}]</li>
-        <li>_notifications : [{{#each _user._notifications}}{{this.notificationId}}&nbsp;&nbsp;|&nbsp;&nbsp;{{/each}}]</li>
+        <li>_currentReservations : [{{#each _user._currentReservations}} &nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;| {{/each}}]</li>
+        <li>_pastReservations : [{{#each _user._pastReservations}}&nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;|{{/each}}]</li>
+        <li>_notifications : [{{#each _user._notifications}}&nbsp;&nbsp;{{this.notificationId}}&nbsp;&nbsp;|{{/each}}]</li>
     </ul>
 
     {{#each _testUsers}}
