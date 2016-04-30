@@ -134,6 +134,13 @@ router.get('/createTestUsers', function(req, res){
 
 });
 
+router.get('/shady', function(req, res){
+   User.findOne({firstName : "Shady"}).exec(function(err, user){
+       if (err) res.json({error: err});
+       else res.json(user);
+   });
+});
+
 router.get('/testCron', function(req, res, next){
    var pattern = req.query.pattern ? req.query.pattern : '* * * * * *';
     var CronJob = require('cron').CronJob;
