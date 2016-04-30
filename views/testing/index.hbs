@@ -212,6 +212,19 @@
             });
         }
 
+        function refreshUsers(){
+            $.ajax({
+                url: '/testing/refreshUsers',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        }
+
     </script>
 
 {{/extend}}
@@ -224,6 +237,8 @@
 <button onclick='performSSJobs()'> Perform SSJobs </button>
 <button onclick='deleteUsers()'> Delete Users </button>
 <button onclick='deleteEverything()'> Delete Everything </button>
+<button onclick='refreshUsers()'> Refresh Users </button>
+
 
 <div>
     <br />

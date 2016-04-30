@@ -31,7 +31,7 @@ var _testUsers = [];
 
 findTestUsers();
 
-function findTestUsers(){
+function findTestUsers(res){
     User.findTestUsers(function (testUsers) {
         if (!testUsers || testUsers.length == 0){
             console.log("Error finding testUsers : nothing returned");
@@ -40,6 +40,9 @@ function findTestUsers(){
 
         _testUsers = testUsers;
         _user = testUsers[0];
+        if (res){
+            res.send("OK");
+        }
         //if (!user.location){
         //    console.log("saving user location...");
         //    _user.location = LocationHelper.createPoint(44, 44);
@@ -49,6 +52,9 @@ function findTestUsers(){
         //console.log("_user set");
     }, function (err) {
         console.log("Error setting test user: " + err);
+        if (res){
+            res.status(404).send("Error");
+        }
     });
 }
 
@@ -139,6 +145,10 @@ router.get('/shady', function(req, res){
        if (err) res.json({error: err});
        else res.json(user);
    });
+});
+
+router.get('/refreshUsers', function(req, res){
+   findTestUsers(res);
 });
 
 router.get('/testCron', function(req, res, next){
