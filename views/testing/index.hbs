@@ -40,6 +40,12 @@
                     });
         };
 
+        function showSoireeInProgress(soireeId){
+            var url = "testing/showInProgress?soireeId=" + soireeId + "&userId=" + '{{_user.userId}}';
+            var win = window.open(url, '_blank');
+            win.focus();
+        };
+
         function remindSoiree(soireeId){
             $.ajax({url: '/testing/remindSoiree', method : "GET", data: {"soireeId" : soireeId}})
                     .done(function(){
@@ -266,6 +272,7 @@
                 <button onclick="join('{{this.soireeId}}')" id="{{this.soireeId}}"> Join </button>
             {{/if}}
              {{#if this.inProgress}}
+                 <button onclick="showSoireeInProgress('{{this.soireeId}}')"> Show In Progress </button>
                  <button onclick="endSoiree('{{this.soireeId}}')"> End </button>
              {{else}}
                  {{#if this.started}}

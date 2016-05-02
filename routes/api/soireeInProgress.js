@@ -25,43 +25,63 @@ var io = Globals.io;
 
 var socketAuthenticate = function(socket, data, callback){
     console.log("socket authenticate called");
-    var user = data.user;
+    var userData = data.user;
     var soireeId = data.soireeId;
 
     var makeshiftReq = {};
-    makeshiftReq.body = {user: user};
+    makeshiftReq.body = {user: userData};
 
-    User.verifyUser(makeshiftReq, null, function(){console.log("fake next called")}, function(user){
+    var successCallback = function(user){
         //check if soiree with id is in soirees attending
         user.deepPopulate("_currentReservations", function(err, _user){
-           if (err || !_user)
-               return callback(null, false);
+            if (err || !_user)
+                return callback(null, false);
 
-           for (var i = 0; i < _user._currentReservations.length; i++){
-               if (soireeId === _user._currentReservations[i].soireeId){
-                   console.log("user authenticated");
-                   /* populate user and soiree */
-                   socket.client.user = user;
+            for (var i = 0; i < _user._currentReservations.length; i++){
+                if (soireeId === _user._currentReservations[i].soireeId){
+                    console.log("user authenticated");
+                    /* populate user and soiree */
+                    socket.client.user = _user;
 
-                   Soiree.findOne({soireeId : soireeId}).deepPopulate("_host").exec(function(err, soiree) {
-                       if (err) {
-                           console.log("Error in postAuthenticate soiree : " + err);
-                           return callback(null, false);
-                       }
-                       else {
-                           socket.client.soiree = soiree;
-                           return callback(null, true);
-                       }
-                   });
+                    Soiree.findOne({soireeId : soireeId}).deepPopulate("_host").exec(function(err, soiree) {
+                        if (err) {
+                            console.log("Error in postAuthenticate soiree : " + err);
+                            return callback(null, false);
+                        }
+                        else {
+                            socket.client.soiree = soiree;
+                            return callback(null, true);
+                        }
+                    });
 
-               }
-           }
+                }
+            }
             //return callback(null, false);
         });
-    }, function(err){
-        console.log("Error verifying user: " + err);
-        return callback(null, false);
-    });
+    };
+
+
+    if (data.userId){
+        console.log("finding user with userid " + data.userId);
+        User.findOne({userId : data.userId}).exec(function(err, user){
+           if (err || !user){
+               callback(null, false);
+           }
+            else{
+               successCallback(user);
+           }
+        });
+    }
+    else{
+        console.log('verifying user');
+        User.verifyUser(makeshiftReq, null, function(){console.log("fake next called")}, successCallback, function(err){
+            console.log("Error verifying user: " + err);
+            return callback(null, false);
+        });
+    }
+
+
+
 };
 
 //var postAuthenticate = function(socket, data){
@@ -105,20 +125,19 @@ io.on('connection', function(socket){
 
         if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.openToUsers) {
             console.log("joining room...");
+            console.log(socket.client);
             socket.client.soiree._host.joinUser(socket.client.user, socket);
 
-            socket.on('disconnect', function () {
+            socket.on('disconnect', function (socket) {
+                socket.client.soiree._host.disconnectUser(socket.client.user);
                 console.log('user disconnected from soireeInProgress');
             });
         }
     });
 });
-
-
-
 router.get('/', function(req, res){
     if (Globals.development){
-        res.render('testing/testSocket', {});
+        res.render('testing/soireeInProgress', {});
     }
     else{
         res.send("OK");

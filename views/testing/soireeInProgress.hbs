@@ -1,0 +1,66 @@
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="/stylesheets/" />
+{{/extend}}
+
+{{#extend "scripts"}}
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!--<script src="/javascripts/"></script>-->
+
+<script>
+//    var soireeId = ;
+
+    var socket = io();
+
+    socket.emit('authentication', {soireeId : "{{soireeId}}", userId : "{{_user.userId}}"});
+    socket.on('authenticated', function(){
+        addMessage({text : "Authenticated"});
+       socket.emit('client-authenticated', {});
+    });
+
+    socket.on('connect', function(){
+        addMessage({text : "Connected"});
+
+//        alert('Connected');
+    });
+
+    socket.on('messages', function(data){
+//        alert("received: ");
+
+        data.forEach(function(dict){
+            addMessage(dict);
+        });
+    });
+
+    socket.on('message', function(data){
+//        alert("received: ");
+
+//        data.forEach(function(dict){
+            addMessage(data);
+//        });
+    });
+
+    socket.on('test', function(){
+       alert("tested");
+    });
+
+    socket.on('testroom', function(){
+        alert("in room");
+    });
+
+    function addMessage(dict){
+        var text = dict.text;
+        $("#messages").append(createMessage(text));
+    }
+
+    function createMessage(text){
+        return "<li> <p> " + text + "</p></li>";
+    };
+
+</script>
+{{/extend}}
+
+
+<ul id="messages">
+    <li>Messages:</li>
+</ul>

@@ -59,6 +59,7 @@ var businesses =  require('./routes/businesses/businesses.js');
 /* Testing */
 var testing = require('./routes/testing/testing.js');
 var images =  require('./routes/images/images.js');
+var showInProgress = require('./routes/testing/showInProgress.js');
 
 var soireeStarterStopper = require('./scheduled/soireeStarterStopper.js');
 var soireeCreator = require('./scheduled/soireeCreator.js');
@@ -291,6 +292,7 @@ app.use('/images', images);
 
 /****** Testing *******/
 app.use('/testing', testing);
+app.use('/testing/showInProgress', showInProgress);
 
 
 /********* ERROR HANDLERS **********/

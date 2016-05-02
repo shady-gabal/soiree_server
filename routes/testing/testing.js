@@ -24,7 +24,7 @@ var LocationHelper = require('app/helpers/LocationHelper.js');
 var DateHelper = require('app/helpers/DateHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var Globals = require('app/helpers/Globals.js');
-
+//var io = Globals.io;
 
 var _user;
 var _testUsers = [];
@@ -59,15 +59,7 @@ function findTestUsers(res){
 }
 
 
-//io.on('connection', function(socket){
-//    //socket.on('event name', function(data){});
-//
-//    //io.emit('event name', data);
-//    console.log('a user connected to testing');
-//    socket.on('disconnect', function(){
-//        console.log('user disconnected from testing');
-//    });
-//});
+
 
 router.get('/deleteTestUsers', function(req, res){
     User.remove({testUser : true}).exec(function(err){
@@ -150,6 +142,20 @@ router.get('/shady', function(req, res){
 router.get('/refreshUsers', function(req, res){
    findTestUsers(res);
 });
+
+//router.get('/showInProgress', function(req, res){
+//    console.log('/showInprogress');
+//    var soireeId = req.query.soireeId;
+//
+//    //for (var i = 0; i < _testUsers.length; i++){
+//    //    if (_testUsers[i].userId === userId){
+//    //        _user = _testUsers[i];
+//    //        break;
+//    //    }
+//    //}
+//
+//    res.render('testing/soireeInProgress', {soireeId : soireeId});
+//});
 
 router.get('/testCron', function(req, res, next){
    var pattern = req.query.pattern ? req.query.pattern : '* * * * * *';
