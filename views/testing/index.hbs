@@ -296,6 +296,9 @@
                      <li>_unchargedReservations ({{this._unchargedReservations.length}}): [ {{#each this._unchargedReservations}} {{this.reservationId}} ({{this._user.fullName}}) {{/each}} ]</li>
                      <li>_chargedReservations ({{this._chargedReservations.length}}): [ {{#each this._chargedReservations}} {{this.reservationId}} ({{this._user.fullName}} - {{this.confirmationCode}} - confirmed: {{this.confirmed}}) {{/each}} ]</li>
                      <li > college : {{this.college}}</li>
+                     <li> startTimeIdentifier : {{this.scheduledStartTimeIdentifier}} </li>
+                     <li> endTimeIdentifier : {{this.scheduledEndTimeIdentifier}} </li>
+
                  </ul>
              </div>
          </li>

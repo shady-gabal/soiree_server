@@ -40,7 +40,7 @@ var scheduledTasks = function(){
                 var soiree = soirees[i];
                 if (soiree.reachedNumUsersMin){
                     soiree.open();
-                    console.log("Starting soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+                    //console.log("Starting soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
                     soiree.start();
                 }
                 else{
@@ -76,7 +76,7 @@ var scheduledTasks = function(){
             console.log("Ending " + soirees.length + " soirees");
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
-                console.log("Ending soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+                //console.log("Ending soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
                 soiree.end();
             }
         }
@@ -92,7 +92,7 @@ var scheduledTasks = function(){
             console.log("Reminding users of " + soirees.length + " soirees");
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
-                console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+                //console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
                 if (soiree.reachedNumUsersMin){
                     soiree.open();
                     soiree.remind(SOIREE_REMIND_BEFORE + "");

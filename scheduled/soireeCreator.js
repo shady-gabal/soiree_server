@@ -23,7 +23,7 @@ var func = function(){
                     console.log('about to create soiree of type ' + soireeType + ' for college ' + college);
 
                     Soiree.createSoireeWithType(soireeType, college, function(soiree){
-                        console.log("created soiree of type: " + soiree.soireeType + " in soireeCreator");
+                        console.log("created soiree " + soiree.soireeId + " of type: " + soiree.soireeType + " in soireeCreator");
                     }, function(err){
                         console.log("error creating soiree in soireeCreator: " + err);
                     }, {});
