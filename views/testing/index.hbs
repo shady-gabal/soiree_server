@@ -52,7 +52,7 @@
         };
 
         function showSoireeInProgress(soireeId){
-            var url = "testing/showInProgress?soireeId=" + soireeId + "&userId=" + '{{_user.userId}}';
+            var url = "/testing/showInProgress?soireeId=" + soireeId + "&userId=" + '{{_user.userId}}';
             var win = window.open(url, '_blank');
             win.focus();
         };
