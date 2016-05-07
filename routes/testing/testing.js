@@ -368,7 +368,7 @@ router.get('/startSoiree', function(req, res){
                 res.status(404).send("Error");
             }
             else{
-                soiree.start();
+                soiree.startIfPossible();
                 res.send("OK");
             }
         });
