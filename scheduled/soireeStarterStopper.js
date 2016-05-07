@@ -41,7 +41,7 @@ var scheduledTasks = function(){
                 if (soiree.reachedNumUsersMin){
                     soiree.open();
                     //console.log("Starting soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-                    soiree.start();
+                    soiree.startIfPossible();
                 }
                 else{
                     soiree.cancel();
@@ -103,24 +103,6 @@ var scheduledTasks = function(){
             }
         }
     });
-
-//ScheduledSoireeJob.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierSpontaneous}, "done" : false} ).deepPopulate(deepPopulateFields).exec(function(err, ssJobs) {
-//    if (err){
-//        console.log("SSJob Error in scheduledSoirees: " + err);
-//    }
-//    else{
-//        console.log("Performing ssJobs: " + ssJobs);
-//        for (var i = 0; i < ssJobs.length; i++){
-//            var ssJob = ssJobs[i];
-//            ssJob.perform();
-//        }
-//    }
-//});
-//Soiree.findSoireesWithScheduledTimeIdenfitier(scheduledTimeIdentifier, function(soirees){
-//
-//}, function(err){
-//   console.log("Error in scheduledSoirees: " + err);
-//});
 
 };
 

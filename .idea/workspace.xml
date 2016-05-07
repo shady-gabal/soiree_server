@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" afterPath="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/Notification.js" afterPath="$PROJECT_DIR$/node_modules/app/db/Notification.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/Soiree.js" afterPath="$PROJECT_DIR$/node_modules/app/db/Soiree.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/SoireeHost.js" afterPath="$PROJECT_DIR$/node_modules/app/db/SoireeHost.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js" afterPath="$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduled/soireeStarterStopper.js" afterPath="$PROJECT_DIR$/scheduled/soireeStarterStopper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,37 +32,37 @@
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/Soiree.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1146" column="4" selection-start-line="1146" selection-start-column="0" selection-end-line="1147" selection-end-column="0" />
+              <caret line="705" column="42" selection-start-line="705" selection-start-column="42" selection-end-line="705" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommunityPost.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityPost.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.066924">
-              <caret line="51" column="119" selection-start-line="51" selection-start-column="119" selection-end-line="51" selection-end-column="119" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DateHelper.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/DateHelper.js">
+      <file leaf-file-name="SoireeReservation.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="59" column="9" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
+              <caret line="348" column="70" selection-start-line="348" selection-start-column="55" selection-end-line="348" selection-end-column="70" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="showInProgress.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/testing/showInProgress.js">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="63" column="85" selection-start-line="63" selection-start-column="85" selection-end-line="63" selection-end-column="85" />
+              <caret line="336" column="30" selection-start-line="336" selection-start-column="30" selection-end-line="336" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Notification.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/node_modules/app/db/Notification.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.61442786">
+              <caret line="181" column="8" selection-start-line="181" selection-start-column="8" selection-end-line="181" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -67,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/SoireeHost.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="95" column="13" selection-start-line="95" selection-start-column="13" selection-end-line="95" selection-end-column="13" />
+              <caret line="121" column="47" selection-start-line="121" selection-start-column="47" selection-end-line="121" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -77,17 +82,7 @@
         <entry file="file://$PROJECT_DIR$/scheduled/soireeStarterStopper.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="93" column="40" selection-start-line="93" selection-start-column="40" selection-end-line="93" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.hbs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/testing/index.hbs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="298" column="86" selection-start-line="298" selection-start-column="86" selection-end-line="298" selection-end-column="86" />
+              <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -180,20 +175,20 @@
         <option value="$PROJECT_DIR$/node_modules/app/helpers/ErrorCodes.js" />
         <option value="$PROJECT_DIR$/routes/api/users.js" />
         <option value="$PROJECT_DIR$/node_modules/app/db/User.js" />
-        <option value="$PROJECT_DIR$/node_modules/app/db/Notification.js" />
-        <option value="$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/routes/testing/testing.js" />
         <option value="$PROJECT_DIR$/views/testing/soireeInProgress.hbs" />
         <option value="$PROJECT_DIR$/routes/testing/showInProgress.js" />
         <option value="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
-        <option value="$PROJECT_DIR$/node_modules/app/db/SoireeHost.js" />
-        <option value="$PROJECT_DIR$/scheduled/soireeStarterStopper.js" />
         <option value="$PROJECT_DIR$/scheduled/soireeCreator.js" />
         <option value="$PROJECT_DIR$/views/testing/index.hbs" />
-        <option value="$PROJECT_DIR$/node_modules/app/db/Soiree.js" />
         <option value="$PROJECT_DIR$/node_modules/app/helpers/DateHelper.js" />
         <option value="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" />
+        <option value="$PROJECT_DIR$/scheduled/soireeStarterStopper.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/Soiree.js" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/SoireeHost.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/Notification.js" />
       </list>
     </option>
   </component>
@@ -521,8 +516,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -638,13 +633,13 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.4435096" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.43870193" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.55649036" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.5612981" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24947146" sideWeight="0.52403843" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -909,20 +904,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="372" column="0" selection-start-line="372" selection-start-column="0" selection-end-line="380" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/Notification.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="168" column="0" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/db/Business.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -945,13 +926,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="297" column="37" selection-start-line="297" selection-start-column="37" selection-end-line="297" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/testing/testing.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -968,26 +942,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/testing/showInProgress.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="63" column="85" selection-start-line="63" selection-start-column="85" selection-end-line="63" selection-end-column="85" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/soireeInProgress.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="136" column="3" selection-start-line="136" selection-start-column="3" selection-end-line="136" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/SoireeHost.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="13" selection-start-line="95" selection-start-column="13" selection-end-line="95" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1008,14 +966,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scheduled/soireeStarterStopper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="93" column="40" selection-start-line="93" selection-start-column="40" selection-end-line="93" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/testing/index.hbs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1032,18 +982,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/Soiree.js">
+    <entry file="file://$PROJECT_DIR$/routes/testing/showInProgress.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1146" column="4" selection-start-line="1146" selection-start-column="0" selection-end-line="1147" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.55099505">
+          <caret line="63" column="85" selection-start-line="63" selection-start-column="85" selection-end-line="63" selection-end-column="85" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityPost.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.066924">
+        <state vertical-scroll-proportion="1.181592">
           <caret line="51" column="119" selection-start-line="51" selection-start-column="119" selection-end-line="51" selection-end-column="119" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scheduled/soireeStarterStopper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="348" column="70" selection-start-line="348" selection-start-column="55" selection-end-line="348" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/Soiree.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="705" column="42" selection-start-line="705" selection-start-column="42" selection-end-line="705" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="336" column="30" selection-start-line="336" selection-start-column="30" selection-end-line="336" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/SoireeHost.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="121" column="47" selection-start-line="121" selection-start-column="47" selection-end-line="121" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/Notification.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.61442786">
+          <caret line="181" column="8" selection-start-line="181" selection-start-column="8" selection-end-line="181" selection-end-column="8" />
           <folding />
         </state>
       </provider>
