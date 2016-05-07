@@ -34,10 +34,12 @@ var socketAuthenticate = function(socket, data, callback){
     var successCallback = function(user){
         //check if soiree with id is in soirees attending
         user.deepPopulate("_currentReservations", function(err, _user){
-            if (err || !_user)
+            if (err || !_user) {
+                console.log("error: " + err);
                 return callback(null, false);
-
+            }
             for (var i = 0; i < _user._currentReservations.length; i++){
+                console.log("comparing soireeId " + soireeId + " to " + _user._currentReservations[i].soireeId);
                 if (soireeId === _user._currentReservations[i].soireeId){
                     console.log("user authenticated");
                     /* populate user and soiree */
@@ -65,9 +67,11 @@ var socketAuthenticate = function(socket, data, callback){
         console.log("finding user with userid " + data.userId);
         User.findOne({userId : data.userId}).exec(function(err, user){
            if (err || !user){
+               console.log("error finding user: " + err);
                callback(null, false);
            }
             else{
+               console.log("found user");
                successCallback(user);
            }
         });
@@ -84,29 +88,6 @@ var socketAuthenticate = function(socket, data, callback){
 
 };
 
-//var postAuthenticate = function(socket, data){
-//    var user = data.user;
-//    var soireeId = data.soireeId;
-//
-//    Soiree.findOne({soireeId : soireeId}).deepPopulate("_host").exec(function(err, soiree) {
-//        if (err) {
-//            console.log("Error in postAuthenticate soiree : " + err);
-//        }
-//        else {
-//            socket.client.soiree = soiree;
-//        }
-//    });
-//
-//    var makeshiftReq = {};
-//    makeshiftReq.body = {user: user};
-//
-//    User.verifyUser(makeshiftReq, null, null, function(user){
-//        console.log('setting user in postAuthenticate...');
-//       socket.client.user = user;
-//    }, function(err){
-//        console.log("Error in postAuthenticate user: " + err);
-//    });
-//};
 
     require('socketio-auth')(io, {
         authenticate : socketAuthenticate,
@@ -125,12 +106,18 @@ io.on('connection', function(socket){
 
         if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.openToUsers) {
             console.log("joining room...");
-            console.log(socket.client);
+            //console.log(socket.client);
             socket.client.soiree._host.joinUser(socket.client.user, socket);
 
-            socket.on('disconnect', function (socket) {
-                socket.client.soiree._host.disconnectUser(socket.client.user);
-                console.log('user disconnected from soireeInProgress');
+            socket.on('client-disconnect', function(){
+                console.log("socket " + socket + " disconnecting...");
+                if (socket.client) {
+                    socket.client.soiree._host.disconnectUser(socket.client.user);
+                    console.log('user disconnected from soireeInProgress');
+                }
+            });
+            socket.on('disconnect', function (_socket) {
+
             });
         }
     });
@@ -151,7 +138,7 @@ router.get('/sendMessage', function(req, res){
 
     var message = {author: Soiree.SOIREE, text : text};
 
-    console.log(io.sockets);
+    //console.log(io.sockets);
 
     if (room){
         io.to(room).emit('test', message);

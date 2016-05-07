@@ -11,6 +11,9 @@
 //    var soireeId = ;
 
     var socket = io();
+    window.onbeforeunload = function(){
+        socket.emit('client-disconnect', {});
+    };
 
     socket.emit('authentication', {soireeId : "{{soireeId}}", userId : "{{_user.userId}}"});
     socket.on('authenticated', function(){
