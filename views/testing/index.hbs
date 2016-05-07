@@ -242,6 +242,22 @@
             });
         }
 
+        function createSoireeWithDate(){
+            var date = $("#soireeDate").val();
+
+            $.ajax({
+                url: '/testing/createSoiree',
+                method : 'POST',
+                data : {date : date},
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        }
+
     </script>
 
 {{/extend}}
@@ -273,6 +289,12 @@
 </div>
 
 <h1> Soirees </h1>
+<!--<form action="createSoiree" method="post">-->
+    <h4> Create Soiree with Date (ex: 8:50 PM) </h4>
+    <input type="text" name="date" placeholder="Date" id="soireeDate"/> <br />
+    <button onclick="createSoireeWithDate()"> Create </button>
+<!--</form>-->
+
 <ul id="soirees">
     {{#each soirees}}
          <li>

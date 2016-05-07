@@ -619,5 +619,20 @@ router.get('/findNextSoiree', function(req, res, next){
 
 });
 
+router.post('/createSoiree', function(req, res){
+    console.log('called');
+    var dateString = req.body.date;
+    var date = DateHelper.dateFromTime(dateString);
+
+    Soiree.createTest('NYU', function(){
+        res.send("OK");
+    }, function(err){
+       res.status(404).send("Error:" + err);
+    }, {date : date});
+});
+//router.get('/createSpecificSoiree', function(req, res){
+//    res.render('/testing/createSoiree', {});
+//});
+
 
 module.exports = router;
