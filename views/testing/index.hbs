@@ -40,6 +40,17 @@
                     });
         };
 
+        function openSoiree(soireeId){
+            $.ajax({url: '/testing/openSoiree', method : "GET", data: {"soireeId" : soireeId}})
+                    .done(function(){
+                        alert("Succeeded");
+                        location.reload(true);
+
+                    }).fail(function(err){
+                        alert("Failed: " + err);
+                    });
+        };
+
         function showSoireeInProgress(soireeId){
             var url = "testing/showInProgress?soireeId=" + soireeId + "&userId=" + '{{_user.userId}}';
             var win = window.open(url, '_blank');
@@ -271,20 +282,24 @@
             {{else}}
                 <button onclick="join('{{this.soireeId}}')" id="{{this.soireeId}}"> Join </button>
             {{/if}}
-             {{#if this.inProgress}}
+             {{#if this.openToUsers}}
                  <button onclick="showSoireeInProgress('{{this.soireeId}}')"> Show In Progress </button>
+             {{else}}
+                 <button onclick="openSoiree('{{this.soireeId}}')"> Open </button>
+
+             {{/if}}
+             {{#if this.started}}
                  <button onclick="endSoiree('{{this.soireeId}}')"> End </button>
              {{else}}
-                 {{#if this.started}}
+
+                 <button onclick="startSoiree('{{this.soireeId}}')"> Start </button>
+                 {{#if this.cancelled}}
+                 <button> Cancelled </button>
                  {{else}}
-                     <button onclick="startSoiree('{{this.soireeId}}')"> Start </button>
-                     {{#if this.cancelled}}
-                     <button> Cancelled </button>
-                     {{else}}
-                     <button onclick="cancelSoiree('{{this.soireeId}}')"> Cancel </button>
-                     {{/if}}
+                 <button onclick="cancelSoiree('{{this.soireeId}}')"> Cancel </button>
                  {{/if}}
              {{/if}}
+
              <button onclick="remindSoiree('{{this.soireeId}}')"> Remind Users </button>
 
 

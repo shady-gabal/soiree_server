@@ -375,6 +375,22 @@ router.get('/startSoiree', function(req, res){
     }
 });
 
+router.get('/openSoiree', function(req, res){
+    var soireeId = req.query.soireeId;
+    if (soireeId){
+        Soiree.findOne({soireeId : soireeId}, function(err, soiree){
+            if (err|| !soiree){
+                console.log("error starting soiree: " + err);
+                res.status(404).send("Error");
+            }
+            else{
+                soiree.open();
+                res.send("OK");
+            }
+        });
+    }
+});
+
 router.get('/endSoiree', function(req, res){
     var soireeId = req.query.soireeId;
     if (soireeId){
