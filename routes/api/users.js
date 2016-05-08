@@ -254,13 +254,19 @@ router.post('/fetchUserSoirees', function(req, res, next){
         //SoireeReservation.addReservationsForSoirees(soireesAttending, user, function(reservationsDict){
 
           var obj = {};
-            var pastArr = [], presentArr = [], futureArr = [];
+            var pastArr = [], presentArr = [], futureArr = [], cancelledArr = [];
 
             for (var i = 0; i < soireesAttended.length; i++){
               var soiree = soireesAttended[i];
-              pastArr.push(soiree.jsonObject(user));
+              if (soiree.cancelled){
+                cancelledArr.push(soiree.jsonObject(user));
+              }
+              else{
+                pastArr.push(soiree.jsonObject(user));
+              }
             }
             obj["past"] = pastArr;
+            obj["cancelled"] = cancelledArr;
 
             for (var j = 0; j < soireesAttending.length; j++) {
               var soiree = soireesAttending[j];
