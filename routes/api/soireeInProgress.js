@@ -89,39 +89,80 @@ var socketAuthenticate = function(socket, data, callback){
 };
 
 
-    require('socketio-auth')(io, {
-        authenticate : socketAuthenticate,
-        timeout: 'none'
-    });
+    //require('socketio-auth')(io, {
+    //    authenticate : socketAuthenticate,
+    //    timeout: 'none'
+    //});
 
 /* Socket.io */
+//io.on('connection', function(socket){
+//    console.log('io.on connection');
+//
+//    socket.on('client-authenticated', function(){
+//        console.log('socket authenticated event');
+//
+//        //console.log(socket.client.user);
+//        //console.log(socket.client.soiree);
+//
+//        if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.openToUsers) {
+//            console.log("joining room...");
+//            //console.log(socket.client);
+//            socket.client.soiree._host.joinUser(socket.client.user, socket);
+//
+//            socket.on('client-disconnect', function(){
+//                console.log("socket " + socket + " disconnecting...");
+//                if (socket.client) {
+//                    socket.client.soiree._host.disconnectUser(socket.client.user);
+//                    console.log('user disconnected from soireeInProgress');
+//                }
+//            });
+//            socket.on('disconnect', function (_socket) {
+//
+//            });
+//        }
+//    });
+//});
+
 io.on('connection', function(socket){
     console.log('io.on connection');
 
-    socket.on('client-authenticated', function(){
-        console.log('socket authenticated event');
+    socket.on('authentication', function(data){
+        //console.log('socket authenticated event with data ' + data);
 
         //console.log(socket.client.user);
         //console.log(socket.client.soiree);
 
-        if (socket.auth && socket.client.user && socket.client.soiree && socket.client.soiree.openToUsers) {
-            console.log("joining room...");
-            //console.log(socket.client);
-            socket.client.soiree._host.joinUser(socket.client.user, socket);
+    //var data = socket.handshake.query;
+        socketAuthenticate(socket, data, function(something, authenticated){
+           if (authenticated){
+               console.log("authenticated");
+               socket.emit('authenticated', {});
 
-            socket.on('client-disconnect', function(){
-                console.log("socket " + socket + " disconnecting...");
-                if (socket.client) {
-                    socket.client.soiree._host.disconnectUser(socket.client.user);
-                    console.log('user disconnected from soireeInProgress');
-                }
-            });
-            socket.on('disconnect', function (_socket) {
+               if (socket.client.user && socket.client.soiree && socket.client.soiree.openToUsers) {
+                   console.log("joining room...");
+                   //console.log(socket.client);
+                   socket.client.soiree._host.joinUser(socket.client.user, socket);
 
-            });
-        }
+                   socket.on('client-disconnect', function(){
+                       console.log("socket " + socket + " disconnecting...");
+                       if (socket.client) {
+                           socket.client.soiree._host.disconnectUser(socket.client.user);
+                           console.log('user disconnected from soireeInProgress');
+                       }
+                   });
+                   socket.on('disconnect', function (_socket) {
+
+                   });
+               }
+           }
+            else{
+               console.log("In io.connection : authentication failed");
+           }
+        });
+
     });
 });
+
 router.get('/', function(req, res){
     if (Globals.development){
         res.render('testing/soireeInProgress', {});

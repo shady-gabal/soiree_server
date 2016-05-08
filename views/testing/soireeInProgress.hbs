@@ -9,22 +9,26 @@
 
 <script>
 //    var soireeId = ;
-
+<!--null, { query: "soireeId={{soireeId}}&userId={{_user.userId}}" }-->
     var socket = io();
+
     window.onbeforeunload = function(){
         socket.emit('client-disconnect', {});
     };
 
     socket.emit('authentication', {soireeId : "{{soireeId}}", userId : "{{_user.userId}}"});
+
     socket.on('authenticated', function(){
         addMessage({text : "Authenticated"});
        socket.emit('client-authenticated', {});
+        alert('authenticated');
+
     });
 
     socket.on('connect', function(){
-        addMessage({text : "Connected"});
+//        addMessage({text : "Connected"});
 
-//        alert('Connected');
+        alert('Connected');
     });
 
     socket.on('messages', function(data){
@@ -59,6 +63,8 @@
     function createMessage(text){
         return "<li> <p> " + text + "</p></li>";
     };
+
+    socket.connect();
 
 </script>
 {{/extend}}
