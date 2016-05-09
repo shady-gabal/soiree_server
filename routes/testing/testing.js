@@ -21,6 +21,8 @@ var Notification = require('app/db/Notification.js');
 
 var ResHelper = require('app/helpers/ResHelper.js');
 var LocationHelper = require('app/helpers/LocationHelper.js');
+var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
+
 var DateHelper = require('app/helpers/DateHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var Globals = require('app/helpers/Globals.js');
@@ -567,5 +569,14 @@ router.post('/createSoiree', function(req, res){
 //    res.render('/testing/createSoiree', {});
 //});
 
+router.get('/testNotification', function(req, res){
+   var notif = new Notification({
+       notificationType : 'test',
+       bodySuffix : "This is a test notification boo.",
+       imageUrl : "http://images.all-free-download.com/images/graphicthumb/banana_310735.jpg"
+   });
+    PushNotificationHelper.sendNotification(_user, notif);
+    res.send("OK");
+});
 
 module.exports = router;

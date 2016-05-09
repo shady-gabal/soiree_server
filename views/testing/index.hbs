@@ -258,6 +258,19 @@
             });
         }
 
+        function testNotification(){
+            $.ajax({
+                url: '/testing/testNotification',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        }
+
     </script>
 
 {{/extend}}
@@ -277,11 +290,17 @@
     <br />
     <p>User Selected: {{_user.firstName}} {{_user.lastName}}</p>
     <img src="{{_user.profilePictureUrl}}" style="width:100px; height: 100px;" />
+
+    <button onclick='testNotification()'> Test Notification </button>
+
     <ul>
         <li>_currentReservations : [{{#each _user._currentReservations}} &nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;| {{/each}}]</li>
         <li>_pastReservations : [{{#each _user._pastReservations}}&nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;|{{/each}}]</li>
         <li>_notifications : [{{#each _user._notifications}}&nbsp;&nbsp;{{this.notificationId}}&nbsp;&nbsp;|{{/each}}]</li>
+        <li>_unreadNotifications : [{{#each _user._unreadNotifications}}&nbsp;&nbsp;{{this.notificationId}}&nbsp;&nbsp;|{{/each}}]</li>
     </ul>
+
+
 
     {{#each _testUsers}}
         <button onClick="switchUser('{{this._id}}')">Switch to {{this.firstName}} {{this.lastName}}</button>
