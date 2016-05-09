@@ -272,7 +272,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
               var soiree = soireesAttending[j];
               var jsonDict = soiree.jsonObject(user);
               if (!MongooseHelper.isObjectId(soiree._reservation)){
-                jsonDict["reservation"] = soiree._reservation;
+                jsonDict["reservation"] = soiree._reservation.jsonObject();
               }
 
               if (soiree.openToUsers) {
