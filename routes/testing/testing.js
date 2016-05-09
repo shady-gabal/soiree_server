@@ -572,8 +572,7 @@ router.post('/createSoiree', function(req, res){
 router.get('/testNotification', function(req, res){
    var notif = new Notification({
        notificationType : 'test',
-       bodySuffix : "This is a test notification boo. Multiple lines, let's see how you handle that. Can you? Idk. This is plenty, isn't it? Ten more words to make sure. That's only five. Ok.",
-       imageUrl : "https://pbs.twimg.com/media/CdN9xThWwAAiRqs.jpg"
+       bodySuffix : "This is a test notification boo. Multiple lines, let's see how you handle that. "
    });
     PushNotificationHelper.sendNotification(_user, notif);
     res.send("OK");
