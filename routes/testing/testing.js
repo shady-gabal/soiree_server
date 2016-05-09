@@ -573,7 +573,7 @@ router.get('/testNotification', function(req, res){
    var notif = new Notification({
        notificationType : 'test',
        bodySuffix : "This is a test notification boo.",
-       imageUrl : "http://images.all-free-download.com/images/graphicthumb/banana_310735.jpg"
+       imageUrl : "https://pbs.twimg.com/media/CdN9xThWwAAiRqs.jpg"
    });
     PushNotificationHelper.sendNotification(_user, notif);
     res.send("OK");
