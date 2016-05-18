@@ -27,6 +27,7 @@ var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
+
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         var email = req.body.email;
