@@ -137,6 +137,7 @@ router.post('/confirmSoireeReservation', function(req, res){
         reservation.confirm(confirmationCode, function(){
             responseObj.status = "success";
             responseObj.description = "Successfully confirmed reservation";
+            req.flash('success', 'Successfully confirmed reservation.');
 
             res.json(responseObj);
         }, function(error){

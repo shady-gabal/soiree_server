@@ -40,6 +40,9 @@
                             data: {confirmationCode: confirmationCode},
                             success: function (responseObj) {
                                 if (responseObj.status === 'success') {
+                                    var message = responseObj.description;
+                                    addSuccessMessage(message);
+                                    clearField();
                                 }
                                 else if (responseObj.status === 'fail') {
                                 }
@@ -52,6 +55,17 @@
                 );
             }
 
+        }
+
+        function clearField(){
+            var textField = $("#confirmationCodeInput");
+            textField.val('');
+            textField.focus();
+        }
+
+        function addSuccessMessage(message){
+            alert('adding message: ' + message);
+            $("#successMessage").text(message);
         }
     </script>
 

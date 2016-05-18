@@ -82,7 +82,7 @@ router.post('/verifyCode', function(req, res, next){
            ResHelper.sendSuccess(res);
        }
        else{
-           ResHelper.sendError(ErrorCodes.InvalidInput);
+           ResHelper.sendError(res, ErrorCodes.InvalidInput);
        }
 
    });

@@ -54,22 +54,20 @@
 {{#if errs}}
     <div class='alert alert-danger' role='alert'>
         <ul>
-            {{#each errs}}
-                <li>{{this}}</li>
-            {{/each}}
+            {{#if errors}}
+                <li>{{errors}}</li>
+            {{/if}}
         </ul>
     </div>
 {{/if}}
 
-{{#if successMsg}}
-    <div class='alert alert-success' role='alert'>
-        <ul>
-            {{#each successMsgs}}
-                <li>{{this}}</li>
-            {{/each}}
-        </ul>
-    </div>
-{{/if}}
+<div class='alert alert-success' role='alert' id="successMessage">
+    <!--<ul id="successMessages">-->
+        {{#if success}}
+            {{success}}
+        {{/if}}
+    <!--</ul>-->
+</div>
 
 {{{body}}}
 
