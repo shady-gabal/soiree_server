@@ -143,6 +143,12 @@ io.on('connection', function(socket){
                    //console.log(socket.client);
                    socket.client.soiree._host.joinUser(socket.client.user, socket);
 
+                   socket.on('question', function(){
+                       console.log('fetching question for soiree');
+                       if (socket.client.soiree){
+                           socket.client.soiree._host.askQuestion(socket);
+                       }
+                   });
                    socket.on('client-disconnect', function(){
                        console.log("socket " + socket + " disconnecting...");
                        if (socket.client) {
