@@ -76,7 +76,6 @@ var scheduledTasks = function(){
             console.log("Ending " + soirees.length + " soirees");
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
-                //console.log("Ending soiree  " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
                 soiree.end();
             }
         }

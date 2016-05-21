@@ -193,18 +193,32 @@ router.get('/', function (req, res) {
 
     var cb = function(posts){
         if (!posts) posts=[];
-        Soiree.find({}).limit(50).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, soirees) {
+        Soiree.find({cancelled: false, ended: false}).limit(20).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, soirees) {
         if (err) {
             console.log("Error finding soirees in testing/ : " + err);
             res.status(404).send("Error");
         }
         else {
-            for (var i = 0; i < soirees.length; i++) {
-                var soiree = soirees[i];
-                soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
-            }
-            var testUsers = _.without(_testUsers, _user);
-            ResHelper.render(req, res, 'testing/index', {soirees: soirees, posts: posts, _testUsers : testUsers, _user : _user});
+
+            Soiree.find({cancelled: true}).limit(20).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, overSoirees) {
+                if (err) {
+                    console.log("Error finding soirees in testing/ : " + err);
+                    res.status(404).send("Error");
+                }
+                else{
+                    for (var i = 0; i < soirees.length; i++) {
+                        var soiree = soirees[i];
+                        soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+                    }
+                    for (var i = 0; i < overSoirees.length; i++) {
+                        var soiree = overSoirees[i];
+                        soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+                    }
+
+                    var testUsers = _.without(_testUsers, _user);
+                    ResHelper.render(req, res, 'testing/index', {soirees: [soirees, overSoirees], posts: posts, _testUsers : testUsers, _user : _user});
+                }
+            });
         }
     });
     };

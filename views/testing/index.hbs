@@ -307,6 +307,8 @@
     {{/each}}
 </div>
 
+
+
 <h1> Soirees </h1>
 <!--<form action="createSoiree" method="post">-->
     <h4> Create Soiree with Date (ex: 8:50 PM) </h4>
@@ -316,50 +318,55 @@
 
 <ul id="soirees">
     {{#each soirees}}
-         <li>
-             {{this.soireeId}} : {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledStartTimeIdentifier}} -
-            {{#if this.userAlreadyJoined}}
-                <button> Joined </button>
-            {{else}}
-                <button onclick="join('{{this.soireeId}}')" id="{{this.soireeId}}"> Join </button>
-            {{/if}}
-             {{#if this.openToUsers}}
-                 <button onclick="showSoireeInProgress('{{this.soireeId}}')"> Show In Progress </button>
-             {{else}}
-                 <button onclick="openSoiree('{{this.soireeId}}')"> Open </button>
-
-             {{/if}}
-             {{#if this.started}}
-                 <button onclick="endSoiree('{{this.soireeId}}')"> End </button>
-             {{else}}
-
-                 <button onclick="startSoiree('{{this.soireeId}}')"> Start </button>
-                 {{#if this.cancelled}}
-                 <button> Cancelled </button>
+        <h2> Set of Soirees </h2>
+        {{#each this}}
+             <li>
+                 {{this.soireeId}} : {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledStartTimeIdentifier}} -
+                {{#if this.userAlreadyJoined}}
+                    <button> Joined </button>
+                {{else}}
+                    <button onclick="join('{{this.soireeId}}')" id="{{this.soireeId}}"> Join </button>
+                {{/if}}
+                 {{#if this.openToUsers}}
+                     <button onclick="showSoireeInProgress('{{this.soireeId}}')"> Show In Progress </button>
                  {{else}}
-                 <button onclick="cancelSoiree('{{this.soireeId}}')"> Cancel </button>
+                     <button onclick="openSoiree('{{this.soireeId}}')"> Open </button>
+
                  {{/if}}
-             {{/if}}
+                 {{#if this.started}}
+                     <button onclick="endSoiree('{{this.soireeId}}')"> End </button>
+                 {{else}}
 
-             <button onclick="remindSoiree('{{this.soireeId}}')"> Remind Users </button>
+                     <button onclick="startSoiree('{{this.soireeId}}')"> Start </button>
+                     {{#if this.cancelled}}
+                     <button> Cancelled </button>
+                     {{else}}
+                     <button onclick="cancelSoiree('{{this.soireeId}}')"> Cancel </button>
+                     {{/if}}
+                 {{/if}}
+
+                 <button onclick="remindSoiree('{{this.soireeId}}')"> Remind Users </button>
 
 
-             <div>
-                 <ul>
-                     <li>numUsersMax : {{this.numUsersMax}}</li>
-                     <li>_usersAttending ({{this._usersAttending.length}}): [{{#each this._usersAttending}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
-                     <li>_usersUncharged ({{this._usersUncharged.length}}): [{{#each this._usersUncharged}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
-                     <li>_unchargedReservations ({{this._unchargedReservations.length}}): [ {{#each this._unchargedReservations}} {{this.reservationId}} ({{this._user.fullName}}) {{/each}} ]</li>
-                     <li>_chargedReservations ({{this._chargedReservations.length}}): [ {{#each this._chargedReservations}} {{this.reservationId}} ({{this._user.fullName}} - {{this.confirmationCode}} - confirmed: {{this.confirmed}}) {{/each}} ]</li>
-                     <li > college : {{this.college}}</li>
-                     <li> startTimeIdentifier : {{this.scheduledStartTimeIdentifier}} </li>
-                     <li> endTimeIdentifier : {{this.scheduledEndTimeIdentifier}} </li>
+                 <div>
+                     <ul>
+                         <li>numUsersMax : {{this.numUsersMax}}</li>
+                         <li>_usersAttending ({{this._usersAttending.length}}): [{{#each this._usersAttending}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
+                         <li>_usersUncharged ({{this._usersUncharged.length}}): [{{#each this._usersUncharged}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
+                         <li>_unchargedReservations ({{this._unchargedReservations.length}}): [ {{#each this._unchargedReservations}} {{this.reservationId}} ({{this._user.fullName}}) {{/each}} ]</li>
+                         <li>_chargedReservations ({{this._chargedReservations.length}}): [ {{#each this._chargedReservations}} {{this.reservationId}} ({{this._user.fullName}} - {{this.confirmationCode}} - confirmed: {{this.confirmed}}) {{/each}} ]</li>
+                         <li > college : {{this.college}}</li>
+                         <li> startTimeIdentifier : {{this.scheduledStartTimeIdentifier}} </li>
+                         <li> endTimeIdentifier : {{this.scheduledEndTimeIdentifier}} </li>
 
-                 </ul>
-             </div>
-         </li>
+                     </ul>
+                 </div>
+             </li>
+        {{/each}}
     {{/each}}
 </ul>
+
+
 
 <h1> Posts </h1>
 
