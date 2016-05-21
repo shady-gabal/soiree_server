@@ -34,7 +34,7 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 /* Posts */
 
-router.get('/postsNear', function(req, res){
+router.get('/posts', function(req, res){
     //User.verifyUser(req.body.user, function(user){
         //var longitude = req.body.user.longitude;
         //var latitude = req.body.user.latitude;
@@ -55,7 +55,7 @@ router.get('/postsNear', function(req, res){
 
 });
 
-router.post('/postsNear', function(req, res, next){
+router.post('/posts', function(req, res, next){
     /* Possible Error Codes:
         ErrorQuerying
      */
@@ -81,6 +81,36 @@ router.post('/postsNear', function(req, res, next){
             ResHelper.sendError(res, err);
         });
 
+
+    }, function(err){
+        ResHelper.sendError(res, err);
+    });
+
+});
+
+router.post('/postsForUser', function(req, res, next){
+    /* Possible Error Codes:
+     ErrorQuerying
+     */
+
+    User.verifyUser(req, res, next, function(user){
+
+        var userId = req.body.userId;
+
+        CommunityPost.findPostsForUserId(userId, function (posts) {
+
+            var jsonArray = [];
+            for (var i = 0; i < posts.length; i++) {
+                var post = posts[i];
+                var jsonObject = post.jsonObject(user);
+
+                jsonArray.push(jsonObject);
+            }
+            res.json({"posts": jsonArray});
+
+        }, function (err) {
+            ResHelper.sendError(res, err);
+        });
 
     }, function(err){
         ResHelper.sendError(res, err);
