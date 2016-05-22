@@ -592,4 +592,16 @@ router.get('/testNotification', function(req, res){
     res.send("OK");
 });
 
+router.get('/verifyPerson', function(req, res){
+   User.findOne({"firstName" : "Ramy"}, function(err, user){
+       if (!err && user){
+           user.testUser = true;
+           user.verified = true;
+           user.save(Globals.saveErrorCallback);
+           res.send("Done");
+       }
+       else res.send(err);
+   });
+});
+
 module.exports = router;
