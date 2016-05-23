@@ -95,15 +95,9 @@ router.post('/joinSoiree', function (req, res, next) {
             return ResHelper.sendError(res, ErrorCodes.MissingStripeCustomerId);
         }
 
-        //var stripeToken = req.body.stripeToken;
-        //
-        //if (!stripeToken){
-        //    return ResHelper.sendError(res, "MissingStripeToken");
-        //}
-
         var soireeId = req.body.soireeId;
-        Soiree.joinSoireeWithId(soireeId, user, function () {
-            ResHelper.sendSuccess(res);
+        Soiree.joinSoireeWithId(soireeId, user, function (soiree) {
+            res.json(soiree.jsonObject(user));
         }, function (error) {
             ResHelper.sendError(res, error);
         });
