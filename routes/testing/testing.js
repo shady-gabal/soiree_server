@@ -18,6 +18,7 @@ var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
 var Admin = require('app/db/Admin.js');
 var Notification = require('app/db/Notification.js');
+var BetaSignupEmailList = require('app/db/BetaSignupEmailList.js');
 
 var ResHelper = require('app/helpers/ResHelper.js');
 var LocationHelper = require('app/helpers/LocationHelper.js');
@@ -601,6 +602,12 @@ router.get('/testNotification', function(req, res){
    });
     PushNotificationHelper.sendNotification(_user, notif);
     res.send("OK");
+});
+
+router.get('/betaSignupEmailList', function(req,res){
+   BetaSignupEmailList.findList(function(list){
+       res.json(list.emails);
+   }, function(){res.send("Error")});
 });
 
 //router.get('/verifyPerson', function(req, res){
