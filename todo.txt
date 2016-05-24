@@ -16,3 +16,4 @@ Improvements:
 and perform a fetch whenever you need to get a user's name. You'll have to fetch at most two users, which more than makes
 up for the save in db space.
 2) Adjust user age everyday
+make soirees for all colleges

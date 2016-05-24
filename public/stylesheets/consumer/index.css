@@ -1,5 +1,26 @@
 body{
-    background-color: rgb(30,147,234);
+    background-image: url("/images/experiencesoiree_bg.png");
+    background-size: cover;
+}
+
+#body{
+    display: none;
+}
+
+#container{
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+}
+
+#container.load{
+    opacity: 1;
 }
 
 #emailSignupDiv{
@@ -8,25 +29,45 @@ body{
 }
 
 #emailSignupInput{
-    width: 40%;
-    height: 75px;
-    display: block;
+    width: 400px;
+    height: 50px;
     font-size: 28px;
     text-align: center;
     margin: auto auto;
+    font-family: "HelveticaNeue-Light";
+    display: none;
 }
 
 #emailSignupSubmit{
-    display: block;
     text-align: center;
     margin: auto auto;
-    width: 100px;
+    width: 400px;
     height: 50px;
-    font-size: 24px;
+    font-size: 28px;
+    display: block;
+    margin-top: 10px;
+    font-family: "HelveticaNeue-Light";
+    display: none;
 }
 
 #soiree{
     color: white;
-    font-size: 48px;
+    font-size: 200px;
     text-align: center;
+    font-family: "Party LET";
+    margin-bottom: -20px;
+    padding-bottom: 0px;
+    /*-webkit-text-stroke: 1px #DDD;*/
+    display: none;
+    text-shadow:1px 1px #000;
+
+}
+
+#successMessage{
+    display: none;
+    font-family: "Cedarville Cursive";
+    /*font-family: "HelveticaNeue-Thin";*/
+    font-size: 36px;
+    color: white;
+    text-shadow:1px 1px #000;
 }

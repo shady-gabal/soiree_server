@@ -1,14 +1,61 @@
+<!--<img src="/images/experiencesoiree_bg.png" id="bgImage"/>-->
+
 {{#extend "stylesheets"}}
     <link rel="stylesheet" href="/stylesheets/consumer/index.css" />
+    <link href='https://fonts.googleapis.com/css?family=Cedarville+Cursive' rel='stylesheet' type='text/css'>
 {{/extend}}
 
-<h1 id="soiree"> Soirée </h1>
+<div id="container">
+    <h1 id="soiree"> Soirée </h1>
 
-<h3 id="beta"> Signup for the Beta </h3>
-
-<div id="emailSignupDiv">
-    <form method="POST" action="/signupEmail" id="emailSignupForm">
-        <input type="email" placeholder="Email" id="emailSignupInput" />
-        <input type="submit" name="Submit" id="emailSignupSubmit" />
-    </form>
+    <div id="emailSignupDiv">
+        <input type="email" name="email" placeholder=".edu email address" id="emailSignupInput" autofocus />
+        <button type="button" id="emailSignupSubmit" onclick="signupEmail()">signup for the beta</button>
+    </div>
+    <p id="successMessage">Congratulations! You've signed up for the Soirée beta. We'll contact you very soon with an invitation.</p>
 </div>
+
+{{#extend "scripts"}}
+    <script>
+        function signedUp(){
+            $("#soiree").fadeOut(250);
+            $("#emailSignupInput").fadeOut(250);
+            $("#emailSignupSubmit").fadeOut(250);
+            setTimeout(function(){$("#successMessage").fadeIn(250);}, 251);
+
+        };
+
+        function signupEmail(){
+            var email = $("#emailSignupInput").val();
+
+            $.ajax({
+                url: '/addEmail',
+                method : 'POST',
+                data : {email : email},
+                success: function(){
+//                    alert("Added email");
+                    signedUp();
+                },
+                error: function(err){
+                    if (err.responseText === "InvalidEmail"){
+                        alert("Sorry bae but we need you to put in a .edu email address");
+                    }
+                    else alert("There was an error signing you up. Sorry <3. Maybe try again? ");
+                }
+            });
+        };
+
+        body.onload = function(){
+            $("#body").show();
+            setTimeout(function(){$("#soiree").fadeIn(2000);}, 500);
+            setTimeout(function(){$("#emailSignupInput").fadeIn(1500);}, 3500);
+            setTimeout(function(){$("#emailSignupSubmit").fadeIn(1500);}, 4000);
+        };
+
+
+
+
+    </script>
+{{/extend}}
+
+
