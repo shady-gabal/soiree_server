@@ -11,13 +11,82 @@
 
     <div id="emailSignupDiv">
         <input type="email" name="email" placeholder=".edu email address" id="emailSignupInput" autofocus />
-        <button type="button" id="emailSignupSubmit" onclick="signupEmail()">signup for the beta</button>
+
+        <button type="button" class="signupButton" id="emailSignupSubmit" onclick="signupEmail()">signup for the beta</button>
+
     </div>
     <p id="successMessage">Congratulations! You've signed up for the Soirée beta. We'll contact you very soon with an invitation.</p>
 </div>
 
 {{#extend "scripts"}}
     <script>
+        var signingUp = false;
+        var buttonAnimationDuration = 1000;
+        var animatingNormal = false;
+        var animatingBusy = false;
+
+        var _animateButtonNormal = false;
+        var _animateButtonBusy = false;
+
+        var originalText = $("#emailSignupSubmit").text();
+        var busyText = "just a sec boo...";
+
+        var str = "";
+
+        function startedRequest(){
+            signingUp = true;
+            $('#emailSignupSubmit').text(busyText);
+
+//            if (animatingNormal || animatingBusy){
+//                _animateButtonBusy = true;
+//            }
+//            else animateButtonBusy();
+        };
+
+        function finishedRequest(){
+            signingUp = false;
+            $('#emailSignupSubmit').text(originalText);
+
+//            if (animatingNormal || animatingBusy){
+//                _animateButtonNormal = true;
+//            }
+//            else animateButtonNormal();
+        }
+
+        function animateButtonNormal(){
+            $('#emailSignupSubmit').fadeOut(buttonAnimationDuration);
+
+            setTimeout(function(){
+                $('#emailSignupSubmit').text(originalText);
+
+                $('#emailSignupSubmit').fadeIn(buttonAnimationDuration);
+                animatingNormal = false;
+                _animateButtonNormal = false;
+
+                if (_animateButtonBusy){
+                    animateButtonBusy();
+                }
+            }, buttonAnimationDuration + 1);
+        }
+
+        function animateButtonBusy(){
+            animatingBusy = true;
+
+            $('#emailSignupSubmit').fadeOut(buttonAnimationDuration);
+
+            setTimeout(function(){
+                $('#emailSignupSubmit').text(busyText);
+
+                $('#emailSignupSubmit').fadeIn(buttonAnimationDuration);
+                animatingBusy=false;
+                _animateButtonBusy = false;
+
+                if (_animateButtonNormal){
+                    animateButtonNormal();
+                }
+            }, buttonAnimationDuration + 10);
+        }
+
         function signedUp(){
             $("#soiree").fadeOut(250);
             $("#emailSignupInput").fadeOut(250);
@@ -27,17 +96,23 @@
         };
 
         function signupEmail(){
-            var email = $("#emailSignupInput").val();
+            if (!signingUp) {
+
+                var email = $("#emailSignupInput").val();
+                startedRequest();
+
+//                setTimeout(function(){finishedRequest();}, 500);
 
             $.ajax({
                 url: '/addEmail',
                 method : 'POST',
                 data : {email : email},
                 success: function(){
-//                    alert("Added email");
                     signedUp();
                 },
                 error: function(err){
+                    finishedRequest();
+
                     if (err.responseText === "InvalidEmail"){
                         alert("Sorry bae but we need you to put in a .edu email address");
                     }
@@ -47,20 +122,21 @@
                     else alert("There was an error signing you up. Sorry <3. Maybe try again? ");
                 }
             });
+            }
         };
 
 
         body.onload = function(){
-            $("#body").show();
+//            $("#body").show();
             setTimeout(function(){$("#soiree").fadeIn(2000);}, 500);
             setTimeout(function(){$("#emailSignupInput").fadeIn(1500);}, 3500);
             setTimeout(function(){$("#emailSignupSubmit").fadeIn(1500);}, 4000);
         };
 
 
-
-
     </script>
+    <script src="/javascripts/spin.js" />
+
 {{/extend}}
 
 
