@@ -3,6 +3,7 @@
 {{#extend "stylesheets"}}
     <link rel="stylesheet" href="/stylesheets/consumer/index.css" />
     <link href='https://fonts.googleapis.com/css?family=Cedarville+Cursive' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
 {{/extend}}
 
 <div id="container">
@@ -41,7 +42,7 @@
                         alert("Sorry bae but we need you to put in a .edu email address");
                     }
                     else if (err.responseText === "EmailExists"){
-                        alert("Hold up boo it looks like we already this email address is already signed up");
+                        alert("Hold up boo it looks like this email address is already signed up");
                     }
                     else alert("There was an error signing you up. Sorry <3. Maybe try again? ");
                 }
@@ -49,6 +50,7 @@
         };
 
         body.onload = function(){
+            alert("loaded");
             $("#body").show();
             setTimeout(function(){$("#soiree").fadeIn(2000);}, 500);
             setTimeout(function(){$("#emailSignupInput").fadeIn(1500);}, 3500);
