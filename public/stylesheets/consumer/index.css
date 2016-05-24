@@ -5,8 +5,8 @@
 
 body{
     background-image: url("/images/experiencesoiree_bg.png");
-    background-size: cover;
     background-repeat : no-repeat;
+    background-size: cover;
 }
 
 #body{
@@ -63,7 +63,6 @@ body{
     font-family: "Party Plain", "Cedarville Cursive", "Open Sans", "Arial";
     margin-bottom: -20px;
     padding-bottom: 0px;
-    /*-webkit-text-stroke: 1px #DDD;*/
     display: none;
     text-shadow:1px 1px #000;
 
@@ -72,8 +71,13 @@ body{
 #successMessage{
     display: none;
     font-family: "Cedarville Cursive", "Open Sans", "Arial";
-    /*font-family: "HelveticaNeue-Thin";*/
     font-size: 42px;
     color: white;
     text-shadow:1px 1px #000;
+}
+
+@media handheld {
+    body{
+        background-size: 100% auto
+    }
 }
