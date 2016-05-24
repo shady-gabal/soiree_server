@@ -6,6 +6,7 @@
 body{
     background-image: url("/images/experiencesoiree_bg.png");
     background-size: cover;
+    background-repeat : no-repeat;
 }
 
 #body{
