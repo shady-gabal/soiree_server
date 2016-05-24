@@ -39,7 +39,7 @@ body{
     font-size: 28px;
     text-align: center;
     margin: auto auto;
-    font-family: "Lato", "Helvetica Neue Light", "Arial";
+    font-family: "Open Sans", "Helvetica Neue Light", "Arial";
     display: none;
 }
 
@@ -51,7 +51,7 @@ body{
     font-size: 28px;
     display: block;
     margin-top: 10px;
-    font-family: "Lato", "Helvetica Neue Light", "Arial";
+    font-family: "Open Sans", "Helvetica Neue Light", "Arial";
     display: none;
 }
 
@@ -59,7 +59,7 @@ body{
     color: white;
     font-size: 200px;
     text-align: center;
-    font-family: "Party Plain", "Cedarville Cursive", "Lato", "Arial";
+    font-family: "Party Plain", "Cedarville Cursive", "Open Sans", "Arial";
     margin-bottom: -20px;
     padding-bottom: 0px;
     /*-webkit-text-stroke: 1px #DDD;*/
@@ -70,7 +70,7 @@ body{
 
 #successMessage{
     display: none;
-    font-family: "Cedarville Cursive", "Lato", "Arial";
+    font-family: "Cedarville Cursive", "Open Sans", "Arial";
     /*font-family: "HelveticaNeue-Thin";*/
     font-size: 42px;
     color: white;
