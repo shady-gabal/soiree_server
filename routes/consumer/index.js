@@ -27,7 +27,7 @@ router.post('/addEmail', function(req, res){
         BetaSignupEmailList.addEmail(email, function(){
             res.send("OK");
         }, function(err){
-            res.status(404).send("MongoError");
+            res.status(404).send(err);
         });
     }
     else{

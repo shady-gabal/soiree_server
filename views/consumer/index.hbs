@@ -40,6 +40,9 @@
                     if (err.responseText === "InvalidEmail"){
                         alert("Sorry bae but we need you to put in a .edu email address");
                     }
+                    else if (err.responseText === "EmailExists"){
+                        alert("Hold up boo it looks like we already this email address is already signed up");
+                    }
                     else alert("There was an error signing you up. Sorry <3. Maybe try again? ");
                 }
             });

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Party Plain';
+    src: url('/fonts/Party LET.ttf'); /* IE9 Compat Modes */
+}
+
 body{
     background-image: url("/images/experiencesoiree_bg.png");
     background-size: cover;
@@ -54,7 +59,7 @@ body{
     color: white;
     font-size: 200px;
     text-align: center;
-    font-family: "Party LET";
+    font-family: "Party Plain";
     margin-bottom: -20px;
     padding-bottom: 0px;
     /*-webkit-text-stroke: 1px #DDD;*/
