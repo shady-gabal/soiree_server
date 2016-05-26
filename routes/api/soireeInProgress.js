@@ -143,25 +143,25 @@ io.on('connection', function(socket){
                    //console.log(socket.client);
                    socket.client.soiree._host.joinUser(socket.client.user, socket);
 
-                   socket.on('question', function(){
+                   socket.on('question', function(data){
                        console.log('fetching question for soiree');
                        if (socket.client.soiree){
                            socket.client.soiree._host.askQuestion(socket);
                        }
                    });
 
-                   socket.on('start cah', function(){
-                       socket.client.soiree._host.requestingStartCAH(socket);
+                   socket.on('start cah', function(data, callback){
+                       socket.client.soiree._host.requestingStartCAH(socket, callback);
                    });
 
-                   socket.on('cahQuestion', function(){
+                   socket.on('cahQuestion', function(data, callback){
                        console.log('fetching cah question for soiree');
                        if (socket.client.soiree){
                            socket.client.soiree._host.askCAHQuestion(socket);
                        }
                    });
 
-                   socket.on('client-disconnect', function(){
+                   socket.on('client-disconnect', function(data){
                        console.log("socket " + socket + " disconnecting...");
                        if (socket.client) {
                            socket.client.soiree._host.disconnectUser(socket.client.user);
