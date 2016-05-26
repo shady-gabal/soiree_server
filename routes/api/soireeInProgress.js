@@ -150,6 +150,10 @@ io.on('connection', function(socket){
                        }
                    });
 
+                   socket.on('start cah', function(){
+                       socket.client.soiree._host.requestingStartCAH(socket);
+                   });
+
                    socket.on('cahQuestion', function(){
                        console.log('fetching cah question for soiree');
                        if (socket.client.soiree){
