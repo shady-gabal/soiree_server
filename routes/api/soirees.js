@@ -5,6 +5,7 @@ var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
 var mongoose = require('app/db/mongoose_connect.js');
+var CAHGame = require('/app/db/CAHGame.js');
 var SoireeHost = require('app/db/SoireeHost.js');
 var Soiree = require('app/db/Soiree.js');
 var SoireeReservation = require('app/db/SoireeReservation.js');

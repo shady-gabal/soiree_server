@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/app/db/CAHGame.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/SoireeHost.js" afterPath="$PROJECT_DIR$/node_modules/app/db/SoireeHost.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/soireeInProgress.js" afterPath="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/soirees.js" afterPath="$PROJECT_DIR$/routes/api/soirees.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,18 +30,38 @@
       <file leaf-file-name="Soiree.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/Soiree.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="10.111111">
+            <state vertical-scroll-proportion="-687.5185">
               <caret line="1007" column="30" selection-start-line="1007" selection-start-column="30" selection-end-line="1007" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SoireeHost.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SoireeHost.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/SoireeHost.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59825873">
-              <caret line="198" column="27" selection-start-line="198" selection-start-column="27" selection-end-line="198" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CAHGame.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/app/db/CAHGame.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="140" column="5" selection-start-line="140" selection-start-column="5" selection-end-line="140" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="soirees.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/routes/api/soirees.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.16542289">
+              <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -61,7 +84,7 @@
         <entry file="file://$PROJECT_DIR$/routes/api/soireeInProgress.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="156" column="69" selection-start-line="156" selection-start-column="69" selection-end-line="156" selection-end-column="69" />
+              <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -105,9 +128,9 @@
         <option value="Node Router File" />
         <option value="Handlebars File" />
         <option value="CSS File" />
-        <option value="Mongoose Schema File" />
         <option value="JavaScript File" />
         <option value="Node Helper File" />
+        <option value="Mongoose Schema File" />
       </list>
     </option>
   </component>
@@ -117,7 +140,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/node_modules/app/db/UserVerification.js" />
         <option value="$PROJECT_DIR$/routes/admins/adminLogin.js" />
         <option value="$PROJECT_DIR$/routes/api/businessesApi.js" />
         <option value="$PROJECT_DIR$/node_modules/app/helpers/ResHelper.js" />
@@ -150,7 +172,6 @@
         <option value="$PROJECT_DIR$/node_modules/app/helpers/EmailHelper.js" />
         <option value="$PROJECT_DIR$/views/testing/index.hbs" />
         <option value="$PROJECT_DIR$/node_modules/app/db/Notification.js" />
-        <option value="$PROJECT_DIR$/routes/api/soirees.js" />
         <option value="$PROJECT_DIR$/todo.txt" />
         <option value="$PROJECT_DIR$/views/layout.hbs" />
         <option value="$PROJECT_DIR$/bower.json" />
@@ -166,8 +187,10 @@
         <option value="$PROJECT_DIR$/scheduled/cahManager.js" />
         <option value="$PROJECT_DIR$/scheduled/soireeStarterStopper.js" />
         <option value="$PROJECT_DIR$/node_modules/app/db/Soiree.js" />
-        <option value="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
         <option value="$PROJECT_DIR$/node_modules/app/db/SoireeHost.js" />
+        <option value="$PROJECT_DIR$/routes/api/soireeInProgress.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/CAHGame.js" />
+        <option value="$PROJECT_DIR$/routes/api/soirees.js" />
       </list>
     </option>
   </component>
@@ -701,9 +724,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.42548078" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.42548078" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -743,13 +766,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/MongooseHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/ArrayHelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -945,14 +961,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/soirees.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="9" selection-start-line="95" selection-start-column="9" selection-end-line="95" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/bower_components/jquery/dist/jquery.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1120,14 +1128,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/Soiree.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="10.111111">
-          <caret line="1007" column="30" selection-start-line="1007" selection-start-column="30" selection-end-line="1007" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1139,15 +1139,39 @@
     <entry file="file://$PROJECT_DIR$/routes/api/soireeInProgress.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="156" column="69" selection-start-line="156" selection-start-column="69" selection-end-line="156" selection-end-column="69" />
+          <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/db/SoireeHost.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59825873">
-          <caret line="198" column="27" selection-start-line="198" selection-start-column="27" selection-end-line="198" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/Soiree.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-687.5185">
+          <caret line="1007" column="30" selection-start-line="1007" selection-start-column="30" selection-end-line="1007" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/CAHGame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="140" column="5" selection-start-line="140" selection-start-column="5" selection-end-line="140" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/soirees.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16542289">
+          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
           <folding />
         </state>
       </provider>
