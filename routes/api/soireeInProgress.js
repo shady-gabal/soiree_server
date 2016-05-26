@@ -149,6 +149,14 @@ io.on('connection', function(socket){
                            socket.client.soiree._host.askQuestion(socket);
                        }
                    });
+
+                   socket.on('cahQuestion', function(){
+                       console.log('fetching cah question for soiree');
+                       if (socket.client.soiree){
+                           socket.client.soiree._host.askCAHQuestion(socket);
+                       }
+                   });
+
                    socket.on('client-disconnect', function(){
                        console.log("socket " + socket + " disconnecting...");
                        if (socket.client) {
