@@ -150,8 +150,8 @@ io.on('connection', function(socket){
                        }
                    });
 
-                   socket.on('start cah', function(data, callback){
-                       socket.client.soiree._host.requestingStartCAH(socket, callback);
+                   socket.on('start cah', function(data, fn){
+                       socket.client.soiree._host.requestingStartCAH(socket, fn);
                    });
 
                    socket.on('cahQuestion', function(data, callback){
