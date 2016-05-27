@@ -38,6 +38,7 @@
     "socketio-auth" : "",
     "cron" : "",
     "moment" : "",
-    "mongoose-autopopulate" : ""
+    "mongoose-autopopulate" : "",
+    "xoauth2" : ""
   }
 }

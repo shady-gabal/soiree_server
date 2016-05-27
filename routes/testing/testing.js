@@ -20,6 +20,7 @@ var Admin = require('app/db/Admin.js');
 var Notification = require('app/db/Notification.js');
 var BetaSignupEmailList = require('app/db/BetaSignupEmailList.js');
 
+var EmailHelper = require('app/helpers/EmailHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
 var LocationHelper = require('app/helpers/LocationHelper.js');
 var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
@@ -610,6 +611,22 @@ router.get('/betaSignupEmailList', function(req,res){
    }, function(){res.send("Error")});
 });
 
+router.get('/deleteDupes', function(req, res){
+    BetaSignupEmailList.findList(function(list) {
+        list.emails = _.uniq(list.emails);
+        list.save(function(err){
+            res.send("Completed with err: " + err);
+        })
+    });
+});
+
+router.get('/sendEmail', function(req, res){
+    EmailHelper.sendVerificationEmail("shady@nyu.edu", _user, function(){
+        res.send("OK");
+    }, function(){
+        res.send("Error");
+    });
+});
 //router.get('/verifyPerson', function(req, res){
 //   User.findOne({"firstName" : "Ramy"}, function(err, user){
 //       if (!err && user){

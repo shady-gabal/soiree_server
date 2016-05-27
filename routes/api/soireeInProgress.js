@@ -7,7 +7,7 @@ var helpersFolderLocation = "../../helpers/";
 var mongoose = require('app/db/mongoose_connect.js');
 var Soiree = require('app/db/Soiree.js');
 var SoireeReservation = require('app/db/SoireeReservation.js');
-var CAHGame = require('/app/db/CAHGame.js');
+var CAHGame = require('app/db/CAHGame.js');
 var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
 var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
@@ -137,7 +137,7 @@ io.on('connection', function(socket){
         socketAuthenticate(socket, data, function(something, authenticated){
            if (authenticated){
                console.log("authenticated");
-               socket.emit('authenticated', {});
+               socket.emit('authenticated', {"status" : socket.client.soiree._host.status()});
 
                if (socket.client.user && socket.client.soiree && socket.client.soiree.openToUsers) {
                    console.log("joining room...");
