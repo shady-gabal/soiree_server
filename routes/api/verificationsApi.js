@@ -27,6 +27,19 @@ var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
+var validator = require('validator');
+
+router.get('/validateEmail', function(req, res){
+   var email = req.query.email;
+    if (email){
+        if (validator.isEmail(email)){
+            res.send("is email");
+        }
+        else res.send("is not email");
+
+    }
+    else res.send("No email specified");
+});
 
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
@@ -34,15 +47,20 @@ router.post('/sendVerificationEmail', function(req, res, next){
         console.log('verified user, sending email...');
 
         if (EmailHelper.validateEmail(email)){
+            console.log('email is valid');
+
             user.email = email;
-            user.save();
+            user.save(Globals.saveErrorCallback);
+
             EmailHelper.sendVerificationEmail(email, user, function(){
                 ResHelper.sendSuccess(res);
             }, function(err){
+                console.log(err);
                 ResHelper.sendError(res, ErrorCodes.Error);
             });
         }
         else{
+            console.log("email is not valid");
             ResHelper.sendError(res, ErrorCodes.InvalidInput);
         }
 
@@ -56,8 +74,9 @@ router.post('/sendVerificationEmail', function(req, res, next){
 router.get('/sendVerificationEmail', function(req, res){
         var email = req.query.email;
 
+    User.findTestUser(function(user){
         if (EmailHelper.validateEmail(email)){
-            EmailHelper.sendVerificationEmail(email, null, function(){
+            EmailHelper.sendVerificationEmail(email, user, function(){
                 user.pendingVerification = true;
                 user.save();
 
@@ -70,6 +89,10 @@ router.get('/sendVerificationEmail', function(req, res){
         else{
             ResHelper.sendError(res, ErrorCodes.Error);
         }
+    }, function(err){
+        res.send("unable to find test user");
+    });
+
 });
 
 router.post('/verifyCode', function(req, res, next){
