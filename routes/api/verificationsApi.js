@@ -26,6 +26,7 @@ var EmailHelper = require('app/helpers/EmailHelper.js');
 var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
+var Globals = require('app/helpers/Globals.js');
 
 var validator = require('validator');
 
