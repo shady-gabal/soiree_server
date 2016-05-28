@@ -44,7 +44,7 @@ router.get('/validateEmail', function(req, res){
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         var email = req.body.email;
-        console.log('verified user, sending email...');
+        console.log('verified user, sending email to ' + email + '...' );
 
         if (EmailHelper.validateEmail(email)){
             console.log('email is valid');
