@@ -45,6 +45,8 @@ router.get('/validateEmail', function(req, res){
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         var email = req.body.email;
+        email = email.trim();
+
         console.log('verified user, sending email to ' + email + '...' );
 
         if (EmailHelper.validateEmail(email)){
@@ -54,6 +56,7 @@ router.post('/sendVerificationEmail', function(req, res, next){
             user.save(Globals.saveErrorCallback);
 
             EmailHelper.sendVerificationEmail(email, user, function(){
+                user.pendingVerification = true;
                 ResHelper.sendSuccess(res);
             }, function(err){
                 console.log(err);
@@ -73,7 +76,8 @@ router.post('/sendVerificationEmail', function(req, res, next){
 });
 
 router.get('/sendVerificationEmail', function(req, res){
-        var email = req.query.email;
+    var email = req.query.email;
+    email = email.trim();
 
     User.findTestUser(function(user){
         if (EmailHelper.validateEmail(email)){
