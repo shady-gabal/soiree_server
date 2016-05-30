@@ -7,11 +7,19 @@
 		<li>
             <ul>
                 <li> User: {{this._user.firstName}}  {{this._user.lastName}} </li>
-                <li> College: {{this.college}} </li>
-                <li > Id Image: <img class="verification-image" src='{{this.idImagePath}}'/> </li>
+                <li> Id Image: <img class="verification-image" src='{{this.idImagePath}}'/> </li>
                 <li> Self Image: <img class="verification-image" src='{{this.selfImagePath}}'/>  </li>
                 <li> <button> Verify </button> <button> Reject </button> </li>
             </ul>
         </li>
 	{{/each}}
 </ul>
+
+{{#extend "scripts"}}
+    <script>
+        function fetchMoreVerifications(){
+
+        }
+
+    </script>
+{{/extend}}

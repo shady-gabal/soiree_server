@@ -30,6 +30,8 @@ var Globals = require('app/helpers/Globals.js');
 
 var validator = require('validator');
 
+//EMAIL VERIFICATION
+
 router.get('/validateEmail', function(req, res){
    var email = req.query.email;
     if (email){
@@ -133,6 +135,8 @@ router.post('/uploadCollege', function(req, res, next){
     });
 });
 
+//ID VERIFICATION
+
 router.get('/verificationPhoto', function(req, res){
     var userId = req.query.userId;
 
@@ -182,7 +186,6 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 console.log("Missing idImage or selfImage");
                 return ResHelper.sendError(res, ErrorCodes.MissingData);
             }
-
 
             UserVerification.remove({_user: user._id}, function(err){
 
@@ -249,7 +252,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
             });
         }
         else{
-            ResHelper.sendMessage(res, 200, "user already verified");
+            ResHelper.sendSuccess(res);
         }
 
     });
