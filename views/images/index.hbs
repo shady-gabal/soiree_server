@@ -1,0 +1,15 @@
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="/stylesheets/" />
+{{/extend}}
+
+{{#extend "scripts"}}
+<script src="/javascripts/"></script>
+<script>
+
+</script>
+{{/extend}}
+
+<h1>Images</h1>
+{{#each images}}
+    <li><a href="{{this.path}}">{{this.path}}</a></li>
+{{/each}}

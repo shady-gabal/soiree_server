@@ -18,6 +18,23 @@ var DateHelper = require('app/helpers/DateHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 
+router.get('/', function(req, res){
+    if (Admin.isLoggedIn(req)){
+        Image.find({}, function(err, images){
+           if (err){
+               console.log("Error: err");
+               res.send("Error");
+           }
+            else{
+               res.render("images/index", {images:images});
+           }
+        });
+    }
+    else{
+        res.send("Error");
+    }
+});
+
 router.get('/:fileName', function(req, res){
     var fileName = req.params.fileName;
     console.log("/images called with fileName " + fileName);
