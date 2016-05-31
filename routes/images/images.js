@@ -35,6 +35,7 @@ router.get('/:fileName', function(req, res){
                 res.status(404).send("");
             }
             else{
+                console.log("sending image...");
                 res.contentType(doc.contentType);
                 res.send(doc.data);
             }
