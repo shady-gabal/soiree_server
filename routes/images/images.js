@@ -35,6 +35,13 @@ router.get('/', function(req, res){
     }
 });
 
+router.get('/removeImages', function(req, res){
+    Image.remove({}).exec(function(err){
+        res.send("Completed with err: " + err);
+    });
+});
+
+
 router.get('/:fileName', function(req, res){
     var fileName = req.params.fileName;
     console.log("/images called with fileName " + fileName);
@@ -58,12 +65,6 @@ router.get('/:fileName', function(req, res){
             }
         }
     });
-});
-
-router.get('/removeImages', function(req, res){
-   Image.remove({}).exec(function(err){
-     res.send("Completed with err: " + err);
-   });
 });
 
 module.exports = router;
