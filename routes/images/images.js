@@ -31,6 +31,7 @@ router.get('/:fileName', function(req, res){
         }
         else{
             if (doc.adminsOnly && !Admin.isLoggedIn(req)){
+                console.log("admin not logged in - can't show image");
                 res.status(404).send("");
             }
             else{
