@@ -271,11 +271,15 @@ app.use('/api/verifications', verificationsApi);
 
 //middleware
 app.use('/admins', Admin.checkIfLoggedIn);
+app.use('/admin', Admin.checkIfLoggedIn);
 
 //routers
 app.use('/admins', admins);
+app.use('/admin', admins);
+
 app.use('/adminLogin', adminLogin);
 app.use('/admins/verifications', verifications);
+app.use('/admin/verifications', verifications);
 
 
 

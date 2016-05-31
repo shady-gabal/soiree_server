@@ -4,7 +4,7 @@
 
 <ul>
     {{#each verifications}}
-		<li>
+        <li>
             <ul>
                 <li> User: {{this._user.firstName}}  {{this._user.lastName}} </li>
                 <li> Id Image: <img class="verification-image" src='{{this.idImagePath}}'/> </li>
@@ -17,8 +17,26 @@
 
 {{#extend "scripts"}}
     <script>
+        var verifications = [
+            {{#each verifications}}
+                this
+            {{/each}}
+        ];
+
         function fetchMoreVerifications(){
 
+        }
+
+        function createNextVerificationDiv(){
+            var verification = verifications[0];
+            return "<li>" +
+                "<ul>" +
+                "<li> User: " + verification._user.firstName +  verification._user.lastName + "</li>"
+                + "<li> Id Image: <img class='verification-image' src='" + verification.idImagePath + "'/> </li>" +
+                        "<li> Self Image: <img class='verification-image' src='" + verification.selfImagePath + "'/>  </li>" +
+                       "<li> <button> Verify </button> <button> Reject </button> </li>"
+                + "</ul>"
+                + "</li>";
         }
 
     </script>

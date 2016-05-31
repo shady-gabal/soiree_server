@@ -229,8 +229,8 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 });
                 selfImage.save();
 
-                userVerification.idImage = idImage._id;
-                userVerification.selfImage = selfImage._id;
+                userVerification._idImage = idImage._id;
+                userVerification._selfImage = selfImage._id;
 
                 userVerification.idImagePath = idImage.path;
                 userVerification.selfImagePath = selfImage.path;

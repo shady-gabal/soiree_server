@@ -14,16 +14,28 @@ html{
     min-height: 100%;
 }
 
+#slogan{
+    text-align: center;
+    width: 400px;
+    font-size: 42px;
+    font-family: "Cedarville Cursive", "Open Sans", "Arial";
+    color: white;
+    text-shadow:1px 1px #000;
+    margin: auto;
+    display: none;
+    margin-top: 25px;
+}
 
 
 #container{
     width: 500px;
-    height: 300px;
+    height: 500px;
     position: absolute;
-    top:0;
+    top:20%;
     bottom: 0;
     left: 0;
     right: 0;
+    /*background-color: black;*/
 
     margin: auto;
 }
@@ -45,6 +57,7 @@ html{
     margin: auto auto;
     font-family: "Open Sans", "Helvetica Neue Light", "Arial";
     display: none;
+    margin-top: -25px;
 }
 
 .signupButton{

@@ -10,9 +10,10 @@
     <h1 id="soiree"> Soirée </h1>
 
     <div id="emailSignupDiv">
-        <input type="email" name="email" placeholder=".edu email address" id="emailSignupInput" autofocus />
+        <input type="email" name="email" placeholder="email address" id="emailSignupInput" autofocus />
 
         <button type="button" class="signupButton" id="emailSignupSubmit" onclick="signupEmail()">signup for the beta</button>
+        <h3 id="slogan"> for the best summer of your life </h3>
 
     </div>
     <p id="successMessage">Congratulations! You've signed up for the Soirée beta. We'll contact you very soon with an invitation.</p>
@@ -91,6 +92,7 @@
             $("#soiree").fadeOut(250);
             $("#emailSignupInput").fadeOut(250);
             $("#emailSignupSubmit").fadeOut(250);
+            $("#slogan").fadeOut(250);
             setTimeout(function(){$("#successMessage").fadeIn(250);}, 251);
 
         };
@@ -114,7 +116,7 @@
                     finishedRequest();
 
                     if (err.responseText === "InvalidEmail"){
-                        alert("Sorry bae but we need you to put in a .edu email address");
+                        alert("Sorry bae but it looks like you entered an invalid email address");
                     }
                     else if (err.responseText === "EmailExists"){
                         alert("Hold up boo it looks like this email address is already signed up");
@@ -130,7 +132,9 @@
 //            $("#body").show();
             setTimeout(function(){$("#soiree").fadeIn(2000);}, 500);
             setTimeout(function(){$("#emailSignupInput").fadeIn(1500);}, 3500);
-            setTimeout(function(){$("#emailSignupSubmit").fadeIn(1500);}, 4000);
+            setTimeout(function(){$("#emailSignupSubmit").fadeIn(1500);}, 4300);
+            setTimeout(function(){$("#slogan").fadeIn(1000);}, 6000);
+
         };
 
 
