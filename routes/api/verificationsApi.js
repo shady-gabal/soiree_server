@@ -216,7 +216,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     adminsOnly: true,
                     _userVerification : userVerification._id
                 });
-                idImage.save();
+                idImage.save(Globals.saveErrorCallback);
 
                 var selfImage = new Image({
                     data : selfImageFile.buffer,
@@ -227,7 +227,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     adminsOnly : true,
                     _userVerification : userVerification._id
                 });
-                selfImage.save();
+                selfImage.save(Globals.saveErrorCallback);
 
                 userVerification._idImage = idImage._id;
                 userVerification._selfImage = selfImage._id;

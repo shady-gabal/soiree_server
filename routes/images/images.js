@@ -26,6 +26,7 @@ router.get('/:fileName', function(req, res){
 
     Image.findOne({path : path}).exec(function(err, doc){
         if (err || !doc){
+            console.log("Error: Image at path " + path + " not found with err " + err);
             res.status(404).send("");
         }
         else{
