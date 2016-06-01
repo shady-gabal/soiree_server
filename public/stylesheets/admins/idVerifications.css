@@ -5,12 +5,12 @@
     left: 0;
     right: 0;
     font-size: 24px;
-    
+
 }
 
 .verification-image{
-    width: 75%;
-    height: 75%;
+    max-width: 300px;
+    max-height: 300px;
 }
 
 .id-image{
