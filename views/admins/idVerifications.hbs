@@ -5,12 +5,14 @@
 <ul>
     {{#each verifications}}
         <li>
-            <ul>
-                <li> User: {{this._user.firstName}}  {{this._user.lastName}} </li>
-                <li> Id Image: <img class="verification-image" src='{{this.idImagePath}}'/> </li>
-                <li> Self Image: <img class="verification-image" src='{{this.selfImagePath}}'/>  </li>
-                <li> <button> Verify </button> <button> Reject </button> </li>
-            </ul>
+            <div class="verification-div">
+                <ul>
+                    <li> User: {{this._user.firstName}}  {{this._user.lastName}} </li>
+                    <li> Id Image: <img class="verification-image id-image" src='{{this.idImagePath}}'/> </li>
+                    <li> Self Image: <img class="verification-image self-image" src='{{this.selfImagePath}}'/>  </li>
+                    <li> <button> Verify </button> <button> Reject </button> </li>
+                </ul>
+            </div>
         </li>
 	{{/each}}
 </ul>

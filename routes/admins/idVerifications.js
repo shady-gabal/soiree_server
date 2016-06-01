@@ -38,6 +38,12 @@ router.use(function(req, res, next){
     }
 });
 
+router.get('/deleteVerifications', function(req, res){
+    UserVerification.remove({}, function(err){
+        res.send("Done with err: " + err);
+    });
+});
+
 router.get('/', function(req, res){
 
     UserVerification.findUnverifiedVerifications(req.admin, [], function(verifications){

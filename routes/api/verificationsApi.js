@@ -135,6 +135,15 @@ router.post('/uploadCollege', function(req, res, next){
     });
 });
 
+
+
+
+
+
+
+
+
+
 //ID VERIFICATION
 
 router.get('/verificationPhoto', function(req, res){
@@ -164,12 +173,6 @@ router.get('/verificationPhoto', function(req, res){
             });
         }
 
-    });
-});
-
-router.get('/deleteVerifications', function(req, res){
-    UserVerification.remove({}, function(){
-        res.send("Done");
     });
 });
 
