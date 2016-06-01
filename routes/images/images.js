@@ -31,7 +31,7 @@ router.get('/', function(req, res){
         });
     }
     else{
-        res.send("Error");
+        res.redirect('/adminLogin');
     }
 });
 
