@@ -1,37 +1,37 @@
-body {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #eee;
-}
-
-.form-signin {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
-}
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-    margin-bottom: 10px;
-}
-.form-signin .checkbox {
-    font-weight: normal;
-}
-.form-signin .form-control {
-    position: relative;
-    height: auto;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 10px;
-    font-size: 16px;
-}
-.form-signin .form-control:focus {
-    z-index: 2;
+#welcomeHeader{
+    text-align:center;
+    font-size:42px;
 }
 
 #confirmationCodeInput {
     text-transform: uppercase;
+    width:400px;
+    margin:auto;
+    margin-top:50px;
+    height:60px;
+    font-size:24px;
 }
+
+#confirmationCodeButton{
+    width:400px;
+    margin:auto;
+    height:50px;
+    font-size:22px;
+    margin-top:10px;
+}
+
+
+#confirmationCodeForm{
+    position:absolute;
+    top:-10%;
+    left:0;
+    right:0;
+    bottom:0;
+    width:700px;
+    height:300px;
+    margin:auto;
+}
+
 ::-webkit-input-placeholder { /* WebKit browsers */
     text-transform: none;
 }

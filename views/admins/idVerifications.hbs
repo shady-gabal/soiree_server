@@ -2,44 +2,85 @@
     <link rel="stylesheet" href="/stylesheets/admins/idVerifications.css" />
 {{/extend}}
 
-<ul>
-    {{#each verifications}}
-        <li>
-            <div class="verification-div">
-                <ul>
-                    <li> User: {{this._user.firstName}}  {{this._user.lastName}} </li>
-                    <li class="image-li"> Id Image: <img class="verification-image id-image" src='{{this.idImagePath}}'/> </li>
-                    <li class="image-li"> Self Image: <img class="verification-image self-image" src='{{this.selfImagePath}}'/>  </li>
-                    <li> <button> Verify </button> <button> Reject </button> </li>
-                </ul>
-            </div>
-        </li>
-	{{/each}}
-</ul>
+<div id="verification">
+    Loading...
+</div>
+
 
 {{#extend "scripts"}}
     <script>
-        var verifications = [
-            {{#each verifications}}
-                this
-            {{/each}}
-        ];
+        var verifications = [];
+        var currentVerification;
+        var showOnLoad = true, previousLoadEmpty = false;
+        var MinNumVerifications = 4;
 
         function fetchMoreVerifications(){
+            $.ajax({url: '/admins/verifications/fetchVerifications', method : "GET", data:{}})
+                    .done(function(responseArr){
+                        alert("Succeeded " + responseArr);
+                        verifications.concat(responseArr);
+                        if (responseArr.length == 0){
+                            previousLoadEmpty = true;
+                            if (verifications.length == 0 && !currentVerification){
+                                $("#verification").innerHTML = "No verifications pending";
+                            }
+                        }
+                        if (showOnLoad){
+                            showNextVerification();
+                            showOnLoad = false;
+                        }
 
+                    }).fail(function(err){
+                        alert("Failed: " + err + ". retrying in 3 seconds...");
+                        setTimeout(fetchMoreVerifications, 3000);
+                    });
         }
 
-        function createNextVerificationDiv(){
-            var verification = verifications[0];
+        function showNextVerification(){
+            if (verifications.length <= MinNumVerifications && !previousLoadEmpty){
+                fetchMoreVerifications();
+            }
+            if (verifications.length > 0){
+                var currentVerification = verifications.splice(0,1);
+                var verificationDiv = createVerificationDiv(currentVerification);
+                $("#verification").innerHTML = verificationDiv;
+                currentVerification = null;
+            }
+        }
+
+        function createVerificationDiv(verification){
+            if (!verification) return;
             return "<li>" +
                 "<ul>" +
                 "<li> User: " + verification._user.firstName +  verification._user.lastName + "</li>"
                 + "<li> Id Image: <img class='verification-image' src='" + verification.idImagePath + "'/> </li>" +
                         "<li> Self Image: <img class='verification-image' src='" + verification.selfImagePath + "'/>  </li>" +
-                       "<li> <button> Verify </button> <button> Reject </button> </li>"
+                       "<li> <button onclick='accept()'> Accept </button> <button onclick='reject()'> Reject </button> </li>"
                 + "</ul>"
                 + "</li>";
         }
+
+        function accept(){
+            $.ajax({url: '/admins/verifications/accept', method : "POST", data:{_id : currentVerification._id}})
+                    .done(function(responseObject){
+                        alert("Succeeded " + responseObject);
+                        showNextVerification();
+                    }).fail(function(err){
+                        alert("Failed: " + err);
+                    });
+        }
+
+        function reject(){
+            $.ajax({url: '/admins/verifications/reject', method : "POST", data:{_id : currentVerification._id}})
+                    .done(function(responseObject){
+                        alert("Succeeded " + responseObject);
+                        showNextVerification();
+                    }).fail(function(err){
+                        alert("Failed: " + err);
+                    });
+        }
+
+        showNextVerification();
 
     </script>
 {{/extend}}

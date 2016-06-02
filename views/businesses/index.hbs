@@ -2,7 +2,6 @@
     <link rel="stylesheet" href="/stylesheets/businesses/index.css" />
 {{/extend}}
 
-<h1>Welcome to {{title}}, {{business.businessName}}</h1>
 
 {{#if reservations}}
     <ul>
@@ -14,8 +13,9 @@
 
 
 <div class="form-signin" id="confirmationCodeForm">
+    <h1 id="welcomeHeader">Welcome to {{title}}, {{business.businessName}}</h1>
     <input type="text" name="confirmationCode" id="confirmationCodeInput" class="form-control" placeholder="Confirmation Code" autofocus/>
-    <button class="btn btn-primary btn-block" onclick="confirm()">Confirm </button>
+    <button class="btn btn-primary btn-block" id="confirmationCodeButton" onclick="confirm()">Confirm </button>
 </div>
 
 

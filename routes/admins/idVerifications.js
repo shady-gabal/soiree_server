@@ -45,16 +45,17 @@ router.get('/deleteVerifications', function(req, res){
 });
 
 router.get('/', function(req, res){
+    res.render('admins/idVerifications', {});
 
-    UserVerification.findUnverifiedVerifications(req.admin, [], function(verifications){
-        res.render('admins/idVerifications', {verifications: verifications});
-    }, function(err){
-        console.log(err);
-        res.status(404).send("Error");
-    });
+    //UserVerification.findUnverifiedVerifications(req.admin, [], function(verifications){
+    //    res.render('admins/idVerifications', {verifications: verifications});
+    //}, function(err){
+    //    console.log(err);
+    //    res.status(404).send("Error");
+    //});
 });
 
-router.post('/fetchVerifications', function(req, res){
+router.get('/fetchVerifications', function(req, res){
     var idsToIgnore = req.body.idsToIgnore;
 
     UserVerification.findUnverifiedVerifications(req.admin, idsToIgnore, function(verifications){
@@ -63,6 +64,48 @@ router.post('/fetchVerifications', function(req, res){
         console.log(err);
         res.status(404).send("Error");
     });
+});
+
+router.post('/accept', function(req, res){
+    if (req.admin){
+        var _id = req.body._id;
+        if (_id){
+            UserVerification.findOne({_id : _id}).deepPopulate("_user").exec(function(err, verification){
+                if (err){
+                    console.log(err);
+                }
+                else{
+                    verification.accept(req.admin, function(){
+                        res.send("OK");
+                    }, function(err){
+                        res.status(404).send(err);
+                    });
+                }
+            });
+        }
+    }
+});
+
+router.post('/reject', function(req, res){
+    if (req.admin){
+        var _id = req.body._id;
+        var reason = req.body.reason;
+        if (_id && reason){
+            UserVerification.findOne({_id : _id}).deepPopulate("_user").exec(function(err, verification){
+                if (err){
+                    console.log(err);
+                }
+                else{
+                    verification.reject(req.admin, reason, function(){
+                        res.send("OK");
+                    }, function(err){
+                        res.status(404).send(err);
+                    });
+                }
+            });
+        }
+
+    }
 });
 
 

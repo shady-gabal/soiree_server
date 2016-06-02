@@ -93,10 +93,18 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 //});
 
 //router.use(function(req, res, next){
-//    if (!req.user || req.user.classType !== 'business'){
-//        res.redirect('/businessLogin');
-//    }
-//    else next();
+    router.use(function(req, res, next){
+        if (!Business.isLoggedIn(req)){
+            res.redirect('/adminLogin');
+        }
+        else{
+            if (!req.business) {
+                req.business = req.user;
+                res.locals.business = req.user;
+            }
+            next();
+        }
+    });
 //});
 
 /* Everything below here will require the admin to be logged in */
@@ -119,6 +127,12 @@ router.get('/', function(req, res){
     //    ResHelper.render(req, res, 'businesses/index', {});
     //});
 });
+
+router.get('/contact', function(req, res){
+    ResHelper.render(req, res, 'businesses/contact', {});
+});
+
+
 
 router.post('/confirmSoireeReservation', function(req, res){
     var confirmationCode = req.body.confirmationCode;

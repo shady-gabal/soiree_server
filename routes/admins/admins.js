@@ -81,8 +81,10 @@ router.use(function(req, res, next){
         res.redirect('/admins/login');
     }
     else{
-        if (!req.admin)
+        if (!req.admin) {
             req.admin = req.user;
+            res.locals.admin = req.user;
+        }
         next();
     }
 });

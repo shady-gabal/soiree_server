@@ -286,11 +286,14 @@ app.use('/admin/verifications', verifications);
 /****** Businesses *******/
 
 //middleware
+app.use('/business', Business.checkIfLoggedIn);
 app.use('/businesses', Business.checkIfLoggedIn);
 
 //routers
+app.use('/business', businesses);
 app.use('/businesses', businesses);
 app.use('/businessLogin', businessLogin);
+app.use('/businessesLogin', businessLogin);
 
 
 /****** Consumer *******/
@@ -349,7 +352,7 @@ function scheduleCron(){
         //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
         //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
         new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
-        new CronJob('0 13 1 * * *', soireeCreator, null, true, 'America/New_York');
+        new CronJob('0 1 12 * * *', soireeCreator, null, true, 'America/New_York');
 
         //new CronJob('0 0-59/5 * * * *', soireeCreator, null, true, 'America/New_York');
 

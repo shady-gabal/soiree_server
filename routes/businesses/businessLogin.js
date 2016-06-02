@@ -17,7 +17,7 @@ var DateHelper = require('app/helpers/DateHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 router.get('/', function(req, res){
-    ResHelper.render(req, res, 'businesses/login', { title: 'Express' });
+    ResHelper.render(req, res, 'businesses/login', { });
 });
 
 
