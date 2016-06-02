@@ -39,7 +39,6 @@
     "cron" : "",
     "moment" : "",
     "mongoose-autopopulate" : "",
-    "xoauth2" : "",
-    "apidoc" : "'"
+    "xoauth2" : ""
   }
 }
