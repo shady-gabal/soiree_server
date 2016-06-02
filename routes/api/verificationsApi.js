@@ -120,19 +120,19 @@ router.post('/verifyCode', function(req, res, next){
 });
 
 router.post('/uploadCollege', function(req, res, next){
-    User.verifyUser(req, res, next, function(user) {
-        var college = req.body.college;
-        if (!college) return ResHelper.sendError(res, ErrorCodes.MissingData);
-
-        user.college = college;
-        user.save(function(err){
-            if (err){
-                ResHelper.sendError(res, ErrorCodes.MongoError);
-                console.log('error');
-            }
-            else ResHelper.sendSuccess(res);
-        });
-    });
+    //User.verifyUser(req, res, next, function(user) {
+    //    var college = req.body.college;
+    //    if (!college) return ResHelper.sendError(res, ErrorCodes.MissingData);
+    //
+    //    user.college = college;
+    //    user.save(function(err){
+    //        if (err){
+    //            ResHelper.sendError(res, ErrorCodes.MongoError);
+    //            console.log('error');
+    //        }
+    //        else ResHelper.sendSuccess(res);
+    //    });
+    //});
 });
 
 
@@ -196,12 +196,12 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 //    return res.status('404').send("Error removing old copies");
                 //}
                 var notes = req.body.notes;
-                var college = req.body.college;
+                //var college = req.body.college;
 
                 var userVerification = new UserVerification({
-                    _user: user._id,
-                    notes : notes,
-                    college : college
+                    _user: user._id
+                    //notes : notes
+                    //college : college
                 });
 
                 var directory = "/images/";

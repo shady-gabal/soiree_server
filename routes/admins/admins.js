@@ -20,10 +20,20 @@ var Admin = require('app/db/Admin.js');
 var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
 var LocationHelper = require('app/helpers/LocationHelper.js');
+var IdGeneratorHelper = require('app/helpers/IdGeneratorHelper.js');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var Globals = require('app/helpers/Globals.js');
+var NodeGeocoder = require('node-geocoder');
 
+var options = {
+    provider: 'google',
+    httpAdapter: 'https', // Default
+    apiKey: process.env.GOOGLE_GEOCODING_API_KEY, // for Mapquest, OpenCage, Google Premier
+    formatter: null         // 'gpx', 'string', ...
+};
+
+var geocoder = NodeGeocoder(options);
 //
 //router.get('/login', function(req, res){
 //    res.render('admins/login', { title: 'Express' });
@@ -103,25 +113,38 @@ router.post('/registerBusiness', function(req, res){
     console.log(req.body);
 
     var email = req.body.email;
-    var password = req.body.password;
+    var password = IdGeneratorHelper.generateId(8, true);
+    //var password = req.body.password;
     var businessName = req.body.businessName;
     var description = req.body.description;
     var phoneNumber = req.body.phoneNumber;
-    var longitude = req.body.longitude;
-    var latitude = req.body.latitude;
+    //var longitude = req.body.longitude;
+    //var latitude = req.body.latitude;
+    var address = req.body.address;
+    var soireeTypes = req.body.soireeTypes;
 
-    var coordinate = LocationHelper.createPoint(longitude, latitude);
+    geocoder.geocode(address, function(err, data) {
+        if (err){
+            console.log(err);
+        }
+        console.log(data);
 
-    Business.createBusiness({
-        businessName : businessName,
-        description : description,
-        phoneNumber : phoneNumber,
-        location : coordinate
-    }, email, password, function(business){
-        res.redirect("/admins/");
-    }, function(err){
-        console.log(err);
-        res.status(404).send("Error");
+        var longitude = data.longitude;
+        var latitude = data.latitude;
+
+        var coordinate = LocationHelper.createPoint(longitude, latitude);
+
+        Business.createBusiness({
+            businessName : businessName,
+            description : description,
+            phoneNumber : phoneNumber,
+            location : coordinate
+        }, email, password, function(business){
+            res.redirect("/admins/");
+        }, function(err){
+            console.log(err);
+            res.status(404).send("Error");
+        });
     });
 
 });

@@ -107,8 +107,8 @@ router.get('/createTestUsers', function(req, res){
             gender : i > 2 ? 'female' : 'male',
             location : LocationHelper.createPoint(45, 45),
             testUser : true,
-            profilePictureUrl : profilePictureUrl,
-            college : "NYU"
+            profilePictureUrl : profilePictureUrl
+            //college : "NYU"
         });
 
         user.save(function(err, testUser){
@@ -253,16 +253,16 @@ router.get('/createSoirees', function (req, res) {
 
         var numSoirees = req.query.numSoirees ? req.query.numSoirees : 10;
 
-        var college = req.query.college ? req.query.college : 'NYU';
+        //var college = req.query.college ? req.query.college : 'NYU';
         var numReturned = 0;
         var numToReturn = numSoirees;
         var errs = [];
 
         for (var i = 0; i < numToReturn; i++){
             var st = Globals.soireeTypes[i % Globals.soireeTypes.length];
-            console.log('creating ' + st + 'for college ' + college +' ...');
+            console.log('creating ' + st + ' ...');
 
-            Soiree.createSoireeWithType(st, college, function(){
+            Soiree.createSoireeWithType(st, function(){
                 numReturned++;
                 console.log(numReturned + ' returned.');
                 if (numReturned >= numToReturn) {
@@ -500,7 +500,7 @@ router.get('/createBusiness', function(req, res){
         businessName : "Paddy's Pub",
         cityArea: "SoHo",
         location : {type: "Point", coordinates:[longitude, latitude]},
-        colleges : Globals.colleges,
+        //colleges : Globals.colleges,
         phoneNumber: 3472102276
     });
 
@@ -542,38 +542,37 @@ router.get('/deleteScheduledSoireeJobs', function(req, res) {
 });
 
 router.get('/createScheduledSoireeJobs', function(req, res){
-    var numJobs = req.query.numJobs ? req.query.numJobs : 10;
-    for (var i = 0; i < numJobs; i++){
-
-        var randStartIndex = parseInt(Math.random() * (Globals.scheduledSoireeAvailableTimes.length - 5));
-        var randEndIndex = parseInt(Math.random() * (Globals.scheduledSoireeAvailableTimes.length - randStartIndex)) + randStartIndex;
-
-        var randCollegeIndex = parseInt(Math.random() * Globals.colleges.length);
-        var college = Globals.colleges[randCollegeIndex];
-
-        var startTime = Globals.scheduledSoireeAvailableTimes[randStartIndex];
-        var endTime = Globals.scheduledSoireeAvailableTimes[randEndIndex];
-
-        var startDate = DateHelper.dateFromTime(startTime);
-        var endDate = DateHelper.dateFromTime(endTime);
-
-        var randTypeIndex = parseInt(Math.random() * Globals.soireeTypes.length);
-        var soireeType = Globals.soireeTypes[randTypeIndex];
-
-        var ssJob = new ScheduledSoireeJob({
-            availableTimes : {start:startDate, end: endDate},
-            soireeType: soireeType,
-            _user : _user._id,
-            college : college
-        });
-
-        ssJob.save(function(err){
-            console.log("saved ssjob with err: " + err);
-        })
-
-    }
-
-    res.send("Done");
+    //var numJobs = req.query.numJobs ? req.query.numJobs : 10;
+    //for (var i = 0; i < numJobs; i++){
+    //
+    //    var randStartIndex = parseInt(Math.random() * (Globals.scheduledSoireeAvailableTimes.length - 5));
+    //    var randEndIndex = parseInt(Math.random() * (Globals.scheduledSoireeAvailableTimes.length - randStartIndex)) + randStartIndex;
+    //
+    //    var randCollegeIndex = parseInt(Math.random() * Globals.colleges.length);
+    //    var college = Globals.colleges[randCollegeIndex];
+    //
+    //    var startTime = Globals.scheduledSoireeAvailableTimes[randStartIndex];
+    //    var endTime = Globals.scheduledSoireeAvailableTimes[randEndIndex];
+    //
+    //    var startDate = DateHelper.dateFromTime(startTime);
+    //    var endDate = DateHelper.dateFromTime(endTime);
+    //
+    //    var randTypeIndex = parseInt(Math.random() * Globals.soireeTypes.length);
+    //    var soireeType = Globals.soireeTypes[randTypeIndex];
+    //
+    //    var ssJob = new ScheduledSoireeJob({
+    //        availableTimes : {start:startDate, end: endDate},
+    //        soireeType: soireeType,
+    //        _user : _user._id
+    //    });
+    //
+    //    ssJob.save(function(err){
+    //        console.log("saved ssjob with err: " + err);
+    //    })
+    //
+    //}
+    //
+    //res.send("Done");
 
 });
 
@@ -587,9 +586,9 @@ router.get('/findNextSoiree', function(req, res, next){
     //if (!idsToIgnore) idsToIgnore = [];
 
     //User.verifyUser(req, res, next, function(user){
-    var college = req.query.college;
+    //var college = req.query.college;
 
-    Soiree.findNextSoiree({college : college}, [], function(soiree){
+    Soiree.findNextSoiree({}, [], function(soiree){
         res.json(soiree.jsonObject());
     }, function(err){
         ResHelper.sendError(res, err);

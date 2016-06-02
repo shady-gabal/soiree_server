@@ -18,16 +18,16 @@ var func = function(){
         var numToCreate = numToCreatePerType[soireeType];
         if (numToCreate){
             for (var j = 0; j < numToCreate; j++){
-                for (var k = 0; k < Globals.colleges.length; k++){
-                    var college = Globals.colleges[k];
-                    console.log('about to create soiree of type ' + soireeType + ' for college ' + college);
+                //for (var k = 0; k < Globals.colleges.length; k++){
+                //    var college = Globals.colleges[k];
+                    console.log('about to create soiree of type ' + soireeType);
 
-                    Soiree.createSoireeWithType(soireeType, college, function(soiree){
+                    Soiree.createSoireeWithType(soireeType, function(soiree){
                         console.log("created soiree " + soiree.soireeId + " of type: " + soiree.soireeType + " in soireeCreator");
                     }, function(err){
                         console.log("error creating soiree in soireeCreator: " + err);
                     }, {});
-                }
+                //}
             }
         }
     }
