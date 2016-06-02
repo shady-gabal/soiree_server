@@ -1,4 +1,8 @@
-<form class="form-signin" action='/admins/registerBusiness' method='POST'>
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="/stylesheets/admins/registerBusiness.css" />
+{{/extend}}
+
+<form class="form-signin" action='/admins/registerBusiness' id="registerBusinessForm" method='POST'>
     <h2 class="form-signin-heading">Sign up a business</h2>
 
     <label for="inputName" class="sr-only">Name</label>
@@ -16,12 +20,22 @@
     <label for="inputLongitude" class="sr-only">Longitude</label>
     <input class="form-control" type='number' step='any' name='longitude' id='inputLongitude' placeholder="Longitude" required/>
 
+    <label for="inputDescription" class="sr-only">Description</label>
+    <textarea form="registerBusinessForm" id="inputAddress" class="form-control" placeholder="Address" name='address' required></textarea>
+
     <label for="inputEmail" class="sr-only">Email address</label>
     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name='email' required>
 
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" name='password' required>
+    <label for="inputSoireeTypes" class="sr-only">Soiree Types</label>
+    {{#each soireeTypes}}
+        <div class="checkbox"><input type="checkbox" class="inputSoireeTypes" value="{{this}}" name='soireeTypes'><span class='inputSoireeTypeText'>{{this}}</span></div>
+    {{/each}}
 
-    <button class="btn btn-lg btn-primary btn-block submit_button" type="submit">Register Business</button>
+
+
+    <!--<label for="inputPassword" class="sr-only">Password</label>-->
+    <!--<input type="password" id="inputPassword" class="form-control" placeholder="Password" name='password' required>-->
+
+    <button class="btn btn-lg btn-primary btn-block submit_button" type="submit" id="registerButton">Register Business</button>
 
 </form>

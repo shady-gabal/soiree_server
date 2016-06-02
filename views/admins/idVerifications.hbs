@@ -19,6 +19,8 @@
                     .done(function(responseArr){
                         alert("Succeeded " + responseArr);
                         verifications.concat(responseArr);
+                        $("#verification").innerHTML = responseArr;
+
                         if (responseArr.length == 0){
                             previousLoadEmpty = true;
                             if (verifications.length == 0 && !currentVerification){

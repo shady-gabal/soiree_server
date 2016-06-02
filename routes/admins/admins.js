@@ -22,6 +22,7 @@ var ResHelper = require('app/helpers/ResHelper.js');
 var LocationHelper = require('app/helpers/LocationHelper.js');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
+var Globals = require('app/helpers/Globals.js');
 
 //
 //router.get('/login', function(req, res){
@@ -95,7 +96,7 @@ router.get('/',  function(req, res){
 });
 
 router.get('/registerBusiness', function(req, res){
-    ResHelper.render(req, res, 'admins/registerBusiness', { } );
+    ResHelper.render(req, res, 'admins/registerBusiness', {soireeTypes: Globals.soireeTypes});
 });
 
 router.post('/registerBusiness', function(req, res){
