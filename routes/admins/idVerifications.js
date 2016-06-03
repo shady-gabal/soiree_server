@@ -100,7 +100,7 @@ router.post('/reject', function(req, res){
         var _id = req.body._id;
         var reason = req.body.reason;
 
-        if (_id && reason){
+        if (_id){
             UserVerification.findOne({_id : _id}).deepPopulate("_user").exec(function(err, verification){
                 if (err){
                     console.log(err);
@@ -113,6 +113,9 @@ router.post('/reject', function(req, res){
                     });
                 }
             });
+        }
+        else{
+            res.status(404).send("Missing reason");
         }
 
     }
