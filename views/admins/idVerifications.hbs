@@ -17,15 +17,15 @@
         function fetchMoreVerifications(){
             $.ajax({url: '/admins/verifications/fetchVerifications', method : "GET", data:{}})
                     .done(function(responseArr){
-                        alert("fetched verifications: " + JSON.stringify(responseArr));
+//                        alert("fetched verifications: " + JSON.stringify(responseArr));
                         verifications = verifications.concat(responseArr);
-                        alert('verifications= ' + JSON.stringify(verifications));
+//                        alert('verifications= ' + JSON.stringify(verifications));
 //                        $("#verification").html(responseArr);
 
-                        if (responseArr.length == 0){
+                        if (responseArr.length < MinNumVerifications){
                             previousLoadEmpty = true;
                             if (verifications.length == 0 && !currentVerification){
-                                $("#verification").html("No verifications pending");
+                                noMoreVerifications();
                             }
                         }
                         if (showOnLoad){
@@ -40,54 +40,81 @@
         }
 
         function showNextVerification(){
-            alert('shownextverification');
+            currentVerification = null;
+
+//            alert('shownextverification');
 //            if (verifications.length <= MinNumVerifications && !previousLoadEmpty){
 //                alert('fetching more');
 //                fetchMoreVerifications();
 //            }
             if (verifications.length > 0){
-                var currentVerification = verifications.splice(0,1);
-                alert('showing verification ' + JSON.stringify(currentVerification));
+                currentVerification = verifications.splice(0,1)[0];
+//                alert('showing verification ' + JSON.stringify(currentVerification));
                 var verificationDiv = createVerificationDiv(currentVerification);
-                alert(verificationDiv);
+//                alert(verificationDiv);
                 $("#verification").html(verificationDiv);
-                currentVerification = null;
+//                alert('3' + JSON.stringify(currentVerification));
+
             }
+            else{
+                noMoreVerifications();
+            }
+        }
+
+        function noMoreVerifications(){
+            $("#verification").html("No verifications pending");
         }
 
         function createVerificationDiv(verification){
             if (!verification){
                 alert('passed empty verification');
-                return;
+                return null;
             }
-            return "<li>" +
+
+            var str = "<li>" +
                 "<ul>" +
-                "<li> User: " + verification._user.firstName +  verification._user.lastName + "</li>"
+                "<li> User: " + verification._user.firstName + " " + verification._user.lastName + "</li>"
                 + "<li> Id Image: <img class='verification-image' src='" + verification.idImagePath + "'/> </li>" +
                         "<li> Self Image: <img class='verification-image' src='" + verification.selfImagePath + "'/>  </li>" +
                        "<li> <button onclick='accept()'> Accept </button> <button onclick='reject()'> Reject </button> </li>"
                 + "</ul>"
                 + "</li>";
+
+            return str;
         }
 
         function accept(){
-            $.ajax({url: '/admins/verifications/accept', method : "POST", data:{_id : currentVerification._id}})
-                    .done(function(responseObject){
-                        alert("Succeeded " + responseObject);
-                        showNextVerification();
-                    }).fail(function(err){
-                        alert("Failed: " + err);
-                    });
+//            alert(JSON.stringify(currentVerification));
+            if (currentVerification){
+//                alert('accept()');
+                $.ajax({url: '/admins/verifications/accept', method : "POST", data:{"_id" : currentVerification._id}})
+                        .done(function(responseObject){
+                            alert("Succeeded " + responseObject);
+                            showNextVerification();
+                        }).fail(function(err){
+                            alert("Failed: " + err);
+                        });
+            }
+            else{
+                alert('no current verification');
+            }
         }
 
-        function reject(){
-            $.ajax({url: '/admins/verifications/reject', method : "POST", data:{_id : currentVerification._id}})
-                    .done(function(responseObject){
-                        alert("Succeeded " + responseObject);
-                        showNextVerification();
-                    }).fail(function(err){
-                        alert("Failed: " + err);
-                    });
+        function reject() {
+            if (currentVerification) {
+
+//            alert('reject()');
+                $.ajax({url: '/admins/verifications/reject', method: "POST", data: {"_id": currentVerification._id}})
+                        .done(function (responseObject) {
+                            alert("Succeeded " + responseObject);
+                            showNextVerification();
+                        }).fail(function (err) {
+                            alert("Failed: " + err);
+                        });
+            }
+            else {
+                alert('no current verification');
+            }
         }
 
         fetchMoreVerifications();

@@ -16,6 +16,7 @@ var CommunityComment = require('app/db/CommunityComment.js');
 
 var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
+var UserVerification = require('app/db/UserVerification.js');
 var Admin = require('app/db/Admin.js');
 var Notification = require('app/db/Notification.js');
 var BetaSignupEmailList = require('app/db/BetaSignupEmailList.js');
@@ -141,6 +142,26 @@ router.get('/shady', function(req, res){
        if (err) res.json({error: err});
        else res.json(user);
    });
+});
+
+router.get('/createVerifications', function(req, res, next){
+   //User.verifyUser(req, res, next, function(user){
+    for (var i = 0; i < _testUsers.length; i++){
+        var user = _testUsers[i];
+        var verification = new UserVerification({
+            _user : user._id
+        });
+        verification.save(function(err){
+            console.log(err);
+        });
+    }
+    res.send("Done");
+
+
+    // }, function(err){
+   //    console.log(err);
+   //    res.send("Error");
+   //});
 });
 
 router.get('/refreshUsers', function(req, res){

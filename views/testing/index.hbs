@@ -312,6 +312,8 @@
         <li>_pastReservations : [{{#each _user._pastReservations}}&nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;|{{/each}}]</li>
         <li>_notifications : [{{#each _user._notifications}}&nbsp;&nbsp;{{this.notificationId}}&nbsp;&nbsp;|{{/each}}]</li>
         <li>_unreadNotifications : [{{#each _user._unreadNotifications}}&nbsp;&nbsp;{{this.notificationId}}&nbsp;&nbsp;|{{/each}}]</li>
+        <li>verified: {{_user.verified}}</li>
+        <li>pending verification: {{_user.pendingVerification}}</li>
     </ul>
 
 

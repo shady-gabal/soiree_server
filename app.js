@@ -130,6 +130,9 @@ app.use(flash());
 app.use(function(req, res, next){
     res.locals.success = req.flash('success');
     res.locals.errors = req.flash('error');
+    if (req.business) res.locals.business = req.business;
+    else if (req.admin) res.locals.admin = req.admin;
+
     next();
 });
 
@@ -322,8 +325,8 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        console.log(err.message);
-        console.log(err.stack);
+        //console.log(err.message);
+        //console.log(err.stack);
 
         res.status(err.status || 500);
         res.render('error', {

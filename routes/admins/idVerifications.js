@@ -69,10 +69,12 @@ router.get('/fetchVerifications', function(req, res){
 router.post('/accept', function(req, res){
     if (req.admin){
         var _id = req.body._id;
+
         if (_id){
             UserVerification.findOne({_id : _id}).deepPopulate("_user").exec(function(err, verification){
                 if (err){
                     console.log(err);
+                    res.status(404).send("Error");
                 }
                 else{
                     verification.accept(req.admin, function(){
@@ -83,6 +85,13 @@ router.post('/accept', function(req, res){
                 }
             });
         }
+        else{
+            res.status(404).send("Error");
+        }
+    }
+    else{
+        console.log('no req.admin');
+        res.status(404).send("Error");
     }
 });
 
@@ -90,6 +99,7 @@ router.post('/reject', function(req, res){
     if (req.admin){
         var _id = req.body._id;
         var reason = req.body.reason;
+
         if (_id && reason){
             UserVerification.findOne({_id : _id}).deepPopulate("_user").exec(function(err, verification){
                 if (err){
