@@ -355,7 +355,7 @@ function scheduleCron(){
         //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
         //new CronJob(cronExpression, function(){console.log("Cron job being run...");}, null, true, 'America/New_York');
         new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
-        new CronJob('0 1 12 * * *', soireeCreator, null, true, 'America/New_York');
+        new CronJob('0 47 2 * * *', soireeCreator, null, true, 'America/New_York');
 
         //new CronJob('0 0-59/5 * * * *', soireeCreator, null, true, 'America/New_York');
 
