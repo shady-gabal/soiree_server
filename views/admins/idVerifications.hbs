@@ -18,7 +18,7 @@
             $.ajax({url: '/admins/verifications/fetchVerifications', method : "GET", data:{}})
                     .done(function(responseArr){
                         alert("fetched verifications: " + JSON.stringify(responseArr));
-                        verifications.concat(responseArr);
+                        verifications = verifications.concat(responseArr);
                         alert('verifications= ' + JSON.stringify(verifications));
 //                        $("#verification").html(responseArr);
 
