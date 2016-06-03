@@ -17,9 +17,9 @@
         function fetchMoreVerifications(){
             $.ajax({url: '/admins/verifications/fetchVerifications', method : "GET", data:{}})
                     .done(function(responseArr){
-                        alert("fetched verifications: " + JSON.stringify(responseArr));
+//                        alert("fetched verifications: " + JSON.stringify(responseArr));
                         verifications.concat(responseArr);
-                        $("#verification").html(responseArr);
+//                        $("#verification").html(responseArr);
 
                         if (responseArr.length == 0){
                             previousLoadEmpty = true;
@@ -45,7 +45,7 @@
             if (verifications.length > 0){
                 var currentVerification = verifications.splice(0,1);
                 var verificationDiv = createVerificationDiv(currentVerification);
-                $("#verification").innerHTML = verificationDiv;
+                $("#verification").html(verificationDiv);
                 currentVerification = null;
             }
         }
