@@ -74,8 +74,8 @@
             var str = "<li>" +
                 "<ul>" +
                 "<li> User: " + verification._user.firstName + " " + verification._user.lastName + "</li>"
-                + "<li> Id Image: <img class='verification-image' src='" + verification.idImagePath + "'/> </li>" +
-                        "<li> Self Image: <img class='verification-image' src='" + verification.selfImagePath + "'/>  </li>" +
+                + "<li class='verificationImageLi'> Id Image: <img class='verificationImage' src='" + verification.idImagePath + "'/> </li>" +
+                        "<li class='verificationImageLi'> Self Image: <img class='verificationImage' src='" + verification.selfImagePath + "'/>  </li>" +
                        "<li> <button onclick='accept()'> Accept </button> <button onclick='reject()'> Reject </button> </li>"
                 + "</ul>"
                 + "</li>";
