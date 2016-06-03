@@ -49,13 +49,17 @@
                 var currentVerification = verifications.splice(0,1);
                 alert('showing verification ' + JSON.stringify(currentVerification));
                 var verificationDiv = createVerificationDiv(currentVerification);
+                alert(verificationDiv);
                 $("#verification").html(verificationDiv);
                 currentVerification = null;
             }
         }
 
         function createVerificationDiv(verification){
-            if (!verification) return;
+            if (!verification){
+                alert('passed empty verification');
+                return;
+            }
             return "<li>" +
                 "<ul>" +
                 "<li> User: " + verification._user.firstName +  verification._user.lastName + "</li>"
