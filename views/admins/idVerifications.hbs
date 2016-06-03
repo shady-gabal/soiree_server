@@ -41,10 +41,10 @@
 
         function showNextVerification(){
             alert('shownextverification');
-            if (verifications.length <= MinNumVerifications && !previousLoadEmpty){
-                alert('fetching more');
-                fetchMoreVerifications();
-            }
+//            if (verifications.length <= MinNumVerifications && !previousLoadEmpty){
+//                alert('fetching more');
+//                fetchMoreVerifications();
+//            }
             if (verifications.length > 0){
                 var currentVerification = verifications.splice(0,1);
                 alert('showing verification ' + JSON.stringify(currentVerification));
@@ -86,7 +86,7 @@
                     });
         }
 
-        showNextVerification();
+        fetchMoreVerifications();
 
     </script>
 {{/extend}}
