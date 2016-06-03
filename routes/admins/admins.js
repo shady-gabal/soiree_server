@@ -24,16 +24,16 @@ var IdGeneratorHelper = require('app/helpers/IdGeneratorHelper.js');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var Globals = require('app/helpers/Globals.js');
-var NodeGeocoder = require('node-geocoder');
-
-var options = {
-    provider: 'google',
-    httpAdapter: 'https', // Default
-    apiKey: process.env.GOOGLE_GEOCODING_API_KEY, // for Mapquest, OpenCage, Google Premier
-    formatter: null         // 'gpx', 'string', ...
-};
-
-var geocoder = NodeGeocoder(options);
+//var NodeGeocoder = require('node-geocoder');
+//
+//var options = {
+//    provider: 'google',
+//    httpAdapter: 'https', // Default
+//    apiKey: process.env.GOOGLE_GEOCODING_API_KEY, // for Mapquest, OpenCage, Google Premier
+//    formatter: null         // 'gpx', 'string', ...
+//};
+//
+//var geocoder = NodeGeocoder(options);
 //
 //router.get('/login', function(req, res){
 //    res.render('admins/login', { title: 'Express' });
@@ -106,7 +106,7 @@ router.get('/',  function(req, res){
 });
 
 router.get('/registerBusiness', function(req, res){
-    ResHelper.render(req, res, 'admins/registerBusiness', {soireeTypes: Globals.soireeTypes});
+    ResHelper.render(req, res, 'admins/registerBusiness', {soireeTypes: Globals.soireeTypes, mapsAPIKey : process.env.GOOGLE_MAPS_API_KEY});
 });
 
 router.post('/registerBusiness', function(req, res){
@@ -118,34 +118,35 @@ router.post('/registerBusiness', function(req, res){
     var businessName = req.body.businessName;
     var description = req.body.description;
     var phoneNumber = req.body.phoneNumber;
-    //var longitude = req.body.longitude;
-    //var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
+    var latitude = req.body.latitude;
     var address = req.body.address;
     var soireeTypes = req.body.soireeTypes;
 
-    geocoder.geocode(address, function(err, data) {
-        if (err){
-            console.log(err);
-        }
-        console.log(data);
+    //geocoder.geocode(address, function(err, data) {
+    //    if (err){
+    //        console.log(err);
+    //    }
+    //    console.log(data);
 
-        var longitude = data.longitude;
-        var latitude = data.latitude;
+        //var longitude = data.longitude;
+        //var latitude = data.latitude;
 
-        var coordinate = LocationHelper.createPoint(longitude, latitude);
+    var coordinate = LocationHelper.createPoint(longitude, latitude);
 
-        Business.createBusiness({
-            businessName : businessName,
-            description : description,
-            phoneNumber : phoneNumber,
-            location : coordinate
-        }, email, password, function(business){
-            res.redirect("/admins/");
-        }, function(err){
-            console.log(err);
-            res.status(404).send("Error");
-        });
+    Business.createBusiness({
+        businessName : businessName,
+        description : description,
+        phoneNumber : phoneNumber,
+        location : coordinate,
+        address : address
+    }, email, password, function(business){
+        res.redirect("/admins/");
+    }, function(err){
+        console.log(err);
+        res.status(404).send("Error");
     });
+    //});
 
 });
 

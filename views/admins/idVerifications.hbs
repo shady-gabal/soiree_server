@@ -17,14 +17,14 @@
         function fetchMoreVerifications(){
             $.ajax({url: '/admins/verifications/fetchVerifications', method : "GET", data:{}})
                     .done(function(responseArr){
-                        alert("Succeeded " + responseArr);
+                        alert("fetched verifications: " + JSON.stringify(responseArr));
                         verifications.concat(responseArr);
-                        $("#verification").innerHTML = responseArr;
+                        $("#verification").html(responseArr);
 
                         if (responseArr.length == 0){
                             previousLoadEmpty = true;
                             if (verifications.length == 0 && !currentVerification){
-                                $("#verification").innerHTML = "No verifications pending";
+                                $("#verification").html("No verifications pending");
                             }
                         }
                         if (showOnLoad){

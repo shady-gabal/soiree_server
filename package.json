@@ -39,7 +39,7 @@
     "cron" : "",
     "moment" : "",
     "mongoose-autopopulate" : "",
-    "xoauth2" : "",
-    "node-geocoder" : ""
+    "xoauth2" : ""
+//    "node-geocoder" : ""
   }
 }

@@ -36,16 +36,16 @@
                 {{#if admin}}
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Businesses <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">View</a></li>
-                                    <li><a href="/admins/registerBusiness">Register</a></li>
+                            <!--<li class="dropdown active">-->
+                                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Businesses <span class="caret"></span></a>-->
+                                <!--<ul class="dropdown-menu">-->
+                                    <!--<li><a href="#">View</a></li>-->
+                                    <!--<li><a href="/admins/registerBusiness">Register</a></li>-->
 
-                                </ul>
-                            </li>
-                            <li><a href="/admins/verifications">ID Verifications</a></li>
-                            <li><a href="#about">About</a></li>
+                                <!--</ul>-->
+                            <!--</li>-->
+                            <!--<li><a href="/admins/verifications">ID Verifications</a></li>-->
+                            <!--<li><a href="#about">About</a></li>-->
                             <li><a href="/admins/logout">Logout</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -60,22 +60,24 @@
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Reports</a></li>
+                        <li class="active"><a href="#">Overview <span class="sr-only"></span></a></li>
                         <li><a href="#">Analytics</a></li>
-                        <li><a href="#">Export</a></li>
+                        <li><a href="#">Refund Requests</a></li>
                     </ul>
                     <ul class="nav nav-sidebar">
-                        <li><a href="">Nav item</a></li>
-                        <li><a href="">Nav item again</a></li>
-                        <li><a href="">One more nav</a></li>
-                        <li><a href="">Another nav item</a></li>
-                        <li><a href="">More navigation</a></li>
+                        <li><a href="/admins/registerBusiness">Register a Business</a></li>
+                        <li><a href="">Find a Business</a></li>
+                        <li><a href="">View All Businesses</a></li>
                     </ul>
                     <ul class="nav nav-sidebar">
-                        <li><a href="">Nav item again</a></li>
-                        <li><a href="">One more nav</a></li>
-                        <li><a href="">Another nav item</a></li>
+                        <li><a href="">View all Soirees</a></li>
+                        <li><a href="">Find a Soiree</a></li>
+                        <li><a href="">Create a Soiree</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li><a href="">View Users</a></li>
+                        <li><a href="">Find a User</a></li>
+                        <li><a href="/admins/verifications">ID Verifications</a></li>
                     </ul>
                 </div>
         {{/if}}

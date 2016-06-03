@@ -2,26 +2,59 @@
     <link rel="stylesheet" href="/stylesheets/admins/registerBusiness.css" />
 {{/extend}}
 
+{{#extend "scripts"}}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{mapsAPIKey}}&libraries=places"></script>
+
+    <script>
+        var autocomplete;
+
+        function initAutocomplete(){
+            autocomplete = new google.maps.places.Autocomplete(
+                    /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+                    {types: ['geocode']});
+
+            autocomplete.addListener('place_changed', getCoordinates);
+
+        }
+
+        function getCoordinates(){
+            var place = autocomplete.getPlace();
+            var location = place.geometry.location;
+            var lat = location.lat();
+            var lon = location.lng();
+
+            $("#latitude").val(lat);
+            $("#longitude").val(lon);
+        }
+
+        initAutocomplete();
+    </script>
+{{/extend}}
+
 <form class="form-signin" action='/admins/registerBusiness' id="registerBusinessForm" method='POST'>
     <h2 class="form-signin-heading">Sign up a business</h2>
 
-    <label for="inputName" class="sr-only">Name</label>
+    <!--<label for="inputName" class="sr-only">Name</label>-->
     <input type="text" id="inputName" class="form-control" placeholder="Name" name='businessName' required autofocus>
 
-    <label for="inputPhoneNumber" class="sr-only">Phone Number</label>
+    <!--<label for="inputPhoneNumber" class="sr-only">Phone Number</label>-->
     <input class="form-control" type='text' name='phoneNumber' id='inputPhoneNumber' placeholder="Phone Number" required/>
 
-    <label for="inputDescription" class="sr-only">Description</label>
+    <!--<label for="inputDescription" class="sr-only">Description</label>-->
     <input type="text" id="inputDescription" class="form-control" placeholder="Description" name='description' required>
 
-    <label for="inputLatitude" class="sr-only">Latitude</label>
-    <input class="form-control" type='number' step='any' name='latitude' id='inputLatitude' placeholder="Latitude" required/>
+    <!--<label for="inputLatitude" class="sr-only">Latitude</label>-->
+    <!--<input class="form-control" type='number' step='any' name='latitude' id='inputLatitude' placeholder="Latitude" required/>-->
 
-    <label for="inputLongitude" class="sr-only">Longitude</label>
-    <input class="form-control" type='number' step='any' name='longitude' id='inputLongitude' placeholder="Longitude" required/>
+    <!--<label for="inputLongitude" class="sr-only">Longitude</label>-->
+    <!--<input class="form-control" type='number' step='any' name='longitude' id='inputLongitude' placeholder="Longitude" required/>-->
 
-    <label for="inputDescription" class="sr-only">Description</label>
-    <textarea form="registerBusinessForm" id="inputAddress" class="form-control" placeholder="Address" name='address' required></textarea>
+    <!--<label for="inputDescription" class="sr-only">Address</label>-->
+    <!--<textarea form="registerBusinessForm" id="inputAddress" class="form-control" placeholder="Address" name='address' required></textarea>-->
+
+    <div id="locationField">
+        <input id="autocomplete" class="form-control" placeholder="Address" onFocus="geolocate()" type="text" name="address"/>
+    </div>
 
     <label for="inputEmail" class="sr-only">Email address</label>
     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name='email' required>
@@ -30,6 +63,10 @@
     {{#each soireeTypes}}
         <div class="checkbox"><input type="checkbox" class="inputSoireeTypes" value="{{this}}" name='soireeTypes'><span class='inputSoireeTypeText'>{{this}}</span></div>
     {{/each}}
+
+    <input type="hidden" name="latitude" id="latitude" />
+    <input type="hidden" name="longitude" id="longitude" />
+
 
 
 
