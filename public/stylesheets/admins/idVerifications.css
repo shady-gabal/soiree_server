@@ -23,12 +23,19 @@
     display: inline-block;
     margin: auto;
     font-size: 20px;
+    margin-left: 5px;
+}
+
+#verificationImages{
+    margin:auto;
+    text-align:center;
 }
 
 .verificationButtons{
     margin: auto;
     text-align: center;
-    font-size: 24px;
+    font-size: 36px;
+    margin-top: 20px;
 }
 .id-image{
     display: inline-block;
