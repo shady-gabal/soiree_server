@@ -40,6 +40,5 @@
     "moment" : "",
     "mongoose-autopopulate" : "",
     "xoauth2" : ""
-//    "node-geocoder" : ""
   }
 }
