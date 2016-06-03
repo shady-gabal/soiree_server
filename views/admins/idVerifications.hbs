@@ -19,6 +19,7 @@
                     .done(function(responseArr){
                         alert("fetched verifications: " + JSON.stringify(responseArr));
                         verifications.concat(responseArr);
+                        alert('verifications= ' + JSON.stringify(verifications));
 //                        $("#verification").html(responseArr);
 
                         if (responseArr.length == 0){
