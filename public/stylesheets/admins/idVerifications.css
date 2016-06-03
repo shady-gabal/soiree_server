@@ -22,8 +22,15 @@
 
 .verificationImageLi{
     display: inline;
+    margin: auto;
+    font-size: 20px;
 }
 
+.verificationButtons{
+    margin: auto;
+    text-align: center;
+    font-size: 24px;
+}
 .id-image{
     display: inline-block;
 }
