@@ -18,8 +18,8 @@
             $.ajax({url: '/admins/verifications/fetchVerifications', method : "GET", data:{}})
                     .done(function(responseArr){
                         alert("fetched verifications: " + JSON.stringify(responseArr));
-                        responseArr = responseArr.filter(function(reservationArr){
-                            var reservation = reservationArr[0];
+                        responseArr = responseArr.filter(function(reservation){
+                           alert('checking' + JSON.stringify(reservation));
                            if (reservation._user._id){
                                return true;
                            }

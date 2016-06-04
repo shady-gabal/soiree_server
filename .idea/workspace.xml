@@ -118,8 +118,8 @@
       <file leaf-file-name="idVerifications.hbs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/admins/idVerifications.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49095607">
-              <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.5155039">
+              <caret line="21" column="75" selection-start-line="21" selection-start-column="75" selection-end-line="21" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -1224,8 +1224,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/admins/idVerifications.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49095607">
-          <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.5155039">
+          <caret line="21" column="75" selection-start-line="21" selection-start-column="75" selection-end-line="21" selection-end-column="75" />
           <folding />
         </state>
       </provider>
