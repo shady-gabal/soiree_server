@@ -20,12 +20,12 @@
                         alert("fetched verifications: " + JSON.stringify(responseArrDirty));
                         var responseArr = responseArrDirty.filter(function(reservation){
                            alert('checking' + JSON.stringify(reservation));
-                           if (reservation._user._id){
+                           if (reservation._user){
                                return true;
                            }
                             else return false;
                         });
-                        alert('done with responseArr: ' + JSON.stringify(responseArr.length));
+                        alert('done with responseArr: ' + JSON.stringify(responseArr));
 
                         verifications = verifications.concat(responseArr);
 //                        alert('verifications= ' + JSON.stringify(verifications));
