@@ -2,9 +2,6 @@ var func = function(){
 
     console.log("running soireeCreator...");
 
-    var dbFolderLocation = "../db/";
-    var helpersFolderLocation = "../helpers/";
-
     var Soiree = require('app/db/Soiree.js');
     var Globals = require('app/helpers/Globals.js');
 

@@ -100,7 +100,8 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
         else{
             if (!req.business) {
                 req.business = req.user;
-                res.locals.business = req.user;
+                if (!res.locals.business)
+                    res.locals.business = req.user;
             }
             next();
         }
@@ -132,7 +133,22 @@ router.get('/contact', function(req, res){
     ResHelper.render(req, res, 'businesses/contact', {});
 });
 
-
+router.get('/history', function(req,res){
+   if (req.business){
+       req.business.deepPopulate("_unconfirmedReservations _confirmedReservations", function(err, business){
+           if (err){
+               console.log(err);
+               res.status(404).send("Error. Please reload.");
+           }
+           else{
+               ResHelper.render(req,res,'businesses/history',{business : business});
+           }
+       });
+   }
+    else{
+       res.redirect('/businessLogin');
+   }
+});
 
 router.post('/confirmSoireeReservation', function(req, res){
     var confirmationCode = req.body.confirmationCode;

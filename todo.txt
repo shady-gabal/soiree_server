@@ -15,3 +15,6 @@ Improvements:
 1) In Notification.js, do not save firstName and lastName in an obj for each user. Just save the user._id,
 and perform a fetch whenever you need to get a user's name. You'll have to fetch at most two users, which more than makes up for the save in db space.
 2) Adjust user age everyday
+2) Notify user when someone emotions their post
+4) Center admin sign in form
+5) Notifications dont send to people who comment on someones post. Instead, they get sent to the person who's post it is
