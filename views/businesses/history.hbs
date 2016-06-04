@@ -8,3 +8,16 @@
 
 </script>
 {{/extend}}
+
+<ul>
+    {{#each today}}
+        <li>
+            <ul>
+                <h4>Reservation</h4>
+                <li>
+                    Reservation Id : {{this.reservationId}}
+                </li>
+            </ul>
+        </li>
+    {{/each}}
+</ul>
