@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js" afterPath="$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/businesses/businesses.js" afterPath="$PROJECT_DIR$/routes/businesses/businesses.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/businesses/history.hbs" afterPath="$PROJECT_DIR$/views/businesses/history.hbs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/admins/idVerifications.hbs" afterPath="$PROJECT_DIR$/views/admins/idVerifications.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/admins/login.hbs" afterPath="$PROJECT_DIR$/views/admins/login.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/businesses/login.hbs" afterPath="$PROJECT_DIR$/views/businesses/login.hbs" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -123,8 +118,8 @@
       <file leaf-file-name="idVerifications.hbs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/admins/idVerifications.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.46640828">
-              <caret line="79" column="27" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.56459945">
+              <caret line="79" column="29" selection-start-line="79" selection-start-column="29" selection-end-line="79" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -1226,8 +1221,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/admins/idVerifications.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46640828">
-          <caret line="79" column="27" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.56459945">
+          <caret line="79" column="29" selection-start-line="79" selection-start-column="29" selection-end-line="79" selection-end-column="29" />
           <folding />
         </state>
       </provider>
