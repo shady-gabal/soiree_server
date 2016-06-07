@@ -168,10 +168,7 @@
         };
 
         function checkIfFinished(){
-            alert(gender);
-            alert(os);
-
-            if (gender && os){
+            if (['male', 'female'].indexOf(gender) !== -1 && ['ios', 'android'].indexOf(os) !== -1){
                 signupEmail();
             }
         }
