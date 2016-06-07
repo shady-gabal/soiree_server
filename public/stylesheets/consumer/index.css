@@ -14,7 +14,7 @@ html{
     text-align: center;
     width: 400px;
     font-size: 42px;
-    font-family: "Cedarville Cursive", "Open Sans", "Arial";
+    font-family: "Cedarville Cursive", "Party LET", "Arial";
     color: white;
     text-shadow:1px 1px #000;
     display: none;
@@ -101,7 +101,7 @@ html{
 
 .message{
     display: none;
-    font-family: "Cedarville Cursive", "Open Sans", "Arial";
+    font-family: "Cedarville Cursive", "Party LET", "Arial";
     font-size: 42px;
     color: white;
     text-shadow:1px 1px #000;
@@ -112,7 +112,7 @@ html{
     display: none;
     font-size: 48px;
     text-align: center;
-    font-family: "Cedarville Cursive", "Helvetica Neue Light", "Arial";
+    font-family: "Cedarville Cursive", "Party LET", "Arial";
     color: white;
     text-shadow:1px 1px #000;
     margin: auto;
@@ -120,7 +120,7 @@ html{
 
 .radioButtonDiv{
     display: none;
-    font-family: "Cedarville Cursive", "Helvetica Neue Light", "Arial";
+    font-family: "Cedarville Cursive", "Party LET", "Arial";
     width: 450px;
     height: 50px;
     color: white;
@@ -158,7 +158,7 @@ html{
     margin:auto;
     margin-top: 15px;
     /*font-family: "Open Sans", "Helvetica Neue Light", "Arial";*/
-    font-family: "Cedarville Cursive", "Helvetica Neue Light", "Arial";
+    font-family: "Cedarville Cursive", "Party LET", "Arial";
     /*color: white;*/
     font-size: 32px;
     /*background-color: rgb(214,65,31);*/
@@ -180,7 +180,7 @@ html{
     text-align:center;
     text-decoration: underline;
     font-size: 48px;
-    font-family: "Cedarville Cursive", "Helvetica Neue Light", "Arial";
+    font-family: "Cedarville Cursive", "Party LET", "Arial";
     color: white;
 }
 
