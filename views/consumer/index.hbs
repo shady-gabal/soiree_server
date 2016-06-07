@@ -68,7 +68,7 @@
 </div>
 
 {{#extend "scripts"}}
-    <script>
+    <script type="text/javascript">
         var signingUp = false;
         var buttonAnimationDuration = 1000;
         var animatingNormal = false;
@@ -127,6 +127,10 @@
         };
 
         function errorSigningUp(){
+            gender = null;
+            os = null;
+            $("input:radio[name=os]").prop('checked', false);
+            $("input:radio[name=gender]").prop('checked', false);
             $("#introDiv").fadeIn(500);
         };
 
@@ -204,7 +208,7 @@
             return false;
         }
 
-        body.onload = function(){
+        window.onload = function(){
             setTimeout(function(){$("#soiree").fadeIn(2000);}, 500);
             setTimeout(function(){$("#emailSignupInput").fadeIn(1500);}, 3500);
             setTimeout(function(){$("#emailSignupSubmit").fadeIn(1500);}, 4300);

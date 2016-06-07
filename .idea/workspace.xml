@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/consumer/index.hbs" afterPath="$PROJECT_DIR$/views/consumer/index.hbs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,8 +27,8 @@
       <file leaf-file-name="index.hbs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/consumer/index.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6382429">
-              <caret line="40" column="67" selection-start-line="40" selection-start-column="67" selection-end-line="40" selection-end-column="67" />
+            <state vertical-scroll-proportion="-2.7067184">
+              <caret line="96" column="25" selection-start-line="96" selection-start-column="25" selection-end-line="96" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -1242,8 +1242,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/consumer/index.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6382429">
-          <caret line="40" column="67" selection-start-line="40" selection-start-column="67" selection-end-line="40" selection-end-column="67" />
+        <state vertical-scroll-proportion="-2.7067184">
+          <caret line="96" column="25" selection-start-line="96" selection-start-column="25" selection-end-line="96" selection-end-column="25" />
           <folding />
         </state>
       </provider>
