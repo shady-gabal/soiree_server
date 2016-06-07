@@ -5,28 +5,47 @@ var express = require('express');
 var router = express.Router();
 
 var BetaSignupEmailList = require('app/db/BetaSignupEmailList');
+var ResHelper = require('app/helpers/ResHelper.js');
 
-BetaSignupEmailList.findOne({}, function(err, list){
-    if (err){console.log(err);}
-    else if (!list){
-        var newlist = new BetaSignupEmailList({});
-        newlist.save(function(err2){
-           console.log("New Beta Signup Email List saved with err " + err2);
-        });
-    };
-});
+function checkForList(){
+    BetaSignupEmailList.findOne({}, function(err, list){
+        if (err){console.log(err);}
+        else if (!list){
+            var newlist = new BetaSignupEmailList({});
+            newlist.save(function(err2){
+                console.log("New Beta Signup Email List saved with err " + err2);
+            });
+        };
+    });
+}
+
+checkForList();
+
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('consumer/index', {});
+    ResHelper.render(req, res, 'consumer/index', {});
+});
+
+router.get('/deleteList', function(req, res){
+    BetaSignupEmailList.remove({}, function(err){
+        res.send("Completed with err : " + err);
+        if (!err){
+            checkForList();
+        }
+    });
 });
 
 router.post('/addEmail', function(req, res){
-   var email = req.body.email;
-    if (validateEmail(email)){
-        BetaSignupEmailList.addEmail(email, function(){
+    var email = req.body.email;
+    var gender = req.body.gender;
+    var os = req.body.os;
+
+    if (validateEmail(email) && gender && os){
+        BetaSignupEmailList.addEmail(email, gender, os, function(){
             res.send("OK");
         }, function(err){
+            console.log(err);
             res.status(404).send(err);
         });
     }

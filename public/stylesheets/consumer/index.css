@@ -1,12 +1,8 @@
-@font-face {
-    font-family: 'Party Plain';
-    src: url('/fonts/Party LET.ttf'); /* IE9 Compat Modes */
-}
-
-#body{
+html,body{
     background-image: url("/images/experiencesoiree_bg.png");
     background-repeat : no-repeat;
     background-size: cover;
+    background-attachment: fixed;
     /*display: none;*/
 }
 
@@ -21,9 +17,8 @@ html{
     font-family: "Cedarville Cursive", "Open Sans", "Arial";
     color: white;
     text-shadow:1px 1px #000;
-    margin: auto;
     display: none;
-    margin-top: 25px;
+    margin: 25px auto;
 }
 
 
@@ -31,7 +26,7 @@ html{
     width: 500px;
     height: 500px;
     position: absolute;
-    top:20%;
+    top:10%;
     bottom: 0;
     left: 0;
     right: 0;
@@ -58,6 +53,7 @@ html{
     font-family: "Open Sans", "Helvetica Neue Light", "Arial";
     display: none;
     margin-top: -25px;
+    border-radius: 5px;
 }
 
 .signupButton{
@@ -69,14 +65,33 @@ html{
     display: block;
     margin-top: 10px;
     font-family: "Open Sans", "Helvetica Neue Light", "Arial";
+    /*-webkit-border-radius: 5px;*/
+    /*background-color:white;*/
     display: none;
+}
+
+.signupButton:hover{
+    background-color: #DDD;
+    border-width:1px;
+}
+
+#infoButton{
+    background-color: rgba(214,65,31, 1);
+    /*color:white;*/
+    border-width: 1px;
+}
+
+#infoButton:hover{
+    background-color: rgb(190,55,25);
+    /*background-color: rgba(214,65,31,1);*/
+
 }
 
 #soiree{
     color: white;
     font-size: 200px;
     text-align: center;
-    font-family: "Party Plain", "Cedarville Cursive", "Open Sans", "Arial";
+    font-family: "Party LET", "Cedarville Cursive", "Open Sans", "Arial";
     margin-bottom: -20px;
     padding-bottom: 0px;
     display: none;
@@ -84,7 +99,7 @@ html{
 
 }
 
-#successMessage{
+.message{
     display: none;
     font-family: "Cedarville Cursive", "Open Sans", "Arial";
     font-size: 42px;
@@ -92,3 +107,99 @@ html{
     text-shadow:1px 1px #000;
     text-align: center;
 }
+
+.radioButtonDivLabel{
+    display: none;
+    font-size: 48px;
+    text-align: center;
+    font-family: "Cedarville Cursive", "Helvetica Neue Light", "Arial";
+    color: white;
+    text-shadow:1px 1px #000;
+    margin: auto;
+}
+
+.radioButtonDiv{
+    display: none;
+    font-family: "Cedarville Cursive", "Helvetica Neue Light", "Arial";
+    width: 450px;
+    height: 50px;
+    color: white;
+    font-size: 48px;
+    margin:auto;
+    padding:auto;
+    text-shadow:1px 1px #000;
+    margin-bottom: 75px;
+}
+
+.radioButton{
+    width:200px;
+    font-size: 36px;
+    background-color: rgb(214,65,31);
+    color: white;
+    text-shadow:1px 1px #000;
+}
+
+/*.radioButton:hover{*/
+    /*background-color: rgb(190,55,25);*/
+    /*color: #DDD;*/
+/*}*/
+
+#infoBackButton{
+    display:block;
+}
+
+#backButton{
+
+}
+
+.backButton{
+    display:block;
+    display:none;
+    margin:auto;
+    margin-top: 15px;
+    /*font-family: "Open Sans", "Helvetica Neue Light", "Arial";*/
+    font-family: "Cedarville Cursive", "Helvetica Neue Light", "Arial";
+    /*color: white;*/
+    font-size: 32px;
+    /*background-color: rgb(214,65,31);*/
+    /*text-shadow:1px 1px #666;*/
+    width:400px;
+
+}
+
+.infoText{
+    /*font-weight: bold;*/
+    margin-top: 25px;
+}
+
+#infoDivText{
+    margin: 35px auto;
+}
+
+#infoTextHeader{
+    text-align:center;
+    text-decoration: underline;
+    font-size: 48px;
+    font-family: "Cedarville Cursive", "Helvetica Neue Light", "Arial";
+    color: white;
+}
+
+
+#infoDiv{
+    color: white;
+    font-family: "Open Sans", "Helvetica Neue Light", "Arial";
+    font-size:28px;
+    display:none;
+    width: 100%;
+    height: 100%;
+    padding: 50px 20%;
+    margin: 0px auto;
+    background-color: rgba(0,0,0,.5);
+    text-shadow: 1px 1px #000;
+}
+
+
+.buttonDiv{
+    text-align:center;
+}
+

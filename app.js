@@ -392,10 +392,10 @@ function scheduleCron(){
 //        //}
 //
 //        if (view.indexOf("admins/") !== -1 && !options.layout){
-//            options.layout = "layout.hbs";
+//            options.layout = "consumerLayout.hbs";
 //        }
 //        else if (view.indexOf("businesses/") !== -1 && !options.layout){
-//            options.layout = "layout.hbs";
+//            options.layout = "consumerLayout.hbs";
 //        }
 //
 //        // continue with original render

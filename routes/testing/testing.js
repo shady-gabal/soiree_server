@@ -508,7 +508,7 @@ router.get('/deleteEverything', function(req, res){
     SoireeReservation.remove({},Globals.saveErrorCallback);
     SoireeHost.remove({},Globals.saveErrorCallback);
 
-    res.send("Done");
+    res.send("Done. Check logs for errors");
 });
 
 router.get('/createBusiness', function(req, res){
