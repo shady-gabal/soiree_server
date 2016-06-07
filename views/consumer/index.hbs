@@ -168,6 +168,9 @@
         };
 
         function checkIfFinished(){
+            alert(gender);
+            alert(os);
+
             if (gender && os){
                 signupEmail();
             }
@@ -217,13 +220,11 @@
 
             $("input:radio[name=gender]").click(function() {
                 gender = $(this).val();
-                alert(gender);
                 checkIfFinished();
             });
 
             $("input:radio[name=os]").click(function() {
                 os = $(this).val();
-                alert(os);
                 checkIfFinished();
             });
 
