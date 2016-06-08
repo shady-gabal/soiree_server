@@ -20,6 +20,7 @@ var UserVerification = require('app/db/UserVerification.js');
 var Admin = require('app/db/Admin.js');
 
 var DateHelper = require('app/helpers/DateHelper.js');
+var ResHelper = require('app/helpers/ResHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 /****** ******/
@@ -45,7 +46,7 @@ router.get('/deleteVerifications', function(req, res){
 });
 
 router.get('/', function(req, res){
-    res.render('admins/idVerifications', {});
+    ResHelper.render(req, res, 'admins/idVerifications', {});
 
     //UserVerification.findUnverifiedVerifications(req.admin, [], function(verifications){
     //    res.render('admins/idVerifications', {verifications: verifications});
