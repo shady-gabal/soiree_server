@@ -284,6 +284,11 @@ app.use('/adminLogin', adminLogin);
 app.use('/admins/verifications', verifications);
 app.use('/admin/verifications', verifications);
 
+app.use('/admins/testing', testing);
+app.use('/admin/testing', testing);
+
+app.use('/admins/testing/showInProgress', showInProgress);
+app.use('/admin/testing/showInProgress', showInProgress);
 
 
 /****** Businesses *******/
@@ -307,8 +312,8 @@ app.use('/images', images);
 
 
 /****** Testing *******/
-app.use('/testing', testing);
-app.use('/testing/showInProgress', showInProgress);
+//app.use('/testing', testing);
+//app.use('/testing/showInProgress', showInProgress);
 
 
 /********* ERROR HANDLERS **********/

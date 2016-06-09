@@ -181,7 +181,7 @@ router.get('/verificationPhoto', function(req, res){
 router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, { name: 'self', maxCount: 1 }]) , function(req, res, next){
     res.status(404).send("error");
     return;
-    
+
     User.verifyUser(req, res, next, function(user) {
         if (!user.verified) {
 
