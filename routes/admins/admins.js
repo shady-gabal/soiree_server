@@ -150,6 +150,18 @@ router.post('/registerBusiness', function(req, res){
 
 });
 
+router.get('/viewBusinesses', function(req, res){
+    Business.find({}, function(err, businesses){
+        if (err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else{
+            ResHelper.render(req, res, 'admins/viewBusinesses', {businesses : businesses});
+        }
+    });
+});
+
 router.get('/logout', function(req, res){
     req.logout();
     res.redirect('/adminLogin');
