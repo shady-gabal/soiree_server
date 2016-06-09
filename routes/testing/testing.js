@@ -630,7 +630,7 @@ router.post('/createSoiree', function(req, res){
     }, {date : date});
 });
 //router.get('/createSpecificSoiree', function(req, res){
-//    res.render('/testing/createSoiree', {});
+//    res.render('testing/createSoiree', {});
 //});
 
 router.get('/testNotification', function(req, res){

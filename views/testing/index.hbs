@@ -4,7 +4,7 @@
 
 
         function join(soireeId){
-            $.ajax({url: '/testing/joinSoiree', method : "POST", data: {"soireeId" : soireeId}})
+            $.ajax({url: '/admins/testing/joinSoiree', method : "POST", data: {"soireeId" : soireeId}})
                     .done(function(){
                         alert("Succeeded");
 
@@ -19,7 +19,7 @@
         };
 
         function endSoiree(soireeId){
-            $.ajax({url: '/testing/endSoiree', method : "GET", data: {"soireeId" : soireeId}})
+            $.ajax({url: '/admins/testing/endSoiree', method : "GET", data: {"soireeId" : soireeId}})
                     .done(function(){
                         alert("Succeeded");
                         location.reload(true);
@@ -30,7 +30,7 @@
         };
 
         function startSoiree(soireeId){
-            $.ajax({url: '/testing/startSoiree', method : "GET", data: {"soireeId" : soireeId}})
+            $.ajax({url: '/admins/testing/startSoiree', method : "GET", data: {"soireeId" : soireeId}})
                     .done(function(){
                         alert("Succeeded");
                         location.reload(true);
@@ -41,7 +41,7 @@
         };
 
         function openSoiree(soireeId){
-            $.ajax({url: '/testing/openSoiree', method : "GET", data: {"soireeId" : soireeId}})
+            $.ajax({url: '/admins/testing/openSoiree', method : "GET", data: {"soireeId" : soireeId}})
                     .done(function(){
                         alert("Succeeded");
                         location.reload(true);
@@ -52,13 +52,13 @@
         };
 
         function showSoireeInProgress(soireeId){
-            var url = "/testing/showInProgress?soireeId=" + soireeId + "&userId=" + '{{_user.userId}}';
+            var url = "/admins/testing/showInProgress?soireeId=" + soireeId + "&userId=" + '{{_user.userId}}';
             var win = window.open(url, '_blank');
             win.focus();
         };
 
         function remindSoiree(soireeId){
-            $.ajax({url: '/testing/remindSoiree', method : "GET", data: {"soireeId" : soireeId}})
+            $.ajax({url: '/admins/testing/remindSoiree', method : "GET", data: {"soireeId" : soireeId}})
                     .done(function(){
                         alert("Succeeded");
                         location.reload(true);
@@ -69,7 +69,7 @@
         };
 
         function cancelSoiree(soireeId){
-            $.ajax({url: '/testing/cancelSoiree', method : "GET", data: {"soireeId" : soireeId}})
+            $.ajax({url: '/admins/testing/cancelSoiree', method : "GET", data: {"soireeId" : soireeId}})
                     .done(function(){
                         alert("Succeeded");
                         location.reload(true);
@@ -81,7 +81,7 @@
 
         function deleteSoirees(){
             $.ajax({
-                url: '/testing/deleteSoirees',
+                url: '/admins/testing/deleteSoirees',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -94,7 +94,7 @@
 
         function createSoirees(){
             $.ajax({
-                url: '/testing/createSoirees',
+                url: '/admins/testing/createSoirees',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -107,7 +107,7 @@
 
         function createSoireeForSchedulerRun(){
             $.ajax({
-                url: '/testing/createSoireeForSchedulerRun',
+                url: '/admins/testing/createSoireeForSchedulerRun',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -121,7 +121,7 @@
         function createPost(){
             var text = $("#newPost").val()
             $.ajax({
-                url: '/testing/createPost',
+                url: '/admins/testing/createPost',
                 method : 'POST',
                 data : {text : text},
                 success: function(){
@@ -138,7 +138,7 @@
             var text = $(idString).val();
 
             $.ajax({
-                url: '/testing/createComment',
+                url: '/admins/testing/createComment',
                 method : 'POST',
                 data : {text : text, postId : postId},
                 success: function(){
@@ -152,7 +152,7 @@
 
         function switchUser(userId){
             $.ajax({
-                url: '/testing/switchTestUser',
+                url: '/admins/testing/switchTestUser',
                 method : 'POST',
                 data : {userId : userId},
                 success: function(){
@@ -166,7 +166,7 @@
 
         function deleteUsers(){
             $.ajax({
-                url: '/testing/deleteUsers',
+                url: '/admins/testing/deleteUsers',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -179,7 +179,7 @@
 
         function deleteShady(){
             $.ajax({
-                url: '/testing/deleteShady',
+                url: '/admins/testing/deleteShady',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -192,7 +192,7 @@
 
         function createSSJobs(){
             $.ajax({
-                url: '/testing/createScheduledSoireeJobs',
+                url: '/admins/testing/createScheduledSoireeJobs',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -205,7 +205,7 @@
 
         function performSSJobs(){
             $.ajax({
-                url: '/testing/performScheduledSoireeJobs',
+                url: '/admins/testing/performScheduledSoireeJobs',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -218,7 +218,7 @@
 
         function createBusiness(){
             $.ajax({
-                url: '/testing/createBusiness',
+                url: '/admins/testing/createBusiness',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -231,7 +231,7 @@
 
         function deleteEverything(){
             $.ajax({
-                url: '/testing/deleteEverything',
+                url: '/admins/testing/deleteEverything',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -244,7 +244,7 @@
 
         function refreshUsers(){
             $.ajax({
-                url: '/testing/refreshUsers',
+                url: '/admins/testing/refreshUsers',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -259,7 +259,7 @@
             var date = $("#soireeDate").val();
 
             $.ajax({
-                url: '/testing/createSoiree',
+                url: '/admins/testing/createSoiree',
                 method : 'POST',
                 data : {date : date},
                 success: function(){
@@ -273,7 +273,7 @@
 
         function testNotification(){
             $.ajax({
-                url: '/testing/testNotification',
+                url: '/admins/testing/testNotification',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
