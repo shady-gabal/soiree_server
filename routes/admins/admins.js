@@ -113,7 +113,7 @@ router.post('/registerBusiness', function(req, res){
     console.log(req.body);
 
     var email = req.body.email;
-    var password = IdGeneratorHelper.generateId(8, true);
+    var password = IdGeneratorHelper.generateId(8, {onlyLowercase: true});
     //var password = req.body.password;
     var businessName = req.body.businessName;
     var description = req.body.description;
@@ -122,6 +122,7 @@ router.post('/registerBusiness', function(req, res){
     var latitude = req.body.latitude;
     var address = req.body.address;
     var soireeTypes = req.body.soireeTypes;
+    var cityArea = req.body.cityArea;
 
     //geocoder.geocode(address, function(err, data) {
     //    if (err){
@@ -139,8 +140,10 @@ router.post('/registerBusiness', function(req, res){
         description : description,
         phoneNumber : phoneNumber,
         location : coordinate,
-        address : address
-    }, email, password, function(business){
+        address : address,
+        soireeTypes : soireeTypes,
+        cityArea : cityArea
+    }, email, password, req.admin, function(business){
         res.redirect("/admins/");
     }, function(err){
         console.log(err);
@@ -151,7 +154,7 @@ router.post('/registerBusiness', function(req, res){
 });
 
 router.get('/viewBusinesses', function(req, res){
-    Business.find({}, function(err, businesses){
+    Business.find({}).deepPopulate("_approvedBy").exec(function(err, businesses){
         if (err){
             console.log(err);
             res.status(404).send(err);

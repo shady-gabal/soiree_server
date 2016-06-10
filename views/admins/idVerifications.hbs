@@ -17,15 +17,15 @@
         function fetchMoreVerifications(){
             $.ajax({url: '/admins/verifications/fetchVerifications', method : "GET", data:{}})
                     .done(function(responseArrDirty){
-                        alert("fetched verifications: " + JSON.stringify(responseArrDirty));
+//                        alert("fetched verifications: " + JSON.stringify(responseArrDirty));
                         var responseArr = responseArrDirty.filter(function(reservation){
-                           alert('checking' + JSON.stringify(reservation));
+//                           alert('checking' + JSON.stringify(reservation));
                            if (reservation._user){
                                return true;
                            }
                             else return false;
                         });
-                        alert('done with responseArr: ' + JSON.stringify(responseArr));
+//                        alert('done with responseArr: ' + JSON.stringify(responseArr));
 
                         verifications = verifications.concat(responseArr);
 //                        alert('verifications= ' + JSON.stringify(verifications));
@@ -58,9 +58,9 @@
 //            }
             if (verifications.length > 0){
                 currentVerification = verifications.splice(0,1)[0];
-                alert('showing verification ' + JSON.stringify(currentVerification));
+//                alert('showing verification ' + JSON.stringify(currentVerification));
                 var verificationDiv = createVerificationDiv(currentVerification);
-                alert(verificationDiv);
+//                alert(verificationDiv);
                 $("#verification").html(verificationDiv);
 //                alert('3' + JSON.stringify(currentVerification));
 

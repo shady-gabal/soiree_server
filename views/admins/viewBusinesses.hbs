@@ -3,7 +3,32 @@
 
 <ul>
     {{#each businesses}}
-        <li>{{this.businessName}} : {{this.businessId}}</li>
+        <li>
+            <h4> <strong> {{this.businessName}} </strong>, id: {{this.businessId}}</h4>
+
+            <ul>
+                <li> cityArea : {{this.cityArea}} </li>
+                <li> phone number: {{this.phoneNumber}} </li>
+                <li> address : {{this.address}} </li>
+                <li> email : {{this.email}} </li>
+                <li> numSoireesHosted : {{this.numSoireesHosted}}</li>
+                <li> soireeTypes: [{{#each this.soireeTypes}} {{this}}, {{/each}}]</li>
+                <li> tags : {{#each this.tags}} {{this}}, {{/each}} </li>
+
+                <br />
+                <li> coordinates : [{{#each this.location.coordinates}} {{this}}, {{/each}}] </li>
+                <li> _soirees : [{{#each this._soirees}} {{this}}, {{/each}}]</li>
+                <li> _unconfirmedReservations : [{{#each this._unconfirmedReservations}} {{this}}, {{/each}}]</li>
+                <li> _confirmedReservations : [{{#each this._confirmedReservations}} {{this}}, {{/each}}]</li>
+
+
+                <br />
+
+                <li> approved by: {{this._approvedBy.fullName}} </li>
+            </ul>
+        </li>
+
+
     {{/each}}
 </ul>
 

@@ -19,12 +19,16 @@
 
         function getCoordinates(){
             var place = autocomplete.getPlace();
+//            alert(JSON.stringify(place));
+            var cityArea = place.address_components[2].long_name;
+//            alert(cityArea);
             var location = place.geometry.location;
             var lat = location.lat();
             var lon = location.lng();
 
             $("#latitude").val(lat);
             $("#longitude").val(lon);
+            $("#cityArea").val(cityArea);
         }
 
         initAutocomplete();
@@ -66,6 +70,7 @@
 
     <input type="hidden" name="latitude" id="latitude" />
     <input type="hidden" name="longitude" id="longitude" />
+    <input type="hidden" name="cityArea" id="cityArea" />
 
 
 
