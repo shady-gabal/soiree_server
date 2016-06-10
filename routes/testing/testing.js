@@ -272,34 +272,38 @@ router.get('/deleteSoirees', function (req, res) {
 router.get('/createSoirees', function (req, res) {
     console.log('creating soirees...');
 
-        var numSoirees = req.query.numSoirees ? req.query.numSoirees : 10;
+    var createSoirees = require('../../scheduled/soireeCreator.js');
+    createSoirees();
+    res.send("OK");
 
-        //var college = req.query.college ? req.query.college : 'NYU';
-        var numReturned = 0;
-        var numToReturn = numSoirees;
-        var errs = [];
-
-        for (var i = 0; i < numToReturn; i++){
-            var st = Globals.soireeTypes[i % Globals.soireeTypes.length];
-            console.log('creating ' + st + ' ...');
-
-            Soiree.createSoireeWithType(st, function(){
-                numReturned++;
-                console.log(numReturned + ' returned.');
-                if (numReturned >= numToReturn) {
-                    console.log(errs);
-                    res.send("OK with errs : " + errs);
-                }
-            }, function(err){
-                numReturned++;
-
-                console.log(numReturned + ' returned with err ' + err);
-
-                errs.push(err);
-                if (numReturned >= numToReturn) res.send("OK with errs : " + errs);
-
-            });
-        }
+        //var numSoirees = req.query.numSoirees ? req.query.numSoirees : 10;
+        //
+        ////var college = req.query.college ? req.query.college : 'NYU';
+        //var numReturned = 0;
+        //var numToReturn = numSoirees;
+        //var errs = [];
+        //
+        //for (var i = 0; i < numToReturn; i++){
+        //    var st = Globals.soireeTypes[i % Globals.soireeTypes.length];
+        //    console.log('creating ' + st + ' ...');
+        //
+        //    Soiree.createSoireeWithType(st, function(){
+        //        numReturned++;
+        //        console.log(numReturned + ' returned.');
+        //        if (numReturned >= numToReturn) {
+        //            console.log(errs);
+        //            res.send("OK with errs : " + errs);
+        //        }
+        //    }, function(err){
+        //        numReturned++;
+        //
+        //        console.log(numReturned + ' returned with err ' + err);
+        //
+        //        errs.push(err);
+        //        if (numReturned >= numToReturn) res.send("OK with errs : " + errs);
+        //
+        //    });
+        //}
 
     });
 
@@ -327,9 +331,9 @@ router.post('/joinSoiree', function (req, res) {
 
 
 
-router.post('/createSoirees', function (req, res) {
-    res.redirect('/api/soirees/createSoirees?numSoirees=10');
-});
+//router.post('/createSoirees', function (req, res) {
+//    res.redirect('/api/soirees/createSoirees?numSoirees=10');
+//});
 
 router.get('/startSoiree', function(req, res){
     var soireeId = req.query.soireeId;

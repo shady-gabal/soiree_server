@@ -16,6 +16,7 @@
 
     <body>
 
+
        <!--Top Navigation Bar -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -29,7 +30,7 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <a class="navbar-brand" href="/">Soirée</a>
+                    <a class="navbar-brand" href="/admins/">Soirée</a>
 
                 </div>
 
@@ -53,6 +54,8 @@
 
             </div>
         </nav>
+
+
 
         <!--Side Navigation Bar-->
        {{#if admin}}
@@ -85,34 +88,38 @@
                 </div>
         {{/if}}
 
-                {{#if errs}}
-                    <div class='alert alert-danger' role='alert'>
-                        <ul>
-                            {{#each errs}}
-                                <li>{{this}}</li>
-                            {{/each}}
-                        </ul>
-                    </div>
-                {{/if}}
 
-                {{#if successMsgs}}
-                    <div class='alert alert-success' role='alert'>
-                        <ul>
-                            {{#each successMsgs}}
-                                <li>{{this}}</li>
-                            {{/each}}
-                        </ul>
-                    </div>
-                {{/if}}
 
-       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-         {{{body}}}
+       <div {{#if admin}}class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"{{/if}}>
+           {{#if error}}
+               <div class='alert alert-danger' role='alert'>
+                   <ul>
+                       {{#each error}}
+                           <li>{{this}}</li>
+                       {{/each}}
+                   </ul>
+               </div>
+           {{/if}}
+
+           {{#if success}}
+               <div class='alert alert-success' role='alert'>
+                   <ul>
+                       {{#each success}}
+                           <li>{{this}}</li>
+                       {{/each}}
+                   </ul>
+               </div>
+           {{/if}}
+
+           {{{body}}}
        </div>
 
        {{#if admin}}
             </div>
            </div>
        {{/if}}
+
+
 
         <!-- Bootstrap core JavaScript
     ================================================== -->

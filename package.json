@@ -40,6 +40,8 @@
     "moment" : "",
     "mongoose-autopopulate" : "",
     "xoauth2" : "",
-    "chai" : ""
+    "chai" : "",
+    "handlebars-helpers" : "",
+    "mongoose-unique-validator" : ""
   }
 }

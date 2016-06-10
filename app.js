@@ -70,6 +70,10 @@ scheduleCron();
 /****** SETUP VIEW ENGINE (hbs) ******/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+hbs.localsAsTemplateData(app);
+var helpers = require('handlebars-helpers')({
+    handlebars: hbs.handlebars
+});
 
 var blocks = {};
 
@@ -128,8 +132,13 @@ app.use(passport.session());
 
 app.use(flash());
 app.use(function(req, res, next){
+    //console.log('middleware: ' + res.locals);
+
+    var error = req.flash('error');
+
     res.locals.success = req.flash('success');
-    res.locals.errors = req.flash('error');
+    res.locals.error = error;
+    res.locals.message = ['heyheyey'];
     if (req.business) res.locals.business = req.business;
     else if (req.admin) res.locals.admin = req.admin;
 

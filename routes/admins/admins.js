@@ -24,6 +24,9 @@ var IdGeneratorHelper = require('app/helpers/IdGeneratorHelper.js');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var Globals = require('app/helpers/Globals.js');
+var ErrorHelper = require('app/helpers/ErrorHelper.js');
+var EmailHelper = require('app/helpers/EmailHelper.js');
+
 //var NodeGeocoder = require('node-geocoder');
 //
 //var options = {
@@ -106,6 +109,7 @@ router.get('/',  function(req, res){
 });
 
 router.get('/registerBusiness', function(req, res){
+    //console.log(res.locals);
     ResHelper.render(req, res, 'admins/registerBusiness', {soireeTypes: Globals.soireeTypes, mapsAPIKey : process.env.GOOGLE_MAPS_API_KEY});
 });
 
@@ -124,14 +128,24 @@ router.post('/registerBusiness', function(req, res){
     var soireeTypes = req.body.soireeTypes;
     var cityArea = req.body.cityArea;
 
-    //geocoder.geocode(address, function(err, data) {
-    //    if (err){
-    //        console.log(err);
-    //    }
-    //    console.log(data);
+    var currErrors = [];
+    if (!soireeTypes || soireeTypes.length === 0){
+        currErrors.push("Must choose at least one soiree type");
+    }
+    if (!email){
+        currErrors.push("Email address required");
+    }
+    else if (!EmailHelper.validateEmail(email)){
+        currErrors.push("Email address invalid");
+    }
+    if (!password){
+        currErrors.push("Password required");
+    }
+    if (currErrors.length > 0){
+        req.flash('error', currErrors);
+        return res.redirect('/admins/registerBusiness');
+    }
 
-        //var longitude = data.longitude;
-        //var latitude = data.latitude;
 
     var coordinate = LocationHelper.createPoint(longitude, latitude);
 
@@ -146,10 +160,11 @@ router.post('/registerBusiness', function(req, res){
     }, email, password, req.admin, function(business){
         res.redirect("/admins/");
     }, function(err){
-        console.log(err);
-        res.status(404).send("Error");
+        //console.log(err);
+        var errors = ErrorHelper.errorMessages(err);
+        req.flash('error', errors);
+        res.redirect('/admins/registerBusiness');
     });
-    //});
 
 });
 
