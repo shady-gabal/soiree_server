@@ -147,7 +147,7 @@ router.post('/registerBusiness', function(req, res){
     }
 
 
-    var coordinate = LocationHelper.createPoint(longitude, latitude);
+    var coordinate = LocationHelper.createPoint({longitude : longitude, latitude: latitude});
 
     Business.createBusiness({
         businessName : businessName,

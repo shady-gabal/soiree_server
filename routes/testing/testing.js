@@ -106,7 +106,7 @@ router.get('/createTestUsers', function(req, res){
             firstName : first,
             lastName : last,
             gender : i > 2 ? 'female' : 'male',
-            location : LocationHelper.createPoint(45, 45),
+            location : LocationHelper.createPoint({longitude : 45, latitude: 45}),
             testUser : true,
             profilePictureUrl : profilePictureUrl
             //college : "NYU"

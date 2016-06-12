@@ -64,7 +64,7 @@ router.post('/posts', function(req, res, next){
 
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
-        var coors = LocationHelper.createPoint(longitude, latitude);
+        var coors = LocationHelper.createPoint({longitude : longitude, latitude: latitude});
 
         CommunityPost.findPosts(req, coors, user, function (posts) {
 
@@ -140,7 +140,7 @@ router.post('/createPost', function(req, res, next){
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
 
-        var coors = LocationHelper.createPoint(longitude, latitude);
+        var coors = LocationHelper.createPoint({longitude : longitude, latitude: latitude});
 
         var text = req.body.post;
 
