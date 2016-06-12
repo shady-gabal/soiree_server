@@ -194,7 +194,7 @@ router.post('/uploadNotificationsRead', function(req, res, next){
   });
 });
 
-router.post('/createStripeCustomerId', function(req, res, next){
+router.post('/addCard', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
     var stripeToken = req.body.stripeToken;
@@ -202,22 +202,25 @@ router.post('/createStripeCustomerId', function(req, res, next){
       return ResHelper.sendError(res, ErrorCodes.MissingData);
     }
 
-    CreditCardHelper.createStripeCustomerId(stripeToken, user, function(customer){
-      ResHelper.sendSuccess(res);
+    CreditCardHelper.addCard(stripeToken, user, function(_user){
+      res.json({user : _user.jsonObject()})
     }, function(err){
       ResHelper.sendError(res, ErrorCodes.Error);
     });
 
   });
-    //var last4Digits = req.body.creditCardLast4Digits;
+});
 
-    //user.stripeToken = stripeToken;
-    //user.creditCardLast4Digits = last4Digits;
+router.post('/removeCard', function(req, res, next){
 
+  User.verifyUser(req, res, next, function(user) {
 
-
-    //console.log("stripe token: " + stripeToken);
-
+    CreditCardHelper.removeCard(user, function(_user){
+      res.json({user : _user.jsonObject()})
+    }, function(err){
+      ResHelper.sendError(res, ErrorCodes.Error);
+    });
+  });
 
 });
 

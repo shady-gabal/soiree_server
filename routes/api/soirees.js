@@ -90,7 +90,7 @@ router.get('/soireesNear', function (req, res) {
 
 router.post('/joinSoiree', function (req, res, next) {
     User.verifyUser(req, res, next, function (user) {
-        if (!user.hasStripeCustomerId) {
+        if (!user.chargeable) {
             return ResHelper.sendError(res, ErrorCodes.MissingStripeCustomerId);
         }
 
