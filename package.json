@@ -42,6 +42,7 @@
     "xoauth2" : "",
     "chai" : "",
     "handlebars-helpers" : "",
-    "mongoose-unique-validator" : ""
+    "mongoose-unique-validator" : "",
+    "mathjs" : ""
   }
 }

@@ -399,6 +399,14 @@ router.get('/remindSoiree', function(req, res){
     }
 });
 
+router.get('/findSoirees', function(req, res){
+    Soiree.findSoirees(req, _user, function(soirees){
+        ResHelper.render(req, res, 'testing/findSoirees', {soirees: soirees});
+    }, function(err){
+       res.send("error: " + err);
+    });
+});
+
 
 router.get('/cancelSoiree', function(req, res){
     var soireeId = req.query.soireeId;
@@ -566,7 +574,7 @@ router.get('/deleteScheduledSoireeJobs', function(req, res) {
     });
 });
 
-router.get('/createScheduledSoireeJobs', function(req, res){
+//router.get('/createScheduledSoireeJobs', function(req, res){
     //var numJobs = req.query.numJobs ? req.query.numJobs : 10;
     //for (var i = 0; i < numJobs; i++){
     //
@@ -599,7 +607,7 @@ router.get('/createScheduledSoireeJobs', function(req, res){
     //
     //res.send("Done");
 
-});
+//});
 
 router.get('/performScheduledSoireeJobs', function(req, res){
    ScheduledSoireeJob.perform();

@@ -177,6 +177,19 @@
             });
         };
 
+        function createTestUsers(){
+            $.ajax({
+                url: '/admins/testing/createTestUsers',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        };
+
         function deleteShady(){
             $.ajax({
                 url: '/admins/testing/deleteShady',
@@ -297,6 +310,7 @@
 <button onclick='deleteUsers()'> Delete Users </button>
 <button onclick='deleteShady()'> Delete Shady </button>
 <button onclick='deleteEverything()'> Delete Everything </button>
+<button onclick='createTestUsers()'> Create Test Users </button>
 <button onclick='refreshUsers()'> Refresh Users </button>
 
 
