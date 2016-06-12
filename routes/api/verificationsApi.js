@@ -248,7 +248,20 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     else {
                         console.log("doc.idimage " + doc.idImage);
                         console.log("saved userverification with idpath : " + doc.idImagePath + " selfpath : " + doc.selfImagePath);
-                        ResHelper.sendSuccess(res);
+                        //successfully saved
+                        user.pendingVerification = true;
+                        //save user, deleting verification if err
+                        user.save(function(err, _user){
+                           if (err){
+                               console.log(err);
+                               userVerification.remove();
+                               ResHelper.sendError(res, ErrorCodes.MongoError);
+                           }
+                            else{
+                               ResHelper.sendSuccess(res);
+                               //res.json({user : _user.jsonObject()});
+                           }
+                        });
                     }
                 });
 
