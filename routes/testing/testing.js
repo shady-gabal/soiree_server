@@ -635,7 +635,7 @@ router.post('/createSoiree', function(req, res){
     var dateString = req.body.date;
     var date = DateHelper.dateFromTime(dateString);
 
-    Soiree.createTest('NYU', function(){
+    Soiree.createTest(function(){
         res.send("OK");
     }, function(err){
        res.status(404).send("Error:" + err);
