@@ -177,10 +177,12 @@ router.post('/fetchNotifications', function(req, res, next){
 router.post('/uploadNotificationsRead', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
     var notificationsRead = req.body.notificationsRead;
+
     if (notificationsRead && notificationsRead.length > 0){
       Notification.find({"notificationId" : {"$in" : notificationsRead}, "_user" : user._id, "read" : false}).exec(function(err, notifications){
         if (err){
           console.log("Error fetching notifications read: " + err);
+          ResHelper.sendError(res, ErrorCodes.Error);
         }
         else if (notifications && notifications.length > 0){
           for (var i = 0; i < notifications.length; i++){
@@ -188,9 +190,11 @@ router.post('/uploadNotificationsRead', function(req, res, next){
             notification.read = true;
             notification.save(Globals.saveErrorCallback);
           }
+          ResHelper.sendSuccess(res);
         }
       });
     }
+    else ResHelper.sendSuccess(res);
   });
 });
 
