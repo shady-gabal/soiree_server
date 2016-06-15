@@ -177,23 +177,40 @@ router.post('/fetchNotifications', function(req, res, next){
 router.post('/uploadNotificationsRead', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
     var notificationsRead = req.body.notificationsRead;
+    console.log('user._unreadNotifications: ' + user._unreadNotifications);
+    if (notificationsRead && notificationsRead.length > 0) {
 
-    if (notificationsRead && notificationsRead.length > 0){
-      Notification.find({"notificationId" : {"$in" : notificationsRead}, "_user" : user._id, "read" : false}).exec(function(err, notifications){
-        if (err){
-          console.log("Error fetching notifications read: " + err);
-          ResHelper.sendError(res, ErrorCodes.Error);
+      for (var i = 0; i < notificationsRead.length; i++) {
+        var index = user._unreadNotifications.indexOf(notificationsRead[i]);
+        if (index !== -1) {
+          user._unreadNotifications.splice(index, 1);
         }
-        else if (notifications && notifications.length > 0){
-          for (var i = 0; i < notifications.length; i++){
-            var notification = notifications[i];
-            notification.read = true;
-            notification.save(Globals.saveErrorCallback);
-          }
+      }
+
+      user.save(function(err){
+        if (err) {
+          console.log(err);
+        }
+        else{
           ResHelper.sendSuccess(res);
         }
       });
     }
+      //Notification.find({"notificationId" : {"$in" : notificationsRead}, "_user" : user._id, "read" : false}).exec(function(err, notifications){
+      //  if (err){
+      //    console.log("Error fetching notifications read: " + err);
+      //    ResHelper.sendError(res, ErrorCodes.Error);
+      //  }
+      //  else if (notifications && notifications.length > 0){
+      //
+      //    for (var i = 0; i < notifications.length; i++){
+      //      var notification = notifications[i];
+      //      notification.read = true;
+      //      notification.save(Globals.saveErrorCallback);
+      //    }
+      //    ResHelper.sendSuccess(res);
+      //  }
+      //});
     else ResHelper.sendSuccess(res);
   });
 });
