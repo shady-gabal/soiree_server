@@ -186,7 +186,7 @@ router.post('/uploadNotificationsRead', function(req, res, next){
           for (var i = 0; i < notifications.length; i++){
             var notification = notifications[i];
             notification.read = true;
-            notification.save();
+            notification.save(Globals.saveErrorCallback);
           }
         }
       });

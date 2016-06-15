@@ -39,7 +39,8 @@ findTestUsers();
 function findTestUsers(res){
     User.findTestUsers(function (testUsers) {
         if (!testUsers || testUsers.length == 0){
-            console.log("Error finding testUsers : nothing returned");
+            _testUsers = [];
+            _user = null;
             return;
         }
 
@@ -451,6 +452,8 @@ router.get('/deleteUsers', function(req, res){
     CommunityPost.remove({}, function(){
     });
     User.remove({}, function(){
+        _user = null;
+        _testUsers = [];
         res.send("Done");
     });
 });
