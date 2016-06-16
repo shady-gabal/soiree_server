@@ -198,17 +198,19 @@ router.post('/uploadNotificationsRead', function(req, res, next){
           }
         }
 
+        _user.save(function(err2){
+          if (err2) {
+            console.log(err2);
+          }
+          else{
+            ResHelper.sendSuccess(res);
+          }
+        });
+
       });
 
 
-      _user.save(function(err2){
-        if (err2) {
-          console.log(err2);
-        }
-        else{
-          ResHelper.sendSuccess(res);
-        }
-      });
+
     }
       //Notification.find({"notificationId" : {"$in" : notificationsRead}, "_user" : user._id, "read" : false}).exec(function(err, notifications){
       //  if (err){
