@@ -180,16 +180,30 @@ router.post('/uploadNotificationsRead', function(req, res, next){
     console.log('user._unreadNotifications: ' + user._unreadNotifications);
     if (notificationsRead && notificationsRead.length > 0) {
 
-      for (var i = 0; i < notificationsRead.length; i++) {
-        var index = user._unreadNotifications.indexOf(notificationsRead[i]);
-        if (index !== -1) {
-          user._unreadNotifications.splice(index, 1);
-        }
-      }
-
-      user.save(function(err){
-        if (err) {
+      user.deepPopulate("_unreadNotifications", function(err, _user){
+        if (err){
           console.log(err);
+          return ResHelper.sendError(res, ErrorCodes.Error);
+        }
+
+        var unreadNotifs = _user._unreadNotifications;
+
+        for (var i = 0; i < unreadNotifs.length; i++) {
+          var notification = unreadNotifs[i];
+          var index = notificationsRead.indexOf(notification._id);
+
+          if (index !== -1) {
+            notification.read = true;
+            _user._unreadNotifications.splice(i,1);
+          }
+        }
+
+      });
+
+
+      _user.save(function(err2){
+        if (err2) {
+          console.log(err2);
         }
         else{
           ResHelper.sendSuccess(res);
