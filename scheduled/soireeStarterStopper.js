@@ -5,9 +5,6 @@ var scheduledTasks = function(){
     var express = require('express');
     var router = express.Router();
 
-    var dbFolderLocation = "../db/";
-    var helpersFolderLocation = "../helpers/";
-
     var mongoose = require('app/db/mongoose_connect.js');
     var Soiree = require('app/db/Soiree.js');
     var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
@@ -55,48 +52,48 @@ var scheduledTasks = function(){
 
     //END
 //end existing soirees
-    Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
-        if (err){
-            console.log("Error in scheduledSoirees: " + err);
-        }
-        else{
-            console.log("Ending " + soirees.length + " soirees");
-            for (var i = 0; i < soirees.length; i++){
-                var soiree = soirees[i];
-                if (soiree.soireeType != "TEST"){
-                    soiree.end();
-                }
-            }
-            console.log('done ending');
-
-        }
-    });
-
-
-    //REMIND
-//remind people of upcoming soirees or cancel if necessary
-    Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
-        if (err){
-            console.log("Error in scheduledSoirees: " + err);
-        }
-        else{
-            console.log("Reminding users of " + soirees.length + " soirees");
-            for (var i = 0; i < soirees.length; i++){
-                var soiree = soirees[i];
-                //console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-                if (soiree.reachedNumUsersMin){
-                    soiree.open();
-                    soiree.remind(SOIREE_REMIND_BEFORE + "");
-                }
-                else{
-                    soiree.cancel();
-                }
-            }
-            console.log('done reminding');
-        }
-    });
-
-    console.log('done running');
+//    Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+//        if (err){
+//            console.log("Error in scheduledSoirees: " + err);
+//        }
+//        else{
+//            console.log("Ending " + soirees.length + " soirees");
+//            for (var i = 0; i < soirees.length; i++){
+//                var soiree = soirees[i];
+//                if (soiree.soireeType != "TEST"){
+//                    soiree.end();
+//                }
+//            }
+//            console.log('done ending');
+//
+//        }
+//    });
+//
+//
+//    //REMIND
+////remind people of upcoming soirees or cancel if necessary
+//    Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+//        if (err){
+//            console.log("Error in scheduledSoirees: " + err);
+//        }
+//        else{
+//            console.log("Reminding users of " + soirees.length + " soirees");
+//            for (var i = 0; i < soirees.length; i++){
+//                var soiree = soirees[i];
+//                //console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
+//                if (soiree.reachedNumUsersMin){
+//                    soiree.open();
+//                    soiree.remind(SOIREE_REMIND_BEFORE + "");
+//                }
+//                else{
+//                    soiree.cancel();
+//                }
+//            }
+//            console.log('done reminding');
+//        }
+//    });
+//
+//    console.log('done running');
 };
 
 module.exports = scheduledTasks;
