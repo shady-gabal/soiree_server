@@ -49,6 +49,7 @@ var scheduledTasks = function(){
 
 
             }
+            console.log('done starting');
         }
     });
 
@@ -81,6 +82,8 @@ var scheduledTasks = function(){
                     soiree.end();
                 }
             }
+            console.log('done ending');
+
         }
     });
 
@@ -104,9 +107,10 @@ var scheduledTasks = function(){
                     soiree.cancel();
                 }
             }
+            console.log('done reminding');
         }
     });
-
+    console.log('done running');
 };
 
 module.exports = scheduledTasks;

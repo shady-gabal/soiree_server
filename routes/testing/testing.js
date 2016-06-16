@@ -679,6 +679,22 @@ router.get('/sendEmail', function(req, res){
         res.send("Error");
     });
 });
+
+router.get('/soireeStarterStopper', function(req, res){
+    var scheduledTasks = require('../../scheduled/soireeStarterStopper.js');
+    scheduledTasks();
+    res.send("OK");
+});
+
+router.get('/soireeCreator', function(req, res){
+    var scheduledTasks = require('../../scheduled/soireeCreator.js');
+    scheduledTasks();
+    res.send("OK");
+});
+
+
+
+
 //router.get('/verifyPerson', function(req, res){
 //   User.findOne({"firstName" : "Ramy"}, function(err, user){
 //       if (!err && user){

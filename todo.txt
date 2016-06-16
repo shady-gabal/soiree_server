@@ -20,3 +20,4 @@ and perform a fetch whenever you need to get a user's name. You'll have to fetch
 6) Add gender matching in soirees
 7) make sure user is verified before posting/emotioning post
 8) community distance filtering
+9) create soirees per week
