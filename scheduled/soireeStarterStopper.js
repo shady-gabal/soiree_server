@@ -24,7 +24,7 @@ var scheduledTasks = function(){
 //
 //    var scheduledTimeIdentifierSpontaneous = Soiree.createScheduledTimeIdentifier(Date.now() - (SPONTANEOUS_SOIREE_CHECK_BEFORE * 60 * 1000));
 //
-//    console.log("Running scheduled tasks...");
+    console.log("Running scheduled tasks...");
 //
 //    console.log("Running scheduled soirees task for scheduledTimeIdentifierNow: " + scheduledTimeIdentifierNow +  " ...");
 //    console.log("Running scheduled soirees task for scheduledTimeIdentifierReminder: " + scheduledTimeIdentifierReminder +  " ...");
