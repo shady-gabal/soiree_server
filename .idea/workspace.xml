@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduled/soireeStarterStopper.js" afterPath="$PROJECT_DIR$/scheduled/soireeStarterStopper.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -89,8 +88,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45511222">
-              <caret line="368" column="30" selection-start-line="368" selection-start-column="30" selection-end-line="368" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.47880298">
+              <caret line="369" column="40" selection-start-line="369" selection-start-column="40" selection-end-line="369" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -1201,8 +1200,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45511222">
-          <caret line="368" column="30" selection-start-line="368" selection-start-column="30" selection-end-line="368" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.47880298">
+          <caret line="369" column="40" selection-start-line="369" selection-start-column="40" selection-end-line="369" selection-end-column="40" />
           <folding />
         </state>
       </provider>
