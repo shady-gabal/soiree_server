@@ -52,22 +52,22 @@ var scheduledTasks = function(){
 
 //    END
 //end existing soirees
-    Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
-        if (err){
-            console.log("Error in scheduledSoirees: " + err);
-        }
-        else{
-            console.log("Ending " + soirees.length + " soirees");
-            for (var i = 0; i < soirees.length; i++){
-                var soiree = soirees[i];
-                if (soiree.soireeType != "TEST"){
-                    soiree.end();
-                }
-            }
-            console.log('done ending');
-
-        }
-    });
+//    Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+//        if (err){
+//            console.log("Error in scheduledSoirees: " + err);
+//        }
+//        else{
+//            console.log("Ending " + soirees.length + " soirees");
+//            for (var i = 0; i < soirees.length; i++){
+//                var soiree = soirees[i];
+//                if (soiree.soireeType != "TEST"){
+//                    soiree.end();
+//                }
+//            }
+//            console.log('done ending');
+//
+//        }
+//    });
 //
 //
 //    //REMIND
