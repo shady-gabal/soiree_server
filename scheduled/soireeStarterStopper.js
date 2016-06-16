@@ -27,6 +27,8 @@ var scheduledTasks = function(){
     console.log("Running scheduled soirees task for scheduledTimeIdentifierReminder: " + scheduledTimeIdentifierReminder +  " ...");
     //
     ////START OR CANCEL IF NECESSARY
+    //console.log('starting soirees starting...');
+
     //Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
     //    if (err){
     //        console.log("Error in scheduledSoirees: " + err);
@@ -52,6 +54,7 @@ var scheduledTasks = function(){
 
 //    END
 //end existing soirees
+    console.log('ending soirees starting...');
     Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
         if (err){
             console.log("Error in scheduledSoirees: " + err);
@@ -60,6 +63,8 @@ var scheduledTasks = function(){
             console.log("Ending " + soirees.length + " soirees");
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
+                console.log('trying soiree ' + soiree.soireeId);
+
                 if (soiree.soireeType != "TEST"){
                     soiree.end();
                 }
@@ -93,7 +98,7 @@ var scheduledTasks = function(){
 //        }
 //    });
 //
-//    console.log('done running');
+    console.log('done running');
 };
 
 module.exports = scheduledTasks;

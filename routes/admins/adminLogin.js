@@ -20,7 +20,7 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 
 router.get('/', function(req, res){
-    ResHelper.render(req, res, 'admins/login', { title: 'Express', stylesheets : [] });
+    ResHelper.render(req, res, 'admins/login', {});
 });
 
 router.post('/', function(req, res, next){
