@@ -2,10 +2,6 @@
  * Created by shadygabal on 12/11/15.
  */
 var scheduledTasks = function(){
-    var express = require('express');
-    var router = express.Router();
-
-    var mongoose = require('app/db/mongoose_connect.js');
     var Soiree = require('app/db/Soiree.js');
     var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
 
@@ -56,22 +52,22 @@ var scheduledTasks = function(){
 //end existing soirees
     console.log('ending soirees starting...');
     Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
-        if (err){
-            console.log("Error in scheduledSoirees: " + err);
-        }
-        else{
-            console.log("Ending " + soirees.length + " soirees");
-            for (var i = 0; i < soirees.length; i++){
-                var soiree = soirees[i];
-                console.log('trying soiree ' + soiree.soireeId);
+        //if (err){
+        //    console.log("Error in scheduledSoirees: " + err);
+        //}
+        //else{
+        //    console.log("Ending " + soirees.length + " soirees");
+        //    for (var i = 0; i < soirees.length; i++){
+        //        var soiree = soirees[i];
+        //        console.log('trying soiree ' + soiree.soireeId);
+        //
+        //        if (soiree.soireeType != "TEST"){
+        //            soiree.end();
+        //        }
+        //    }
+        //    console.log('done ending');
 
-                if (soiree.soireeType != "TEST"){
-                    soiree.end();
-                }
-            }
-            console.log('done ending');
-
-        }
+        //}
     });
 
 
