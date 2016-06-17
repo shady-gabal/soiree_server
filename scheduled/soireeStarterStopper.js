@@ -71,7 +71,7 @@ var scheduledTasks = function(){
     //});
 
     console.log('ending soirees starting...');
-    Soiree.find( { } ).populate(deepPopulateFields).exec(function(err, soirees){
+    Soiree.find( { } ).exec(function(err, soirees){
 
     });
     console.log("done ending");
