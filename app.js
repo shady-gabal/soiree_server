@@ -22,10 +22,13 @@ var passport = require('passport'),
 var flash = require('connect-flash');
 var session = require('express-session');
 var hbs = require('hbs');
+var MongoStore = require('connect-mongo')(session);
 
 var facebookTokenStrategy = require('passport-facebook-token');
 
 /* Database */
+var mongoose = require('app/db/mongoose_connect.js');
+
 var User = require('app/db/User.js');
 var Admin = require('app/db/Admin.js');
 var Business = require('app/db/Business.js');
@@ -106,27 +109,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 /********* SETUP PASSPORT AND SESSIONS *********/
- var sessionOptions = {
-     secret: SESSION_SECRET,
-     resave: true,
-     saveUninitialized: true
- };
-
-app.use(session(sessionOptions));
+app.use(session(
+    {
+    secret: SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+            mongooseConnection: mongoose.connection,
+            ttl: 365 * 24 * 60 * 60 // = 365 days
+        })
+    }
+));
 
 
 //express-session must be initialized BEFORE passport.session
-//app.use(session({
-//    secret: COOKIE_SECRET,
-//    name: COOKIE_NAME,
-//    //store: sessionStore, // connect-mongo session store
-//    proxy: true,
-//    resave: true,
-//    saveUninitialized: true,
-//    cookie: { maxAge: 60000 }
-//    })
-//);
-//app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 

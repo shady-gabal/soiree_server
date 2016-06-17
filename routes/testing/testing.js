@@ -68,11 +68,16 @@ function findTestUsers(res){
 
 
 router.get('/deleteTestUsers', function(req, res){
-    User.remove({testUser : true}).exec(function(err){
+    User.find({testUser : true}).exec(function(err, testUsers){
         if (err){
             res.send("Error : " + err);
         }
         else{
+            testUsers.forEach(function(user){
+               user.remove();
+            });
+            _testUsers = [];
+            _user = null;
             res.send("Done");
         }
     });
@@ -550,19 +555,19 @@ router.get('/deleteBusinesses', function(req, res){
    });
 });
 
-router.get('/deleteEverything', function(req, res){
-    Business.remove({}, Globals.saveErrorCallback);
-    ScheduledSoireeJob.remove({},Globals.saveErrorCallback);
-    Notification.remove({},Globals.saveErrorCallback);
+router.get('/deleteCommunity', function(req, res){
+    //Business.remove({}, Globals.saveErrorCallback);
+    //ScheduledSoireeJob.remove({},Globals.saveErrorCallback);
+    //Notification.remove({},Globals.saveErrorCallback);
     CommunityComment.remove({},Globals.saveErrorCallback);
     CommunityPost.remove({},Globals.saveErrorCallback);
-    User.remove({},Globals.saveErrorCallback);
-    Soiree.remove({},Globals.saveErrorCallback);
-    SoireeReservation.remove({},Globals.saveErrorCallback);
-    SoireeHost.remove({},Globals.saveErrorCallback);
+    //User.remove({},Globals.saveErrorCallback);
+    //Soiree.remove({},Globals.saveErrorCallback);
+    //SoireeReservation.remove({},Globals.saveErrorCallback);
+    //SoireeHost.remove({},Globals.saveErrorCallback);
 
-    _user = null;
-    _testUsers = [];
+    //_user = null;
+    //_testUsers = [];
     res.send("Done. Check logs for errors");
 });
 
