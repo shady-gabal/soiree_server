@@ -88,11 +88,30 @@ router.get('/createTestUsers', function(req, res){
 
     var numToCreate = firstNames.length;
     var profilePictureUrls = [
-        "https://s-media-cache-ak0.pinimg.com/736x/d8/7f/0e/d87f0e1ecddb955a74f41e1032a8a136.jpg"        , "https://i.ytimg.com/vi/KY4IzMcjX3Y/maxresdefault.jpg"
-        , "https://s-media-cache-ak0.pinimg.com/736x/2b/28/50/2b285083bff26dbc1b74a7473adf054d.jpg"
+        "https://pbs.twimg.com/media/CZVV1DyUYAEZOWC.jpg"
+        , "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSIXORPXKeYVEcfig4DB60oqj3yblNiPZvkVSBi4J6d7-HqlVU5"
         , "https://pbs.twimg.com/media/CdzAPxRWIAACmIr.jpg"
         , "https://upload.wikimedia.org/wikipedia/commons/9/96/Carassius_wild_golden_fish_2013_G1.jpg"
-        , "https://s-media-cache-ak0.pinimg.com/736x/94/92/f3/9492f3f78bbc088940efe012c1bc24ef.jpg"
+        , "https://s-media-cache-ak0.pinimg.com/736x/94/92/f3/9492f3f78bbc088940efe012c1bc24ef.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/a/a5/European_Rabbit,_Lake_District,_UK_-_August_2011.jpg",
+        "https://sausagemeat.files.wordpress.com/2013/03/ae5f8c649a13084f0fc10b7542dc1f22.gif",
+   "https://s.yimg.com/lq/i/us/sp/v/nba/players_l/20101116/3704.jpg?x=46&y=60&xc=1&yc=1&wc=164&hc=215&q=100&sig=uL0nsT4C.6jmThsRqojbzg--",
+        "https://pbs.twimg.com/media/CdN9xThWwAAiRqs.jpg",
+        "https://pbs.twimg.com/profile_images/1261875044/bigfoot_400x400.jpg",
+        "https://pbs.twimg.com/profile_images/708019215295352832/1aID2AgJ.jpg",
+        "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSgpzmv7a5bgCi93btMPlnke32cnvTP3eoPXUS0a7besJKxSaBp",
+        "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR63YsDiUNWx-QqlxetGDmWUagcPkOz8fmJVRFgthegmFtqKRyh",     "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQzXiaOWlKX59usrkVHhphGbz0fuqyve5Dke5D5GB2IyBBHiV4",
+
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSfqzDY8l8ArhWrPvJ26anOL6FQmFd-5a-TBeG0CTacPNPAL7hpQ",
+
+        "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTyu_4j48AjBUaigRuSuAlFASIdDL17nIQFIx8Tj75OAe_0M2UT9A",
+
+        "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQYslwWJIGGYBEKcJbVRABtbimxKuwwb0pRZErNQrwI-E5wVQ7WcQ",
+
+        "https://i.ytimg.com/vi/9aXb1P26AXg/0.jpg",
+
+        "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRjykgDekEHamoSFs1XJsoZoafOqNgpF1hv_bhsXJsjegs_3Dsl",
+        "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT12J5Lyv1Sg51Hj-I8tR09veX0L-f2ukPZlhlSHtaCkt1oB7EE"
     ];
 
     for (var i = 0; i < numToCreate; i++){

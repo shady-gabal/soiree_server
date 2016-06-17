@@ -164,9 +164,9 @@
             });
         };
 
-        function deleteUsers(){
+        function deleteTestUsers(){
             $.ajax({
-                url: '/admins/testing/deleteUsers',
+                url: '/admins/testing/deleteTestUsers',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -307,7 +307,7 @@
 <button onclick='createSSJobs()'> Create SSJobs </button>
 <button onclick='createBusiness()'> Create Business </button>
 <button onclick='performSSJobs()'> Perform SSJobs </button>
-<button onclick='deleteUsers()'> Delete Users </button>
+<button onclick='deleteTestUsers()'> Delete Test Users </button>
 <button onclick='deleteShady()'> Delete Shady </button>
 <button onclick='deleteEverything()'> Delete Everything </button>
 <button onclick='createTestUsers()'> Create Test Users </button>

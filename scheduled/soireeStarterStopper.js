@@ -50,8 +50,8 @@ var scheduledTasks = function(){
 
 //    END
 //end existing soirees
-    console.log('ending soirees starting...');
-    Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "cancelled" : false} ).populate(deepPopulateFields).exec(function(err, soirees){
+//    console.log('ending soirees starting...');
+//    Soiree.find( { "scheduledEndTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : true, "ended" : false, "cancelled" : false} ).populate(deepPopulateFields).exec(function(err, soirees){
         //if (err){
         //    console.log("Error in scheduledSoirees: " + err);
         //}
@@ -68,8 +68,13 @@ var scheduledTasks = function(){
         //    console.log('done ending');
         //
         //}
-    });
+    //});
 
+    console.log('ending soirees starting...');
+    Soiree.find( { } ).populate(deepPopulateFields).exec(function(err, soirees){
+
+    });
+    console.log("done ending");
 
 //    //REMIND
 ////remind people of upcoming soirees or cancel if necessary
