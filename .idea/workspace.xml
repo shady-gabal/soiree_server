@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" afterPath="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" />
-    </list>
+    <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="" />
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -88,8 +86,8 @@
       <file leaf-file-name="CommunityPost.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityPost.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.52618456">
-              <caret line="326" column="5" selection-start-line="326" selection-start-column="5" selection-end-line="326" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.5498753">
+              <caret line="327" column="0" selection-start-line="327" selection-start-column="0" selection-end-line="327" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -1212,8 +1210,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityPost.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52618456">
-          <caret line="326" column="5" selection-start-line="326" selection-start-column="5" selection-end-line="326" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.5498753">
+          <caret line="327" column="0" selection-start-line="327" selection-start-column="0" selection-end-line="327" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
