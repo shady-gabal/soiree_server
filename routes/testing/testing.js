@@ -80,14 +80,13 @@ router.get('/deleteTestUsers', function(req, res){
 
 
 router.get('/createTestUsers', function(req, res){
-    console.log('1');
     _testUsers = [];
 
-    var firstNames = ["Robert", "Joe" , "Kevin", "Jill", "Michelle", "Naomi"];
-    var lastNames = ["Jones", "Roberts", "Dominican", "Ellis", "Grimes", "Stevens"];
+    var firstNames = ["Robert", "Joe" , "Kevin", "Bob", "Steve", "Matt", "Mark", "Roger", "Jack", "Scott", "Jill", "Michelle", "Naomi", "Anna", "Brianna", "Donna", "Rachel", "Felicia", "Lisa", "Marge"];
+    var lastNames = ["Jones", "Roberts", "Dominican", "Ellis", "Grimes", "Stevens", "Gin", "Sonny", "Creed", "Rothenberg", "Mott", "Brooks", "LaBonne", "Josy", "Garcia", "Rodriguez", "Kant", "Camus", "Hemingway", "Dawkins"];
     var numReturned = 0;
 
-    var numToCreate = 6;
+    var numToCreate = firstNames.length;
     var profilePictureUrls = [
         "https://s-media-cache-ak0.pinimg.com/736x/d8/7f/0e/d87f0e1ecddb955a74f41e1032a8a136.jpg"        , "https://i.ytimg.com/vi/KY4IzMcjX3Y/maxresdefault.jpg"
         , "https://s-media-cache-ak0.pinimg.com/736x/2b/28/50/2b285083bff26dbc1b74a7473adf054d.jpg"
@@ -97,8 +96,8 @@ router.get('/createTestUsers', function(req, res){
     ];
 
     for (var i = 0; i < numToCreate; i++){
-        var first = firstNames[i];
-        var last = lastNames[i];
+        var first = i < firstNames.length ? firstNames[i] : firstNames[i%firstNames.length];
+        var last = i < lastNames.length ? lastNames[i] : lastNames[i%lastNames.length];
 
         var profilePictureUrl = profilePictureUrls[i % numToCreate];
 
@@ -106,11 +105,10 @@ router.get('/createTestUsers', function(req, res){
         var user = new User({
             firstName : first,
             lastName : last,
-            gender : i > 2 ? 'female' : 'male',
+            gender : i >= firstNames.length/2 ? 'female' : 'male',
             location : LocationHelper.createPoint({longitude : 45, latitude: 45}),
             testUser : true,
             profilePictureUrl : profilePictureUrl
-            //college : "NYU"
         });
 
         user.save(function(err, testUser){
@@ -252,7 +250,7 @@ router.get('/', function (req, res) {
     }, function(err){
         console.log(err);
         cb();
-    }, {deepPopulate : "_comments"})
+    }, {deepPopulate : "_comments"});
 
 });
 
@@ -401,11 +399,32 @@ router.get('/remindSoiree', function(req, res){
 });
 
 router.get('/findSoirees', function(req, res){
-    Soiree.findSoirees(req, _user, function(soirees){
-        ResHelper.render(req, res, 'testing/findSoirees', {soirees: soirees});
+    var cb = function(posts) {
+        Soiree.findSoirees(req, _user, function (soirees) {
+            for (var i = 0; i < soirees.length; i++) {
+                var soiree = soirees[i];
+                soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+            }
+
+            var testUsers = _.without(_testUsers, _user);
+            ResHelper.render(req, res, 'testing/index', {
+                soirees: [soirees],
+                posts: posts,
+                _testUsers: testUsers,
+                _user: _user
+            });
+
+        }, function (err) {
+            res.send("error: " + err);
+        });
+    };
+
+    CommunityPost.findPosts(req, null, _user, function(posts){
+        cb(posts);
     }, function(err){
-       res.send("error: " + err);
-    });
+        console.log(err);
+        cb();
+    }, {deepPopulate : "_comments"});
 });
 
 
@@ -523,6 +542,8 @@ router.get('/deleteEverything', function(req, res){
     SoireeReservation.remove({},Globals.saveErrorCallback);
     SoireeHost.remove({},Globals.saveErrorCallback);
 
+    _user = null;
+    _testUsers = [];
     res.send("Done. Check logs for errors");
 });
 
@@ -686,7 +707,7 @@ router.get('/soireeStarterStopper', function(req, res){
     res.send("OK");
 });
 
-router.get('/soireeCreator', function(req, res){
+router.get('/soireeStarterStopper', function(req, res){
     var scheduledTasks = require('../../scheduled/soireeCreator.js');
     scheduledTasks();
     res.send("OK");

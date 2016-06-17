@@ -5,8 +5,9 @@ var func = function(){
     var Soiree = require('app/db/Soiree.js');
     var Globals = require('app/helpers/Globals.js');
 
+
     var numToCreatePerType = {
-      "Lunch" : 2, "Dinner" : 2, "Drinks" : 2, "Blind Date" : 2, "TEST" : 2
+        "Dinner" : 2, "Drinks" : 2, "Speed Date" : 2, "TEST" : 2
     };
 
     var soireeType = Globals.soireeTypes[0];
