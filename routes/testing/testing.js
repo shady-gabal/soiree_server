@@ -132,7 +132,8 @@ router.get('/createTestUsers', function(req, res){
             gender : i >= firstNames.length/2 ? 'female' : 'male',
             location : LocationHelper.createPoint({longitude : 45, latitude: 45}),
             testUser : true,
-            profilePictureUrl : profilePictureUrl
+            profilePictureUrl : profilePictureUrl,
+            verified: true
         });
 
         user.save(function(err, testUser){

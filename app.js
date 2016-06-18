@@ -113,7 +113,7 @@ app.use(session(
     {
     secret: SESSION_SECRET,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: new MongoStore({
             mongooseConnection: mongoose.connection,
             ttl: 365 * 24 * 60 * 60 // = 365 days
