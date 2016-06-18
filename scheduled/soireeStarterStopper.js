@@ -9,7 +9,7 @@ var scheduledTasks = function(){
     var SOIREE_REMIND_BEFORE = 30;
     var SPONTANEOUS_SOIREE_CHECK_BEFORE = 60;
 
-    var deepPopulateFields = "_business _usersAttending _host";
+    var deepPopulateFields = "_business _usersAttending";
 
     var scheduledTimeIdentifierNow = Soiree.createScheduledTimeIdentifier();
 //var scheduledTimeIdentifierEnd = Soiree.createScheduledTimeIdentifierPast(SOIREE_LENGTH_IN_MINS);
@@ -71,7 +71,7 @@ var scheduledTasks = function(){
     //});
 
     console.log('ending soirees starting...');
-    Soiree.find( { } ).exec(function(err, soirees){
+    Soiree.find( { } ).populate(deepPopulateFields).exec(function(err, soirees){
 
     });
     console.log("done ending");

@@ -504,10 +504,13 @@ router.get('/deleteUsers', function(req, res){
 
 router.get('/deleteShady', function(req, res){
     User.findOne({"firstName" : "Shady"}, function(err, user){
-        CommunityComment.remove({_user : user._id}, function(){
-        });
-        CommunityPost.remove({_user : user._id}, function(){
-        });
+        user.remove();
+        res.send("Done");
+    });
+});
+
+router.get('/deleteMohab', function(req, res){
+    User.findOne({"firstName" : "Mohab"}, function(err, user){
         user.remove();
         res.send("Done");
     });
