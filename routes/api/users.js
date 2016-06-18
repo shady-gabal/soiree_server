@@ -174,27 +174,53 @@ router.post('/fetchNotifications', function(req, res, next){
   });
 });
 
-router.post('/uploadNotificationsRead', function(req, res, next){
+router.post('/uploadNotificationsTapped', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
-    var notificationsRead = req.body.notificationsRead;
-    console.log('user._unreadNotifications: ' + user._unreadNotifications);
-    if (notificationsRead && notificationsRead.length > 0) {
 
-      user.deepPopulate("_unreadNotifications", function(err, _user){
+    var notificationsTapped = req.body.notificationsTapped;
+    if (notificationsTapped && notificationsTapped.length > 0) {
+      Notification.find({"_id" : {"$in" : notificationsTapped}, "_user" : user._id, "tapped" : false}).exec(function(err, notifications){
+        if (err){
+          console.log("Error fetching notifications read: " + err);
+          ResHelper.sendError(res, ErrorCodes.Error);
+        }
+        else if (notifications && notifications.length > 0){
+
+          for (var i = 0; i < notifications.length; i++){
+            var notification = notifications[i];
+            notification.tapped = true;
+            notification.save(Globals.saveErrorCallback);
+          }
+          ResHelper.sendSuccess(res);
+        }
+      });
+
+    }
+    else ResHelper.sendSuccess(res);
+  });
+});
+
+router.post('/uploadNotificationsSeen', function(req, res, next){
+  User.verifyUser(req, res, next, function(user){
+    var notificationsSeen = req.body.notificationsSeen;
+    console.log('user._unseenNotifications: ' + user._unseenNotifications);
+    if (notificationsSeen && notificationsSeen.length > 0) {
+
+      user.deepPopulate("_unseenNotifications", function(err, _user){
         if (err){
           console.log(err);
           return ResHelper.sendError(res, ErrorCodes.Error);
         }
 
-        var unreadNotifs = _user._unreadNotifications;
+        var unseenNotifs = _user._unseenNotifications;
 
-        for (var i = 0; i < unreadNotifs.length; i++) {
-          var notification = unreadNotifs[i];
-          var index = notificationsRead.indexOf(notification._id);
+        for (var i = 0; i < unseenNotifs.length; i++) {
+          var notification = unseenNotifs[i];
+          var index = notificationsSeen.indexOf(notification._id);
 
           if (index !== -1) {
-            notification.read = true;
-            _user._unreadNotifications.splice(i,1);
+            notification.seen = true;
+            _user._unseenNotifications.splice(i,1);
           }
         }
 

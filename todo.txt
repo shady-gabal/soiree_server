@@ -21,4 +21,4 @@ and perform a fetch whenever you need to get a user's name. You'll have to fetch
 7) make sure user is verified before posting/emotioning post
 8) community distance filtering
 9) create soirees per week
-10) Replace user._unreadNotifications with a simple counter that gets incremented when a notification gets created OR when a notification that was previously read get updated and becomes unread and decremented when a user reads a notification.
+10) Replace user._unseenNotifications with a simple counter that gets incremented when a notification gets created OR when a notification that was previously read get updated and becomes unread and decremented when a user reads a notification.
