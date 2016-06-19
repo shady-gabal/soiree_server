@@ -25,6 +25,7 @@ var LocationHelper = require('app/helpers/LocationHelper.js');
 var CreditCardHelper = require('app/helpers/CreditCardHelper.js');
 var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
 var MongooseHelper = require('app/helpers/MongooseHelper.js');
+var Globals = require('app/helpers/Globals.js');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
