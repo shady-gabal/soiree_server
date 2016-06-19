@@ -69,10 +69,10 @@ var scheduledTasks = function(){
         }
     });
 
-    console.log('ending soirees starting...');
-    Soiree.find( { } ).populate(deepPopulateFields).exec(function(err, soirees){
-
-    });
+    //console.log('ending soirees starting...');
+    //Soiree.find( { } ).populate(deepPopulateFields).exec(function(err, soirees){
+    //
+    //});
 
     //REMIND
 //remind people of upcoming soirees or cancel if necessary

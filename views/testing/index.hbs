@@ -92,6 +92,19 @@
             });
         };
 
+        function deleteBusinesses(){
+            $.ajax({
+                url: '/admins/testing/deleteBusinesses',
+                method : 'GET',
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        };
+
         function createSoirees(){
             $.ajax({
                 url: '/admins/testing/createSoirees',
@@ -309,6 +322,7 @@
 <button onclick='performSSJobs()'> Perform SSJobs </button>
 <button onclick='deleteTestUsers()'> Delete Test Users </button>
 <button onclick='deleteShady()'> Delete Shady </button>
+<button onclick='deleteBusinesses()'> Delete Businesses </button>
 <button onclick='deleteCommunity()'> Delete Community </button>
 <button onclick='createTestUsers()'> Create Test Users </button>
 <button onclick='refreshUsers()'> Refresh Users </button>
