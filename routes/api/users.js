@@ -208,7 +208,7 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
 
     if (notificationsSeen && notificationsSeen.length > 0) {
 
-      Notification.find({"_id" : {"$in" : notificationsTapped}, "_user" : user._id, "seen" : false}).exec(function(err, notifications){
+      Notification.find({"_id" : {"$in" : notificationsSeen}, "_user" : user._id, "seen" : false}).exec(function(err, notifications){
         if (err){
           console.log("Error fetching notifications read: " + err);
           ResHelper.sendError(res, ErrorCodes.Error);
