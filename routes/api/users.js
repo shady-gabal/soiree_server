@@ -178,6 +178,7 @@ router.post('/uploadNotificationsTapped', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
 
     var notificationsTapped = req.body.notificationsTapped;
+    console.log("notificationsTapped: " + notificationsTapped);
     if (notificationsTapped && notificationsTapped.length > 0) {
 
       Notification.find({"_id" : {"$in" : notificationsTapped}, "_user" : user._id, "tapped" : false}).exec(function(err, notifications){
@@ -186,8 +187,10 @@ router.post('/uploadNotificationsTapped', function(req, res, next){
           ResHelper.sendError(res, ErrorCodes.Error);
         }
         else if (notifications && notifications.length > 0){
+          console.log('notifications fetched: ' + notifications);
 
           for (var i = 0; i < notifications.length; i++){
+
             var notification = notifications[i];
             notification.tapped = true;
             notification.save(Globals.saveErrorCallback);
@@ -195,6 +198,7 @@ router.post('/uploadNotificationsTapped', function(req, res, next){
           ResHelper.sendSuccess(res);
         }
         else{
+          console.log("no notifications fetched");
           ResHelper.sendSuccess(res);
         }
       });
@@ -207,7 +211,7 @@ router.post('/uploadNotificationsTapped', function(req, res, next){
 router.post('/uploadNotificationsSeen', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
     var notificationsSeen = req.body.notificationsSeen;
-    //console.log('user._unseenNotifications: ' + user._unseenNotifications);
+    console.log('notifications seen: ' + notificationsSeen);
 
     if (notificationsSeen && notificationsSeen.length > 0) {
 
@@ -219,6 +223,8 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
         else if (notifications && notifications.length > 0){
 
           for (var i = 0; i < notifications.length; i++){
+            console.log('notifications fetched: ' + notifications);
+
             var notification = notifications[i];
             if (!notification.seen){
               notification.seen = true;
@@ -230,6 +236,7 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
           ResHelper.sendSuccess(res);
         }
         else{
+          console.log('no notifications fetched');
           ResHelper.sendSuccess(res);
 
         }
