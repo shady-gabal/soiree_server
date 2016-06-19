@@ -204,7 +204,7 @@ router.post('/uploadNotificationsTapped', function(req, res, next){
 router.post('/uploadNotificationsSeen', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
     var notificationsSeen = req.body.notificationsSeen;
-    console.log('user._unseenNotifications: ' + user._unseenNotifications);
+    //console.log('user._unseenNotifications: ' + user._unseenNotifications);
 
     if (notificationsSeen && notificationsSeen.length > 0) {
 
