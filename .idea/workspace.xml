@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/testing/testing.js" afterPath="$PROJECT_DIR$/routes/testing/testing.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/CommunityComment.js" afterPath="$PROJECT_DIR$/node_modules/app/db/CommunityComment.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" afterPath="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/User.js" afterPath="$PROJECT_DIR$/node_modules/app/db/User.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,7 +41,7 @@
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityPost.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="404" column="3" selection-start-line="404" selection-start-column="3" selection-end-line="404" selection-end-column="3" />
+              <caret line="400" column="0" selection-start-line="400" selection-start-column="0" selection-end-line="403" selection-end-column="16" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -62,7 +63,7 @@
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityComment.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="249" column="100" selection-start-line="249" selection-start-column="100" selection-end-line="249" selection-end-column="100" />
+              <caret line="251" column="9" selection-start-line="251" selection-start-column="9" selection-end-line="251" selection-end-column="9" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -70,21 +71,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testing.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="testing.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/testing/testing.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.47381547">
+            <state vertical-scroll-proportion="0.0">
               <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="User.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/User.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="438" column="104" selection-start-line="438" selection-start-column="104" selection-end-line="438" selection-end-column="104" />
+            <state vertical-scroll-proportion="0.81419355">
+              <caret line="572" column="0" selection-start-line="572" selection-start-column="0" selection-end-line="572" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -194,13 +195,13 @@
         <option value="$PROJECT_DIR$/routes/api/users.js" />
         <option value="$PROJECT_DIR$/node_modules/app/helpers/PushNotificationHelper.js" />
         <option value="$PROJECT_DIR$/views/testing/index.hbs" />
-        <option value="$PROJECT_DIR$/node_modules/app/db/User.js" />
         <option value="$PROJECT_DIR$/node_modules/app/db/Notification.js" />
         <option value="$PROJECT_DIR$/node_modules/app/helpers/IdGeneratorHelper.js" />
-        <option value="$PROJECT_DIR$/node_modules/app/db/CommunityComment.js" />
-        <option value="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" />
         <option value="$PROJECT_DIR$/node_modules/app/db/SoireeReservation.js" />
         <option value="$PROJECT_DIR$/routes/testing/testing.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/CommunityComment.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/User.js" />
       </list>
     </option>
   </component>
@@ -799,18 +800,18 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.60361445" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24947146" sideWeight="0.52403843" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253012" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -960,6 +961,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -981,6 +983,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -988,6 +991,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1143,14 +1147,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="438" column="104" selection-start-line="438" selection-start-column="104" selection-end-line="438" selection-end-column="104" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/db/Business.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1169,10 +1165,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/Notification.js">
+    <entry file="file://$PROJECT_DIR$/routes/testing/testing.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="392" column="0" selection-start-line="392" selection-start-column="0" selection-end-line="392" selection-end-column="0" />
+          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1180,20 +1176,18 @@
     <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityComment.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="249" column="100" selection-start-line="249" selection-start-column="100" selection-end-line="249" selection-end-column="100" />
+          <caret line="251" column="9" selection-start-line="251" selection-start-column="9" selection-end-line="251" selection-end-column="9" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityPost.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/Notification.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="404" column="3" selection-start-line="404" selection-start-column="3" selection-end-line="404" selection-end-column="3" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+          <caret line="392" column="0" selection-start-line="392" selection-start-column="0" selection-end-line="392" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1205,10 +1199,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/testing/testing.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/CommunityPost.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.47381547">
-          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="400" column="0" selection-start-line="400" selection-start-column="0" selection-end-line="403" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.81419355">
+          <caret line="572" column="0" selection-start-line="572" selection-start-column="0" selection-end-line="572" selection-end-column="0" />
           <folding />
         </state>
       </provider>
