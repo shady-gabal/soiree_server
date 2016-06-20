@@ -338,12 +338,16 @@
     <button onclick='addNotification()'> Add Notification </button>
 
     <ul>
+        <li> testUser: {{this.testUser}} </li>
         <li>_currentReservations : [{{#each _user._currentReservations}} &nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;| {{/each}}]</li>
         <li>_pastReservations : [{{#each _user._pastReservations}}&nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;|{{/each}}]</li>
         <li>_notifications : [{{#each _user._notifications}}&nbsp;&nbsp;{{this._id}}&nbsp;&nbsp;|{{/each}}]</li>
         <li>verified: {{_user.verified}}</li>
         <li>pending verification: {{_user.pendingVerification}}</li>
         <li> gender : {{_user.gender}}, isMale : {{_user.isMale}}, isFemale: {{_user.isFemale}} </li>
+        <li> hasDeviceToken: {{this.hasDeviceToken}}</li>
+        <li> deviceToken: {{this.deviceToken}}</li>
+
     </ul>
 
 
