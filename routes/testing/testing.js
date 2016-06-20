@@ -36,7 +36,7 @@ var _testUsers = [];
 
 findTestUsers();
 
-function findTestUsers(res){
+function findTestUsers(successCallback, errorCallback){
     User.findTestUsers(function (testUsers) {
         if (!testUsers || testUsers.length == 0){
             _testUsers = [];
@@ -45,23 +45,22 @@ function findTestUsers(res){
         }
 
         _testUsers = testUsers;
-        _user = testUsers[0];
-        if (res){
-            res.send("OK");
+        if (!_user)
+         _user = testUsers[0];
+        if (successCallback){
+            successCallback();
         }
-        //if (!user.location){
-        //    console.log("saving user location...");
-        //    _user.location = LocationHelper.createPoint(44, 44);
-        //    _user.save();
-        //}
 
-        //console.log("_user set");
     }, function (err) {
         console.log("Error setting test user: " + err);
-        if (res){
-            res.status(404).send("Error");
+        if (errorCallback){
+            errorCallback();
         }
     });
+}
+
+function refreshUsers(successCallback, errorCallback){
+    findTestUsers(successCallback, errorCallback);
 }
 
 
@@ -189,7 +188,11 @@ router.get('/createVerifications', function(req, res, next){
 });
 
 router.get('/refreshUsers', function(req, res){
-   findTestUsers(res);
+   refreshUsers(function(){
+       res.send("OK");
+   }, function(){
+       res.status(404).send("error");
+   });
 });
 
 //router.get('/showInProgress', function(req, res){
@@ -236,46 +239,52 @@ router.get('/testSocket', function (req, res) {
 
 router.get('/', function (req, res) {
 
-    //console.log(_user);
+    refreshUsers(function(){
 
-    var cb = function(posts){
-        if (!posts) posts=[];
-        Soiree.find({cancelled: false, ended: false}).limit(20).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, soirees) {
-        if (err) {
-            console.log("Error finding soirees in testing/ : " + err);
-            res.status(404).send("Error");
-        }
-        else {
-
-            Soiree.find({cancelled: true}).limit(20).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, overSoirees) {
+        var cb = function(posts){
+            if (!posts) posts=[];
+            Soiree.find({cancelled: false, ended: false}).limit(20).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, soirees) {
                 if (err) {
                     console.log("Error finding soirees in testing/ : " + err);
                     res.status(404).send("Error");
                 }
-                else{
-                    for (var i = 0; i < soirees.length; i++) {
-                        var soiree = soirees[i];
-                        soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
-                    }
-                    for (var i = 0; i < overSoirees.length; i++) {
-                        var soiree = overSoirees[i];
-                        soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
-                    }
+                else {
 
-                    var testUsers = _.without(_testUsers, _user);
-                    ResHelper.render(req, res, 'testing/index', {soirees: [soirees, overSoirees], posts: posts, _testUsers : testUsers, _user : _user});
+                    Soiree.find({cancelled: true}).limit(20).deepPopulate("_unchargedReservations._user _unchargedReservations._soiree _chargedReservations._user _chargedReservations._soiree _usersAttending _usersUncharged _business").sort('-soireeId').exec(function (err, overSoirees) {
+                        if (err) {
+                            console.log("Error finding soirees in testing/ : " + err);
+                            res.status(404).send("Error");
+                        }
+                        else{
+                            for (var i = 0; i < soirees.length; i++) {
+                                var soiree = soirees[i];
+                                soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+                            }
+                            for (var i = 0; i < overSoirees.length; i++) {
+                                var soiree = overSoirees[i];
+                                soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+                            }
+
+                            var testUsers = _.without(_testUsers, _user);
+                            ResHelper.render(req, res, 'testing/index', {soirees: [soirees, overSoirees], posts: posts, _testUsers : testUsers, _user : _user});
+                        }
+                    });
                 }
             });
-        }
-    });
-    };
+        };
 
-    CommunityPost.findPosts(req, null, _user, function(posts){
-        cb(posts);
-    }, function(err){
-        console.log(err);
-        cb();
-    }, {deepPopulate : "_comments"});
+        CommunityPost.findPosts(req, null, _user, function(posts){
+            cb(posts);
+        }, function(err){
+            console.log(err);
+            cb();
+        }, {deepPopulate : "_comments"});
+
+
+    }, function(){
+        res.send("error");
+    });
+
 
 });
 
@@ -424,32 +433,38 @@ router.get('/remindSoiree', function(req, res){
 });
 
 router.get('/findSoirees', function(req, res){
-    var cb = function(posts) {
-        Soiree.findSoirees(req, _user, function (soirees) {
-            for (var i = 0; i < soirees.length; i++) {
-                var soiree = soirees[i];
-                soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
-            }
 
-            var testUsers = _.without(_testUsers, _user);
-            ResHelper.render(req, res, 'testing/index', {
-                soirees: [soirees],
-                posts: posts,
-                _testUsers: testUsers,
-                _user: _user
+    refreshUsers(function() {
+        var cb = function(posts) {
+            Soiree.findSoirees(req, _user, function (soirees) {
+                for (var i = 0; i < soirees.length; i++) {
+                    var soiree = soirees[i];
+                    soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+                }
+
+                var testUsers = _.without(_testUsers, _user);
+                ResHelper.render(req, res, 'testing/index', {
+                    soirees: [soirees],
+                    posts: posts,
+                    _testUsers: testUsers,
+                    _user: _user
+                });
+
+            }, function (err) {
+                res.send("error: " + err);
             });
+        };
 
-        }, function (err) {
-            res.send("error: " + err);
-        });
-    };
+        CommunityPost.findPosts(req, null, _user, function(posts){
+            cb(posts);
+        }, function(err){
+            console.log(err);
+            cb();
+        }, {deepPopulate : "_comments"});
+    }, function(){
+        res.status(404).send('error');
+    });
 
-    CommunityPost.findPosts(req, null, _user, function(posts){
-        cb(posts);
-    }, function(err){
-        console.log(err);
-        cb();
-    }, {deepPopulate : "_comments"});
 });
 
 
@@ -625,6 +640,81 @@ router.get('/deleteScheduledSoireeJobs', function(req, res) {
        res.send("Completed with err: " + err);
     });
 });
+
+router.get('/fetchNotifications', function(req, res){
+    //User.verifyUser(req, res, next, function(user){
+
+    var idsToIgnore = req.body.idsToIgnore;
+
+    //make copy
+    var notifIds = [];
+    for (var i = 0; i < _user._notifications.length; i++){
+        notifIds.push(_user._notifications[i]._id);
+    }
+
+    if (idsToIgnore && idsToIgnore.length > 0) {
+        //remove ids that youre supposed to ignore
+        for (var i = 0; i < idsToIgnore.length; i++) {
+            var index = notifIds.indexOf(idsToIgnore[i]);
+            if (index !== -1) {
+                notifIds.splice(index, 1);
+            }
+        }
+    }
+
+    console.log(notifIds);
+    Notification.find({_id : notifIds, _user : _user._id}).sort({"date" : "descending"}).limit(10).exec(function(err, notifications){
+        if (err){
+            console.log(err);
+            ResHelper.sendError(res, ErrorCodes.MongoError);
+        }
+        else{
+            var notificationsJson = Notification.jsonArrayFromArray(notifications);
+            res.json({"notifications" : notificationsJson});
+        }
+    });
+    //
+    //});
+});
+
+router.get('/fetchUnseenNotifications', function(req, res){
+    //User.verifyUser(req, res, next, function(user){
+
+    //make copy
+    var notifIds = [];
+    for (var i = 0; i < _user._notifications.length; i++){
+        notifIds.push(_user._notifications[i]._id);
+    }
+
+        Notification.find({_id : notifIds, seen: false, _user : _user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
+            if (err){
+                console.log(err);
+                ResHelper.sendError(res, ErrorCodes.MongoError);
+            }
+            else{
+                var notificationsJson = Notification.jsonArrayFromArray(notifications);
+                res.json({"notifications" : notificationsJson});
+            }
+        });
+
+    //});
+});
+
+router.get('/addNotification', function(req, res, next){
+
+        //Notification.find({_id : user._notifications, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
+        //    if (err){
+        //        console.log(err);
+        //        ResHelper.sendError(res, ErrorCodes.MongoError);
+        //    }
+        //    else{
+        //        var notificationsJson = Notification.jsonArrayFromArray(notifications);
+        //        res.json({"notifications" : notificationsJson});
+        //    }
+        //});
+
+});
+
 
 //router.get('/createScheduledSoireeJobs', function(req, res){
     //var numJobs = req.query.numJobs ? req.query.numJobs : 10;

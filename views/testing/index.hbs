@@ -163,6 +163,8 @@
             });
         };
 
+
+
         function switchUser(userId){
             $.ajax({
                 url: '/admins/testing/switchTestUser',
@@ -297,9 +299,9 @@
             });
         }
 
-        function testNotification(){
+        function addNotification(){
             $.ajax({
-                url: '/admins/testing/testNotification',
+                url: '/admins/testing/addNotification',
                 method : 'GET',
                 success: function(){
                     location.reload(true);
@@ -333,12 +335,12 @@
     <p>User Selected: {{_user.firstName}} {{_user.lastName}}</p>
     <img src="{{_user.profilePictureUrl}}" style="width:100px; height: 100px;" />
 
-    <button onclick='testNotification()'> Test Notification </button>
+    <button onclick='addNotification()'> Add Notification </button>
 
     <ul>
         <li>_currentReservations : [{{#each _user._currentReservations}} &nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;| {{/each}}]</li>
         <li>_pastReservations : [{{#each _user._pastReservations}}&nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;|{{/each}}]</li>
-        <li>_notifications : [{{#each _user._notifications}}&nbsp;&nbsp;{{this.notificationId}}&nbsp;&nbsp;|{{/each}}]</li>
+        <li>_notifications : [{{#each _user._notifications}}&nbsp;&nbsp;{{this._id}}&nbsp;&nbsp;|{{/each}}]</li>
         <li>verified: {{_user.verified}}</li>
         <li>pending verification: {{_user.pendingVerification}}</li>
         <li> gender : {{_user.gender}}, isMale : {{_user.isMale}}, isFemale: {{_user.isFemale}} </li>
