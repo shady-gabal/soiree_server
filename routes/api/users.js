@@ -162,16 +162,49 @@ router.post('/createUser', function(req, res, next){
 
 router.post('/fetchNotifications', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
-    user.deepPopulate("_notifications", function(err){
+
+    var idsToIgnore = req.body.idsToIgnore;
+
+    //make copy
+    var notifIds = user._notifications;
+    if (idsToIgnore && idsToIgnore.length > 0) {
+      //remove ids that youre supposed to ignore
+      for (var i = 0; i < idsToIgnore.length; i++) {
+        var index = notifIds.indexOf(idsToIgnore[i]);
+        if (index !== -1) {
+          notifIds.splice(index, 1);
+        }
+      }
+    }
+
+    Notification.find({_id : notifIds, _user : user._id}).sort({"date" : "descending"}).limit(10).exec(function(err, notifications){
       if (err){
         console.log(err);
         ResHelper.sendError(res, ErrorCodes.MongoError);
       }
       else{
-        var notifications = Notification.jsonArrayFromArray(user._notifications);
-        res.json({"notifications" : notifications});
+        var notificationsJson = Notification.jsonArrayFromArray(notifications);
+        res.json({"notifications" : notificationsJson});
       }
-    })
+    });
+
+  });
+});
+
+router.post('/fetchUnseenNotifications', function(req, res, next){
+  User.verifyUser(req, res, next, function(user){
+
+    Notification.find({_id : user._notifications, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
+      if (err){
+        console.log(err);
+        ResHelper.sendError(res, ErrorCodes.MongoError);
+      }
+      else{
+        var notificationsJson = Notification.jsonArrayFromArray(notifications);
+        res.json({"notifications" : notificationsJson});
+      }
+    });
+
   });
 });
 
