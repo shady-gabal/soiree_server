@@ -41,6 +41,9 @@ function findTestUsers(successCallback, errorCallback){
         if (!testUsers || testUsers.length == 0){
             _testUsers = [];
             _user = null;
+            if (successCallback){
+                successCallback();
+            }
             return;
         }
 
