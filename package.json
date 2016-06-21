@@ -47,6 +47,7 @@
     "handlebars-helpers" : "",
     "mongoose-unique-validator" : "",
     "mathjs" : "",
-    "connect-mongo" : ""
+    "connect-mongo" : "",
+    "braintree" : ""
   }
 }

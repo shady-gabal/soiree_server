@@ -283,15 +283,27 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
   });
 });
 
-router.post('/addCard', function(req, res, next){
+router.get('/brainTreeClientToken', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
-    var stripeToken = req.body.stripeToken;
-    if (!stripeToken) {
+    CreditCardHelper.generateBrainTreeClientToken(function(clientToken){
+      res.json({clientToken: clientToken});
+    }, function(){
+      ResHelper.sendError(res, ErrorCodes.Error);
+    });
+
+  });
+});
+
+router.post('/addBraintreeCard', function(req, res, next){
+  User.verifyUser(req, res, next, function(user) {
+
+    var paymentNonce = req.body.paymentNonce;
+    if (!paymentNonce) {
       return ResHelper.sendError(res, ErrorCodes.MissingData);
     }
 
-    CreditCardHelper.addCard(stripeToken, user, function(_user){
+    CreditCardHelper.addBraintreeCard(paymentNonce, user, function(_user){
       res.json({user : _user.jsonObject()})
     }, function(err){
       ResHelper.sendError(res, ErrorCodes.Error);
@@ -300,11 +312,47 @@ router.post('/addCard', function(req, res, next){
   });
 });
 
-router.post('/removeCard', function(req, res, next){
+router.post('/removeBraintreeCard', function(req, res, next){
+  User.verifyUser(req, res, next, function(user) {
+
+    var stripeToken = req.body.stripeToken;
+    if (!stripeToken) {
+      return ResHelper.sendError(res, ErrorCodes.MissingData);
+    }
+
+    CreditCardHelper.removeBraintreeCard(stripeToken, user, function(_user){
+      res.json({user : _user.jsonObject()})
+    }, function(err){
+      ResHelper.sendError(res, ErrorCodes.Error);
+    });
+
+  });
+});
+
+//Stripe
+
+router.post('/addStripeCard', function(req, res, next){
+  User.verifyUser(req, res, next, function(user) {
+
+    var stripeToken = req.body.stripeToken;
+    if (!stripeToken) {
+      return ResHelper.sendError(res, ErrorCodes.MissingData);
+    }
+
+    CreditCardHelper.addStripeCard(stripeToken, user, function(_user){
+      res.json({user : _user.jsonObject()})
+    }, function(err){
+      ResHelper.sendError(res, ErrorCodes.Error);
+    });
+
+  });
+});
+
+router.post('/removeStripeCard', function(req, res, next){
 
   User.verifyUser(req, res, next, function(user) {
 
-    CreditCardHelper.removeCard(user, function(_user){
+    CreditCardHelper.removeStripeCard(user, function(_user){
       res.json({user : _user.jsonObject()})
     }, function(err){
       ResHelper.sendError(res, ErrorCodes.Error);
