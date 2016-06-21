@@ -793,6 +793,10 @@ router.post('/createSoiree', function(req, res){
 router.get('/testNotification', function(req, res){
 
     PushNotificationHelper.sendTestNotificationWithToken("e1a7e6131ca867a7b962be29d83fb592cd621f39a8e39d93c1ed467c6b4ec9cc");
+
+
+    //"c5bd6fca53e80b106bf56167e3ac5b3fe2629c967d9e80305322765dc5fedc72
+    //("e1a7e6131ca867a7b962be29d83fb592cd621f39a8e39d93c1ed467c6b4ec9cc");
    //var notif = new Notification({
    //    notificationType : 'test',
    //    bodySuffix : "This is a test notification boo. Multiple lines, let's see how you handle that. "
