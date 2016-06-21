@@ -283,7 +283,7 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
   });
 });
 
-router.get('/brainTreeClientToken', function(req, res, next){
+router.post('/brainTreeClientToken', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
     CreditCardHelper.generateBrainTreeClientToken(function(clientToken){
