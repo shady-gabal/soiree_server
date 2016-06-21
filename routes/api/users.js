@@ -283,6 +283,11 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
   });
 });
 
+
+
+
+/* Payment */
+
 router.post('/brainTreeClientToken', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
@@ -443,19 +448,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
 
 
 
-//router.get('/createUser', function(req, res){
-//  var user = new User({
-//    firstName : "Shady",
-//    lastName : "Gabal",
-//    gender : 'male'
-//  });
-//
-//  user.save(function(err){
-//    res.send("User saved with err : " + err);
-//  });
-//
-//});
-
+/* Notifications */
 
 router.get('/testNotification', function(req, res){
   User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
