@@ -791,8 +791,9 @@ router.post('/createSoiree', function(req, res){
 //});
 
 router.get('/testNotification', function(req, res){
+    var deviceToken = req.query.deviceToken ? req.query.deviceToken : "268943ed54d92f69179b86a9293812f02baaaa1cc481d3d7eb3a1fab5ab22d3b";
 
-    PushNotificationHelper.sendTestNotificationWithToken("e1a7e6131ca867a7b962be29d83fb592cd621f39a8e39d93c1ed467c6b4ec9cc");
+    PushNotificationHelper.sendTestNotificationWithToken(deviceToken);
 
 
     //"c5bd6fca53e80b106bf56167e3ac5b3fe2629c967d9e80305322765dc5fedc72
