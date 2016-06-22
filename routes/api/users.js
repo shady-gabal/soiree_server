@@ -159,9 +159,10 @@ router.post('/fetchNotifications', function(req, res, next){
         ResHelper.sendError(res, ErrorCodes.MongoError);
       }
       else{
-        console.log(notifications);
-        console.log(notifications.length);
+        //console.log(notifications);
+        console.log('fetched ' + notifications.length + " notifications");
         var notificationsJson = Notification.jsonArrayFromArray(notifications);
+        console.log('sending ' + notificationsJson.length + " notifications");
         res.json({"notifications" : notificationsJson});
       }
     });

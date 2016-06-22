@@ -666,7 +666,7 @@ router.get('/fetchNotifications', function(req, res){
     }
 
     //console.log(notifIds);
-    Notification.find({ _id : {"$in" : notifIds} }).sort({"date" : "descending"}).limit(10).exec(function(err, notifications){
+    Notification.find({ _id : {"$in" : notifIds}, _user : _user._id }).sort({"date" : "descending"}).limit(10).exec(function(err, notifications){
         if (err){
             console.log(err);
             ResHelper.sendError(res, ErrorCodes.MongoError);
