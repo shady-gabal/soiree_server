@@ -160,7 +160,7 @@ router.post('/fetchNotifications', function(req, res, next){
       }
       else{
         //console.log(notifications);
-        console.log('fetched ' + notifications.length + " notifications");
+        //console.log('fetched ' + notifications.length + " notifications");
         var notificationsJson = Notification.jsonArrayFromArray(notifications);
         console.log('sending ' + notificationsJson.length + " notifications");
         res.json({"notifications" : notificationsJson});
@@ -179,7 +179,9 @@ router.post('/fetchUnseenNotifications', function(req, res, next){
         ResHelper.sendError(res, ErrorCodes.MongoError);
       }
       else{
+        //console.log("fetched " + notifications.length + " unseen notifications");
         var notificationsJson = Notification.jsonArrayFromArray(notifications);
+        console.log("sending " + notificationsJson.length + " unseen notifications");
         res.json({"notifications" : notificationsJson});
       }
     });
