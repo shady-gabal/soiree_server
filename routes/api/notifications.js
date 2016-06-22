@@ -134,9 +134,12 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
                         console.log('notifications fetched: ' + notifications);
 
                         var notification = notifications[i];
+                        var index = user._unseenNotifications.indexOf(notification._id);
+                        if (index !== -1){
+                            user._unseenNotifications.splice(i,1);
+                        }
                         if (!notification.seen){
                             notification.seen = true;
-                            user.numUnseenNotifications--;
                             notification.save(Globals.saveErrorCallback);
                         }
                     }
