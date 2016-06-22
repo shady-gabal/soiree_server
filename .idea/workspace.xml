@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/User.js" afterPath="$PROJECT_DIR$/node_modules/app/db/User.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/testing/index.hbs" afterPath="$PROJECT_DIR$/views/testing/index.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/notifications.js" afterPath="$PROJECT_DIR$/routes/api/notifications.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +36,8 @@
       <file leaf-file-name="index.hbs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/testing/index.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33462533">
-              <caret line="360" column="124" selection-start-line="360" selection-start-column="124" selection-end-line="360" selection-end-column="124" />
+            <state vertical-scroll-proportion="0.53100777">
+              <caret line="367" column="9" selection-start-line="367" selection-start-column="9" selection-end-line="367" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -1091,14 +1089,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/testing/testing.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="679" column="7" selection-start-line="679" selection-start-column="7" selection-end-line="679" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/Globals.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1151,10 +1141,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/testing/testing.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="679" column="7" selection-start-line="679" selection-start-column="7" selection-end-line="679" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/testing/index.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33462533">
-          <caret line="360" column="124" selection-start-line="360" selection-start-column="124" selection-end-line="360" selection-end-column="124" />
+        <state vertical-scroll-proportion="0.53100777">
+          <caret line="367" column="9" selection-start-line="367" selection-start-column="9" selection-end-line="367" selection-end-column="9" />
           <folding />
         </state>
       </provider>
