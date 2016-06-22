@@ -665,13 +665,14 @@ router.get('/fetchNotifications', function(req, res){
         }
     }
 
-    console.log(notifIds);
+    //console.log(notifIds);
     Notification.find({_id : notifIds, _user : _user._id}).sort({"date" : "descending"}).limit(10).exec(function(err, notifications){
         if (err){
             console.log(err);
             ResHelper.sendError(res, ErrorCodes.MongoError);
         }
         else{
+            console.log(notifications);
             var notificationsJson = Notification.jsonArrayFromArray(notifications);
             res.json({"notifications" : notificationsJson});
         }

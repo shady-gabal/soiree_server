@@ -135,30 +135,6 @@ router.post('/createUser', function(req, res, next){
 });
 
 
-//router.post('/saveStripeToken', function(req, res, next){
-//  User.verifyUser(req, res, next, function(user){
-//    var stripeToken = req.body.stripeToken;
-//    var last4Digits = req.body.creditCardLast4Digits;
-//
-//    user.stripeToken = stripeToken;
-//    user.creditCardLast4Digits = last4Digits;
-//
-//    console.log("stripe token: " + stripeToken);
-//
-//    user.save(function(err){
-//      if (err){
-//        console.log("error saving token " + err);
-//        ResHelper.sendMessage(res, 404, "error saving token");
-//      }
-//      else{
-//        console.log("saved stripe token");
-//        ResHelper.sendSuccess(res);
-//      }
-//    });
-//  }, function(err){
-//     ResHelper.sendMessage(res, 404, "error finding user");
-//  });
-//});
 
 router.post('/fetchNotifications', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
@@ -183,6 +159,8 @@ router.post('/fetchNotifications', function(req, res, next){
         ResHelper.sendError(res, ErrorCodes.MongoError);
       }
       else{
+        console.log(notifications);
+        console.log(notifications.length);
         var notificationsJson = Notification.jsonArrayFromArray(notifications);
         res.json({"notifications" : notificationsJson});
       }
