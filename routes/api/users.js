@@ -153,7 +153,7 @@ router.post('/fetchNotifications', function(req, res, next){
       }
     }
 
-    Notification.find({_id : notifIds, _user : user._id}).sort({"date" : "descending"}).limit(10).exec(function(err, notifications){
+    Notification.find({_id : {"$in" : notifIds}, _user : user._id}).sort({"date" : "descending"}).limit(10).exec(function(err, notifications){
       if (err){
         console.log(err);
         ResHelper.sendError(res, ErrorCodes.MongoError);
@@ -172,7 +172,7 @@ router.post('/fetchNotifications', function(req, res, next){
 router.post('/fetchUnseenNotifications', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
 
-    Notification.find({_id : user._notifications, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
+    Notification.find({_id : {"$in" : user._notifications}, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
       if (err){
         console.log(err);
         ResHelper.sendError(res, ErrorCodes.MongoError);
@@ -266,7 +266,7 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
 
 /* Payment */
 
-router.post('/brainTreeClientToken', function(req, res, next){
+router.post('/braintreeClientToken', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
     CreditCardHelper.generateBrainTreeClientToken(function(clientToken){
