@@ -644,6 +644,44 @@ router.get('/deleteScheduledSoireeJobs', function(req, res) {
     });
 });
 
+router.get('/allNotifications', function(req, res){
+    //User.verifyUser(req, res, next, function(user){
+
+    //var idsToIgnore = req.body.idsToIgnore;
+    //
+
+    //make copy
+    var notifIds = [];
+    for (var i = 0; i < _user._notifications.length; i++){
+        notifIds.push(_user._notifications[i]._id);
+    }
+
+    //if (idsToIgnore && idsToIgnore.length > 0) {
+    //    //remove ids that youre supposed to ignore
+    //    for (var i = 0; i < idsToIgnore.length; i++) {
+    //        var index = notifIds.indexOf(idsToIgnore[i]);
+    //        if (index !== -1) {
+    //            notifIds.splice(index, 1);
+    //        }
+    //    }
+    //}
+
+    //console.log(notifIds);
+    Notification.find({ _id : {"$in" : notifIds}, _user : _user._id }).sort({"date" : "descending"}).exec(function(err, notifications){
+        if (err){
+            console.log(err);
+            ResHelper.sendError(res, ErrorCodes.MongoError);
+        }
+        else{
+            //console.log('Notifications loaded: ', notifications);
+            var notificationsJson = Notification.jsonArrayFromArray(notifications);
+            res.json({"notifications" : notificationsJson});
+        }
+    });
+    //
+    //});
+});
+
 router.get('/fetchNotifications', function(req, res){
     //User.verifyUser(req, res, next, function(user){
 

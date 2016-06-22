@@ -44,6 +44,7 @@ var FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 /**** Routes ****/
 /* User Facing Routes */
 var userIndex = require('./routes/consumer/index');
+
 /* API Routes */
 var soirees = require('./routes/api/soirees');
 var soireeInProgress = require('./routes/api/soireeInProgress');
@@ -52,13 +53,17 @@ var businessesApi = require('./routes/api/businessesApi');
 var questionnaire = require('./routes/api/questionnaire');
 var community = require('./routes/api/community');
 var verificationsApi = require('./routes/api/verificationsApi');
+var notifications = require('./routes/api/notifications');
+
 /* Admin Facing */
 var admins = require('./routes/admins/admins.js');
 var adminLogin = require('./routes/admins/adminLogin.js');
 var businessLogin = require('./routes/businesses/businessLogin.js');
 var verifications = require('./routes/admins/idVerifications.js');
+
 /* Business Facing */
 var businesses =  require('./routes/businesses/businesses.js');
+
 /* Testing */
 var testing = require('./routes/testing/testing.js');
 var images =  require('./routes/images/images.js');
@@ -269,6 +274,7 @@ app.use('/api/soirees', soirees);
 app.use('/api/soirees/soireeInProgress', soireeInProgress);
 app.use('/api/users', users);
 app.use('/api/users/questionnaire', questionnaire);
+app.use('/api/users/notifications', notifications);
 app.use('/api/businesses', businessesApi);
 app.use('/api/community', community);
 app.use('/api/verifications', verificationsApi);
