@@ -665,14 +665,14 @@ router.get('/fetchNotifications', function(req, res){
         }
     }
 
-    //console.log(notifIds);
+    console.log(notifIds);
     Notification.find({_id : notifIds, _user : _user._id}).sort({"date" : "descending"}).limit(10).exec(function(err, notifications){
         if (err){
             console.log(err);
             ResHelper.sendError(res, ErrorCodes.MongoError);
         }
         else{
-            console.log(notifications);
+            console.log('Notifications loaded: ', notifications);
             var notificationsJson = Notification.jsonArrayFromArray(notifications);
             res.json({"notifications" : notificationsJson});
         }
@@ -704,8 +704,13 @@ router.get('/fetchUnseenNotifications', function(req, res){
     //});
 });
 
-router.get('/addNotification', function(req, res, next){
+router.get('/addNotification', function(req, res){
+    var num = req.query.numNotifications ? req.query.numNotifications : 1;
 
+    for (var i = 0; i < num; i++){
+        Notification.createTestNotification(_user);
+    }
+    res.send("OK");
         //Notification.find({_id : user._notifications, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
         //    if (err){
         //        console.log(err);
