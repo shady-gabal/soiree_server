@@ -269,6 +269,8 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
 
 /* Payment */
 
+//Braintree
+
 router.post('/braintreeClientToken', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
@@ -301,12 +303,7 @@ router.post('/addBraintreeCard', function(req, res, next){
 router.post('/removeBraintreeCard', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
-    var stripeToken = req.body.stripeToken;
-    if (!stripeToken) {
-      return ResHelper.sendError(res, ErrorCodes.MissingData);
-    }
-
-    CreditCardHelper.removeBraintreeCard(stripeToken, user, function(_user){
+    CreditCardHelper.removeBraintreeCard(user, function(_user){
       res.json({user : _user.jsonObject()})
     }, function(err){
       ResHelper.sendError(res, ErrorCodes.Error);
@@ -347,30 +344,6 @@ router.post('/removeStripeCard', function(req, res, next){
 
 });
 
-router.post('/uploadDeviceToken', function(req, res, next){
-  var deviceToken = req.body.deviceToken;
-  if (!deviceToken){
-    return ResHelper.sendError(res, ErrorCodes.MissingData);
-  }
-
-  User.verifyUser(req, res, next, function(user){
-    user.deviceToken = deviceToken;
-
-    user.save(function(err){
-      if (err){
-        console.log("Error saving user: " + err);
-        ResHelper.sendError(res, ErrorCodes.ErrorSaving);
-      }
-      else{
-        console.log("Uploaded device token for " + user.firstName + " : " + deviceToken);
-        ResHelper.sendSuccess(res);
-      }
-    });
-
-  }, function(err){
-    ResHelper.sendError(res, ErrorCodes.UserVerificationError);
-  });
-});
 
 router.post('/fetchUserSoirees', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
@@ -445,6 +418,32 @@ router.get('/testNotification', function(req, res){
     }
   });
 });
+
+router.post('/uploadDeviceToken', function(req, res, next){
+  var deviceToken = req.body.deviceToken;
+  if (!deviceToken){
+    return ResHelper.sendError(res, ErrorCodes.MissingData);
+  }
+
+  User.verifyUser(req, res, next, function(user){
+    user.deviceToken = deviceToken;
+
+    user.save(function(err){
+      if (err){
+        console.log("Error saving user: " + err);
+        ResHelper.sendError(res, ErrorCodes.ErrorSaving);
+      }
+      else{
+        console.log("Uploaded device token for " + user.firstName + " : " + deviceToken);
+        ResHelper.sendSuccess(res);
+      }
+    });
+
+  }, function(err){
+    ResHelper.sendError(res, ErrorCodes.UserVerificationError);
+  });
+});
+
 //
 //router.get('/postNotification', function(req, res){
 //  User.findOne({"firstName" : "Shady"}).populate("_notifications").exec(function(err, user) {
