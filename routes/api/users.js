@@ -443,21 +443,20 @@ router.get('/testNotification', function(req, res){
     }
   });
 });
-
-router.get('/postNotification', function(req, res){
-  User.findOne({"firstName" : "Shady"}).populate("_notifications").exec(function(err, user) {
-    if (err || !user)
-      return res.send("Error : " + err);
-
-    if (user._notifications.length == 0)
-      return res.send("No notifications to show");
-
-    var notification = user._notifications[0];
-    PushNotificationHelper.sendNotification(user, notification);
-    res.send("Sent");
-  });
-
-});
+//
+//router.get('/postNotification', function(req, res){
+//  User.findOne({"firstName" : "Shady"}).populate("_notifications").exec(function(err, user) {
+//    if (err || !user)
+//      return res.send("Error : " + err);
+//
+//    if (user._notifications.length == 0)
+//      return res.send("No notifications to show");
+//
+//    var notification = user._notifications[0];
+//    PushNotificationHelper.sendNotification(user, notification);
+//    res.send("Sent");
+//  });
+//});
 
 router.get('/removeNotifications', function(req, res){
   Notification.remove({}, function(err){
@@ -508,14 +507,14 @@ function sendUser(res, user, firstSignUp){
   if (!firstSignUp)
     firstSignUp = false;
 
-    user.deepPopulate("_notifications", function(err){
-      var obj = {
-        "firstSignUp" : firstSignUp,
-        "user" : user.jsonObject()
-      };
+    //user.deepPopulate("_notifications", function(err){
+    var obj = {
+      "firstSignUp" : firstSignUp,
+      "user" : user.jsonObject()
+    };
 
-      res.json(obj);
-    });
+    res.json(obj);
+    //});
 }
 
 
