@@ -580,12 +580,16 @@ router.get('/deletePosts', function(req, res){
 
 router.get('/deleteNotifications', function(req, res){
     Notification.remove({_user : _user._id}, function(){
+        _user._notifications = [];
+        _user.save();
         res.send("Done");
     });
 });
 
 router.get('/deleteUnseenNotifications', function(req, res){
     Notification.remove({_user : _user._id, seen: false}, function(){
+        _user._unseenNotifications = [];
+        _user.save();
         res.send("Done");
     });
 });
