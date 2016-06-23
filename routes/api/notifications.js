@@ -66,7 +66,7 @@ router.post('/fetchNotifications', function(req, res, next){
 router.post('/fetchUnseenNotifications', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
 
-        Notification.find({_id : {"$in" : user._notifications}, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
+        Notification.find({_id : {"$in" : user._unseenNotifications}, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
             if (err){
                 console.log(err);
                 ResHelper.sendError(res, ErrorCodes.MongoError);

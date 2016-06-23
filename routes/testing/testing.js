@@ -579,7 +579,13 @@ router.get('/deletePosts', function(req, res){
 });
 
 router.get('/deleteNotifications', function(req, res){
-    Notification.remove({}, function(){
+    Notification.remove({_user : _user._id}, function(){
+        res.send("Done");
+    });
+});
+
+router.get('/deleteUnseenNotifications', function(req, res){
+    Notification.remove({_user : _user._id, seen: false}, function(){
         res.send("Done");
     });
 });
