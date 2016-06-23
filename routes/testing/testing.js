@@ -262,6 +262,7 @@ router.get('/', function (req, res) {
                             for (var i = 0; i < soirees.length; i++) {
                                 var soiree = soirees[i];
                                 soiree.userAlreadyJoined = soiree.hasUserAlreadyJoined(_user);
+
                             }
                             for (var i = 0; i < overSoirees.length; i++) {
                                 var soiree = overSoirees[i];
@@ -365,7 +366,31 @@ router.post('/joinSoiree', function (req, res) {
     });
 });
 
+router.get('/createMovieSoiree', function(req, res){
+    var MovieSoiree = require('app/db/MovieSoiree.js');
+    MovieSoiree.createMovieSoiree(function(soiree){
+        res.json({soiree : soiree});
+    }, function(err){
+       res.send(err);
+    });
+    //soiree.save(function(err){
+    //    if (err) console.log(err);
+    //    res.send("OK with err " + err);
+    //});
+});
 
+router.get('/findMovieSoiree', function(req, res){
+    var MovieSoiree = require('app/db/MovieSoiree.js');
+    MovieSoiree.find({}).exec(function(err, soirees){
+       if (err){
+           console.log(err);
+           res.send("Error: " + err);
+       }
+        else{
+           res.json({"soirees" : soirees});
+       }
+    });
+});
 
 //router.post('/createSoirees', function (req, res) {
 //    res.redirect('/api/soirees/createSoirees?numSoirees=10');
