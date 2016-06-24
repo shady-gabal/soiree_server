@@ -7,7 +7,7 @@ var func = function(){
 
 
     var numToCreatePerType = {
-        "dinner" : 2, "drinks" : 2, "soiree date" : 2, "test" : 2
+        "dinner" : 3, "drinks" : 3, "soiree date" : 3, "test" : 3, "movie" : 3
     };
 
     var soireeType = Globals.soireeTypes[0];
