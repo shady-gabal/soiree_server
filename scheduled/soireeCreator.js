@@ -7,73 +7,63 @@ var func = function(){
 
 
     var numToCreatePerType = {
-        "dinner" : 3, "drinks" : 3, "soiree date" : 3, "test" : 3, "movie" : 3
+        "dinner" : 3, "drinks" : 3, "soiree date" : 3, "test" : 3
     };
 
     var soireeType = Globals.soireeTypes[0];
     var currSoireeTypeIndex = 0, numSoireeTypeCreated = 0, numSoireeTypeToCreate = numToCreatePerType[soireeType];
 
-    //for (var i = 0; i < Globals.soireeTypes.length; i++){
-    //    var soireeType = Globals.soireeTypes[i];
 
-        //var numToCreate = numToCreatePerType[soireeType];
-        //if (numToCreate){
-        //    for (var j = 0; j < numToCreate; j++){
+    console.log('about to create soiree of type ' + soireeType);
 
-                    console.log('about to create soiree of type ' + soireeType);
+    var cb = function(){
+        console.log('in cb: numSoireeTypeCreated ' + numSoireeTypeCreated + ' numSoireeTypeToCreate ' + numSoireeTypeToCreate + ' currSoireeTypeIndex ' + currSoireeTypeIndex + ' soireeType ' + soireeType);
 
-                var cb = function(){
-                    console.log('in cb: numSoireeTypeCreated ' + numSoireeTypeCreated + ' numSoireeTypeToCreate ' + numSoireeTypeToCreate + ' currSoireeTypeIndex ' + currSoireeTypeIndex + ' soireeType ' + soireeType);
+        if (numSoireeTypeCreated > numSoireeTypeToCreate || !numSoireeTypeToCreate){
+            currSoireeTypeIndex++;
+            if (currSoireeTypeIndex < Globals.soireeTypes.length){
 
-                    if (numSoireeTypeCreated > numSoireeTypeToCreate){
-                        currSoireeTypeIndex++;
-                        if (currSoireeTypeIndex < Globals.soireeTypes.length){
+                soireeType = Globals.soireeTypes[currSoireeTypeIndex];
 
-                            soireeType = Globals.soireeTypes[currSoireeTypeIndex];
+                while(!numToCreatePerType[soireeType]){
+                    soireeType = Globals.soireeTypes[++currSoireeTypeIndex];
+                }
 
-                            while(!numToCreatePerType[soireeType]){
-                                soireeType = Globals.soireeTypes[++currSoireeTypeIndex];
-                            }
+                numSoireeTypeToCreate = numToCreatePerType[soireeType];
+                numSoireeTypeCreated = 0;
+            }
+            else{
+                //done
+                return;
+            }
+        }
+        createSoiree();
 
-                            numSoireeTypeToCreate = numToCreatePerType[soireeType];
-                            numSoireeTypeCreated = 0;
-                        }
-                        else{
-                            //done
-                            return;
-                        }
-                    }
-                    createSoiree();
+    };
 
-                };
+    var createSoiree = function(){
+        console.log('in createSoiree: numSoireeTypeCreated ' + numSoireeTypeCreated + ' numSoireeTypeToCreate ' + numSoireeTypeToCreate + ' currSoireeTypeIndex ' + currSoireeTypeIndex + ' soireeType ' + soireeType);
 
-                var createSoiree = function(){
-                    console.log('in createSoiree: numSoireeTypeCreated ' + numSoireeTypeCreated + ' numSoireeTypeToCreate ' + numSoireeTypeToCreate + ' currSoireeTypeIndex ' + currSoireeTypeIndex + ' soireeType ' + soireeType);
+        Soiree.createSoireeWithType(soireeType, function(soiree){
 
-                    Soiree.createSoireeWithType(soireeType, function(soiree){
+            console.log("created soiree " + soiree.soireeId + " of type: " + soiree.soireeType + " in soireeCreator");
 
-                        console.log("created soiree " + soiree.soireeId + " of type: " + soiree.soireeType + " in soireeCreator");
+            numSoireeTypeCreated++;
+            cb();
 
-                        numSoireeTypeCreated++;
-                        cb();
+        }, function(err){
 
-                    }, function(err){
+            console.log("error creating soiree in soireeCreator: " + err);
+            numSoireeTypeCreated++;
+            cb();
 
-                        console.log("error creating soiree in soireeCreator: " + err);
-                        numSoireeTypeCreated++;
-                        cb();
-
-                    }, {});
-                };
+        }, {});
+    };
 
 
-                cb();
+    cb();
 
 
-                //}
-        //    }
-        //}
-    //}
 };
 
 module.exports = func;

@@ -314,36 +314,7 @@ router.get('/createSoirees', function (req, res) {
     createSoirees();
     res.send("OK");
 
-        //var numSoirees = req.query.numSoirees ? req.query.numSoirees : 10;
-        //
-        ////var college = req.query.college ? req.query.college : 'NYU';
-        //var numReturned = 0;
-        //var numToReturn = numSoirees;
-        //var errs = [];
-        //
-        //for (var i = 0; i < numToReturn; i++){
-        //    var st = Globals.soireeTypes[i % Globals.soireeTypes.length];
-        //    console.log('creating ' + st + ' ...');
-        //
-        //    Soiree.createSoireeWithType(st, function(){
-        //        numReturned++;
-        //        console.log(numReturned + ' returned.');
-        //        if (numReturned >= numToReturn) {
-        //            console.log(errs);
-        //            res.send("OK with errs : " + errs);
-        //        }
-        //    }, function(err){
-        //        numReturned++;
-        //
-        //        console.log(numReturned + ' returned with err ' + err);
-        //
-        //        errs.push(err);
-        //        if (numReturned >= numToReturn) res.send("OK with errs : " + errs);
-        //
-        //    });
-        //}
-
-    });
+});
 
 router.get('/createSoireeForSchedulerRun', function (req, res) {
 
@@ -367,18 +338,18 @@ router.post('/joinSoiree', function (req, res) {
     });
 });
 
-router.get('/createMovieSoiree', function(req, res){
-    var MovieSoiree = require('app/db/MovieSoiree.js');
-    MovieSoiree.createMovieSoiree(function(soiree){
-        res.json({soiree : soiree});
-    }, function(err){
-       res.send(err);
-    });
-    //soiree.save(function(err){
-    //    if (err) console.log(err);
-    //    res.send("OK with err " + err);
-    //});
-});
+//router.get('/createMovieSoiree', function(req, res){
+//    var MovieSoiree = require('app/db/MovieSoiree.js');
+//    MovieSoiree.createMovieSoiree(function(soiree){
+//        res.json({soiree : soiree});
+//    }, function(err){
+//       res.send(err);
+//    });
+//    //soiree.save(function(err){
+//    //    if (err) console.log(err);
+//    //    res.send("OK with err " + err);
+//    //});
+//});
 
 router.get('/createDrinksSoiree', function(req, res){
     var DrinksSoiree = require('app/db/DrinksSoiree.js');
