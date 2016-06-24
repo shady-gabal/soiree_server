@@ -9,6 +9,7 @@ var mongoose = require('app/db/mongoose_connect.js');
 var Soiree = require('app/db/Soiree.js');
 var ScheduledSoireeJob = require('app/db/ScheduledSoireeJob.js');
 var SoireeHost = require('app/db/SoireeHost.js');
+var MovieSoiree = require('app/db/MovieSoiree.js');
 
 var SoireeReservation = require('app/db/SoireeReservation.js');
 var CommunityPost = require('app/db/CommunityPost.js');
@@ -379,6 +380,19 @@ router.get('/createMovieSoiree', function(req, res){
     //});
 });
 
+router.get('/createDrinksSoiree', function(req, res){
+    var DrinksSoiree = require('app/db/DrinksSoiree.js');
+    DrinksSoiree.createDrinksSoiree(function(soiree){
+        res.json({soiree : soiree});
+    }, function(err){
+        res.send(err);
+    });
+    //soiree.save(function(err){
+    //    if (err) console.log(err);
+    //    res.send("OK with err " + err);
+    //});
+});
+
 router.get('/findMovieSoiree', function(req, res){
     var MovieSoiree = require('app/db/MovieSoiree.js');
     MovieSoiree.find({}).exec(function(err, soirees){
@@ -680,27 +694,11 @@ router.get('/deleteScheduledSoireeJobs', function(req, res) {
 });
 
 router.get('/allNotifications', function(req, res){
-    //User.verifyUser(req, res, next, function(user){
-
-    //var idsToIgnore = req.body.idsToIgnore;
-    //
-
     //make copy
     var notifIds = [];
     for (var i = 0; i < _user._notifications.length; i++){
         notifIds.push(_user._notifications[i]._id);
     }
-
-    //if (idsToIgnore && idsToIgnore.length > 0) {
-    //    //remove ids that youre supposed to ignore
-    //    for (var i = 0; i < idsToIgnore.length; i++) {
-    //        var index = notifIds.indexOf(idsToIgnore[i]);
-    //        if (index !== -1) {
-    //            notifIds.splice(index, 1);
-    //        }
-    //    }
-    //}
-
     //console.log(notifIds);
     Notification.find({ _id : {"$in" : notifIds}, _user : _user._id }).sort({"date" : "descending"}).exec(function(err, notifications){
         if (err){
@@ -784,16 +782,6 @@ router.get('/addNotification', function(req, res){
         Notification.createTestNotification(_user);
     }
     res.send("OK");
-        //Notification.find({_id : user._notifications, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
-        //    if (err){
-        //        console.log(err);
-        //        ResHelper.sendError(res, ErrorCodes.MongoError);
-        //    }
-        //    else{
-        //        var notificationsJson = Notification.jsonArrayFromArray(notifications);
-        //        res.json({"notifications" : notificationsJson});
-        //    }
-        //});
 
 });
 
@@ -839,19 +827,12 @@ router.get('/performScheduledSoireeJobs', function(req, res){
 });
 
 router.get('/findNextSoiree', function(req, res, next){
-    //var idsToIgnore = req.body.idsToIgnore;
-    //if (!idsToIgnore) idsToIgnore = [];
-
-    //User.verifyUser(req, res, next, function(user){
-    //var college = req.query.college;
 
     Soiree.findNextSoiree({}, [], function(soiree){
         res.json(soiree.jsonObject());
     }, function(err){
         ResHelper.sendError(res, err);
     });
-    //});
-
 });
 
 router.post('/createSoiree', function(req, res){
@@ -865,24 +846,34 @@ router.post('/createSoiree', function(req, res){
        res.status(404).send("Error:" + err);
     }, {date : date});
 });
-//router.get('/createSpecificSoiree', function(req, res){
-//    res.render('testing/createSoiree', {});
-//});
+
+router.get('/createMovieSoirees', function(req, res){
+    var MovieSoiree = require('app/db/MovieSoiree');
+
+    var titles = ["Captain America: Civil War", "Batman v Superman: Dawn of Justice", "Suicide Squad"];
+    var descs = ["Come watch Captain America: Civil War with a bunch of other amazing people! What better way to meet new people than by bonding over a great movie? You'll have a blast!", "", ""];
+
+    for (var i = 0; i < titles.length; i++){
+        MovieSoiree.createMovieSoiree({
+            movieName : titles[i],
+            soireeDescription : descs[i]
+        }, function(soiree){
+            console.log("Movie soiree created");
+            //res.json({soiree : soiree.jsonObject(_user)});
+        }, function(err){
+            console.log("err creating movie soiree " + err);
+        });
+    }
+    res.send("OK");
+});
 
 router.get('/testNotification', function(req, res){
-    var deviceToken = req.query.deviceToken ? req.query.deviceToken : "268943ed54d92f69179b86a9293812f02baaaa1cc481d3d7eb3a1fab5ab22d3b";
-
-    PushNotificationHelper.sendTestNotificationWithToken(deviceToken);
-
-
-    //"c5bd6fca53e80b106bf56167e3ac5b3fe2629c967d9e80305322765dc5fedc72
-    //("e1a7e6131ca867a7b962be29d83fb592cd621f39a8e39d93c1ed467c6b4ec9cc");
-   //var notif = new Notification({
-   //    notificationType : 'test',
-   //    bodySuffix : "This is a test notification boo. Multiple lines, let's see how you handle that. "
-   //});
-   // PushNotificationHelper.sendNotification(_user, notif);
-    res.send("OK");
+    var deviceToken = req.query.deviceToken;
+    if (deviceToken) {
+        PushNotificationHelper.sendTestNotificationWithToken(deviceToken);
+        res.send("OK");
+    }
+    else res.send("Must specify deviceToken");
 });
 
 router.get('/betaSignupEmailList', function(req,res){
@@ -908,11 +899,6 @@ router.get('/sendEmail', function(req, res){
     });
 });
 
-router.get('/soireeStarterStopper', function(req, res){
-    var scheduledTasks = require('../../scheduled/soireeStarterStopper.js');
-    scheduledTasks();
-    res.send("OK");
-});
 
 router.get('/soireeStarterStopper', function(req, res){
     var scheduledTasks = require('../../scheduled/soireeCreator.js');
@@ -920,19 +906,5 @@ router.get('/soireeStarterStopper', function(req, res){
     res.send("OK");
 });
 
-
-
-
-//router.get('/verifyPerson', function(req, res){
-//   User.findOne({"firstName" : "Ramy"}, function(err, user){
-//       if (!err && user){
-//           user.testUser = true;
-//           user.verified = true;
-//           user.save(Globals.saveErrorCallback);
-//           res.send("Done");
-//       }
-//       else res.send(err);
-//   });
-//});
 
 module.exports = router;

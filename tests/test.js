@@ -1,7 +1,14 @@
 /**
  * Created by shadygabal on 6/3/16.
  */
-var assert = require('chai').assert;
+var chai = require('chai');
+//var assert = chai.assert;
+
+chai.config.includeStack = true;
+global.expect = chai.expect;
+global.AssertionError = chai.AssertionError;
+global.Assertion = chai.Assertion;
+global.assert = chai.assert;
 
 describe('Array', function() {
     describe('#indexOf()', function () {
