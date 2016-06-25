@@ -849,6 +849,52 @@ router.get('/testNotification', function(req, res){
     else res.send("Must specify deviceToken");
 });
 
+router.get('/uploadNotificationsSeen', function(req, res, next){
+    //User.verifyUser(req, res, next, function(user){
+    var user = _user;
+
+        var notificationsSeen = req.query.notificationsSeen;
+        console.log('notifications seen: ' + notificationsSeen);
+
+        if (notificationsSeen) {
+
+            Notification.find({"_id" :  notificationsSeen, "_user" : user._id, "seen" : false}).exec(function(err, notifications){
+                if (err){
+                    console.log("Error fetching notifications read: " + err);
+                    ResHelper.sendError(res, ErrorCodes.Error);
+                }
+                else if (notifications && notifications.length > 0){
+
+                    for (var i = 0; i < notifications.length; i++){
+                        console.log('notifications fetched: ' + notifications);
+
+                        var notification = notifications[i];
+                        var index = user._unseenNotifications.indexOf(notification._id);
+                        if (index !== -1){
+                            user._unseenNotifications.splice(i,1);
+                        }
+                        if (!notification.seen){
+                            notification.seen = true;
+                            notification.save(Globals.saveErrorCallback);
+                        }
+                    }
+                    user.save(Globals.saveErrorCallback);
+                    ResHelper.sendSuccess(res);
+                }
+                else{
+                    console.log('no notifications fetched');
+                    ResHelper.sendSuccess(res);
+
+                }
+            });
+
+
+        }
+
+        else ResHelper.sendSuccess(res);
+    //});
+});
+
 router.get('/betaSignupEmailList', function(req,res){
    BetaSignupEmailList.findList(function(list){
        res.json(list.emails);
