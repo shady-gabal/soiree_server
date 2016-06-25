@@ -317,5 +317,19 @@ router.post('/uploadUnemotionForComment', function(req, res, next){
 
 });
 
+router.post('/reportPost', function(req, res, next){
+    var postId = req.body.postId;
+    if (postId)
+     ResHelper.sendSuccess(res);
+    else ResHelper.sendError(res, ErrorCodes.MissingData);
+});
+
+router.post('/reportComment', function(req, res, next){
+    var postId = req.body.commentId;
+    if (postId)
+        ResHelper.sendSuccess(res);
+    else ResHelper.sendError(res, ErrorCodes.MissingData);
+});
+
 
 module.exports = router;

@@ -568,6 +568,7 @@ router.get('/deletePosts', function(req, res){
 router.get('/deleteNotifications', function(req, res){
     Notification.remove({_user : _user._id}, function(){
         _user._notifications = [];
+        _user._unseenNotifications = [];
         _user.save();
         res.send("Done");
     });
@@ -901,7 +902,7 @@ router.get('/betaSignupEmailList', function(req,res){
    }, function(){res.send("Error")});
 });
 
-router.get('/deleteDupes', function(req, res){
+router.get('/NotificaDupes', function(req, res){
     BetaSignupEmailList.findList(function(list) {
         list.emails = _.uniq(list.emails);
         list.save(function(err){
