@@ -926,5 +926,19 @@ router.get('/soireeStarterStopper', function(req, res){
     res.send("OK");
 });
 
+router.get('/createSubwayLines', function(req, res){
+   var SubwayLine = require('app/db/SubwayLine');
+    SubwayLine.fillInData();
+    res.send("OK");
+});
+
+router.get('/fetchSubwayLines', function(req, res){
+    var SubwayLine = require('app/db/SubwayLine');
+    SubwayLine.find({}).exec(function(err, lines){
+        res.json(lines);
+    });
+});
+
+
 
 module.exports = router;

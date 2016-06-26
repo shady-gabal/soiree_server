@@ -48,6 +48,7 @@
     "mongoose-unique-validator" : "",
     "mathjs" : "",
     "connect-mongo" : "",
-    "braintree" : ""
+    "braintree" : "",
+    "request" : ""
   }
 }
