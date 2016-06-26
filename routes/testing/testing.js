@@ -939,6 +939,31 @@ router.get('/fetchSubwayLines', function(req, res){
     });
 });
 
+router.get('/postsForUser', function(req, res, next) {
+    /* Possible Error Codes:
+     ErrorQuerying
+     */
+
+
+    var userId = _user.userId;
+
+    CommunityPost.findPostsForUserId(userId, function (posts) {
+
+        var jsonArray = [];
+        for (var i = 0; i < posts.length; i++) {
+            var post = posts[i];
+            var jsonObject = post.jsonObject(user);
+
+            jsonArray.push(jsonObject);
+        }
+        res.json({"posts": jsonArray});
+
+    }, function (err) {
+        ResHelper.sendError(res, err);
+    });
+    
+
+});
 
 
 module.exports = router;
