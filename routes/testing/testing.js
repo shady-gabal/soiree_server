@@ -961,7 +961,7 @@ router.get('/postsForUser', function(req, res, next) {
     }, function (err) {
         ResHelper.sendError(res, err);
     });
-    
+
 
 });
 
