@@ -47,7 +47,7 @@ router.get('/posts', function(req, res){
            else{
                var jsonArray = [];
                for (var i = 0;i < posts.length; i++){
-                   jsonArray.push(posts[i].jsonObject);
+                   jsonArray.push(posts[i].jsonObject());
                }
                res.json({"posts" : jsonArray});
            }
@@ -58,7 +58,11 @@ router.get('/posts', function(req, res){
 router.post('/posts', function(req, res, next){
     /* Possible Error Codes:
         ErrorQuerying
+        MissingData
      */
+    if (!req.body.user){
+        return ResHelper.sendError(res, ErrorCodes.MissingData);
+    }
 
     User.verifyUser(req, res, next, function(user){
 
@@ -92,6 +96,10 @@ router.post('/postsForUser', function(req, res, next){
     /* Possible Error Codes:
      ErrorQuerying
      */
+
+    if (!req.body.userId){
+        return ResHelper.sendError(res, ErrorCodes.MissingData);
+    }
 
     User.verifyUser(req, res, next, function(user){
 
@@ -148,35 +156,17 @@ router.post('/createPost', function(req, res, next){
             "location" : coors,
             "text" : text
         }, user, function(post){
-            console.log("user created");
-            res.json(post.jsonObject(user));
+            res.json({"post" : post.jsonObject(user)});
         }, function(err){
             ResHelper.sendError(res, ErrorCodes.MongoError);
         });
 
     }, function(err){
-        ResHelper.sendMessage(res, 404, "error finding user: " + err);
+        ResHelper.sendError(res, ErrorCodes.UserVerificationError);
     });
 });
 
-router.post('/updatePost', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
-       var postId = req.body.postId;
-       if (!postId) {
-           return ResHelper.sendMessage(res, 418, "no post id: " + err);
-       }
-
-       CommunityPost.findPostWithId(postId, function(post){
-           res.json(post.jsonObject(user));
-       }, function(err) {
-           ResHelper.sendMessage(res, 404, "error finding post: " + err);
-       });
-
-   }, function(err){
-       ResHelper.sendMessage(res, 404, "error finding user: " + err);
-   });
-});
-                                    /* Comments */
+/* Comments */
 
 router.post('/createComment', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
@@ -325,8 +315,8 @@ router.post('/reportPost', function(req, res){
 });
 
 router.post('/reportComment', function(req, res){
-    var postId = req.body.commentId;
-    if (postId)
+    var commentId = req.body.commentId;
+    if (commentId)
         ResHelper.sendSuccess(res);
     else ResHelper.sendError(res, ErrorCodes.MissingData);
 });
