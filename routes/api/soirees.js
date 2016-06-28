@@ -19,26 +19,21 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var io = Globals.io;
 
 
-/* GET home page. */
-router.get('/', function (req, res) {
-    res.render('index', {title: 'Express'});
-});
-
 router.get('/deleteSoirees', function (req, res) {
     Soiree.remove({}, function () {
         res.send("Done");
     });
 });
 
-router.get('/requestingSoirees', function (req, res, next) {
-    User.verifyUser(req, res, next, function (user) {
-        //number of unique requests per hour
-        //base rate of 2 lunches, 2 dinners, 1 drinks, 2 blind dates per day
-        //as soirees fill, create more
-    }, function (err) {
-
-    });
-});
+//router.get('/requestingSoirees', function (req, res, next) {
+//    User.verifyUser(req, res, next, function (user) {
+//        //number of unique requests per hour
+//        //base rate of 2 lunches, 2 dinners, 1 drinks, 2 blind dates per day
+//        //as soirees fill, create more
+//    }, function (err) {
+//
+//    });
+//});
 
 
 

@@ -127,13 +127,13 @@ router.post('/postsForUser', function(req, res, next){
 });
 
 router.post('/postWithPostId', function(req, res, next){
-   User.verifyUser(req, res, next, function(user){
+    User.verifyUser(req, res, next, function(user){
        var postId = req.body.postId;
        if (!postId)
         return ResHelper.sendError(res, ErrorCodes.MissingData);
 
        CommunityPost.findPostWithId(postId, function(post){
-           res.json(post.jsonObject(user, true));
+           res.json({"post" : post.jsonObject(user, true)});
        }, function(err){
           ResHelper.sendError(res, err);
        });
@@ -287,12 +287,11 @@ router.post('/uploadUnemotionForComment', function(req, res, next){
 
         if (emotion && commentId) {
 
-            CommunityComment.findOne({commentId: commentId}, function (err, comment) {
-                if (err || !comment) {
-                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
+            CommunityComment.findCommentWithId(commentId, function (comment) {
+                if (!comment) {
+                    ResHelper.sendMessage(res, ErrorCodes.InvalidInput);
                 }
                 else {
-
                     comment.unemotion(user, emotion, function (_comment) {
                         ResHelper.sendSuccess(res);
                     }, function (err) {
@@ -301,6 +300,8 @@ router.post('/uploadUnemotionForComment', function(req, res, next){
                     });
 
                 }
+            }, function(err){
+                ResHelper.sendError(res, err);
             });
         }
     });

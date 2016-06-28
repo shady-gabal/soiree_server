@@ -183,7 +183,7 @@ io.on('connection', function(socket){
 });
 
 router.get('/', function(req, res){
-    if (Globals.development){
+    if (Globals.devOrTest){
         res.render('testing/soireeInProgress', {});
     }
     else{
