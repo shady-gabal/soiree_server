@@ -67,5 +67,21 @@ router.get('/deleteAdmins', function(req, res){
     });
 });
 
+router.get('/createAdmin', function(req, res){
+    var email = "shady@experiencesoiree.com";
+    var password = "9701";
+
+    var adminObj = {
+        firstName : "Shady",
+        lastName : "Gabal",
+        phoneNumber : "3472102276"
+    };
+
+    Admin.createAdmin(adminObj, email, password, function(admin){
+        res.send("Created admin: " + admin);
+    }, function(err){
+        res.send("Error creating admin: " + err);
+    });
+});
 
 module.exports = router;
