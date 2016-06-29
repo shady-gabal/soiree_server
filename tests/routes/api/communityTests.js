@@ -21,6 +21,8 @@ var Globals = require('app/helpers/Globals');
 var CommunityPost = require('app/db/CommunityPost.js');
 var CommunityComment = require('app/db/CommunityComment.js');
 
+require('../../setup');
+
 var _user;
 var params, post, comment;
 
@@ -57,32 +59,53 @@ function error(err, res, done){
     return false;
 }
 
-before(function(done){
-    if (!_user){
-        User.findOrCreateTestUser(function(user){
-            _user = user;
-            done();
-        }, function(err){
-            done(err);
-        });
-    }
-    else done();
-});
+//before(function(done){
+//    if (!_user){
+//        User.findOrCreateTestUser(function(user){
+//            _user = user;
+//            done();
+//        }, function(err){
+//            done(err);
+//        });
+//    }
+//    else done();
+//});
 
 //see if routes work
 
 describe('community', function() {
     var base = '/api/community';
 
-    before(function (done) {
-        var obj = _user.jsonObject();
-        obj.latitude = 40.7128;
-        obj.longitude = 74;
+    it('should fetch new user', function(done){
+        if (!_user){
+            User.findOrCreateTestUser(function(user){
+                _user = user;
 
-        params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+                var obj = _user.jsonObject();
+                obj.latitude = 40.7128;
+                obj.longitude = 74;
 
-        done();
+                params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+
+                done();
+            }, function(err){
+                done(err);
+            });
+        }
+        else done();
     });
+
+    //before(function (done) {
+    //    var obj = _user.jsonObject();
+    //    obj.latitude = 40.7128;
+    //    obj.longitude = 74;
+    //
+    //    params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+    //
+    //    console.log(params);
+    //
+    //    done();
+    //});
 
     it('should create a new post', function (done) {
         request(app).post(base + '/createPost').expect('Content-Type', /json/)
@@ -190,7 +213,7 @@ describe('community', function() {
                         newEmotions = _post._angries;
                     }
 
-                    assert.isAbove(newEmotions.length, oldEmotions.length, 'post must have higher number of emotions');
+                    assert.equal(newEmotions.length, oldEmotions.length+1, 'post must have higher number of emotions');
                     assert.include(newEmotions, _id, "post must include user's id in proper emotions array");
                     post = _post;
 
@@ -219,7 +242,7 @@ describe('community', function() {
                         newEmotions = _post._angries;
                     }
 
-                    assert.isBelow(newEmotions.length, oldEmotions.length, 'post must have lower number of emotions');
+                    assert.equal(newEmotions.length, oldEmotions.length-1, 'post must have lower number of emotions');
                     assert.notInclude(newEmotions, _id, "post must not include user's id in emotions array");
                     post = _post;
 
@@ -248,7 +271,7 @@ describe('community', function() {
                         newEmotions = _comment._angries;
                     }
 
-                    assert.isAbove(newEmotions.length, oldEmotions.length, 'comment must have higher number of emotions');
+                    assert.equal(newEmotions.length, oldEmotions.length+1, 'comment must have higher number of emotions');
                     assert.include(newEmotions, _id, "comment must include user's id in proper emotions array");
                     comment = _comment;
 
@@ -277,7 +300,7 @@ describe('community', function() {
                         newEmotions = _comment._angries;
                     }
 
-                    assert.isBelow(newEmotions.length, oldEmotions.length, 'comment must have lower number of emotions');
+                    assert.equal(newEmotions.length, oldEmotions.length-1, 'comment must have lower number of emotions');
                     assert.notInclude(newEmotions, _id, "comment must not include user's id in emotions array");
                     comment = _comment;
 

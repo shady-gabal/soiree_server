@@ -14,7 +14,8 @@ var Globals = require('app/helpers/Globals');
 var _user;
 var params, soiree, reservation;
 
-require('../../models/Business.js');
+require('../../setup');
+require('../../models/BusinessTests.js');
 
 function refresh(model, cb){
     if (model === "Soiree" && soiree){
@@ -48,18 +49,18 @@ function error(err, res, done){
     }
     return false;
 }
-
-before(function(done){
-    if (!_user){
-        User.findOrCreateTestUser(function(user){
-            _user = user;
-            done();
-        }, function(err){
-            done(err);
-        });
-    }
-    else done();
-});
+//
+//before(function(done){
+//    if (!_user){
+//        User.findOrCreateTestUser(function(user){
+//            _user = user;
+//            done();
+//        }, function(err){
+//            done(err);
+//        });
+//    }
+//    else done();
+//});
 
 //see if routes work
 
@@ -86,14 +87,23 @@ before(function(done){
 describe('soirees', function() {
     var base = '/api/soirees';
 
-    before(function (done) {
-        var obj = _user.jsonObject();
-        obj.latitude = 40.7128;
-        obj.longitude = 74;
+    it('should fetch new user', function(done){
+        if (!_user){
+            User.findOrCreateTestUser(function(user){
+                _user = user;
 
-        params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+                var obj = _user.jsonObject();
+                obj.latitude = 40.7128;
+                obj.longitude = 74;
 
-        done();
+                params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+
+                done();
+            }, function(err){
+                done(err);
+            });
+        }
+        else done();
     });
 
     //it('should create a new soiree', function(done){

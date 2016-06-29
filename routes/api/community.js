@@ -176,7 +176,7 @@ router.post('/createComment', function(req, res, next){
         console.log("Finding post with postId: " + postId);
         CommunityPost.findOne({postId : postId}, function(err, post){
             if (err || !post){
-                ResHelper.sendMessage(res, 404, "error finding post: " + err);
+                ResHelper.sendError(res, ErrorCodes.MissingData);
             }
             else{
                 post.addComment({
@@ -191,8 +191,6 @@ router.post('/createComment', function(req, res, next){
             }
         });
 
-    }, function(err){
-        ResHelper.sendMessage(res, 404, "error finding user: " + err);
     });
 });
 
@@ -233,21 +231,20 @@ router.post('/uploadUnemotionForPost', function(req, res, next){
 
         if (emotion && postId) {
 
-            CommunityPost.findOne({postId: postId}, function (err, post) {
-                if (err || !post) {
-                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
-                }
-                else {
+            CommunityPost.findPostWithId(postId, function (post) {
 
-                    post.unemotion(user, emotion, function (_post) {
-                        ResHelper.sendSuccess(res);
-                    }, function (err) {
-                        console.log(err);
-                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
-                    });
-
-                }
+                post.unemotion(user, emotion, function (_post) {
+                    ResHelper.sendSuccess(res);
+                }, function (err) {
+                    console.log(err);
+                    ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
+                });
+            }, function(err){
+                ResHelper.sendError(res, err);
             });
+        }
+        else{
+            return ResHelper.sendError(res, ErrorCodes.MissingData);
         }
     });
 

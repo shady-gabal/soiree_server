@@ -49,7 +49,7 @@ router.post('/findUser', function(req, res, next){
       }
       else{
         user.checkDeviceUUIDAndDeviceToken(req, function () {
-          sendUser(res, user);
+          res.json({user : user});
         });
 
       }
@@ -80,7 +80,7 @@ router.get('/findUser', function(req, res, next){
       }
       else{
         user.checkDeviceUUIDAndDeviceToken(req, function () {
-          sendUser(res, user);
+          res.json({user : user});
         });
 
 
@@ -116,20 +116,25 @@ router.post('/createUser', function(req, res, next){
         return ResHelper.sendError(res, ErrorCodes.UserVerificationError);
       }
       else if (!userFound){
-        User.createUser(req, function(user){
+        User.createUserWithFacebook(req, function(user){
             user.checkDeviceUUIDAndDeviceToken(req, function(){
-              sendUser(res, user);
+              res.json({user : user});
             });
         }, function(err){
           return ResHelper.sendMessage(res, ErrorCodes.UserCreationError);
         });
       }
       else{
-        sendUser(res, userFound);
+        res.json({user : user});
       }
 
     })(req, res, next);
 
+  }
+  else{
+    passport.authenticate('user-pw', function(err, userFound, info){
+
+    });
   }
 
 });
@@ -375,19 +380,19 @@ router.get('/removeNotifications', function(req, res){
 //  });
 //}
 
-function sendUser(res, user, firstSignUp){
-  if (!firstSignUp)
-    firstSignUp = false;
-
-    //user.deepPopulate("_notifications", function(err){
-    var obj = {
-      "firstSignUp" : firstSignUp,
-      "user" : user.jsonObject()
-    };
-
-    res.json(obj);
-    //});
-}
+//function sendUser(res, user, firstSignUp){
+//  if (!firstSignUp)
+//    firstSignUp = false;
+//
+//    //user.deepPopulate("_notifications", function(err){
+//    var obj = {
+//      "firstSignUp" : firstSignUp,
+//      "user" : user.jsonObject()
+//    };
+//
+//    res.json(obj);
+//    //});
+//}
 
 
 module.exports = router;

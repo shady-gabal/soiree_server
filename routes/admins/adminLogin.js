@@ -43,45 +43,45 @@ router.post('/', function(req, res, next){
 });
 
 
-router.get('/createAdmin', function(req, res){
-    var email = req.query.email;
-    var password = req.query.password;
+//router.get('/createAdmin', function(req, res){
+//    var email = req.query.email;
+//    var password = req.query.password;
+//
+//    var adminObj = {
+//        firstName : "Shady",
+//        lastName : "Gabal",
+//        phoneNumber : "3472102276"
+//    };
+//
+//    Admin.createAdmin(adminObj, email, password, function(admin){
+//        res.send("Created admin: " + admin);
+//    }, function(err){
+//        res.send("Error creating admin: " + err);
+//    });
+//});
 
-    var adminObj = {
-        firstName : "Shady",
-        lastName : "Gabal",
-        phoneNumber : "3472102276"
-    };
 
-    Admin.createAdmin(adminObj, email, password, function(admin){
-        res.send("Created admin: " + admin);
-    }, function(err){
-        res.send("Error creating admin: " + err);
-    });
-});
+//router.get('/deleteAdmins', function(req, res){
+//    Admin.remove({}, function(err){
+//        res.send("Removed admins with err: " +err);
+//    });
+//});
 
-
-router.get('/deleteAdmins', function(req, res){
-    Admin.remove({}, function(err){
-        res.send("Removed admins with err: " +err);
-    });
-});
-
-router.get('/createAdmin', function(req, res){
-    var email = "shady@experiencesoiree.com";
-    var password = "9701";
-
-    var adminObj = {
-        firstName : "Shady",
-        lastName : "Gabal",
-        phoneNumber : "3472102276"
-    };
-
-    Admin.createAdmin(adminObj, email, password, function(admin){
-        res.send("Created admin: " + admin);
-    }, function(err){
-        res.send("Error creating admin: " + err);
-    });
-});
+//router.get('/createAdmin', function(req, res){
+//    var email = "shady@experiencesoiree.com";
+//    var password = "9701";
+//
+//    var adminObj = {
+//        firstName : "Shady",
+//        lastName : "Gabal",
+//        phoneNumber : "3472102276"
+//    };
+//
+//    Admin.createAdmin(adminObj, email, password, function(admin){
+//        res.send("Created admin: " + admin);
+//    }, function(err){
+//        res.send("Error creating admin: " + err);
+//    });
+//});
 
 module.exports = router;

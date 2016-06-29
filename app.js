@@ -234,6 +234,40 @@ passport.use('business', new LocalStrategy(
     }
 ));
 
+passport.use('user-pw', new LocalStrategy(
+    {
+        usernameField: 'email'
+    },
+    function(email, password, done) {
+        console.log("Validating user...");
+        User.findOne({ email: email }).exec(function (err, user) {
+            if (err) { return done(err); }
+            else if (!user) {
+                console.log("Incorrect email");
+                return done(null, false, { message: 'Incorrect username or password.' });
+            }
+            else{
+                user.validatePassword(password, function(err, valid){
+                    if (err){
+                        console.log("Error validating password: " + err);
+                        return done(err);
+                    }
+                    if (!valid) {
+                        console.log("Incorrect pw");
+                        return done(null, false, { message: 'Incorrect username or password.' });
+                    }
+                    else{
+                        console.log("User validated.");
+                        return done(null, user);
+                    }
+                });
+            }
+
+        });
+    }
+));
+
+
 
 passport.serializeUser(function(user, done) {
     console.log("serializing...");
@@ -256,6 +290,11 @@ passport.deserializeUser(function(user, done) {
         Business.findById(user._id, function(err, business) {
             //console.log("found business:" + business + " with err " + err);
             done(err, business);
+        });
+    }
+    else if (user.classType === 'user'){
+        User.findOne({_id : user._id}).exec(function(err, _user){
+            done(err, _user);
         });
     }
     else{
