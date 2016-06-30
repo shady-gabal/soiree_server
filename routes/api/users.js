@@ -175,6 +175,7 @@ router.post('/createUser', function(req, res, next){
   }
 
   else if (emailSignupData){
+
       User.createUserWithPassword(req, function(user, encodedAccessToken){
 
           res.json({user : user, soireeAccessToken : encodedAccessToken});
