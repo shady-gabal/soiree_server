@@ -125,7 +125,7 @@ router.post('/createUser', function(req, res, next){
         });
       }
       else{
-        res.json({user : user});
+        res.json({user : userFound});
       }
 
     })(req, res, next);
