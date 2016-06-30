@@ -282,7 +282,7 @@ passport.use('soiree-access-token', new LocalStrategy(
     }
 ));
 
-passport.use('soiree-user-pw', new LocalStrategy(
+passport.use('user-pw', new LocalStrategy(
     {
         usernameField: 'email',
         passwordField : 'password'

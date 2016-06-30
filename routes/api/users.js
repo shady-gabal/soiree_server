@@ -33,7 +33,7 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 router.post('/findUser', function(req, res, next){
   console.log("in findUser...");
 
-  var facebookAccessToken = req.body.access_token;
+  var facebookAccessToken = req.body.facebook_access_token;
 
   if (facebookAccessToken) {// if facebook
 
@@ -57,14 +57,14 @@ router.post('/findUser', function(req, res, next){
 
   }
   else{ //else if userpw
-
+      ResHelper.sendError(res, ErrorCodes.Error);
   }
 
 });
 
 router.get('/findUser', function(req, res, next){
 
-  var facebookAccessToken = req.query.access_token;
+  var facebookAccessToken = req.body.facebook_access_token;
 
   if (facebookAccessToken) {// if facebook
 
@@ -87,7 +87,7 @@ router.get('/findUser', function(req, res, next){
 
   }
   else{ //else if userpw
-
+    ResHelper.sendError(res, ErrorCodes.Error);
   }
 
 });
