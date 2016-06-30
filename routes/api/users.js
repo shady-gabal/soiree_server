@@ -65,6 +65,8 @@ router.post('/findUser', function(req, res, next){
 router.get('/findUser', function(req, res, next){
 
   var facebookAccessToken = req.body.facebook_access_token;
+  var soireeAccessToken = req.body.soiree_access_token;
+  var email = req.body.email;
 
   if (facebookAccessToken) {// if facebook
 
@@ -73,18 +75,34 @@ router.get('/findUser', function(req, res, next){
     passport.authenticate('facebook-token', function (err, user, info) {
       if (err) {
         console.log("User not found: " + err);
-        return ResHelper.sendMessage(res, 404, "Error fetching user specified");
+        return ResHelper.sendError(res, ErrorCodes.Error);
       }
       else if (!user){
         res.json({});
       }
       else{
-        user.checkDeviceUUIDAndDeviceToken(req, function () {
+        //user.checkDeviceUUIDAndDeviceToken(req, function () {
           res.json({user : user});
-        });
+        //});
       }
     })(req, res, next);
 
+  }
+  else if (soireeAccessToken && email){
+    passport.authenticate('soiree-access-token', function (err, user, info) {
+      if (err) {
+        console.log("User not found: " + err);
+        return ResHelper.sendError(res, ErrorCodes.Error);
+      }
+      else if (!user){
+        res.json({});
+      }
+      else{
+        //user.checkDeviceUUIDAndDeviceToken(req, function () {
+          res.json({user : user});
+        //});
+      }
+    })(req, res, next);
   }
   else{ //else if userpw
     ResHelper.sendError(res, ErrorCodes.Error);
