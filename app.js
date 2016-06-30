@@ -1,16 +1,13 @@
-console.log(process.env);
-//local .env
-require('dotenv').config({silent: true});
 //enums
 require('enum').register();
 
 var express = require('express');
 var app = express();
+var Globals = require('app/helpers/Globals.js');
 var http = require('http');
 var server = http.Server(app);
 var io = require('socket.io')(server);
 app.io = io;
-var Globals = require('app/helpers/Globals.js');
 Globals.io = io;
 
 var path = require('path');
@@ -24,7 +21,6 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var hbs = require('hbs');
 var MongoStore = require('connect-mongo')(session);
-var jwt = require('jwt-simple');
 
 var facebookTokenStrategy = require('passport-facebook-token');
 
@@ -151,6 +147,7 @@ app.use(function(req, res, next){
 //console.log("APPID : " + FACEBOOK_APP_ID + " SECRET: " + FACEBOOK_APP_SECRET);
 
 passport.use(new facebookTokenStrategy({
+        accessTokenField : "facebook_access_token",
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
         profileFields: ["id"]
@@ -236,10 +233,10 @@ passport.use('business', new LocalStrategy(
     }
 ));
 
-passport.use('user-access-token', new LocalStrategy(
+passport.use('soiree-access-token', new LocalStrategy(
     {
         usernameField: 'email',
-        passwordField : 'currentAccessToken'
+        passwordField : 'soiree_access_token'
     },
     function(email, accessToken, done) {
         console.log("Validating user...");
@@ -250,7 +247,7 @@ passport.use('user-access-token', new LocalStrategy(
                 return done(null, false, { message: 'Incorrect username or password.' });
             }
             else{
-                user.validateAccessToken(accessToken, function(err, valid){
+                user.validateSoireeAccessToken(accessToken, function(err, valid){
                     if (err){
                         console.log("Error validating access token: " + err);
                         return done(err);
@@ -285,6 +282,39 @@ passport.use('user-access-token', new LocalStrategy(
     }
 ));
 
+passport.use('soiree-user-pw', new LocalStrategy(
+    {
+        usernameField: 'email',
+        passwordField : 'password'
+    },
+    function(email, password, done) {
+        console.log("Validating user...");
+        User.findOne({ email: email }).exec(function (err, user) {
+            if (err) { return done(err); }
+            else if (!user) {
+                console.log("Incorrect email");
+                return done(null, false, { message: 'Incorrect username or password.' });
+            }
+            else{
+                user.validatePassword(password, function(err, valid){
+                    if (err){
+                        console.log("Error validating password: " + err);
+                        return done(err);
+                    }
+                    if (!valid) {
+                        console.log("Incorrect pw");
+                        return done(null, false, { message: 'Incorrect username or password.' });
+                    }
+                    else{
+                        console.log("User validated.");
+                        return done(null, user);
+                    }
+                });
+            }
+
+        });
+    }
+));
 
 
 passport.serializeUser(function(user, done) {

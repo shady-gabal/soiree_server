@@ -82,18 +82,6 @@ router.get('/findUser', function(req, res, next){
         user.checkDeviceUUIDAndDeviceToken(req, function () {
           res.json({user : user});
         });
-
-
-        //remove stripe customer id
-        //user.stripeCustomerId = null;
-
-        //user.save(function(err){
-        //  if (err) console.log("Error setting stripe customer id to null - findUser " + err);
-        //});
-        //}
-        //else{
-        //  sendUser(res, user);
-        //}
       }
     })(req, res, next);
 
@@ -104,11 +92,14 @@ router.get('/findUser', function(req, res, next){
 
 });
 
-router.post('/createUser', function(req, res, next){
+router.get('/createUser', function(req, res, next){
 
-  var facebookAccessToken = req.body.access_token;
+  var facebookAccessToken = req.query.facebook_access_token;
+  //var emailSignupData = req.query.emailSignupData;
 
   if (facebookAccessToken) {
+
+    req.body.facebook_access_token = facebookAccessToken;
 
     passport.authenticate('facebook-token', function (err, userFound, info) {
 
@@ -117,9 +108,9 @@ router.post('/createUser', function(req, res, next){
       }
       else if (!userFound){
         User.createUserWithFacebook(req, function(user){
-            user.checkDeviceUUIDAndDeviceToken(req, function(){
-              res.json({user : user});
-            });
+          //user.checkDeviceUUIDAndDeviceToken(req, function(){
+          res.json({user : user});
+          //});
         }, function(err){
           return ResHelper.sendMessage(res, ErrorCodes.UserCreationError);
         });
@@ -131,10 +122,72 @@ router.post('/createUser', function(req, res, next){
     })(req, res, next);
 
   }
-  else{
-    passport.authenticate('user-pw', function(err, userFound, info){
 
+  else{
+
+    var emailSignupData = {
+      firstName : 'Shady',
+      lastName : 'Gabal',
+      email : 'shady@nyu.edu',
+      password : '9701',
+      gender : 'male',
+      interestedIn : ['female']
+    };
+
+    req.body.emailSignupData = emailSignupData;
+
+    User.createUserWithPassword(req, function(user, encodedAccessToken){
+      res.json({user : user, accessToken : encodedAccessToken});
+    }, function(err){
+      ResHelper.sendError(res, err);
     });
+  }
+
+});
+
+router.post('/createUser', function(req, res, next){
+
+  var facebookAccessToken = req.body.facebook_access_token;
+  var emailSignupData = req.body.emailSignupData;
+
+  if (facebookAccessToken) {
+
+    passport.authenticate('facebook-token', function (err, userFound, info) {
+
+      if (err) {
+        return ResHelper.sendError(res, ErrorCodes.UserVerificationError);
+      }
+      else if (!userFound){
+        User.createUserWithFacebook(req, function(user){
+            //user.checkDeviceUUIDAndDeviceToken(req, function(){
+              res.json({user : user});
+            //});
+        }, function(err){
+          return ResHelper.sendMessage(res, ErrorCodes.UserCreationError);
+        });
+      }
+      else{
+        res.json({user : userFound});
+      }
+
+    })(req, res, next);
+
+  }
+
+  else if (emailSignupData){
+      User.createUserWithPassword(req, function(user, encodedAccessToken){
+
+          res.json({user : user, soireeAccessToken : encodedAccessToken});
+
+      }, function(err, errorMessages){
+
+        if (errorMessages){
+          console.log(errorMessages);
+          ResHelper.sendError(res, err);
+        }
+        else return ResHelper.sendError(res, ErrorCodes.UserCreationError);
+
+      });
   }
 
 });
