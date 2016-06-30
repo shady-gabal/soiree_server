@@ -51,6 +51,7 @@
     "connect-mongo" : "",
     "braintree" : "",
     "request" : "",
-    "supertest" : ""
+    "supertest" : "",
+    "jwt-simple" : ""
   }
 }

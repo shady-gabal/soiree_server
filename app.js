@@ -1,3 +1,4 @@
+console.log(process.env);
 //local .env
 require('dotenv').config({silent: true});
 //enums
@@ -23,6 +24,7 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var hbs = require('hbs');
 var MongoStore = require('connect-mongo')(session);
+var jwt = require('jwt-simple');
 
 var facebookTokenStrategy = require('passport-facebook-token');
 
@@ -234,11 +236,12 @@ passport.use('business', new LocalStrategy(
     }
 ));
 
-passport.use('user-pw', new LocalStrategy(
+passport.use('user-access-token', new LocalStrategy(
     {
-        usernameField: 'email'
+        usernameField: 'email',
+        passwordField : 'currentAccessToken'
     },
-    function(email, password, done) {
+    function(email, accessToken, done) {
         console.log("Validating user...");
         User.findOne({ email: email }).exec(function (err, user) {
             if (err) { return done(err); }
@@ -247,20 +250,35 @@ passport.use('user-pw', new LocalStrategy(
                 return done(null, false, { message: 'Incorrect username or password.' });
             }
             else{
-                user.validatePassword(password, function(err, valid){
+                user.validateAccessToken(accessToken, function(err, valid){
                     if (err){
-                        console.log("Error validating password: " + err);
+                        console.log("Error validating access token: " + err);
                         return done(err);
                     }
-                    if (!valid) {
-                        console.log("Incorrect pw");
-                        return done(null, false, { message: 'Incorrect username or password.' });
+                    else if (!valid){
+                        console.log("Incorrect access token");
+                        return done(null, false);
                     }
                     else{
                         console.log("User validated.");
                         return done(null, user);
                     }
                 });
+
+                //user.validatePassword(password, function(err, valid){
+                //    if (err){
+                //        console.log("Error validating password: " + err);
+                //        return done(err);
+                //    }
+                //    if (!valid) {
+                //        console.log("Incorrect pw");
+                //        return done(null, false, { message: 'Incorrect username or password.' });
+                //    }
+                //    else{
+                //        console.log("User validated.");
+                //        return done(null, user);
+                //    }
+                //});
             }
 
         });
