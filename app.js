@@ -235,7 +235,7 @@ passport.use('business', new LocalStrategy(
 
 passport.use('soiree-access-token', new LocalStrategy(
     {
-        usernameField: '',
+        usernameField: 'username',
         passwordField : 'soiree_access_token'
     },
     function(username, accessToken, done) {
