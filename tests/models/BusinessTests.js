@@ -36,7 +36,7 @@ describe('Business', function () {
             location : coordinate,
             address : '345 Chambers Street, New York, NY',
             soireeTypes : Globals.soireeTypes,
-            cityArea : 'Lower East Side'
+            generalArea : 'Lower East Side'
         }, 'shadygabal@gmail.com', '12345678', admin, function(_business){
             assert.isOk(_business, 'a business should be created');
             business = _business;

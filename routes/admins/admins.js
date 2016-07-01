@@ -70,7 +70,7 @@ router.post('/registerBusiness', function(req, res){
     var latitude = req.body.latitude;
     var address = req.body.address;
     var soireeTypes = req.body.soireeTypes;
-    var cityArea = req.body.cityArea;
+    var generalArea = req.body.generalArea;
 
     var currErrors = [];
     if (!soireeTypes || soireeTypes.length === 0){
@@ -100,7 +100,7 @@ router.post('/registerBusiness', function(req, res){
         location : coordinate,
         address : address,
         soireeTypes : soireeTypes,
-        cityArea : cityArea
+        generalArea : generalArea
     }, email, password, req.admin, function(business){
         res.redirect("/admins/");
     }, function(err){

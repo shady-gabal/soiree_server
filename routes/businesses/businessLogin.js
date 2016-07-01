@@ -33,7 +33,7 @@ router.get('/createBusiness', function(req, res){
         //_soirees : [],
         businessName : "Paddy's Pub",
         phoneNumber : '3472102276',
-        cityArea: "SoHo",
+        generalArea: "SoHo",
         location : {type: "Point", coordinates:[longitude, latitude]},
         email: "shady@wearethirdrail.com",
         password: "9701"
@@ -54,7 +54,7 @@ router.get('/createBusinesses', function(req, res){
         businessType : "Bar",
         _soirees : [],
         businessName : "Paddy's Pub",
-        cityArea: "SoHo",
+        generalArea: "SoHo",
         location : {type: "Point", coordinates:[longitude, latitude]}
     });
 

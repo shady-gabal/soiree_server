@@ -30,7 +30,7 @@ var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
 var DateHelper = require('app/helpers/DateHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var Globals = require('app/helpers/Globals.js');
-//var io = Globals.io;
+var SubwayLine = require('app/db/SubwayLine');
 
 var _user;
 var _testUsers = [];
@@ -624,7 +624,7 @@ router.get('/createBusiness', function(req, res){
         businessType : "Bar",
         _soirees : [],
         businessName : "Paddy's Pub",
-        cityArea: "SoHo",
+        generalArea: "SoHo",
         location : {type: "Point", coordinates:[longitude, latitude]},
         //colleges : Globals.colleges,
         phoneNumber: 3472102276
@@ -965,5 +965,15 @@ router.get('/postsForUser', function(req, res, next) {
 
 });
 
+router.get('/subwayLine', function(req, res){
+    SubwayLine.remove({}, function(){
+        SubwayLine.fillInData(function(lines){
+            res.json({lines : lines});
+        }, function(error){
+            res.json({error : error});
+        });
+    });
+
+});
 
 module.exports = router;

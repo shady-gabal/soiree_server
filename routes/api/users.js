@@ -214,6 +214,10 @@ router.post('/createUser', function(req, res, next){
 
 });
 
+router.post('/userFeedback', function(req, res){
+  res.json({});
+});
+
 
 
 
@@ -355,20 +359,20 @@ router.post('/fetchUserSoirees', function(req, res, next){
 
 /* Notifications */
 
-router.get('/testNotification', function(req, res){
-  User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
-    if (err | !user){
-      res.send("Error finding user: " + err);
-    }
-    else if (!user.deviceToken){
-      res.send("User does not have device token");
-    }
-    else{
-      PushNotificationHelper.sendPushNotification(user, "Testing...");
-      res.send("Sent notification");
-    }
-  });
-});
+//router.get('/testNotification', function(req, res){
+//  User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
+//    if (err | !user){
+//      res.send("Error finding user: " + err);
+//    }
+//    else if (!user.deviceToken){
+//      res.send("User does not have device token");
+//    }
+//    else{
+//      PushNotificationHelper.sendPushNotification(user, "Testing...");
+//      res.send("Sent notification");
+//    }
+//  });
+//});
 
 router.post('/uploadDeviceToken', function(req, res, next){
   var deviceToken = req.body.deviceToken;
@@ -395,79 +399,18 @@ router.post('/uploadDeviceToken', function(req, res, next){
   });
 });
 
-//
-//router.get('/postNotification', function(req, res){
-//  User.findOne({"firstName" : "Shady"}).populate("_notifications").exec(function(err, user) {
-//    if (err || !user)
-//      return res.send("Error : " + err);
-//
-//    if (user._notifications.length == 0)
-//      return res.send("No notifications to show");
-//
-//    var notification = user._notifications[0];
-//    PushNotificationHelper.sendNotification(user, notification);
-//    res.send("Sent");
+
+//router.get('/removeNotifications', function(req, res){
+//  Notification.remove({}, function(err){
 //  });
+//  User.update({}, { $set: { _notifications : [] } }, function(err){
+//    res.send("Removed notifications with err: " + err);
+//  });
+//
 //});
-
-router.get('/removeNotifications', function(req, res){
-  Notification.remove({}, function(err){
-  });
-  User.update({}, { $set: { _notifications : [] } }, function(err){
-    res.send("Removed notifications with err: " + err);
-  });
-
-});
 
 
 
 /* FUNCTIONS */
-
-//function createUser(req, res){
-//  var facebookUserId = req.query.facebookUserId;
-//  var firstName = req.query.firstName;
-//  var lastName = req.query.lastName;
-//  var email = req.query.email;
-//  var gender = req.query.gender;
-//  var interestedIn = req.query.interestedIn;
-//  var birthday = req.query.birthday;
-//  var profilePictureUrl = req.query.profilePictureUrl;
-//
-//  var newUser = new User({
-//    facebookUserId : facebookUserId,
-//    firstName : firstName,
-//    lastName : lastName,
-//    email : email,
-//    gender : gender,
-//    interestedIn : interestedIn,
-//    birthday : birthday,
-//    profilePictureUrl : profilePictureUrl,
-//    verified: false
-//  });
-//
-//  newUser.save(function(err, user){
-//    if (err) {
-//      console.log("Error saving user: " + err);
-//      return res.status('404').send("Error saving user");
-//    }
-//
-//    sendUser(res, user, true);
-//  });
-//}
-
-//function sendUser(res, user, firstSignUp){
-//  if (!firstSignUp)
-//    firstSignUp = false;
-//
-//    //user.deepPopulate("_notifications", function(err){
-//    var obj = {
-//      "firstSignUp" : firstSignUp,
-//      "user" : user.jsonObject()
-//    };
-//
-//    res.json(obj);
-//    //});
-//}
-
 
 module.exports = router;

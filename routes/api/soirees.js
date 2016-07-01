@@ -25,20 +25,6 @@ router.get('/deleteSoirees', function (req, res) {
     });
 });
 
-//router.get('/requestingSoirees', function (req, res, next) {
-//    User.verifyUser(req, res, next, function (user) {
-//        //number of unique requests per hour
-//        //base rate of 2 lunches, 2 dinners, 1 drinks, 2 blind dates per day
-//        //as soirees fill, create more
-//    }, function (err) {
-//
-//    });
-//});
-
-
-
-//Coupon.find({ location : { $near : coors}}).skip(numCouponsAlreadyLoaded).limit(numResultsRequested).exec(function(err, data){
-
 router.post('/soireesNear', function (req, res, next) {
     User.verifyUser(req, res, next, function (user) {
 
@@ -154,7 +140,6 @@ router.post('/uploadScheduledSoiree', function (req, res, next) {
 });
 
 
-
 router.post('/findNextSoiree', function(req, res, next){
     var idsToIgnore = req.body.idsToIgnore;
     if (!idsToIgnore) idsToIgnore = [];
@@ -174,8 +159,42 @@ router.post('/findNextSoiree', function(req, res, next){
 
 });
 
-router.post('/soireeWithId', function (req, res) {
 
+router.post('rosterForSoiree', function(req, res, next){
+   User.verifyUser(req, res, next, function(user){
+
+       var soireeId = req.body.soireeId;
+       if (!soireeId){
+           return ResHelper.sendError(res, ErrorCodes.MissingData);
+       }
+
+       Soiree.findBySoireeId(soireeId, function(soiree){
+
+           soiree.deepPopulate("_usersAttending", function(err, _soiree){
+               if (err){
+                   console.log(err);
+                   return ResHelper.sendError(res, err);
+               }
+
+               var roster = [];
+
+               _soiree._usersAttending.forEach(function(userAttending){
+                   if (userAttending.id !== user.id){
+                       roster.push({name : userAttending.fullName, profilePictureUrl : userAttending.profilePictureUrl});
+                   }
+               });
+               res.json({"roster" : roster});
+           });
+
+       }, function(err){
+           console.log(err);
+           ResHelper.sendError(res, err);
+       });
+
+   }, function(err){
+      console.log(err);
+       ResHelper.sendError(res, err);
+   });
 });
 
 

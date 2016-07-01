@@ -40,7 +40,7 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 //        //_soirees : [],
 //        businessName : "Paddy's Pub",
 //        phoneNumber : '3472102276',
-//        cityArea: "SoHo",
+//        generalArea: "SoHo",
 //        location : {type: "Point", coordinates:[longitude, latitude]}
 //    };
 //
@@ -59,7 +59,7 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 //        businessType : "Bar",
 //        _soirees : [],
 //        businessName : "Paddy's Pub",
-//        cityArea: "SoHo",
+//        generalArea: "SoHo",
 //        location : {type: "Point", coordinates:[longitude, latitude]}
 //    });
 //
