@@ -149,6 +149,7 @@ router.get('/createUser', function(req, res, next){
       email : 'shady@nyu.edu',
       password : '9701',
       gender : 'male',
+      birthday : '05/25/1994',
       interestedIn : ['female']
     };
 
