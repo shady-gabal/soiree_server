@@ -179,6 +179,20 @@
             });
         };
 
+        function deleteUser(userId){
+            $.ajax({
+                url: '/admins/testing/deleteUser',
+                method : 'GET',
+                data : {userId : userId},
+                success: function(){
+                    location.reload(true);
+                },
+                error: function(err){
+                    alert("Error: " + err);
+                }
+            });
+        };
+
         function deleteTestUsers(){
             $.ajax({
                 url: '/admins/testing/deleteTestUsers',
@@ -351,6 +365,7 @@
     <img src="{{_user.profilePictureUrl}}" style="width:100px; height: 100px;" />
 
     <button onclick='addNotification()'> Add Notification </button>
+    <button onclick='deleteUser('{{_user.userId}}')> Delete User </button>
 
     <ul>
         <li> testUser: {{this.testUser}} </li>

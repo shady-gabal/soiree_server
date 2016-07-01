@@ -324,6 +324,22 @@ router.get('/testCron', function(req, res, next){
     res.send("OK");
 });
 
+router.get('/deleteUser', function(req, res){
+    var userId = req.query.userId ? req.query.userId : _user.userId;
+
+   User.findOne({userId : userId}).exec(function(err, user){
+      if (err)
+          res.status(404).send("Error");
+       else {
+          user.remove(function (err) {
+              if (err)
+                  res.status(404).send("Error");
+              res.send("OK");
+          });
+      }
+   });
+});
+
 router.post('/switchTestUser', function(req, res){
     var _id = req.body.userId;
 
