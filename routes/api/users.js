@@ -48,9 +48,9 @@ router.post('/findUser', function(req, res, next){
         res.json({});
       }
       else{
-        user.checkDeviceUUIDAndDeviceToken(req, function () {
+        //user.checkDeviceUUIDAndDeviceToken(req, function () {
           res.json({user : user});
-        });
+        //});
 
       }
     })(req, res, next);

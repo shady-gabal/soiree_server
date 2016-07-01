@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" afterPath="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/User.js" afterPath="$PROJECT_DIR$/node_modules/app/db/User.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/users.js" afterPath="$PROJECT_DIR$/routes/api/users.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
@@ -76,20 +73,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.hbs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/testing/index.hbs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-289.07144">
-              <caret line="426" column="73" selection-start-line="426" selection-start-column="73" selection-end-line="426" selection-end-column="73" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Soiree.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Soiree.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/Soiree.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3625731">
+            <state vertical-scroll-proportion="0.0">
               <caret line="906" column="2" selection-start-line="906" selection-start-column="2" selection-end-line="906" selection-end-column="2" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -114,7 +101,17 @@
         <entry file="file://$PROJECT_DIR$/routes/api/users.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="212" column="3" selection-start-line="212" selection-start-column="3" selection-end-line="212" selection-end-column="3" />
+              <caret line="59" column="18" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ResHelper.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/ResHelper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.5">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -242,10 +239,10 @@
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/views/testing/index.hbs" />
         <option value="$PROJECT_DIR$/node_modules/app/db/Soiree.js" />
-        <option value="$PROJECT_DIR$/routes/api/users.js" />
         <option value="$PROJECT_DIR$/node_modules/app/db/CommunityPost.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/node_modules/app/db/User.js" />
+        <option value="$PROJECT_DIR$/routes/api/users.js" />
       </list>
     </option>
   </component>
@@ -1239,13 +1236,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/ResHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/soireeInProgress.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1493,14 +1483,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="212" column="3" selection-start-line="212" selection-start-column="3" selection-end-line="212" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/db/Admin.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1557,11 +1539,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/app/db/Soiree.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3625731">
+        <state vertical-scroll-proportion="0.0">
           <caret line="906" column="2" selection-start-line="906" selection-start-column="2" selection-end-line="906" selection-end-column="2" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/users.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="59" column="18" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/ResHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
