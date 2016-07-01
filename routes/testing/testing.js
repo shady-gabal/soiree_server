@@ -4,6 +4,7 @@ var router = express.Router();
 var dbFolderLocation = "../../db/";
 var helpersFolderLocation = "../../helpers/";
 
+var passport = require('passport');
 var _ = require("underscore");
 var mongoose = require('app/db/mongoose_connect.js');
 var Soiree = require('app/db/Soiree.js');
@@ -199,19 +200,118 @@ router.get('/refreshUsers', function(req, res){
    });
 });
 
-//router.get('/showInProgress', function(req, res){
-//    console.log('/showInprogress');
-//    var soireeId = req.query.soireeId;
-//
-//    //for (var i = 0; i < _testUsers.length; i++){
-//    //    if (_testUsers[i].userId === userId){
-//    //        _user = _testUsers[i];
-//    //        break;
-//    //    }
-//    //}
-//
-//    res.render('testing/soireeInProgress', {soireeId : soireeId});
-//});
+router.get('/findUser', function(req, res, next){
+
+    var facebookAccessToken = req.query.facebook_access_token;
+    var soireeAccessToken = req.query.soiree_access_token;
+
+    req.body.user = req.query;
+    req.body.user.username = "username";
+
+    User.verifyUser(req, res, next, function(user){
+        res.json({user : user});
+    }, function(err){
+        ResHelper.sendError(res, err);
+    });
+
+    //if (facebookAccessToken) {// if facebook
+    //    req.body.user = req.query;
+    //    console.log("facebook access token found - finduser");
+    //
+    //    passport.authenticate('facebook-token', function (err, user, info) {
+    //        if (err) {
+    //            console.log("User not found: " + err);
+    //            return ResHelper.sendError(res, ErrorCodes.Error);
+    //        }
+    //        else if (!user){
+    //            res.json({});
+    //        }
+    //        else{
+    //            //user.checkDeviceUUIDAndDeviceToken(req, function () {
+    //            res.json({user : user});
+    //            //});
+    //        }
+    //    })(req, res, next);
+    //
+    //}
+    //else if (soireeAccessToken){
+    //    req.body.user = req.query;
+    //    passport.authenticate('soiree-access-token', function (err, user, info) {
+    //        if (err) {
+    //            console.log("User not found: " + err);
+    //            return ResHelper.sendError(res, ErrorCodes.Error);
+    //        }
+    //        else if (!user){
+    //            console.log("No user found");
+    //            res.json({});
+    //        }
+    //        else{
+    //            //user.checkDeviceUUIDAndDeviceToken(req, function () {
+    //            res.json({user : user});
+    //            //});
+    //        }
+    //    })(req, res, next);
+    //}
+    //else{ //else if userpw
+    //    ResHelper.sendError(res, ErrorCodes.Error);
+    //}
+
+});
+
+
+router.get('/createUser', function(req, res, next){
+
+    var facebookAccessToken = req.query.facebook_access_token;
+    //var emailSignupData = req.query.emailSignupData;
+
+    if (facebookAccessToken) {
+
+        req.body.facebook_access_token = facebookAccessToken;
+
+        passport.authenticate('facebook-token', function (err, userFound, info) {
+
+            if (err) {
+                return ResHelper.sendError(res, ErrorCodes.UserVerificationError);
+            }
+            else if (!userFound){
+                User.createUserWithFacebook(req, function(user){
+                    //user.checkDeviceUUIDAndDeviceToken(req, function(){
+                    res.json({user : user});
+                    //});
+                }, function(err){
+                    return ResHelper.sendMessage(res, ErrorCodes.UserCreationError);
+                });
+            }
+            else{
+                res.json({user : userFound});
+            }
+
+        })(req, res, next);
+
+    }
+
+    else{
+
+        var emailSignupData = {
+            firstName : 'Jon',
+            lastName : 'Kevi',
+            email : 'sff@gmail.com',
+            password : '9701',
+            gender : 'male',
+            birthday : '05/25/1994',
+            interestedIn : ['female']
+        };
+
+        req.body.emailSignupData = emailSignupData;
+
+        User.createUserWithPassword(req, function(user, encodedAccessToken){
+            res.json({user : user, soireeAccessToken : encodedAccessToken});
+        }, function(err){
+            ResHelper.sendError(res, err);
+        });
+    }
+
+});
 
 router.get('/testCron', function(req, res, next){
    var pattern = req.query.pattern ? req.query.pattern : '* * * * * *';
@@ -601,20 +701,27 @@ router.get('/deleteBusinesses', function(req, res){
 });
 
 router.get('/deleteCommunity', function(req, res){
-    //Business.remove({}, Globals.saveErrorCallback);
-    //ScheduledSoireeJob.remove({},Globals.saveErrorCallback);
-    //Notification.remove({},Globals.saveErrorCallback);
     CommunityComment.remove({},Globals.saveErrorCallback);
     CommunityPost.remove({},Globals.saveErrorCallback);
-    //User.remove({},Globals.saveErrorCallback);
-    //Soiree.remove({},Globals.saveErrorCallback);
-    //SoireeReservation.remove({},Globals.saveErrorCallback);
-    //SoireeHost.remove({},Globals.saveErrorCallback);
-
-    //_user = null;
-    //_testUsers = [];
     res.send("Done. Check logs for errors");
 });
+
+
+//router.get('/deleteEverything', function(req, res){
+//    Business.remove({}, Globals.saveErrorCallback);
+//    ScheduledSoireeJob.remove({},Globals.saveErrorCallback);
+//    Notification.remove({},Globals.saveErrorCallback);
+//    CommunityComment.remove({},Globals.saveErrorCallback);
+//    CommunityPost.remove({},Globals.saveErrorCallback);
+//    User.remove({},Globals.saveErrorCallback);
+//    Soiree.remove({},Globals.saveErrorCallback);
+//    SoireeReservation.remove({},Globals.saveErrorCallback);
+//    SoireeHost.remove({},Globals.saveErrorCallback);
+//
+//    _user = null;
+//    _testUsers = [];
+//    res.send("Done. Check logs for errors");
+//});
 
 router.get('/createBusiness', function(req, res){
     var longitude = 40.762755;
@@ -638,22 +745,22 @@ router.get('/createBusiness', function(req, res){
     });
 });
 
-router.get('/createAdmin', function(req, res){
-    var email = "shady@experiencesoiree.com";
-    var password = "9701";
-
-    var adminObj = {
-        firstName : "Shady",
-        lastName : "Gabal",
-        phoneNumber : "3472102276"
-    };
-
-    Admin.createAdmin(adminObj, email, password, function(admin){
-        res.send("Created admin: " + admin);
-    }, function(err){
-        res.send("Error creating admin: " + err);
-    });
-});
+//router.get('/createAdmin', function(req, res){
+//    var email = "shady@experiencesoiree.com";
+//    var password = "9701";
+//
+//    var adminObj = {
+//        firstName : "Shady",
+//        lastName : "Gabal",
+//        phoneNumber : "3472102276"
+//    };
+//
+//    Admin.createAdmin(adminObj, email, password, function(admin){
+//        res.send("Created admin: " + admin);
+//    }, function(err){
+//        res.send("Error creating admin: " + err);
+//    });
+//});
 
 router.get('/soireeCreator', function(req, res){
     var soireeCreator = require('../../scheduled/soireeCreator.js');
