@@ -235,50 +235,37 @@ passport.use('business', new LocalStrategy(
 
 passport.use('soiree-access-token', new LocalStrategy(
     {
-        usernameField: 'email',
+        usernameField: '',
         passwordField : 'soiree_access_token'
     },
-    function(email, accessToken, done) {
+    function(username, accessToken, done) {
         console.log("Validating user...");
-        User.findOne({ email: email }).exec(function (err, user) {
-            if (err) { return done(err); }
-            else if (!user) {
-                console.log("Incorrect email");
-                return done(null, false, { message: 'Incorrect username or password.' });
-            }
-            else{
-                user.validateSoireeAccessToken(accessToken, function(err, valid){
-                    if (err){
-                        console.log("Error validating access token: " + err);
-                        return done(err);
-                    }
-                    else if (!valid){
-                        console.log("Incorrect access token");
-                        return done(null, false);
-                    }
-                    else{
-                        console.log("User validated.");
-                        return done(null, user);
-                    }
-                });
+        User.findUserByEncodedSoireeAccessToken(accessToken, done);
 
-                //user.validatePassword(password, function(err, valid){
-                //    if (err){
-                //        console.log("Error validating password: " + err);
-                //        return done(err);
-                //    }
-                //    if (!valid) {
-                //        console.log("Incorrect pw");
-                //        return done(null, false, { message: 'Incorrect username or password.' });
-                //    }
-                //    else{
-                //        console.log("User validated.");
-                //        return done(null, user);
-                //    }
-                //});
-            }
-
-        });
+        //User.findOne({ email: email }).exec(function (err, user) {
+        //    if (err) { return done(err); }
+        //    else if (!user) {
+        //        console.log("Incorrect email");
+        //        return done(null, false, { message: 'Incorrect username or password.' });
+        //    }
+        //    else{
+        //        user.validateSoireeAccessToken(accessToken, function(err, valid){
+        //            if (err){
+        //                console.log("Error validating access token: " + err);
+        //                return done(err);
+        //            }
+        //            else if (!valid){
+        //                console.log("Incorrect access token");
+        //                return done(null, false);
+        //            }
+        //            else{
+        //                console.log("User validated.");
+        //                return done(null, user);
+        //            }
+        //        });
+        //
+        //    }
+        //});
     }
 ));
 

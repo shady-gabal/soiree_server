@@ -208,6 +208,9 @@ router.post('/createUser', function(req, res, next){
 
       });
   }
+  else{
+    ResHelper.sendError(res, ErrorCodes.MissingData);
+  }
 
 });
 
