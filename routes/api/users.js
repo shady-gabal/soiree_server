@@ -33,32 +33,38 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 router.post('/findUser', function(req, res, next){
   console.log("in findUser...");
 
-  var facebookAccessToken = req.body.facebook_access_token;
+  User.verifyUser(req, res, next, function(user){
+    res.json({user : user});
+  });
 
-  if (facebookAccessToken) {// if facebook
-
-    console.log("facebook access token found - finduser");
-
-    passport.authenticate('facebook-token', function (err, user, info) {
-      if (err) {
-        console.log("User not found: " + err);
-        return ResHelper.sendError(res, ErrorCodes.FacebookOAuthError)
-      }
-      else if (!user){
-        res.json({});
-      }
-      else{
-        //user.checkDeviceUUIDAndDeviceToken(req, function () {
-          res.json({user : user});
-        //});
-
-      }
-    })(req, res, next);
-
-  }
-  else{ //else if userpw
-      ResHelper.sendError(res, ErrorCodes.Error);
-  }
+  //var facebookAccessToken = req.body.facebook_access_token;
+  //var soireeAccessToken = req.body.soiree_access_token;
+  //
+  //if (facebookAccessToken) {// if facebook
+  //
+  //  console.log("facebook access token found - finduser");
+  //
+  //  passport.authenticate('facebook-token', function (err, user, info) {
+  //    if (err) {
+  //      console.log("User not found: " + err);
+  //      return ResHelper.sendError(res, ErrorCodes.FacebookOAuthError)
+  //    }
+  //    else if (!user){
+  //      res.json({});
+  //    }
+  //    else{
+  //      //user.checkDeviceUUIDAndDeviceToken(req, function () {
+  //        res.json({user : user});
+  //      //});
+  //
+  //    }
+  //  })(req, res, next);
+  //
+  //}
+  //else
+  //else{ //else if userpw
+  //    ResHelper.sendError(res, ErrorCodes.Error);
+  //}
 
 });
 
