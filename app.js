@@ -271,7 +271,7 @@ passport.use('soiree-access-token', new LocalStrategy(
 
 passport.use('user-pw', new LocalStrategy(
     {
-        usernameField: 'email',
+        usernameField: 'username',
         passwordField : 'password'
     },
     function(email, password, done) {

@@ -58,7 +58,6 @@ router.get('/registerBusiness', function(req, res){
 });
 
 router.post('/registerBusiness', function(req, res){
-    console.log(req.body);
 
     var email = req.body.email;
     var password = IdGeneratorHelper.generateId(8, {onlyLowercase: true});

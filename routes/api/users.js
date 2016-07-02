@@ -102,10 +102,21 @@ router.post('/createUser', function(req, res, next){
       }, function(err, errorMessages){
 
         if (errorMessages){
+          var errorMessage;
+
+          if (typeof errorMessages === 'string'){
+            errorMessage = errorMessages;
+          }
+          else if (typeof errorMessages === 'array' && errorMessages.length > 0){
+            errorMessage = errorMessages[0];
+          }
+
           console.log(errorMessages);
-          ResHelper.sendError(res, err);
+          console.log(errorMessage);
+
+          ResHelper.sendError(res, err, {errorMessage : errorMessage});
         }
-        else return ResHelper.sendError(res, ErrorCodes.UserCreationError);
+        else return ResHelper.sendError(res, err);
 
       });
   }
@@ -119,11 +130,20 @@ router.post('/userFeedback', function(req, res){
   res.json({});
 });
 
+router.post('/login', function(req, res, next){
+  User.login(req, res, next, function(user, encodedAccessToken){
+    res.json({user : user, soireeAccessToken : encodedAccessToken});
+  }, function(err, errorMessage){
+      ResHelper.sendError(res, err, {errorMessage : errorMessage});
+  });
+});
 
 
 
 
-/* Payment */
+
+
+/**** Payment ****/
 
 //Braintree
 
@@ -201,6 +221,8 @@ router.post('/removeStripeCard', function(req, res, next){
 });
 
 
+/**** User Specific Data ****/
+
 router.post('/fetchUserSoirees', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
 
@@ -243,8 +265,6 @@ router.post('/fetchUserSoirees', function(req, res, next){
            res.json(obj);
         });
 
-      }, function(err){
-        ResHelper.sendError(res, err);
       });
 
   //});
@@ -255,25 +275,6 @@ router.post('/fetchUserSoirees', function(req, res, next){
 
 
 
-
-
-
-/* Notifications */
-
-//router.get('/testNotification', function(req, res){
-//  User.findOne({"firstName" : "Shady"}).exec(function(err, user) {
-//    if (err | !user){
-//      res.send("Error finding user: " + err);
-//    }
-//    else if (!user.deviceToken){
-//      res.send("User does not have device token");
-//    }
-//    else{
-//      PushNotificationHelper.sendPushNotification(user, "Testing...");
-//      res.send("Sent notification");
-//    }
-//  });
-//});
 
 router.post('/uploadDeviceToken', function(req, res, next){
   var deviceToken = req.body.deviceToken;
@@ -295,20 +296,8 @@ router.post('/uploadDeviceToken', function(req, res, next){
       }
     });
 
-  }, function(err){
-    ResHelper.sendError(res, ErrorCodes.UserVerificationError);
   });
 });
-
-
-//router.get('/removeNotifications', function(req, res){
-//  Notification.remove({}, function(err){
-//  });
-//  User.update({}, { $set: { _notifications : [] } }, function(err){
-//    res.send("Removed notifications with err: " + err);
-//  });
-//
-//});
 
 
 
