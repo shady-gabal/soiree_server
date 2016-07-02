@@ -332,8 +332,12 @@ router.get('/deleteUser', function(req, res){
           res.status(404).send("Error");
        else {
           for (var i = 0; i < _testUsers.length; i++) {
-              if (_testUsers[i].userId.equals(userId)) {
+              if (_testUsers[i].userId === userId) {
                   _testUsers.splice(i, 1);
+                  if(_testUsers.length > 0) {
+                      _user = _testUsers[i - 1 >= 0 ? (i - 1) : i + 1];
+                  }
+                  else _user = null;
               }
           }
 

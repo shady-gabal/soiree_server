@@ -159,6 +159,43 @@ router.post('/findNextSoiree', function(req, res, next){
 
 });
 
+router.get('/rosterForSoiree', function(req, res, next){
+    User.verifyUser(req, res, next, function(user){
+
+        var soireeId = req.query.soireeId;
+        if (!soireeId){
+            return ResHelper.sendError(res, ErrorCodes.MissingData);
+        }
+
+        Soiree.findBySoireeId(soireeId, function(soiree){
+
+            soiree.deepPopulate("_usersAttending", function(err, _soiree){
+                if (err){
+                    console.log(err);
+                    return ResHelper.sendError(res, err);
+                }
+
+                var roster = [];
+
+                _soiree._usersAttending.forEach(function(userAttending){
+                    if (userAttending.id !== user.id){
+                        roster.push({name : userAttending.fullName, profilePictureUrl : userAttending.profilePictureUrl});
+                    }
+                });
+                res.json({"roster" : roster});
+            });
+
+        }, function(err){
+            console.log(err);
+            ResHelper.sendError(res, err);
+        });
+
+    }, function(err){
+        console.log(err);
+        ResHelper.sendError(res, err);
+    });
+});
+
 
 router.post('/rosterForSoiree', function(req, res, next){
    User.verifyUser(req, res, next, function(user){
