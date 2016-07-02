@@ -207,7 +207,7 @@ router.post('/rosterForSoiree', function(req, res, next){
 
        Soiree.findBySoireeId(soireeId, function(soiree){
 
-           soiree.deepPopulate("_usersAttending", function(err, _soiree){
+           soiree.deepPopulate("_usersAttending _usersUncharged", function(err, _soiree){
                if (err){
                    console.log(err);
                    return ResHelper.sendError(res, err);
@@ -215,7 +215,7 @@ router.post('/rosterForSoiree', function(req, res, next){
 
                var roster = [];
 
-               _soiree._usersAttending.forEach(function(userAttending){
+               _soiree._users.forEach(function(userAttending){
                    if (userAttending.id !== user.id){
                        roster.push({name : userAttending.fullName, profilePictureUrl : userAttending.profilePictureUrl});
                    }
