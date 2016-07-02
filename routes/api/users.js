@@ -107,7 +107,7 @@ router.post('/createUser', function(req, res, next){
           if (typeof errorMessages === 'string'){
             errorMessage = errorMessages;
           }
-          else if (typeof errorMessages === 'array' && errorMessages.length > 0){
+          else if (Array.isArray(errorMessages) && errorMessages.length > 0){
             errorMessage = errorMessages[0];
           }
 
