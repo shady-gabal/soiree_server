@@ -179,11 +179,11 @@
             });
         };
 
-        function deleteUser(userId){
+        function deleteUser(){
             $.ajax({
                 url: '/admins/testing/deleteUser',
                 method : 'GET',
-                data : {userId : userId},
+                data : {},
                 success: function(){
                     location.reload(true);
                 },
@@ -365,7 +365,7 @@
     <img src="{{_user.profilePictureUrl}}" style="width:100px; height: 100px;" />
 
     <button onclick='addNotification()'> Add Notification </button>
-    <button onclick='deleteUser('{{_user.userId}}')'> Delete User </button>
+    <button onclick='deleteUser()'> Delete User </button>
 
     <ul>
         <li> testUser: {{this.testUser}} </li>
