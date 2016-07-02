@@ -20,7 +20,7 @@ var Admin = require('app/db/Admin.js');
 var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
 var LocationHelper = require('app/helpers/LocationHelper.js');
-var IDGeneratorHelper = require('IDGeneratorHelper.js');
+var IDGeneratorHelper = require('app/helpers/IDGeneratorHelper.js');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var Globals = require('app/helpers/Globals.js');
