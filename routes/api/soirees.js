@@ -25,6 +25,7 @@ router.get('/deleteSoirees', function (req, res) {
     });
 });
 
+
 router.post('/soireesNear', function (req, res, next) {
     User.verifyUser(req, res, next, function (user) {
 
@@ -86,6 +87,8 @@ router.post('/joinSoiree', function (req, res, next) {
         ResHelper.sendError(res, ErrorCodes.UserVerificationError);
     });
 });
+
+
 
 router.post('/reservationForSoiree', function (req, res, next) {
     User.verifyUser(req, res, next, function (user) {
