@@ -160,7 +160,7 @@ router.post('/findNextSoiree', function(req, res, next){
 });
 
 
-router.post('rosterForSoiree', function(req, res, next){
+router.post('/rosterForSoiree', function(req, res, next){
    User.verifyUser(req, res, next, function(user){
 
        var soireeId = req.body.soireeId;
