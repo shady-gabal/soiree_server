@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/helpers/ErrorCodes.js" afterPath="$PROJECT_DIR$/node_modules/app/helpers/ErrorCodes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/helpers/Globals.js" afterPath="$PROJECT_DIR$/node_modules/app/helpers/Globals.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/helpers/IdGeneratorHelper.js" afterPath="$PROJECT_DIR$/node_modules/app/helpers/IdGeneratorHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/helpers/ResHelper.js" afterPath="$PROJECT_DIR$/node_modules/app/helpers/ResHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/db/User.js" afterPath="$PROJECT_DIR$/node_modules/app/db/User.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/admins/admins.js" afterPath="$PROJECT_DIR$/routes/admins/admins.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/users.js" afterPath="$PROJECT_DIR$/routes/api/users.js" />
     </list>
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,10 +61,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="users.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47076023">
+            <state vertical-scroll-proportion="0.0">
               <caret line="104" column="27" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
               <folding />
             </state>
@@ -90,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="User.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/node_modules/app/db/User.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="547" column="5" selection-start-line="547" selection-start-column="5" selection-end-line="547" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.33333334">
+              <caret line="462" column="4" selection-start-line="462" selection-start-column="4" selection-end-line="462" selection-end-column="4" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -235,8 +228,8 @@
         <option value="$PROJECT_DIR$/node_modules/app/helpers/ResHelper.js" />
         <option value="$PROJECT_DIR$/node_modules/app/helpers/Globals.js" />
         <option value="$PROJECT_DIR$/node_modules/app/helpers/ErrorCodes.js" />
-        <option value="$PROJECT_DIR$/node_modules/app/db/User.js" />
         <option value="$PROJECT_DIR$/routes/api/users.js" />
+        <option value="$PROJECT_DIR$/node_modules/app/db/User.js" />
       </list>
     </option>
   </component>
@@ -1592,21 +1585,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/db/User.js">
+    <entry file="file://$PROJECT_DIR$/routes/api/users.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="547" column="5" selection-start-line="547" selection-start-column="5" selection-end-line="547" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+          <caret line="104" column="27" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/users.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/app/db/User.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47076023">
-          <caret line="104" column="27" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
-          <folding />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="462" column="4" selection-start-line="462" selection-start-column="4" selection-end-line="462" selection-end-column="4" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
