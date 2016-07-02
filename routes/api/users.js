@@ -113,6 +113,7 @@ router.post('/createUser', function(req, res, next){
 
           console.log(errorMessages);
           console.log(errorMessage);
+          errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1); //capitalize first letter of error message
 
           ResHelper.sendError(res, err, {errorMessage : errorMessage});
         }
