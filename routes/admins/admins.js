@@ -20,7 +20,7 @@ var Admin = require('app/db/Admin.js');
 var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
 var LocationHelper = require('app/helpers/LocationHelper.js');
-var IdGeneratorHelper = require('app/helpers/IdGeneratorHelper.js');
+var IDGeneratorHelper = require('IDGeneratorHelper.js');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var Globals = require('app/helpers/Globals.js');
@@ -60,7 +60,7 @@ router.get('/registerBusiness', function(req, res){
 router.post('/registerBusiness', function(req, res){
 
     var email = req.body.email;
-    var password = IdGeneratorHelper.generateId(8, {onlyLowercase: true});
+    var password = IDGeneratorHelper.generateId(8, {onlyLowercase: true});
     //var password = req.body.password;
     var businessName = req.body.businessName;
     var description = req.body.description;
