@@ -71,9 +71,10 @@ router.post('/findUser', function(req, res, next){
 
 
 router.post('/createUser', function(req, res, next){
-
+  
   var facebookAccessToken = req.body.facebook_access_token;
   var emailSignupData = req.body.emailSignupData;
+  
 
   if (facebookAccessToken) {
 
@@ -87,8 +88,8 @@ router.post('/createUser', function(req, res, next){
             //user.checkDeviceUUIDAndDeviceToken(req, function(){
               res.json({user : user.jsonObject(), firstSignUp: true});
             //});
-        }, function(err){
-          return ResHelper.sendMessage(res, ErrorCodes.UserCreationError);
+        }, function(err, errorMessage){
+          return ResHelper.sendError(res, ErrorCodes.UserCreationError, {errorMessage : errorMessage});
         });
       }
       else{
@@ -105,22 +106,9 @@ router.post('/createUser', function(req, res, next){
 
           res.json({user : user, soireeAccessToken : encodedAccessToken});
 
-      }, function(err, errorMessages){
+      }, function(err, errorMessage){
 
-        if (errorMessages){
-          var errorMessage;
-
-          if (typeof errorMessages === 'string'){
-            errorMessage = errorMessages;
-          }
-          else if (Array.isArray(errorMessages) && errorMessages.length > 0){
-            errorMessage = errorMessages[0];
-          }
-
-          console.log(errorMessages);
-          console.log(errorMessage);
-          errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1); //capitalize first letter of error message
-
+        if (errorMessage){
           ResHelper.sendError(res, err, {errorMessage : errorMessage});
         }
         else return ResHelper.sendError(res, err);
