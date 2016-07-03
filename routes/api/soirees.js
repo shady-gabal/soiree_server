@@ -166,9 +166,11 @@ router.get('/rosterForSoiree', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
 
         var soireeId = req.query.soireeId;
+
         if (!soireeId){
             return ResHelper.sendError(res, ErrorCodes.MissingData);
         }
+
 
         Soiree.findBySoireeId(soireeId, function(soiree){
 

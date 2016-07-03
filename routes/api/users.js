@@ -85,7 +85,7 @@ router.post('/createUser', function(req, res, next){
       else if (!userFound){
         User.createUserWithFacebook(req, function(user){
             //user.checkDeviceUUIDAndDeviceToken(req, function(){
-              res.json({user : user});
+              res.json({user : user, firstSignUp: true});
             //});
         }, function(err){
           return ResHelper.sendMessage(res, ErrorCodes.UserCreationError);
