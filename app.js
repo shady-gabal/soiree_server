@@ -157,7 +157,7 @@ passport.use(new facebookTokenStrategy({
         //console.log(profile);
 
         User.findByFacebookUserId(profile.id, function (user) {
-            console.log("passport use - found user " + user);
+            console.log("passport use - found user");
             return done(null, user);
         }, function(err){
             console.log("passport use - did not find user");

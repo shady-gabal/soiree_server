@@ -34,7 +34,7 @@ router.post('/findUser', function(req, res, next){
   console.log("in findUser...");
 
   User.verifyUser(req, res, next, function(user){
-    res.json({user : user});
+    res.json({user : user.jsonObject()});
   });
 
   //var facebookAccessToken = req.body.facebook_access_token;
