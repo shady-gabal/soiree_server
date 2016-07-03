@@ -153,11 +153,11 @@ passport.use(new facebookTokenStrategy({
         profileFields: ["id"]
         //passReqToCallback: true
     }, function(accessToken, refreshToken, profile, done) {
-        //console.log("accesstoken: " + accessToken + " refreshtoken: " + refreshToken + " fbuserid: " + profile.id);
+        console.log("accesstoken: " + accessToken + " refreshtoken: " + refreshToken + " fbuserid: " + profile.id);
         //console.log(profile);
 
         User.findByFacebookUserId(profile.id, function (user) {
-            console.log("passport use - found user");
+            console.log("passport use - found user " + user);
             return done(null, user);
         }, function(err){
             console.log("passport use - did not find user");
