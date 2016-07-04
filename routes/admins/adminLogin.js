@@ -24,7 +24,7 @@ router.get('/', function(req, res){
 });
 
 router.post('/', function(req, res, next){
-    passport.authenticate( 'admin', { successReturnToOrRedirect: '/admins/', failureRedirect: '/admins/login', failureFlash: false}, function(err, user, info){
+    passport.authenticate( 'admin', { successReturnToOrRedirect: '/admins/', failureRedirect: '/adminLogin', failureFlash: false}, function(err, user, info){
 
         if (err) return next(err);
         if (!user) { return res.redirect('/admins/login'); }

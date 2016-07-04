@@ -37,35 +37,6 @@ router.post('/findUser', function(req, res, next){
     res.json({user : user.jsonObject()});
   });
 
-  //var facebookAccessToken = req.body.facebook_access_token;
-  //var soireeAccessToken = req.body.soiree_access_token;
-  //
-  //if (facebookAccessToken) {// if facebook
-  //
-  //  console.log("facebook access token found - finduser");
-  //
-  //  passport.authenticate('facebook-token', function (err, user, info) {
-  //    if (err) {
-  //      console.log("User not found: " + err);
-  //      return ResHelper.sendError(res, ErrorCodes.FacebookOAuthError)
-  //    }
-  //    else if (!user){
-  //      res.json({});
-  //    }
-  //    else{
-  //      //user.checkDeviceUUIDAndDeviceToken(req, function () {
-  //        res.json({user : user});
-  //      //});
-  //
-  //    }
-  //  })(req, res, next);
-  //
-  //}
-  //else
-  //else{ //else if userpw
-  //    ResHelper.sendError(res, ErrorCodes.Error);
-  //}
-
 });
 
 

@@ -350,6 +350,22 @@ router.get('/deleteUser', function(req, res){
    });
 });
 
+
+router.get('/testPopulation', function(req, res){
+    //var _id = req.query.userId ? req.query.userId : _user._id;
+    //console.log(_testUsers.indexOf(_user) || _testUsers.indexOf(_user._id));
+    //console.log(_testUsers.indexOf(_user));
+    //var _ids = [];
+    //_testUsers.forEach(function(user){
+    //   _ids.push(user._id);
+    //});
+    //console.log(_ids.indexOf(_user));
+    //console.log(_ids.indexOf(_user._id));
+
+    res.send("OK");
+
+});
+
 router.post('/switchTestUser', function(req, res){
     var _id = req.body.userId;
 

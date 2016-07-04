@@ -53,6 +53,7 @@
     "supertest": "",
     "underscore": "",
     "validator": "",
-    "xoauth2": ""
+    "xoauth2": "",
+    "Q" : ""
   }
 }

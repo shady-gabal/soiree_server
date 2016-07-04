@@ -74,7 +74,7 @@ router.get('/createBusinesses', function(req, res){
 //});
 
 router.post('/', function(req, res, next){
-    passport.authenticate( 'business', { successReturnToOrRedirect: '/businesses/', failureRedirect: '/businesses/login', failureFlash: false}, function(err, user, info){
+    passport.authenticate( 'business', { successReturnToOrRedirect: '/businesses/', failureRedirect: '/businessLogin', failureFlash: false}, function(err, user, info){
 
         if (err) return next(err);
         if (!user) { return res.redirect('/businesses/login'); }
