@@ -1,0 +1,45 @@
+{{#extend "stylesheets"}}
+   <!-- <link rel="stylesheet" href="/stylesheets/" /> -->
+{{/extend}}
+
+{{#extend "scripts"}}
+<!-- <script src="/javascripts/"></script> -->
+<script>
+
+</script>
+{{/extend}}
+
+<form class="form-signin" action='/admins/registerBusiness' id="registerBusinessForm" method='POST'>
+    <h2 class="form-signin-heading">Sign up a business</h2>
+
+    <!--<label for="inputName" class="sr-only">Name</label>-->
+    <input type="text" id="inputName" class="form-control" placeholder="Name" name='businessName' required autofocus>
+
+    <!--<label for="inputPhoneNumber" class="sr-only">Phone Number</label>-->
+    <input class="form-control" type='text' name='phoneNumber' id='inputPhoneNumber' placeholder="Phone Number" required/>
+
+    <!--<label for="inputDescription" class="sr-only">Description</label>-->
+    <input type="text" id="inputDescription" class="form-control" placeholder="Description" name='description' required>
+
+
+    <div id="locationField">
+        <input id="autocomplete" class="form-control" placeholder="Address" onFocus="geolocate()" type="text" name="address"/>
+    </div>
+
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name='email' required>
+
+    <label for="inputSoireeTypes" class="sr-only">Soiree Types</label>
+    {{#each soireeTypes}}
+        <div class="checkbox"><input type="checkbox" class="inputSoireeTypes" value="{{this}}" name='soireeTypes'><span class='inputSoireeTypeText'>{{this}}</span></div>
+    {{/each}}
+
+
+
+
+    <!--<label for="inputPassword" class="sr-only">Password</label>-->
+    <!--<input type="password" id="inputPassword" class="form-control" placeholder="Password" name='password' required>-->
+
+    <button class="btn btn-lg btn-primary btn-block submit_button" type="submit" id="registerButton">Register Business</button>
+
+</form>
