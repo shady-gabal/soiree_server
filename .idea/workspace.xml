@@ -86,8 +86,8 @@
       <file leaf-file-name="idVerifications.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/stylesheets/admins/idVerifications.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.30922693">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.28553617">
+              <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -1412,8 +1412,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/admins/idVerifications.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30922693">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.28553617">
+          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
           <folding />
         </state>
       </provider>
