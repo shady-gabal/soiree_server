@@ -15,10 +15,8 @@
 }
 
 .verificationImage{
-    min-width:300px;
-    min-height:300px;
-    max-width: 600px;
-    max-height: 600px;
+    width: 100% !important;
+    height: auto !important;
 }
 
 .verificationImageDiv{
@@ -26,6 +24,10 @@
     margin: auto;
     font-size: 20px;
     margin-left: 5px;
+    min-width:300px;
+    min-height:300px;
+    max-width: 600px;
+    max-height: 600px;
 }
 
 #verificationImages{
