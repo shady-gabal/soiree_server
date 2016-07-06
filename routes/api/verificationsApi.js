@@ -175,16 +175,8 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
 
             UserVerification.remove({_user: user._id}, function(err){
 
-                //if (err) {
-                //    return res.status('404').send("Error removing old copies");
-                //}
-                var notes = req.body.notes;
-                //var college = req.body.college;
-
                 var userVerification = new UserVerification({
                     _user: user._id
-                    //notes : notes
-                    //college : college
                 });
 
                 var directory = "/userVerifications/";
@@ -229,8 +221,11 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     else {
                         console.log("doc.idimage " + doc.idImage);
                         console.log("saved userverification with idpath : " + doc.idImagePath + " selfpath : " + doc.selfImagePath);
+                        console.log('setting pending verifications to true...');
+                        console.log(user);
                         //successfully saved
                         user.pendingVerification = true;
+                        console.log(user);
                         //save user, deleting verification if err
                         user.save(function(err, _user){
                            if (err){
