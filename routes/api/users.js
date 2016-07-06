@@ -31,6 +31,8 @@ var IDGeneratorHelper = require('app/helpers/IDGeneratorHelper.js');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
+var h = require('app/helpers/h');
+
 
 router.post('/findUser', function(req, res, next){
   console.log("in findUser...");
