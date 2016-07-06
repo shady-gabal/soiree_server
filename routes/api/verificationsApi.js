@@ -119,22 +119,6 @@ router.post('/verifyCode', function(req, res, next){
    });
 });
 
-router.post('/uploadCollege', function(req, res, next){
-    //User.verifyUser(req, res, next, function(user) {
-    //    var college = req.body.college;
-    //    if (!college) return ResHelper.sendError(res, ErrorCodes.MissingData);
-    //
-    //    user.college = college;
-    //    user.save(function(err){
-    //        if (err){
-    //            ResHelper.sendError(res, ErrorCodes.MongoError);
-    //            console.log('error');
-    //        }
-    //        else ResHelper.sendSuccess(res);
-    //    });
-    //});
-});
-
 
 
 
@@ -177,7 +161,6 @@ router.get('/verificationPhoto', function(req, res){
 });
 
 
-//var cpUpload = ;
 router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, { name: 'self', maxCount: 1 }]) , function(req, res, next){
     User.verifyUser(req, res, next, function(user) {
         if (!user.verified) {
@@ -215,7 +198,6 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     contentType : idImageFile.mimetype,
                     fileName : idFileName,
                     directory: directory,
-                    path : Image.createPath(directory, idFileName),
                     adminsOnly: true,
                     _userVerification : userVerification._id
                 });
@@ -226,7 +208,6 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     contentType : selfImageFile.mimetype,
                     fileName : selfFileName,
                     directory: directory,
-                    path : Image.createPath(directory, selfFileName),
                     adminsOnly : true,
                     _userVerification : userVerification._id
                 });

@@ -59,6 +59,26 @@ function error(err, res, done){
     return false;
 }
 
+function findTestUser(done){
+    if (!_user){
+        User.findOrCreateTestUser(function(user, encodedToken){
+            _user = user;
+
+            var obj = _user.jsonObject();
+            obj.latitude = 40.7128;
+            obj.longitude = 74;
+            obj.soiree_access_token = encodedToken;
+
+            params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+
+            done();
+        }, function(err){
+            done(err);
+        });
+    }
+    else done();
+};
+
 //before(function(done){
 //    if (!_user){
 //        User.findOrCreateTestUser(function(user){
@@ -77,22 +97,7 @@ describe('community', function() {
     var base = '/api/community';
 
     it('should fetch new user', function(done){
-        if (!_user){
-            User.findOrCreateTestUser(function(user){
-                _user = user;
-
-                var obj = _user.jsonObject();
-                obj.latitude = 40.7128;
-                obj.longitude = 74;
-
-                params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
-
-                done();
-            }, function(err){
-                done(err);
-            });
-        }
-        else done();
+       findTestUser(done);
     });
 
     //before(function (done) {

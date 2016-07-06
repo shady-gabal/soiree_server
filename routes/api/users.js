@@ -26,6 +26,7 @@ var CreditCardHelper = require('app/helpers/CreditCardHelper.js');
 var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
 var MongooseHelper = require('app/helpers/MongooseHelper.js');
 var Globals = require('app/helpers/Globals.js');
+var Image = require('app/db/Image');
 
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
@@ -104,8 +105,62 @@ router.post('/login', function(req, res, next){
   });
 });
 
+router.post('/changeProfilePictureUrl', function(req, res, next){
+  var newProfilePictureUrl = req.body.profilePictureUrl;
+  if (!newProfilePictureUrl) return ResHelper.sendError(res, ErrorCodes.InvalidInput);
 
+  User.verifyUser(req, res, next, function(user){
+    user.profilePictureUrl = newProfilePictureUrl;
+    user.save(function(err){
+      if (err){
+        return ResHelper.sendError(res, ErrorCodes.MongoError);
+      }
+      else ResHelper.sendSuccess(res);
+    });
+  });
+});
 
+router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', maxCount: 1 }]) , function(req, res, next){
+
+  User.verifyUser(req, res, next, function(user){
+
+    Image.remove({_user : user._id}).exec(function(err){
+      if (err){
+        return ResHelper.sendError(res, ErrorCodes.MongoError);
+      }
+      else{
+        var photo = req.files["profilePicture"][0];
+        if (!photo){
+          return ResHelper.sendError(res, ErrorCodes.MissingData);
+        }
+
+        var directory = "/profilePictures/";
+        var fileName = IDGeneratorHelper.generateId(15, {addLowerCase: true});
+
+        var image = new Image({
+          data : photo.buffer,
+          contentType : photo.mimetype,
+          fileName : fileName,
+          directory: directory,
+          adminsOnly: false,
+          _user : user._id
+        });
+
+        image.save(function(err2){
+          if (err2){
+            ResHelper.sendError(res, ErrorCodes.MongoError);
+          }
+          else{
+            ResHelper.sendSuccess(res);
+          }
+        });
+      }
+
+    });
+
+  });
+
+});
 
 
 
