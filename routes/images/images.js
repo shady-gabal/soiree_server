@@ -72,6 +72,8 @@ function findImage(req, res){
             }
             else{
                 console.log("sending image...");
+
+                req.headers['if-none-match'] = 'no-match-for-this';
                 res.contentType(doc.contentType);
                 res.status(200).send(doc.data);
             }
