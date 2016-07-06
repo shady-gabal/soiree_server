@@ -73,7 +73,7 @@ function findImage(req, res){
             else{
                 console.log("sending image...");
                 res.contentType(doc.contentType);
-                res.send(doc.data);
+                res.status(200).send(doc.data);
             }
         }
     });

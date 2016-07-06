@@ -19,6 +19,8 @@ var User = require('app/db/User.js');
 var UserVerification = require('app/db/UserVerification.js');
 var Notification = require('app/db/Notification.js');
 
+var db = require('app/db/db');
+
 //var DateHelper = require('app/helpers/DateHelper.js');
 //var ResHelper = require('app/helpers/ResHelper.js');
 //var LocationHelper = require('app/helpers/LocationHelper.js');
