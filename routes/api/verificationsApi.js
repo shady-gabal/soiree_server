@@ -32,17 +32,17 @@ var validator = require('validator');
 
 //EMAIL VERIFICATION
 
-router.get('/validateEmail', function(req, res){
-   var email = req.query.email;
-    if (email){
-        if (validator.isEmail(email)){
-            res.send("is email");
-        }
-        else res.send("is not email");
-
-    }
-    else res.send("No email specified");
-});
+//router.get('/validateEmail', function(req, res){
+//   var email = req.query.email;
+//    if (email){
+//        if (validator.isEmail(email)){
+//            res.send("is email");
+//        }
+//        else res.send("is not email");
+//
+//    }
+//    else res.send("No email specified");
+//});
 
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
@@ -77,30 +77,30 @@ router.post('/sendVerificationEmail', function(req, res, next){
     });
 });
 
-router.get('/sendVerificationEmail', function(req, res){
-    var email = req.query.email;
-    email = email.trim();
-
-    User.findTestUser(function(user){
-        if (EmailHelper.validateEmail(email)){
-            EmailHelper.sendVerificationEmail(email, user, function(){
-                user.pendingVerification = true;
-                user.save();
-
-                ResHelper.sendSuccess(res);
-            }, function(err){
-                console.log(err);
-                ResHelper.sendError(res, ErrorCodes.Error);
-            });
-        }
-        else{
-            ResHelper.sendError(res, ErrorCodes.Error);
-        }
-    }, function(err){
-        res.send("unable to find test user");
-    });
-
-});
+//router.get('/sendVerificationEmail', function(req, res){
+//    var email = req.query.email;
+//    email = email.trim();
+//
+//    User.findTestUser(function(user){
+//        if (EmailHelper.validateEmail(email)){
+//            EmailHelper.sendVerificationEmail(email, user, function(){
+//                user.pendingVerification = true;
+//                user.save();
+//
+//                ResHelper.sendSuccess(res);
+//            }, function(err){
+//                console.log(err);
+//                ResHelper.sendError(res, ErrorCodes.Error);
+//            });
+//        }
+//        else{
+//            ResHelper.sendError(res, ErrorCodes.Error);
+//        }
+//    }, function(err){
+//        res.send("unable to find test user");
+//    });
+//
+//});
 
 router.post('/verifyCode', function(req, res, next){
    User.verifyUser(req, res, next, function(user) {

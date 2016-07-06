@@ -134,8 +134,8 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
           return ResHelper.sendError(res, ErrorCodes.MissingData);
         }
 
-        var directory = "/profilePictures/";
-        var fileName = IDGeneratorHelper.generateId(15, {addLowerCase: true});
+        var directory = "/images/";
+        var fileName = "profile_" + IDGeneratorHelper.generateId(15, {addLowerCase: true});
 
         var image = new Image({
           data : photo.buffer,
@@ -151,7 +151,7 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
             ResHelper.sendError(res, ErrorCodes.MongoError);
           }
           else{
-            ResHelper.sendSuccess(res);
+            res.json({"profilePictureUrl" : image.url});
           }
         });
       }
