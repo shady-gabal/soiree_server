@@ -26,7 +26,7 @@ var Notification = require('app/db/Notification.js');
 //var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
 //var MongooseHelper = require('app/helpers/MongooseHelper.js');
 //var Globals = require('app/helpers/Globals.js');
-//var Image = require('app/db/Image');
+var Image = require('app/db/Image');
 //var IDGeneratorHelper = require('app/helpers/IDGeneratorHelper.js');
 //
 //var ErrorCodes = require('app/helpers/ErrorCodes.js');
