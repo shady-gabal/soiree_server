@@ -140,7 +140,7 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
         }
 
         var directory = "/userProfilePictures/";
-        var fileName = "profile_" + h.IDGeneratorHelper.generateId(15, {addLowerCase: true});
+        var fileName = "profile_" + h.IDGeneratorHelper.generateId(15, {addLowerCase: true}) + "_" + Date.now();
 
         var image = new Image({
           data : photo.buffer,
@@ -163,6 +163,7 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
                 h.ResHelper.sendError(res, h.ErrorCodes.mongoError);
               }
               else res.json({"profilePictureUrl" : image.url});
+              console.log(image.url);
             });
 
           }
