@@ -29,7 +29,7 @@
     "handlebars-helpers": "",
     "hbs": "",
     "jsonwebtoken": "",
-    "mathjs": "~<3.2.0",
+    "mathjs": "~3.2.1",
     "moment": "",
     "mongodb-uri": "",
     "mongoose": "~4.2.8",
