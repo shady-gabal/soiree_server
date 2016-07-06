@@ -42,16 +42,23 @@ router.get('/removeImages', function(req, res){
 });
 
 router.get('/:directory/:fileName', function(req, res){
-   console.log(req.params.directory);
-    console.log(req.params.fileName);
-    res.send("OK");
+    findImage(req, res);
 });
 
 router.get('/:fileName', function(req, res){
-    var fileName = req.params.fileName;
-    console.log("/images called with fileName " + fileName);
+    findImage(req, res);
+});
 
-    var path = Image.createPath('/images/' , fileName);
+function findImage(req, res){
+    var directory = req.params.directory ? req.params.directory : "/";
+    var fileName = req.params.fileName;
+    if (!fileName || !directory){
+        return res.status(404).send("Not Found");
+    }
+
+    console.log("/images called with directory " + directory + " fileName " + fileName);
+
+    var path = Image.createPath(directory , fileName);
 
     Image.findOne({path : path}).exec(function(err, doc){
         if (err || !doc){
@@ -70,6 +77,6 @@ router.get('/:fileName', function(req, res){
             }
         }
     });
-});
+};
 
 module.exports = router;

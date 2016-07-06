@@ -134,7 +134,7 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
           return ResHelper.sendError(res, ErrorCodes.MissingData);
         }
 
-        var directory = "/images/";
+        var directory = "/userProfilePictures/";
         var fileName = "profile_" + IDGeneratorHelper.generateId(15, {addLowerCase: true});
 
         var image = new Image({

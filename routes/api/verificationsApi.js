@@ -187,7 +187,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     //college : college
                 });
 
-                var directory = "/images/";
+                var directory = "/userVerifications/";
                 var fileNameSuffix = user.userId + "_" + Date.now();
                 var selfFileName = "self_" + fileNameSuffix;
                 var idFileName = "id_" + fileNameSuffix;
