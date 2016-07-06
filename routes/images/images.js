@@ -41,6 +41,11 @@ router.get('/removeImages', function(req, res){
     });
 });
 
+router.get('/:directory/:fileName', function(req, res){
+   console.log(req.params.directory);
+    console.log(req.params.fileName);
+    res.send("OK");
+});
 
 router.get('/:fileName', function(req, res){
     var fileName = req.params.fileName;
