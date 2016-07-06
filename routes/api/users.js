@@ -19,17 +19,17 @@ var User = require('app/db/User.js');
 var UserVerification = require('app/db/UserVerification.js');
 var Notification = require('app/db/Notification.js');
 
-var DateHelper = require('app/helpers/DateHelper.js');
-var ResHelper = require('app/helpers/ResHelper.js');
-var LocationHelper = require('app/helpers/LocationHelper.js');
-var CreditCardHelper = require('app/helpers/CreditCardHelper.js');
-var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
-var MongooseHelper = require('app/helpers/MongooseHelper.js');
-var Globals = require('app/helpers/Globals.js');
-var Image = require('app/db/Image');
-var IDGeneratorHelper = require('app/helpers/IDGeneratorHelper.js');
-
-var ErrorCodes = require('app/helpers/ErrorCodes.js');
+//var DateHelper = require('app/helpers/DateHelper.js');
+//var ResHelper = require('app/helpers/ResHelper.js');
+//var LocationHelper = require('app/helpers/LocationHelper.js');
+//var CreditCardHelper = require('app/helpers/CreditCardHelper.js');
+//var PushNotificationHelper = require('app/helpers/PushNotificationHelper.js');
+//var MongooseHelper = require('app/helpers/MongooseHelper.js');
+//var Globals = require('app/helpers/Globals.js');
+//var Image = require('app/db/Image');
+//var IDGeneratorHelper = require('app/helpers/IDGeneratorHelper.js');
+//
+//var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 var h = require('app/helpers/h');
 
@@ -56,7 +56,7 @@ router.post('/createUser', function(req, res, next){
     passport.authenticate('facebook-token', function (err, userFound, info) {
 
       if (err) {
-        return ResHelper.sendError(res, ErrorCodes.UserVerificationError);
+        return h.ResHelper.sendError(res, h.ErrorCodes.UserVerificationError);
       }
       else if (!userFound){
         User.createUserWithFacebook(req, function(user){
@@ -64,7 +64,7 @@ router.post('/createUser', function(req, res, next){
               res.json({user : user.jsonObject(), firstSignUp: true});
             //});
         }, function(err, errorMessage){
-          return ResHelper.sendError(res, ErrorCodes.UserCreationError, {errorMessage : errorMessage});
+          return h.ResHelper.sendError(res, h.ErrorCodes.UserCreationError, {errorMessage : errorMessage});
         });
       }
       else{
@@ -84,14 +84,14 @@ router.post('/createUser', function(req, res, next){
       }, function(err, errorMessage){
 
         if (errorMessage){
-          ResHelper.sendError(res, err, {errorMessage : errorMessage});
+          h.ResHelper.sendError(res, err, {errorMessage : errorMessage});
         }
-        else return ResHelper.sendError(res, err);
+        else return h.ResHelper.sendError(res, err);
 
       });
   }
   else{
-    ResHelper.sendError(res, ErrorCodes.MissingData);
+    h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
   }
 
 });
@@ -104,21 +104,21 @@ router.post('/login', function(req, res, next){
   User.login(req, res, next, function(user, encodedAccessToken){
     res.json({user : user, soireeAccessToken : encodedAccessToken});
   }, function(err, errorMessage){
-      ResHelper.sendError(res, err, {errorMessage : errorMessage});
+    h.ResHelper.sendError(res, err, {errorMessage : errorMessage});
   });
 });
 
 router.post('/changeProfilePictureUrl', function(req, res, next){
   var newProfilePictureUrl = req.body.profilePictureUrl;
-  if (!newProfilePictureUrl) return ResHelper.sendError(res, ErrorCodes.InvalidInput);
+  if (!newProfilePictureUrl) return h.ResHelper.sendError(res, ErrorCodes.InvalidInput);
 
   User.verifyUser(req, res, next, function(user){
     user.profilePictureUrl = newProfilePictureUrl;
     user.save(function(err){
       if (err){
-        return ResHelper.sendError(res, ErrorCodes.MongoError);
+        return h.ResHelper.sendError(res, h.ErrorCodes.MongoError);
       }
-      else ResHelper.sendSuccess(res);
+      else h.ResHelper.sendSuccess(res);
     });
   });
 });
@@ -129,16 +129,16 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
 
     Image.remove({_user : user._id}).exec(function(err){
       if (err){
-        return ResHelper.sendError(res, ErrorCodes.MongoError);
+        return h.ResHelper.sendError(res, h.ErrorCodes.MongoError);
       }
       else{
         var photo = req.files["profilePicture"][0];
         if (!photo){
-          return ResHelper.sendError(res, ErrorCodes.MissingData);
+          return h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
         }
 
         var directory = "/userProfilePictures/";
-        var fileName = "profile_" + IDGeneratorHelper.generateId(15, {addLowerCase: true});
+        var fileName = "profile_" + h.IDGeneratorHelper.generateId(15, {addLowerCase: true});
 
         var image = new Image({
           data : photo.buffer,
@@ -151,10 +151,18 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
 
         image.save(function(err2){
           if (err2){
-            ResHelper.sendError(res, ErrorCodes.MongoError);
+            h.ResHelper.sendError(res, h.ErrorCodes.MongoError);
           }
           else{
-            res.json({"profilePictureUrl" : image.url});
+            user.profilePictureUrl = image.url;
+            user.save(function(err3){
+              if (err3){
+                console.log(err3);
+                h.ResHelper.sendError(res, h.ErrorCodes.mongoError);
+              }
+              else res.json({"profilePictureUrl" : image.url});
+            });
+
           }
         });
       }
@@ -174,10 +182,10 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
 router.post('/braintreeClientToken', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
-    CreditCardHelper.generateBrainTreeClientToken(function(clientToken){
+    h.CreditCardHelper.generateBrainTreeClientToken(function(clientToken){
       res.json({clientToken: clientToken});
     }, function(){
-      ResHelper.sendError(res, ErrorCodes.Error);
+      h.ResHelper.sendError(res, h.ErrorCodes.Error);
     });
 
   });
@@ -188,13 +196,13 @@ router.post('/addBraintreeCard', function(req, res, next){
 
     var paymentNonce = req.body.paymentNonce;
     if (!paymentNonce) {
-      return ResHelper.sendError(res, ErrorCodes.MissingData);
+      return h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
     }
 
-    CreditCardHelper.addBraintreeCard(paymentNonce, user, function(_user){
+    h.CreditCardHelper.addBraintreeCard(paymentNonce, user, function(_user){
       res.json({user : _user.jsonObject()})
     }, function(err){
-      ResHelper.sendError(res, ErrorCodes.Error);
+      h.ResHelper.sendError(res, h.ErrorCodes.Error);
     });
 
   });
@@ -203,10 +211,10 @@ router.post('/addBraintreeCard', function(req, res, next){
 router.post('/removeBraintreeCard', function(req, res, next){
   User.verifyUser(req, res, next, function(user) {
 
-    CreditCardHelper.removeBraintreeCard(user, function(_user){
+    h.CreditCardHelper.removeBraintreeCard(user, function(_user){
       res.json({user : _user.jsonObject()})
     }, function(err){
-      ResHelper.sendError(res, ErrorCodes.Error);
+      h.ResHelper.sendError(res, h.ErrorCodes.Error);
     });
 
   });
@@ -219,13 +227,13 @@ router.post('/addStripeCard', function(req, res, next){
 
     var stripeToken = req.body.stripeToken;
     if (!stripeToken) {
-      return ResHelper.sendError(res, ErrorCodes.MissingData);
+      return h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
     }
 
-    CreditCardHelper.addStripeCard(stripeToken, user, function(_user){
+    h.CreditCardHelper.addStripeCard(stripeToken, user, function(_user){
       res.json({user : _user.jsonObject()})
     }, function(err){
-      ResHelper.sendError(res, ErrorCodes.Error);
+      h.ResHelper.sendError(res, h.ErrorCodes.Error);
     });
 
   });
@@ -235,10 +243,10 @@ router.post('/removeStripeCard', function(req, res, next){
 
   User.verifyUser(req, res, next, function(user) {
 
-    CreditCardHelper.removeStripeCard(user, function(_user){
+    h.CreditCardHelper.removeStripeCard(user, function(_user){
       res.json({user : _user.jsonObject()})
     }, function(err){
-      ResHelper.sendError(res, ErrorCodes.Error);
+      h.ResHelper.sendError(res, h.ErrorCodes.Error);
     });
   });
 
@@ -272,7 +280,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
             for (var j = 0; j < soireesAttending.length; j++) {
               var soiree = soireesAttending[j];
               var jsonDict = soiree.jsonObject(user);
-              if (!MongooseHelper.isObjectId(soiree._reservation)){
+              if (!h.MongooseHelper.isObjectId(soiree._reservation)){
                 jsonDict["reservation"] = soiree._reservation.jsonObject();
               }
 
@@ -303,7 +311,7 @@ router.post('/fetchUserSoirees', function(req, res, next){
 router.post('/uploadDeviceToken', function(req, res, next){
   var deviceToken = req.body.deviceToken;
   if (!deviceToken){
-    return ResHelper.sendError(res, ErrorCodes.MissingData);
+    return h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
   }
 
   User.verifyUser(req, res, next, function(user){
@@ -312,11 +320,11 @@ router.post('/uploadDeviceToken', function(req, res, next){
     user.save(function(err){
       if (err){
         console.log("Error saving user: " + err);
-        ResHelper.sendError(res, ErrorCodes.ErrorSaving);
+        h.ResHelper.sendError(res, h.ErrorCodes.ErrorSaving);
       }
       else{
         console.log("Uploaded device token for " + user.firstName + " : " + deviceToken);
-        ResHelper.sendSuccess(res);
+        h.ResHelper.sendSuccess(res);
       }
     });
 
