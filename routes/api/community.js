@@ -248,7 +248,6 @@ router.post('/uploadUnemotionForPost', function(req, res, next){
                 post.unemotion(user, emotion, function (_post) {
                     ResHelper.sendSuccess(res);
                 }, function (err) {
-                    console.log(err);
                     ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
                 });
             }, function(err){
