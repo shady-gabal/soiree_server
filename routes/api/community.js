@@ -214,21 +214,26 @@ router.post('/uploadEmotionForPost', function(req, res, next){
 
         if (emotion && postId) {
 
-            CommunityPost.findOne({postId: postId}, function (err, post) {
-                if (err || !post) {
-                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
-                }
-                else {
-
-                    post.emotion(user, emotion, function (_post) {
-                        ResHelper.sendSuccess(res);
-                    }, function (err) {
-                        console.log(err);
-                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
-                    });
-
-                }
+            CommunityPost.emotionPostWithId(postId, user, emotion, function(modifiedPost){
+                ResHelper.sendSuccess(res);
+            }, function(err){
+                ResHelper.sendError(res, err);
             });
+
+
+            //CommunityPost.findOne({postId: postId}, function (err, post) {
+            //    if (err || !post) {
+            //        ResHelper.sendMessage(res, 404, "error finding post: " + err);
+            //    }
+            //    else {
+            //
+            //        post.emotion(user, emotion, function (_post) {
+            //        }, function (err) {
+            //            console.log(err);
+            //        });
+            //
+            //    }
+            //});
         }
     });
 });
@@ -243,16 +248,22 @@ router.post('/uploadUnemotionForPost', function(req, res, next){
 
         if (emotion && postId) {
 
-            CommunityPost.findPostWithId(postId, function (post) {
-
-                post.unemotion(user, emotion, function (_post) {
-                    ResHelper.sendSuccess(res);
-                }, function (err) {
-                    ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
-                });
+            CommunityPost.unemotionPostWithId(postId, user, emotion, function(modifiedPost){
+                ResHelper.sendSuccess(res);
             }, function(err){
                 ResHelper.sendError(res, err);
             });
+
+            //CommunityPost.findPostWithId(postId, function (post) {
+            //
+            //    post.unemotion(user, emotion, function (_post) {
+            //        ResHelper.sendSuccess(res);
+            //    }, function (err) {
+            //        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
+            //    });
+            //}, function(err){
+            //    ResHelper.sendError(res, err);
+            //});
         }
         else{
             return ResHelper.sendError(res, ErrorCodes.MissingData);
