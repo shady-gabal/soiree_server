@@ -190,8 +190,8 @@ describe('soirees', function() {
                         assert.isTrue(reservation._soiree.equals(soiree._id), "reservation soiree should be same as soiree");
                         business = soiree._business;
 
-                        assert.isEqual(business._unconfirmedReservations.length, 0, "soiree business should have no unconfirmed reservations until reservation is charged");
-                        assert.isEqual(business._confirmedReservations.length, 0, "soiree business should have no confirmed reservations");
+                        assert.equal(business._unconfirmedReservations.length, 0, "soiree business should have no unconfirmed reservations until reservation is charged");
+                        assert.equal(business._confirmedReservations.length, 0, "soiree business should have no confirmed reservations");
 
                         done();
                     });
