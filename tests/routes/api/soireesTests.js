@@ -192,6 +192,7 @@ describe('soirees', function() {
 
                         assert.equal(business._unconfirmedReservations.length, 0, "soiree business should have no unconfirmed reservations until reservation is charged");
                         assert.equal(business._confirmedReservations.length, 0, "soiree business should have no confirmed reservations");
+                        assert.equal(0, 1, "apple");
 
                         done();
                     });
