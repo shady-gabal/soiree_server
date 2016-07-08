@@ -144,7 +144,10 @@ router.post('/postWithPostId', function(req, res, next){
 router.post('/createPost', function(req, res, next){
     console.log('creating post...');
     User.verifyUser(req, res, next, function(user){
-        console.log("verified user");
+        if (!user.verified) {
+            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+        }
+
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
 
@@ -170,6 +173,9 @@ router.post('/createPost', function(req, res, next){
 
 router.post('/createComment', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
+        if (!user.verified)
+            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+
         var text = req.body.comment;
         var postId = req.body.postId;
 
@@ -200,6 +206,9 @@ router.post('/createComment', function(req, res, next){
 
 router.post('/uploadEmotionForPost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
+        if (!user.verified)
+            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+
         var emotion = req.body.emotion;
         var postId = req.body.postId;
 
@@ -226,6 +235,9 @@ router.post('/uploadEmotionForPost', function(req, res, next){
 
 router.post('/uploadUnemotionForPost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
+        if (!user.verified)
+            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+
         var emotion = req.body.emotion;
         var postId = req.body.postId;
 
@@ -253,6 +265,9 @@ router.post('/uploadUnemotionForPost', function(req, res, next){
 
 router.post('/uploadEmotionForComment', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
+        if (!user.verified)
+            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+
         var emotion = req.body.emotion;
         var commentId = req.body.commentId;
 
@@ -279,6 +294,9 @@ router.post('/uploadEmotionForComment', function(req, res, next){
 
 router.post('/uploadUnemotionForComment', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
+        if (!user.verified)
+            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+
         var emotion = req.body.emotion;
         var commentId = req.body.commentId;
 

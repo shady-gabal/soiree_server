@@ -13,7 +13,7 @@ var ErrorCodes = require('app/helpers/ErrorCodes');
 
 var Globals = require('app/helpers/Globals');
 var _user;
-var params, soiree, reservation;
+var params, soiree, reservation, business;
 
 require('../../setup');
 require('../../models/BusinessTests.js');
@@ -177,15 +177,22 @@ describe('soirees', function() {
                 Soiree.findBySoireeId(params.soireeId, function(soiree){
                     assert.include(soiree._usersUncharged, _user._id);
                     assert.equal(soiree._unchargedReservations.length, 1, "soiree._unchargedReservations should have 1 reservation");
-                    assert.equal(soiree._chargedReservations, 0, "soiree._chargedReservations should have no reservations");
-                    soiree.deepPopulate(function(err){
+                    assert.equal(soiree._chargedReservations.length, 0, "soiree._chargedReservations should have no reservations");
+
+                    soiree.deepPopulate("__chargedReservations _unchargedReservations _business", function(err){
                        if (err){
                            return done(err);
                        }
                         reservation = soiree._unchargedReservations[0];
                         assert.isFalse(reservation.charged, "reservation should not be charged");
-                        assert.equal(reservation._user, _user._id, "reservation user should be same as joining user");
-                        assert.equal(reservation._soiree, soiree._id, "reservation soiree should be same as soiree");
+                        var _userId = reservation._user._id ? reservation._user._id : reservation._user;
+                        assert.isTrue(_userId.equals(_user._id), "reservation user should be same as joining user");
+                        assert.isTrue(reservation._soiree.equals(soiree._id), "reservation soiree should be same as soiree");
+                        business = soiree._business;
+
+                        assert.isEqual(business._unconfirmedReservations.length, 0, "soiree business should have no unconfirmed reservations until reservation is charged");
+                        assert.isEqual(business._confirmedReservations.length, 0, "soiree business should have no confirmed reservations");
+
                         done();
                     });
 
