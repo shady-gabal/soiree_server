@@ -18,7 +18,7 @@ var admin, business;
 
 describe('Business', function () {
 
-    it('should fetch admin', function(done){
+    it('setup - should fetch admin', function(done){
         Admin.findOne({}).exec(function(err, _admin){
             admin = _admin;
             done(err);

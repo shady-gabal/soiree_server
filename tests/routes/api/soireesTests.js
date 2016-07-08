@@ -9,6 +9,7 @@ var app = require('../../../app.js');
 var User = require('app/db/User');
 var Soiree = require('app/db/Soiree');
 var SoireeReservation = require('app/db/SoireeReservation');
+var ErrorCodes = require('app/helpers/ErrorCodes');
 
 var Globals = require('app/helpers/Globals');
 var _user;
@@ -49,6 +50,27 @@ function error(err, res, done){
     }
     return false;
 }
+
+function findTestUser(done){
+    if (!_user){
+        User.findOrCreateTestUser(function(user, encodedToken){
+            _user = user;
+
+            var obj = _user.jsonObject();
+            obj.latitude = 40.7128;
+            obj.longitude = 74;
+            obj.soiree_access_token = encodedToken;
+
+            params = {'user': obj, 'userId': _user.userId};
+
+            done();
+        }, function(err){
+            done(err);
+        });
+    }
+    else done();
+};
+
 //
 //before(function(done){
 //    if (!_user){
@@ -88,27 +110,45 @@ describe('soirees', function() {
     var base = '/api/soirees';
 
     it('should fetch new user', function(done){
-        if (!_user){
-            User.findOrCreateTestUser(function(user){
-                _user = user;
-
-                var obj = _user.jsonObject();
-                obj.latitude = 40.7128;
-                obj.longitude = 74;
-
-                params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
-
-                done();
-            }, function(err){
-                done(err);
-            });
-        }
-        else done();
+        findTestUser(done);
     });
 
-    //it('should create a new soiree', function(done){
-    //
-    //});
+    it('should create a new soiree of each type', function(done){
+        var soireeTypes = Globals.soireeTypes;
+        assert.isAbove(soireeTypes.length, 0, "Globals.soireeTypes must have at least one element");
+
+        var numCreated = 0;
+        var soireeType = soireeTypes[0];
+
+        var createNextSoiree = function(soireeType, postCb) {
+            Soiree.createSoireeWithTypeForTests(soireeType, function(soiree){
+                if (++numCreated === soireeTypes.length){
+                    done();
+                }
+                else postCb();
+            }, function(err){
+
+                if (err === ErrorCodes.NoAvailableDate){
+                    if (++numCreated === soireeTypes.length){
+                        done();
+                    }
+                    else postCb();
+                }
+                else{
+                    var error = new Error(err);
+                    return done(error);
+                }
+
+            });
+        };
+
+        var postCb = function(){
+            soireeType = soireeTypes[numCreated];
+            createNextSoiree(soireeType, postCb);
+        };
+
+        createNextSoiree(soireeType, postCb);
+    });
 
     it('should fetch soirees near', function (done) {
         request(app).post(base + '/soireesNear').expect('Content-Type', /json/)
@@ -118,20 +158,42 @@ describe('soirees', function() {
                 var soirees = res.body.soirees;
                 assert.isOk(soirees, 'soirees should not be null');
                 assert.isAbove(soirees.length, 0, 'should return at least one soiree');
+
+                var soiree = soirees[0];
+                params.soireeId = soiree.soireeId;
+
                 done(err);
             });
     });
 
-    //it('should create a new comment', function (done) {
-    //    request(app).post(base + '/createComment').expect('Content-Type', /json/)
-    //        .send(params).expect(200).end(function (err, res) {
-    //            if (error(err, res, done)) return;
-    //
-    //            var commentId = res.body.comment.commentId;
-    //            params.commentId = commentId;
-    //            done(err);
-    //        });
-    //});
+    it('user should successfully join soiree', function (done) {
+        request(app).post(base + '/joinSoiree').expect('Content-Type', /json/)
+            .send(params).expect(200).end(function (err, res) {
+                if (error(err, res, done)) return;
+
+                assert.isOk(res.body.soiree, 'soiree returned should not be null');
+                assert.equal(res.body.soiree.soireeId, params.soireeId);
+
+                Soiree.findBySoireeId(params.soireeId, function(soiree){
+                    assert.include(soiree._usersUncharged, _user._id);
+                    assert.equal(soiree._unchargedReservations.length, 1, "soiree._unchargedReservations should have 1 reservation");
+                    assert.equal(soiree._chargedReservations, 0, "soiree._chargedReservations should have no reservations");
+                    soiree.deepPopulate(function(err){
+                       if (err){
+                           return done(err);
+                       }
+                        reservation = soiree._unchargedReservations[0];
+                        assert.isFalse(reservation.charged, "reservation should not be charged");
+                        assert.equal(reservation._user, _user._id, "reservation user should be same as joining user");
+                        assert.equal(reservation._soiree, soiree._id, "reservation soiree should be same as soiree");
+                        done();
+                    });
+
+                }, function(err){
+                    done(new Error(err));
+                });
+            });
+    });
     //
     //it('should fetch posts', function (done) {
     //    request(app).post(base + '/posts').expect('Content-Type', /json/)

@@ -591,7 +591,7 @@ router.get('/findSoirees', function(req, res){
 
     refreshUsers(function() {
         var cb = function(posts) {
-            Soiree.findSoirees(req, _user, function (soirees) {
+            Soiree.findSoireesForUser(req, _user, function (soirees) {
                 console.log("finished");
                 for (var i = 0; i < soirees.length; i++) {
                     var soiree = soirees[i];

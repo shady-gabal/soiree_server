@@ -29,13 +29,13 @@ router.get('/deleteSoirees', function (req, res) {
 router.post('/soireesNear', function (req, res, next) {
     User.verifyUser(req, res, next, function (user) {
 
-        Soiree.findSoirees(req, user, function (soirees) {
-            var dataToSend = [];
+        Soiree.findSoireesForUser(req, user, function (soirees) {
+            var soireesJson = [];
             for (var i = 0; i < soirees.length; i++) {
                 var soiree = soirees[i];
-                dataToSend.push(soiree.jsonObject(user));
+                soireesJson.push(soiree.jsonObject(user));
             }
-            res.json(dataToSend);
+            res.json({soirees : soireesJson});
         }, function (err) {
             console.log("Error finding soirees near you: " + err);
             ResHelper.sendError(res, ErrorCodes.NotFound);
@@ -78,7 +78,7 @@ router.post('/joinSoiree', function (req, res, next) {
 
         var soireeId = req.body.soireeId;
         Soiree.joinSoireeWithId(soireeId, user, function (soiree) {
-            res.json(soiree.jsonObject(user));
+            res.json({soiree : soiree.jsonObject(user)});
         }, function (error) {
             ResHelper.sendError(res, error);
         });
