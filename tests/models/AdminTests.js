@@ -24,24 +24,24 @@ function error(err, res, done){
     return false;
 }
 
-describe('Admin', function () {
-    it('should create a new Admin', function (done) {
-
-        var email = "shady@experiencesoiree.com";
-        var password = "9701";
-
-        var adminObj = {
-            firstName : "Shady",
-            lastName : "Gabal",
-            phoneNumber : "3472102276"
-        };
-
-        Admin.createAdmin(adminObj, email, password, function(_admin){
-            admin = _admin;
-            done();
-        }, function(err){
-            done(err);
-        });
-    });
-
-});
+//describe('Admin', function () {
+//    it('should create a new Admin', function (done) {
+//
+//        var email = "shady@experiencesoiree.com";
+//        var password = "9701";
+//
+//        var adminObj = {
+//            firstName : "Shady",
+//            lastName : "Gabal",
+//            phoneNumber : "3472102276"
+//        };
+//
+//        Admin.createAdmin(adminObj, email, password, function(_admin){
+//            admin = _admin;
+//            done();
+//        }, function(err){
+//            done(err);
+//        });
+//    });
+//
+//});

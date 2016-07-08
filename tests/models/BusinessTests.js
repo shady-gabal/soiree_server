@@ -18,12 +18,12 @@ var admin, business;
 
 describe('Business', function () {
 
-    it('setup - should fetch admin', function(done){
-        Admin.findOne({}).exec(function(err, _admin){
-            admin = _admin;
-            done(err);
-        });
-    });
+    //it('setup - should fetch admin', function(done){
+    //    Admin.findOne({}).exec(function(err, _admin){
+    //        admin = _admin;
+    //        done(err);
+    //    });
+    //});
 
     it('should create business', function (done) {
 
@@ -37,7 +37,7 @@ describe('Business', function () {
             address : '345 Chambers Street, New York, NY',
             soireeTypes : Globals.soireeTypes,
             generalArea : 'Lower East Side'
-        }, 'shadygabal@gmail.com', '12345678', admin, function(_business){
+        }, 'shadygabal@gmail.com', '12345678', testGlobals.admin, function(_business){
             assert.isOk(_business, 'a business should be created');
             business = _business;
             done();
