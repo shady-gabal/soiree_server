@@ -179,22 +179,16 @@ router.post('/createComment', function(req, res, next){
         var text = req.body.comment;
         var postId = req.body.postId;
 
-        console.log("Finding post with postId: " + postId);
-        CommunityPost.findOne({postId : postId}, function(err, post){
-            if (err || !post){
-                ResHelper.sendError(res, ErrorCodes.MissingData);
-            }
-            else{
-                post.addComment({
-                    text : text
-                }, user, function(comment){
-                    res.json({"comment" : comment.jsonObject(user)});
-                    //ResHelper.sendMessage(res, 200, "created comment");
-                }, function(err){
-                    console.log(err);
-                    ResHelper.sendError(res, err);
-                });
-            }
+        if (!text || !postId){
+            return ResHelper.sendError(res, ErrorCodes.MissingData);
+        }
+
+        CommunityPost.addCommentToPostWithId(postId, {
+            text : text
+        }, user, function(newComment){
+            res.json({"comment" : newComment.jsonObject(user)});
+        }, function(err){
+            ResHelper.sendError(res, err);
         });
 
     });

@@ -23,61 +23,53 @@ var CommunityComment = require('app/db/CommunityComment.js');
 
 require('../../setup');
 
-var _user;
-var params, post, comment;
+//var _user = testGlobals.user;
 
-function refresh(model, cb){
-    if (model === "CommunityPost" && post){
-        CommunityPost.findOne({postId : post.postId}).exec(function(err, _post){
-            if (err) console.log(err);
-            cb(_post);
-        });
-    }
-    else if (model === "CommunityComment" && comment){
-        CommunityComment.findOne({commentId : comment.commentId}).exec(function(err, _comment){
-            if (err) console.log(err);
-            cb(_comment);
-        });
-    }
-    else if (model === "User" && _user){
-        User.findOne({userId : _user.userId}).exec(function(err, user){
-            if (err) console.log(err);
-            cb(user);
-        });
-    }
-    else return cb();
-}
+var post, comment, params;
 
-function error(err, res, done){
-    if (err){
-        if (res.body.error){
-            console.log("Test failed. Server returned error: " + res.body.error);
-        }
-        done(err);
-        return true;
-    }
-    return false;
-}
 
-function findTestUser(done){
-    if (!_user){
-        User.findOrCreateTestUser(function(user, encodedToken){
-            _user = user;
+//function refresh(model, cb){
+//    if (model === "CommunityPost" && post){
+//        CommunityPost.findOne({postId : post.postId}).exec(function(err, _post){
+//            if (err) console.log(err);
+//            cb(_post);
+//        });
+//    }
+//    else if (model === "CommunityComment" && comment){
+//        CommunityComment.findOne({commentId : comment.commentId}).exec(function(err, _comment){
+//            if (err) console.log(err);
+//            cb(_comment);
+//        });
+//    }
+//    else if (model === "User" && _user){
+//        User.findOne({userId : _user.userId}).exec(function(err, user){
+//            if (err) console.log(err);
+//            cb(user);
+//        });
+//    }
+//    else return cb();
+//}
 
-            var obj = _user.jsonObject();
-            obj.latitude = 40.7128;
-            obj.longitude = 74;
-            obj.soiree_access_token = encodedToken;
 
-            params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+//function findTestUser(done){
+//    if (!_user){
+//        User.findOrCreateTestUser(function(user, encodedToken){
+//            _user = user;
+//
+//            var obj = _user.jsonObject();
+//            obj.latitude = 40.7128;
+//            obj.longitude = 74;
+//            obj.soiree_access_token = encodedToken;
+//
 
-            done();
-        }, function(err){
-            done(err);
-        });
-    }
-    else done();
-};
+//
+//            done();
+//        }, function(err){
+//            done(err);
+//        });
+//    }
+//    else done();
+//};
 
 //before(function(done){
 //    if (!_user){
@@ -96,9 +88,10 @@ function findTestUser(done){
 describe('community', function() {
     var base = '/api/community';
 
-    it('should fetch new user', function(done){
-       findTestUser(done);
-    });
+
+    //it('should fetch new user', function(done){
+    //   findTestUser(done);
+    //});
 
     //before(function (done) {
     //    var obj = _user.jsonObject();
@@ -113,6 +106,8 @@ describe('community', function() {
     //});
 
     it('should create a new post', function (done) {
+        params = {'user': _userParams, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+
         request(app).post(base + '/createPost').expect('Content-Type', /json/)
             .send(params).expect(200).end(function (err, res) {
                 if (error(err, res, done)) return;
@@ -120,8 +115,8 @@ describe('community', function() {
                 var postId = res.body.post.postId;
                 params.postId = postId;
 
-                CommunityPost.findPostWithId(postId, function(_post){
-                    post = _post;
+                CommunityPost.findPostWithId(postId, function(post){
+                    _post = post;
                     done();
                 }, function(err){
                     done(err);
@@ -137,8 +132,8 @@ describe('community', function() {
 
                 var commentId = res.body.comment.commentId;
                 params.commentId = commentId;
-                CommunityComment.findCommentWithId(commentId, function(_comment){
-                    comment = _comment;
+                CommunityComment.findCommentWithId(commentId, function(comment){
+                    _comment = comment;
                     done();
                 }, function(err){
                    done(err);
@@ -204,23 +199,23 @@ describe('community', function() {
 
                 if (error(err, res, done)) return;
 
-                refresh("CommunityPost", function(_post){
+                refresh("CommunityPost", function(post){
                     var _id = _user._id;
                     var oldEmotions, newEmotions;
 
                     if (params.emotion === "love"){
-                        oldEmotions = post._loves;
-                        newEmotions = _post._loves;
+                        oldEmotions = _post._loves;
+                        newEmotions = post._loves;
 
                     }
                     else{
-                        oldEmotions = post._angries;
-                        newEmotions = _post._angries;
+                        oldEmotions = _post._angries;
+                        newEmotions = post._angries;
                     }
 
                     assert.equal(newEmotions.length, oldEmotions.length+1, 'post must have higher number of emotions');
                     assert.include(newEmotions, _id, "post must include user's id in proper emotions array");
-                    post = _post;
+                    _post = post;
 
                     done(err);
                 });
@@ -233,23 +228,23 @@ describe('community', function() {
             .send(params).expect(200).end(function (err, res) {
                 if (error(err, res, done)) return;
 
-                refresh("CommunityPost", function(_post){
+                refresh("CommunityPost", function(post){
                     var _id = _user._id;
                     var oldEmotions, newEmotions;
 
                     if (params.emotion === "love"){
-                        oldEmotions = post._loves;
-                        newEmotions = _post._loves;
+                        oldEmotions = _post._loves;
+                        newEmotions = post._loves;
 
                     }
                     else{
-                        oldEmotions = post._angries;
-                        newEmotions = _post._angries;
+                        oldEmotions = _post._angries;
+                        newEmotions = post._angries;
                     }
 
                     assert.equal(newEmotions.length, oldEmotions.length-1, 'post must have lower number of emotions');
                     assert.notInclude(newEmotions, _id, "post must not include user's id in emotions array");
-                    post = _post;
+                    _post = post;
 
                     done(err);
                 });
@@ -262,23 +257,23 @@ describe('community', function() {
             .send(params).expect(200).end(function (err, res) {
                 if (error(err, res, done)) return;
 
-                refresh("CommunityComment", function(_comment){
+                refresh("CommunityComment", function(comment){
                     var _id = _user._id;
                     var oldEmotions, newEmotions;
 
                     if (params.emotion === "love"){
-                        oldEmotions = comment._loves;
-                        newEmotions = _comment._loves;
+                        oldEmotions = _comment._loves;
+                        newEmotions = comment._loves;
 
                     }
                     else{
-                        oldEmotions = comment._angries;
-                        newEmotions = _comment._angries;
+                        oldEmotions = _comment._angries;
+                        newEmotions = comment._angries;
                     }
 
                     assert.equal(newEmotions.length, oldEmotions.length+1, 'comment must have higher number of emotions');
                     assert.include(newEmotions, _id, "comment must include user's id in proper emotions array");
-                    comment = _comment;
+                    _comment = comment;
 
                     done(err);
                 });
@@ -290,24 +285,24 @@ describe('community', function() {
             .send(params).expect(200).end(function (err, res) {
                 if (error(err, res, done)) return;
 
-                refresh("CommunityComment", function(_comment){
+                refresh("CommunityComment", function(comment){
                     var _id = _user._id;
 
                     var oldEmotions, newEmotions;
 
                     if (params.emotion === "love"){
-                        oldEmotions = comment._loves;
-                        newEmotions = _comment._loves;
+                        oldEmotions = _comment._loves;
+                        newEmotions = comment._loves;
 
                     }
                     else{
-                        oldEmotions = comment._angries;
-                        newEmotions = _comment._angries;
+                        oldEmotions = _comment._angries;
+                        newEmotions = comment._angries;
                     }
 
                     assert.equal(newEmotions.length, oldEmotions.length-1, 'comment must have lower number of emotions');
                     assert.notInclude(newEmotions, _id, "comment must not include user's id in emotions array");
-                    comment = _comment;
+                    _comment = comment;
 
                     done(err);
                 });

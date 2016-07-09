@@ -12,64 +12,28 @@ var SoireeReservation = require('app/db/SoireeReservation');
 var ErrorCodes = require('app/helpers/ErrorCodes');
 
 var Globals = require('app/helpers/Globals');
-var _user;
-var params, soiree, reservation, business;
+
+var params;
+
+var soiree, reservation, business;
 
 require('../../setup');
 require('../../models/BusinessTests.js');
 
-function refresh(model, cb){
-    if (model === "Soiree" && soiree){
-        Soiree.findOne({soireeId : soiree.soireeId}).exec(function(err, _soiree){
-            if (err) console.log(err);
-            cb(_soiree);
-        });
-    }
-    else if (model === "SoireeReservation" && comment){
-        SoireeReservation.findOne({reservationId : reservation.reservationId}).exec(function(err, _reservation){
-            if (err) console.log(err);
-            cb(_reservation);
-        });
-    }
-    else if (model === "User" && _user){
-        User.findOne({userId : _user.userId}).exec(function(err, user){
-            if (err) console.log(err);
-            cb(user);
-        });
-    }
-    else return cb();
-}
 
-function error(err, res, done){
-    if (err){
-        if (res.body.error){
-            console.log("Test failed. Server returned error: " + res.body.error);
-        }
-        done(err);
-        return true;
-    }
-    return false;
-}
 
-function findTestUser(done){
-    if (!_user){
-        User.findOrCreateTestUser(function(user, encodedToken){
-            _user = user;
+//function error(err, res, done){
+//    if (err){
+//        if (res.body.error){
+//            console.log("Test failed. Server returned error: " + res.body.error);
+//        }
+//        done(err);
+//        return true;
+//    }
+//    return false;
+//}
 
-            var obj = _user.jsonObject();
-            obj.latitude = 40.7128;
-            obj.longitude = 74;
-            obj.soiree_access_token = encodedToken;
 
-            params = {'user': obj, 'userId': _user.userId};
-
-            done();
-        }, function(err){
-            done(err);
-        });
-    }
-    else done();
-};
 
 //
 //before(function(done){
@@ -109,11 +73,13 @@ function findTestUser(done){
 describe('soirees', function() {
     var base = '/api/soirees';
 
-    it('should fetch new user', function(done){
-        findTestUser(done);
-    });
+    //it('should fetch new user', function(done){
+    //    findTestUser(done);
+    //});
 
     it('should create a new soiree of each type', function(done){
+        params = {'user': _userParams, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+
         var soireeTypes = Globals.soireeTypes;
         assert.isAbove(soireeTypes.length, 0, "Globals.soireeTypes must have at least one element");
 
@@ -175,6 +141,7 @@ describe('soirees', function() {
                 assert.equal(res.body.soiree.soireeId, params.soireeId);
 
                 Soiree.findBySoireeId(params.soireeId, function(soiree){
+                    assert.isOk(soiree, "soiree found from findBySoireeId should not be null");
                     assert.include(soiree._usersUncharged, _user._id);
                     assert.equal(soiree._unchargedReservations.length, 1, "soiree._unchargedReservations should have 1 reservation");
                     assert.equal(soiree._chargedReservations.length, 0, "soiree._chargedReservations should have no reservations");
