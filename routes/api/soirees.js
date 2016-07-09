@@ -38,6 +38,10 @@ router.post('/soireesNear', function (req, res, next) {
 
 });
 
+
+
+
+
 //router.get('/soireesNear', function (req, res) {
 //    Soiree.find({}).deepPopulate("_business _usersAttending").exec(function (err, soirees) {
 //        if (err) {

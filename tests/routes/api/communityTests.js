@@ -26,84 +26,10 @@ require('../../setup');
 //var _user = testGlobals.user;
 
 var post, comment, params;
-
-
-//function refresh(model, cb){
-//    if (model === "CommunityPost" && post){
-//        CommunityPost.findOne({postId : post.postId}).exec(function(err, _post){
-//            if (err) console.log(err);
-//            cb(_post);
-//        });
-//    }
-//    else if (model === "CommunityComment" && comment){
-//        CommunityComment.findOne({commentId : comment.commentId}).exec(function(err, _comment){
-//            if (err) console.log(err);
-//            cb(_comment);
-//        });
-//    }
-//    else if (model === "User" && _user){
-//        User.findOne({userId : _user.userId}).exec(function(err, user){
-//            if (err) console.log(err);
-//            cb(user);
-//        });
-//    }
-//    else return cb();
-//}
-
-
-//function findTestUser(done){
-//    if (!_user){
-//        User.findOrCreateTestUser(function(user, encodedToken){
-//            _user = user;
-//
-//            var obj = _user.jsonObject();
-//            obj.latitude = 40.7128;
-//            obj.longitude = 74;
-//            obj.soiree_access_token = encodedToken;
-//
-
-//
-//            done();
-//        }, function(err){
-//            done(err);
-//        });
-//    }
-//    else done();
-//};
-
-//before(function(done){
-//    if (!_user){
-//        User.findOrCreateTestUser(function(user){
-//            _user = user;
-//            done();
-//        }, function(err){
-//            done(err);
-//        });
-//    }
-//    else done();
-//});
-
 //see if routes work
 
 describe('community', function() {
     var base = '/api/community';
-
-
-    //it('should fetch new user', function(done){
-    //   findTestUser(done);
-    //});
-
-    //before(function (done) {
-    //    var obj = _user.jsonObject();
-    //    obj.latitude = 40.7128;
-    //    obj.longitude = 74;
-    //
-    //    params = {'user': obj, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
-    //
-    //    console.log(params);
-    //
-    //    done();
-    //});
 
     it('should create a new post', function (done) {
         params = {'user': _userParams, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};

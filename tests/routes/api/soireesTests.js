@@ -21,33 +21,6 @@ require('../../setup');
 require('../../models/BusinessTests.js');
 
 
-
-//function error(err, res, done){
-//    if (err){
-//        if (res.body.error){
-//            console.log("Test failed. Server returned error: " + res.body.error);
-//        }
-//        done(err);
-//        return true;
-//    }
-//    return false;
-//}
-
-
-
-//
-//before(function(done){
-//    if (!_user){
-//        User.findOrCreateTestUser(function(user){
-//            _user = user;
-//            done();
-//        }, function(err){
-//            done(err);
-//        });
-//    }
-//    else done();
-//});
-
 //see if routes work
 
 //var postUrls = {
