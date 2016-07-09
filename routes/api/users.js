@@ -256,23 +256,36 @@ router.post('/removeStripeCard', function(req, res, next){
 });
 
 
+
+
+
+
+
+
 /**** Reporting *****/
 
 router.post('/soireeFeedback', function(req, res, next){
   var soireeId = req.body.soireeId;
   if (soireeId){
-    ResHelper.sendSuccess(res);
+    h.ResHelper.sendSuccess(res);
   }
-  else ResHelper.sendError(res, ErrorCodes.MissingData);
+  else h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
 });
 
 router.post('/reportProblemForSoiree', function(req, res, next){
   var soireeId = req.body.soireeId;
   if (soireeId){
-    ResHelper.sendSuccess(res);
+    h.ResHelper.sendSuccess(res);
   }
-  else ResHelper.sendError(res, ErrorCodes.MissingData);
+  else h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
 });
+
+
+
+
+
+
+
 
 /**** User Specific Data ****/
 
