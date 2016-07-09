@@ -10,7 +10,7 @@
     "node": "6.2.2"
   },
   "dependencies": {
-    "apn": "1.6.2",
+    "apn": "1.7.6",
     "bcrypt": "",
     "body-parser": "",
     "braintree": "",
@@ -54,6 +54,6 @@
     "underscore": "",
     "validator": "",
     "xoauth2": "",
-    "Q" : ""
+    "q" : ""
   }
 }
