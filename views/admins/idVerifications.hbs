@@ -28,9 +28,6 @@
 //                        alert('done with responseArr: ' + JSON.stringify(responseArr));
 
                         verifications = verifications.concat(responseArr);
-//                        alert('verifications= ' + JSON.stringify(verifications));
-//                        $("#verification").html(responseArr);
-
                         if (responseArr.length < MinNumVerifications){
                             previousLoadEmpty = true;
                             if (verifications.length == 0 && !currentVerification){
@@ -83,8 +80,8 @@
             var str =
                     "<div id='verificationContainer'>" +
                 "<div><h3 class='userName'>Name: " + verification._user.firstName + " " + verification._user.lastName + "</h3></div>" +
-                 "<div id='verificationImages'><div class='verificationImageDiv'> Id Image: <br /> <img class='verificationImage' src='" + verification.idImagePath + "'/> </div>" +
-                        "<div class='verificationImageDiv'> Self Image: <br /> <img class='verificationImage' src='" + verification.selfImagePath + "'/>  </div></div>" +
+                 "<div id='verificationImages'><div class='verificationImageDiv'> Id Image: <br /> <img class='verificationImage' src='" + verification.idImageUrl + "'/> </div>" +
+                        "<div class='verificationImageDiv'> Self Image: <br /> <img class='verificationImage' src='" + verification.selfImageUrl + "'/>  </div></div>" +
                        "<div class='verificationButtons'> <button onclick='accept()'> Accept </button> <button onclick='reject()'> Reject </button> </div>"
                 + "</div>";
 

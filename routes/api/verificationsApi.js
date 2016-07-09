@@ -191,7 +191,8 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     fileName : idFileName,
                     directory: directory,
                     adminsOnly: true,
-                    _userVerification : userVerification._id
+                    _userVerification : userVerification._id,
+                    path : Image.createPath(directory, idFileName)
                 });
                 idImage.save(Globals.saveErrorCallback);
 
@@ -201,15 +202,16 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     fileName : selfFileName,
                     directory: directory,
                     adminsOnly : true,
-                    _userVerification : userVerification._id
+                    _userVerification : userVerification._id,
+                    path : Image.createPath(directory, selfFileName)
                 });
                 selfImage.save(Globals.saveErrorCallback);
 
                 userVerification._idImage = idImage._id;
                 userVerification._selfImage = selfImage._id;
 
-                userVerification.idImagePath = idImage.path;
-                userVerification.selfImagePath = selfImage.path;
+                userVerification.idImageUrl = idImage.url;
+                userVerification.selfImageUrl = selfImage.url;
 
                 userVerification.save(function (err, doc) {
                     if (err) {
@@ -220,12 +222,12 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     }
                     else {
                         console.log("doc.idimage " + doc.idImage);
-                        console.log("saved userverification with idpath : " + doc.idImagePath + " selfpath : " + doc.selfImagePath);
-                        console.log('setting pending verifications to true...');
-                        console.log(user);
+                        console.log("saved userverification : " + doc.idImageUrl + " selfpath : " + doc.selfImageUrl);
+                        //console.log('setting pending verifications to true...');
+                        //console.log(user);
                         //successfully saved
                         user.pendingVerification = true;
-                        console.log(user);
+                        //console.log(user);
                         //save user, deleting verification if err
                         user.save(function(err, _user){
                            if (err){
