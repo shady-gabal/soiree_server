@@ -10,7 +10,7 @@
     "node": "6.2.2"
   },
   "dependencies": {
-    "apn": "",
+    "apn": "1.6.2",
     "bcrypt": "",
     "body-parser": "",
     "braintree": "",
