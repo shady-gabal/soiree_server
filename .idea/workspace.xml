@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/app/helpers/PushNotificationHelper.js" afterPath="$PROJECT_DIR$/node_modules/app/helpers/PushNotificationHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/users.js" afterPath="$PROJECT_DIR$/routes/api/users.js" />
-    </list>
+    <list default="true" id="ba79c935-0a08-494b-9d5d-9bebfe2c20df" name="Default" comment="" />
     <ignored path="untitled-rev-server.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -72,20 +69,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PushNotificationHelper.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PushNotificationHelper.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/PushNotificationHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="0.47381547">
               <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Globals.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Globals.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/Globals.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.023690773">
+            <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -1064,14 +1061,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/CreditCardHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/users.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1080,18 +1069,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/PushNotificationHelper.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/Globals.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/Globals.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/CreditCardHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.023690773">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/app/helpers/PushNotificationHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47381547">
+          <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
           <folding />
         </state>
       </provider>
