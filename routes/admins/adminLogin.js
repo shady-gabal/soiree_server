@@ -69,7 +69,7 @@ router.post('/', function(req, res, next){
 
 router.get('/createAdmin', function(req, res){
     var email = "shady@experiencesoiree.com";
-    var password = "9701";
+    var password = "Amir9701";
 
     var adminObj = {
         firstName : "Shady",

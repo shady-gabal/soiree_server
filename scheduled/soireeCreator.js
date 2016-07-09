@@ -7,7 +7,7 @@ var func = function(){
 
 
     var numToCreatePerType = {
-        "dinner" : 5, "drinks" : 5, "soiree date" : 5, "test" : 3
+        "dinner" : 3, "drinks" : 3, "soiree date" : 3, "test" : 3
     };
     var soireeTypes = ["dinner", "drinks", "soiree date", "test"];
 
