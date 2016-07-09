@@ -198,134 +198,201 @@ router.post('/createComment', function(req, res, next){
 
                                 /* Emotioning/Unemotioning */
 
-router.post('/uploadEmotionForPost', function(req, res, next){
+//router.post('/uploadEmotionForPost', function(req, res, next){
+//    User.verifyUser(req, res, next, function(user){
+//        if (!user.verified)
+//            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+//
+//        var vote = req.body.vote;
+//        var postId = req.body.postId;
+//
+//        if (vote && postId) {
+//
+//            CommunityPost.emotionPostWithId(postId, user, vote, function(modifiedPost){
+//                ResHelper.sendSuccess(res);
+//            }, function(err){
+//                ResHelper.sendError(res, err);
+//            });
+//
+//
+//            //CommunityPost.findOne({postId: postId}, function (err, post) {
+//            //    if (err || !post) {
+//            //        ResHelper.sendMessage(res, 404, "error finding post: " + err);
+//            //    }
+//            //    else {
+//            //
+//            //        post.vote(user, vote, function (_post) {
+//            //        }, function (err) {
+//            //            console.log(err);
+//            //        });
+//            //
+//            //    }
+//            //});
+//        }
+//    });
+//});
+
+//router.post('/uploadUnemotionForPost', function(req, res, next){
+//    User.verifyUser(req, res, next, function(user){
+//        if (!user.verified)
+//            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+//
+//        var vote = req.body.vote;
+//        var postId = req.body.postId;
+//
+//        if (vote && postId) {
+//
+//            CommunityPost.unemotionPostWithId(postId, user, vote, function(modifiedPost){
+//                ResHelper.sendSuccess(res);
+//            }, function(err){
+//                ResHelper.sendError(res, err);
+//            });
+//
+//            //CommunityPost.findPostWithId(postId, function (post) {
+//            //
+//            //    post.unemotion(user, vote, function (_post) {
+//            //        ResHelper.sendSuccess(res);
+//            //    }, function (err) {
+//            //        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
+//            //    });
+//            //}, function(err){
+//            //    ResHelper.sendError(res, err);
+//            //});
+//        }
+//        else{
+//            return ResHelper.sendError(res, ErrorCodes.MissingData);
+//        }
+//    });
+//
+//});
+
+
+router.post('/upvotePost', function(req, res, next){
+   User.verifyUser(req, res, next, function(user){
+       if (!user.verified)
+           return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+
+       var postId = req.body.postId;
+       if (!postId) return ResHelper.sendError(res, ErrorCodes.MissingData);
+
+       CommunityPost.upvotePostWithId(postId, user, function(){
+           ResHelper.sendSuccess(res);
+       }, function(err){
+          ResHelper.sendError(res, err);
+       });
+   });
+});
+
+
+router.post('/downvotePost', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         if (!user.verified)
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
-        var emotion = req.body.emotion;
         var postId = req.body.postId;
+        if (!postId) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
-        if (emotion && postId) {
-
-            CommunityPost.emotionPostWithId(postId, user, emotion, function(modifiedPost){
-                ResHelper.sendSuccess(res);
-            }, function(err){
-                ResHelper.sendError(res, err);
-            });
-
-
-            //CommunityPost.findOne({postId: postId}, function (err, post) {
-            //    if (err || !post) {
-            //        ResHelper.sendMessage(res, 404, "error finding post: " + err);
-            //    }
-            //    else {
-            //
-            //        post.emotion(user, emotion, function (_post) {
-            //        }, function (err) {
-            //            console.log(err);
-            //        });
-            //
-            //    }
-            //});
-        }
+        CommunityPost.downvotePostWithId(postId, user, function(){
+            ResHelper.sendSuccess(res);
+        }, function(err){
+            ResHelper.sendError(res, err);
+        });
     });
 });
 
-router.post('/uploadUnemotionForPost', function(req, res, next){
+
+router.post('/upvoteComment', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         if (!user.verified)
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
-        var emotion = req.body.emotion;
-        var postId = req.body.postId;
-
-        if (emotion && postId) {
-
-            CommunityPost.unemotionPostWithId(postId, user, emotion, function(modifiedPost){
-                ResHelper.sendSuccess(res);
-            }, function(err){
-                ResHelper.sendError(res, err);
-            });
-
-            //CommunityPost.findPostWithId(postId, function (post) {
-            //
-            //    post.unemotion(user, emotion, function (_post) {
-            //        ResHelper.sendSuccess(res);
-            //    }, function (err) {
-            //        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
-            //    });
-            //}, function(err){
-            //    ResHelper.sendError(res, err);
-            //});
-        }
-        else{
-            return ResHelper.sendError(res, ErrorCodes.MissingData);
-        }
-    });
-
-});
-
-
-router.post('/uploadEmotionForComment', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
-        if (!user.verified)
-            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
-
-        var emotion = req.body.emotion;
         var commentId = req.body.commentId;
+        if (!commentId) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
-        if (emotion && commentId) {
-
-            CommunityComment.findOne({commentId: commentId}, function (err, comment) {
-                if (err || !comment) {
-                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
-                }
-                else {
-
-                    comment.emotion(user, emotion, function (_comment) {
-                        ResHelper.sendSuccess(res);
-                    }, function (err) {
-                        console.log(err);
-                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
-                    });
-
-                }
-            });
-        }
+        CommunityComment.upvoteCommentWithId(commentId, user, function(){
+            ResHelper.sendSuccess(res);
+        }, function(err){
+            ResHelper.sendError(res, err);
+        });
     });
 });
 
-router.post('/uploadUnemotionForComment', function(req, res, next){
+router.post('/downvoteComment', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         if (!user.verified)
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
-        var emotion = req.body.emotion;
         var commentId = req.body.commentId;
+        if (!commentId) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
-        if (emotion && commentId) {
-
-            CommunityComment.findCommentWithId(commentId, function (comment) {
-                if (!comment) {
-                    ResHelper.sendMessage(res, ErrorCodes.InvalidInput);
-                }
-                else {
-                    comment.unemotion(user, emotion, function (_comment) {
-                        ResHelper.sendSuccess(res);
-                    }, function (err) {
-                        console.log(err);
-                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
-                    });
-
-                }
-            }, function(err){
-                ResHelper.sendError(res, err);
-            });
-        }
+        CommunityComment.downvoteCommentWithId(commentId, user, function(){
+            ResHelper.sendSuccess(res);
+        }, function(err){
+            ResHelper.sendError(res, err);
+        });
     });
-
 });
+
+
+//router.post('/uploadEmotionForComment', function(req, res, next){
+//    User.verifyUser(req, res, next, function(user){
+//        if (!user.verified)
+//            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+//
+//        var vote = req.body.vote;
+//        var commentId = req.body.commentId;
+//
+//        if (vote && commentId) {
+//
+//            CommunityComment.findOne({commentId: commentId}, function (err, comment) {
+//                if (err || !comment) {
+//                    ResHelper.sendMessage(res, 404, "error finding post: " + err);
+//                }
+//                else {
+//
+//                    comment.vote(user, vote, function (_comment) {
+//                        ResHelper.sendSuccess(res);
+//                    }, function (err) {
+//                        console.log(err);
+//                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
+//                    });
+//
+//                }
+//            });
+//        }
+//    });
+//});
+//
+//router.post('/uploadUnemotionForComment', function(req, res, next){
+//    User.verifyUser(req, res, next, function(user){
+//        if (!user.verified)
+//            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+//
+//        var vote = req.body.vote;
+//        var commentId = req.body.commentId;
+//
+//        if (vote && commentId) {
+//
+//            CommunityComment.findCommentWithId(commentId, function (comment) {
+//                if (!comment) {
+//                    ResHelper.sendMessage(res, ErrorCodes.InvalidInput);
+//                }
+//                else {
+//                    comment.unemotion(user, vote, function (_comment) {
+//                        ResHelper.sendSuccess(res);
+//                    }, function (err) {
+//                        console.log(err);
+//                        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
+//                    });
+//
+//                }
+//            }, function(err){
+//                ResHelper.sendError(res, err);
+//            });
+//        }
+//    });
+//
+//});
 
 router.post('/reportPost', function(req, res){
     var postId = req.body.postId;

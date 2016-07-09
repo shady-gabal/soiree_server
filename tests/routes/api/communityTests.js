@@ -32,7 +32,7 @@ describe('community', function() {
     var base = '/api/community';
 
     it('should create a new post', function (done) {
-        params = {'user': _userParams, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment', emotion: 'love'};
+        params = {'user': _userParams, 'userId': _user.userId, 'post': 'Test Post', 'comment': 'Test Comment'};
 
         request(app).post(base + '/createPost').expect('Content-Type', /json/)
             .send(params).expect(200).end(function (err, res) {
@@ -119,28 +119,20 @@ describe('community', function() {
             });
     });
 
-    it('should upload emotion for post', function (done) {
-        request(app).post(base + '/uploadEmotionForPost')
+    it('should upvote post', function (done) {
+        request(app).post(base + '/upvotePost')
             .send(params).expect(200).end(function (err, res) {
 
                 if (error(err, res, done)) return;
 
                 refresh("CommunityPost", function(post){
                     var _id = _user._id;
-                    var oldEmotions, newEmotions;
 
-                    if (params.emotion === "love"){
-                        oldEmotions = _post._loves;
-                        newEmotions = post._loves;
+                    assert.equal(post._upvotes.length, _post._upvotes.length+1, 'post must have 1 more upvote');
+                    assert.equal(post._downvotes.length, _post._downvotes.length, 'post must have same number of downvotes');
 
-                    }
-                    else{
-                        oldEmotions = _post._angries;
-                        newEmotions = post._angries;
-                    }
-
-                    assert.equal(newEmotions.length, oldEmotions.length+1, 'post must have higher number of emotions');
-                    assert.include(newEmotions, _id, "post must include user's id in proper emotions array");
+                    assert.include(post._upvotes, _id, "post must include user's id in _upvotes array");
+                    assert.equal(post.score, _post.score+1, "post's score must be 1 point higher than previous");
                     _post = post;
 
                     done(err);
@@ -149,27 +141,18 @@ describe('community', function() {
             });
     });
 
-    it('should upload unemotion for post', function (done) {
-        request(app).post(base + '/uploadUnemotionForPost')
+    it('should downvote post', function (done) {
+        request(app).post(base + '/downvotePost')
             .send(params).expect(200).end(function (err, res) {
                 if (error(err, res, done)) return;
 
                 refresh("CommunityPost", function(post){
                     var _id = _user._id;
-                    var oldEmotions, newEmotions;
 
-                    if (params.emotion === "love"){
-                        oldEmotions = _post._loves;
-                        newEmotions = post._loves;
-
-                    }
-                    else{
-                        oldEmotions = _post._angries;
-                        newEmotions = post._angries;
-                    }
-
-                    assert.equal(newEmotions.length, oldEmotions.length-1, 'post must have lower number of emotions');
-                    assert.notInclude(newEmotions, _id, "post must not include user's id in emotions array");
+                    assert.equal(post._downvotes.length, _post._downvotes.length+1, 'post must have 1 more downvote');
+                    assert.equal(post._upvotes.length, _post._upvotes.length-1, 'post must have 1 less upvote');
+                    assert.include(post._downvotes, _id, "post must include user's id in _downvotes array");
+                    assert.equal(post.score, _post.score-2, "post's score must be 2 points less than previous (-1 for lost upvote, -1 for downvote)");
                     _post = post;
 
                     done(err);
@@ -178,61 +161,103 @@ describe('community', function() {
             });
     });
 
-    it('should upload emotion for comment', function (done) {
-        request(app).post(base + '/uploadEmotionForComment')
+    it('should upvote comment', function (done) {
+        request(app).post(base + '/upvoteComment')
             .send(params).expect(200).end(function (err, res) {
+
                 if (error(err, res, done)) return;
 
                 refresh("CommunityComment", function(comment){
                     var _id = _user._id;
-                    var oldEmotions, newEmotions;
 
-                    if (params.emotion === "love"){
-                        oldEmotions = _comment._loves;
-                        newEmotions = comment._loves;
+                    assert.equal(comment._upvotes.length, _comment._upvotes.length+1, 'comment must have 1 more upvote');
+                    assert.equal(comment._downvotes.length, _comment._downvotes.length, 'comment must have same number of downvotes');
 
-                    }
-                    else{
-                        oldEmotions = _comment._angries;
-                        newEmotions = comment._angries;
-                    }
-
-                    assert.equal(newEmotions.length, oldEmotions.length+1, 'comment must have higher number of emotions');
-                    assert.include(newEmotions, _id, "comment must include user's id in proper emotions array");
+                    assert.include(comment._upvotes, _id, "comment must include user's id in _upvotes array");
+                    assert.equal(comment.score, _comment.score+1, "comment's score must be 1 point higher than previous");
                     _comment = comment;
 
                     done(err);
                 });
+
             });
     });
 
-    it('should upload unemotion for comment', function (done) {
-        request(app).post(base + '/uploadUnemotionForComment')
+    it('should downvote comment', function (done) {
+        request(app).post(base + '/downvoteComment')
             .send(params).expect(200).end(function (err, res) {
                 if (error(err, res, done)) return;
 
                 refresh("CommunityComment", function(comment){
                     var _id = _user._id;
 
-                    var oldEmotions, newEmotions;
-
-                    if (params.emotion === "love"){
-                        oldEmotions = _comment._loves;
-                        newEmotions = comment._loves;
-
-                    }
-                    else{
-                        oldEmotions = _comment._angries;
-                        newEmotions = comment._angries;
-                    }
-
-                    assert.equal(newEmotions.length, oldEmotions.length-1, 'comment must have lower number of emotions');
-                    assert.notInclude(newEmotions, _id, "comment must not include user's id in emotions array");
+                    assert.equal(comment._downvotes.length, _comment._downvotes.length+1, 'comment must have 1 more downvote');
+                    assert.equal(comment._upvotes.length, _comment._upvotes.length-1, 'comment must have 1 less upvote');
+                    assert.include(comment._downvotes, _id, "comment must include user's id in _downvotes array");
+                    assert.equal(comment.score, _comment.score-2, "comment's score must be 2 points less than previous (-1 for lost upvote, -1 for downvote)");
                     _comment = comment;
 
                     done(err);
                 });
+
             });
     });
+    
+    //it('should upload emotion for comment', function (done) {
+    //    request(app).post(base + '/uploadEmotionForComment')
+    //        .send(params).expect(200).end(function (err, res) {
+    //            if (error(err, res, done)) return;
+    //
+    //            refresh("CommunityComment", function(comment){
+    //                var _id = _user._id;
+    //                var oldEmotions, newEmotions;
+    //
+    //                if (params.emotion === "love"){
+    //                    oldEmotions = _comment._upvotes;
+    //                    newEmotions = comment._upvotes;
+    //
+    //                }
+    //                else{
+    //                    oldEmotions = _comment._angries;
+    //                    newEmotions = comment._angries;
+    //                }
+    //
+    //                assert.equal(newEmotions.length, oldEmotions.length+1, 'comment must have higher number of emotions');
+    //                assert.include(newEmotions, _id, "comment must include user's id in proper emotions array");
+    //                _comment = comment;
+    //
+    //                done(err);
+    //            });
+    //        });
+    //});
+    //
+    //it('should upload unemotion for comment', function (done) {
+    //    request(app).post(base + '/uploadUnemotionForComment')
+    //        .send(params).expect(200).end(function (err, res) {
+    //            if (error(err, res, done)) return;
+    //
+    //            refresh("CommunityComment", function(comment){
+    //                var _id = _user._id;
+    //
+    //                var oldEmotions, newEmotions;
+    //
+    //                if (params.emotion === "love"){
+    //                    oldEmotions = _comment._upvotes;
+    //                    newEmotions = comment._upvotes;
+    //
+    //                }
+    //                else{
+    //                    oldEmotions = _comment._angries;
+    //                    newEmotions = comment._angries;
+    //                }
+    //
+    //                assert.equal(newEmotions.length, oldEmotions.length-1, 'comment must have lower number of emotions');
+    //                assert.notInclude(newEmotions, _id, "comment must not include user's id in emotions array");
+    //                _comment = comment;
+    //
+    //                done(err);
+    //            });
+    //        });
+    //});
 
 });
