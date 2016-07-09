@@ -213,6 +213,8 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 userVerification.idImageUrl = idImage.url;
                 userVerification.selfImageUrl = selfImage.url;
 
+                console.log("created user verification: ")
+
                 userVerification.save(function (err, doc) {
                     if (err) {
                         console.log("Error saving user verification: " + err);
