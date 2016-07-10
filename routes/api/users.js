@@ -289,6 +289,37 @@ router.post('/reportProblemForSoiree', function(req, res, next){
 
 /**** User Specific Data ****/
 
+router.post('/userProfileForUserId', function(req, res, next){
+  User.verifyUser(req, res, next, function(user){
+
+    if (!user.verified){
+      return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+    }
+
+    var userId = req.body.userId;
+    if (!userId) return ResHelper.sendError(res, ErrorCodes.MissingData);
+
+    User.findByUserId(userId, function(requestedUser){
+
+      var profile = {
+        "firstName" : requestedUser.firstName,
+        "lastName" : requestedUser.lastName,
+        "userId" : requestedUser.userId,
+        "profilePictureUrl" : requestedUser.profilePictureUrl,
+        "verified" : requestedUser.verified,
+        "gender" : requestedUser.gender,
+        "soireeScore" : requestedUser.soireeScore,
+        "interestedInString" : requestedUser.interestedInString
+      };
+
+      res.json({userProfile : profile});
+
+    }, function(err){
+        ResHelper.sendError(res, err);
+    });
+
+  });
+});
 router.post('/fetchUserSoirees', function(req, res, next){
   User.verifyUser(req, res, next, function(user){
 

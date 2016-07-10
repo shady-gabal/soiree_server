@@ -66,6 +66,8 @@ function findImage(req, res){
             res.status(404).send("");
         }
         else{
+            console.log(req);
+
             if (doc.adminsOnly && !Admin.isLoggedIn(req)){
                 console.log("admin not logged in - can't show image");
                 res.status(404).send("");

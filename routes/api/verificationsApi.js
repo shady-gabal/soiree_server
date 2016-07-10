@@ -30,6 +30,8 @@ var Globals = require('app/helpers/Globals.js');
 
 var validator = require('validator');
 
+var h = require('app/helpers/h');
+
 //EMAIL VERIFICATION
 
 //router.get('/validateEmail', function(req, res){
@@ -180,9 +182,11 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 });
 
                 var directory = "/userVerifications/";
-                var fileNameSuffix = user.userId + "_" + Date.now();
-                var selfFileName = "self_" + fileNameSuffix;
-                var idFileName = "id_" + fileNameSuffix;
+                var idFileNameSuffix = "id_" + h.IDGeneratorHelper.generateId(30, { addLowercase : true }) + "_" + Date.now();
+                var selfFileNameSuffix = "self_" + h.IDGeneratorHelper.generateId(30, { addLowercase : true }) + "_" + Date.now();
+
+                var selfFileName = "self_" + idFileNameSuffix;
+                var idFileName = "id_" + selfFileNameSuffix;
 
 
                 var idImage = new Image({
@@ -190,7 +194,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     contentType : idImageFile.mimetype,
                     fileName : idFileName,
                     directory: directory,
-                    adminsOnly: true,
+                    adminsOnly: false,
                     _userVerification : userVerification._id,
                     path : Image.createPath(directory, idFileName)
                 });
@@ -201,7 +205,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     contentType : selfImageFile.mimetype,
                     fileName : selfFileName,
                     directory: directory,
-                    adminsOnly : true,
+                    adminsOnly : false,
                     _userVerification : userVerification._id,
                     path : Image.createPath(directory, selfFileName)
                 });
@@ -213,7 +217,7 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                 userVerification.idImageUrl = idImage.url;
                 userVerification.selfImageUrl = selfImage.url;
 
-                console.log("created user verification: ")
+                console.log("created user verification: ");
 
                 userVerification.save(function (err, doc) {
                     if (err) {

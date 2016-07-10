@@ -48,12 +48,6 @@ router.get('/deleteVerifications', function(req, res){
 router.get('/', function(req, res){
     ResHelper.render(req, res, 'admins/idVerifications', {});
 
-    //UserVerification.findUnverifiedVerifications(req.admin, [], function(verifications){
-    //    res.render('admins/idVerifications', {verifications: verifications});
-    //}, function(err){
-    //    console.log(err);
-    //    res.status(404).send("Error");
-    //});
 });
 
 router.get('/fetchVerifications', function(req, res){
