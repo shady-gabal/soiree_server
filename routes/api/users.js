@@ -176,7 +176,38 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
 
 });
 
+router.post('/updateProfileQuestions', function(req, res, next){
 
+  User.verifyUser(req, res, next, function(user){
+    var profile = req.body.userProfileQuestions;
+    if (!profile){
+      return ResHelper.sendError(res, ErrorCodes.MissingData);
+    }
+
+    if (profile.question1){
+
+    }
+    if (profile.question2){
+
+    }
+    if (profile.question3){
+
+    }
+
+    user.save(function(err){
+      if (err){
+        console.log(err);
+        ResHelper.sendError(res, ErrorCodes.MongoError);
+      }
+      else{
+        res.json({"userProfile" : user.userProfile()});
+      }
+    });
+
+  });
+
+
+});
 
 /**** Payment ****/
 

@@ -240,31 +240,6 @@ passport.use('soiree-access-token', new LocalStrategy(
     function(username, accessToken, done) {
         console.log("Validating user...");
         User.findUserByEncodedSoireeAccessToken(accessToken, done);
-
-        //User.findOne({ email: email }).exec(function (err, user) {
-        //    if (err) { return done(err); }
-        //    else if (!user) {
-        //        console.log("Incorrect email");
-        //        return done(null, false, { message: 'Incorrect username or password.' });
-        //    }
-        //    else{
-        //        user.validateSoireeAccessToken(accessToken, function(err, valid){
-        //            if (err){
-        //                console.log("Error validating access token: " + err);
-        //                return done(err);
-        //            }
-        //            else if (!valid){
-        //                console.log("Incorrect access token");
-        //                return done(null, false);
-        //            }
-        //            else{
-        //                console.log("User validated.");
-        //                return done(null, user);
-        //            }
-        //        });
-        //
-        //    }
-        //});
     }
 ));
 
@@ -304,25 +279,17 @@ passport.use('user-pw', new LocalStrategy(
 
 
 passport.serializeUser(function(user, done) {
-    console.log("serializing...");
-    //if (user.prototype == Admin.prototype){
-        done(null, user);
-    //}
-    //console.log('serializing user ' + user);
+    done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-    //console.log("deserializing: " + JSON.stringify(user) + "   prototype: " + Object.getPrototypeOf(user).constructor.name + "   constructor: " + user.constructor.name);
-    //console.log("user.id: " + user.id + " user._id: " + user._id);
     if (user.classType === 'admin'){
         Admin.findById(user._id, function(err, admin) {
-            //console.log("found admin:" + admin + " with err " + err);
             done(err, admin);
         });
     }
     else if (user.classType === 'business'){
         Business.findById(user._id, function(err, business) {
-            //console.log("found business:" + business + " with err " + err);
             done(err, business);
         });
     }
@@ -334,10 +301,6 @@ passport.deserializeUser(function(user, done) {
     else{
         done(null, false);
     }
-    //Admin.findById(id, function(err, user) {
-    //    done(err, user);
-    //    console.log("found admin:"  +user);
-    //});
 });
 
 /**************** Routes *****************/
