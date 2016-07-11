@@ -137,7 +137,6 @@ app.use(function(req, res, next){
 
     res.locals.success = req.flash('success');
     res.locals.error = error;
-    res.locals.message = ['heyheyey'];
     if (req.business) res.locals.business = req.business;
     else if (req.admin) res.locals.admin = req.admin;
 

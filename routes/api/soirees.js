@@ -18,7 +18,6 @@ var Globals = require('app/helpers/Globals.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var io = Globals.io;
 
-
 router.post('/soireesNear', function (req, res, next) {
     User.verifyUser(req, res, next, function (user) {
 
@@ -35,10 +34,7 @@ router.post('/soireesNear', function (req, res, next) {
         });
 
     });
-
 });
-
-
 
 
 

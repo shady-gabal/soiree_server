@@ -36,7 +36,7 @@ var EmailHelper = require('app/helpers/EmailHelper.js');
 
 router.use(function(req, res, next){
     if (!Admin.isLoggedIn(req)){
-        res.redirect('/admins/login');
+        res.redirect('/adminLogin');
     }
     else{
         if (!req.admin) {
