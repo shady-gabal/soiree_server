@@ -404,7 +404,7 @@ function scheduleCron(){
     var CronJob = require('cron').CronJob;
 
     try{
-        //new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
+        new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
         new CronJob('0 1 0 * * *', soireeCreator, null, true, 'America/New_York');
 
     }
