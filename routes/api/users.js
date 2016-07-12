@@ -176,22 +176,35 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
 
 });
 
-router.post('/updateProfileQuestions', function(req, res, next){
+router.post('/updateProfile', function(req, res, next){
 
   User.verifyUser(req, res, next, function(user){
-    var profile = req.body.userProfileQuestions;
+
+    var profile = req.body.userProfile;
     if (!profile){
       return ResHelper.sendError(res, ErrorCodes.MissingData);
     }
 
     if (profile.question1){
-
+      user.profile.question1 = profile.question1;
     }
     if (profile.question2){
-
+      user.profile.question2 = profile.question2;
     }
     if (profile.question3){
-
+      user.profile.question3 = profile.question3;
+    }
+    if (profile.answer1){
+      user.profile.answer1 = profile.answer1;
+    }
+    if (profile.answer2){
+      user.profile.answer2 = profile.answer2;
+    }
+    if (profile.answer3){
+      user.profile.answer3 = profile.answer3;
+    }
+    if (profile.description){
+      user.profile.description = profile.description;
     }
 
     user.save(function(err){
