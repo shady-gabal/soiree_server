@@ -54,7 +54,10 @@
     "underscore": "",
     "validator": "",
     "xoauth2": "",
-    "q" : "",
-    "git-hook-modules" : ""
+    "q": "",
+    "git-hook-modules": ""
+  },
+  "devDependencies": {
+    "git-hooks": "^1.1.0"
   }
 }
