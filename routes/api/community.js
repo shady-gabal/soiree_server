@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by shadygabal on 12/3/15.
  */
 var express = require('express');
@@ -35,10 +35,6 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 /* Posts */
 
 router.get('/posts', function(req, res){
-    //User.verifyUser(req.body.user, function(user){
-        //var longitude = req.body.user.longitude;
-        //var latitude = req.body.user.latitude;
-        //var coors = {type: "Point", coordinates: [longitude, latitude]};
 
         CommunityPost.find({}).exec(function(err, posts){
            if (err){
