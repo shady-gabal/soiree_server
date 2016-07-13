@@ -37,26 +37,6 @@ router.post('/soireesNear', function (req, res, next) {
 });
 
 
-
-//router.get('/soireesNear', function (req, res) {
-//    Soiree.find({}).deepPopulate("_business _usersAttending").exec(function (err, soirees) {
-//        if (err) {
-//            console.log("Error finding soirees near you");
-//            res.type('text/plain');
-//            res.status('404').send("Error");
-//        }
-//        else {
-//            var dataToSend = [];
-//            for (var i = 0; i < soirees.length; i++) {
-//                var soiree = soirees[i];
-//                dataToSend.push(soiree.jsonObject());
-//            }
-//            res.json(dataToSend);
-//        }
-//    });
-//
-//});
-
 router.post('/joinSoiree', function (req, res, next) {
     User.verifyUser(req, res, next, function (user) {
         if (!user.verified) {
@@ -97,36 +77,6 @@ router.post('/reservationForSoiree', function (req, res, next) {
         });
     });
 });
-//
-//router.post('/uploadScheduledSoiree', function (req, res, next) {
-//
-//    User.verifyUser(req, res, next, function (user) {
-//
-//        var startTime = req.body.startTime;
-//        var endTime = req.body.endTime;
-//        if (!startTime || !endTime) {
-//            return ResHelper.sendError(res, ErrorCodes.MissingData);
-//        }
-//
-//        var availableTimes = {start: startTime, end: endTime};
-//
-//        var ssJob = new ScheduledSoireeJob({
-//            _user: user._id,
-//            availableTimes: availableTimes
-//        });
-//
-//        ssJob.save(function (err) {
-//            if (err) {
-//                console.log("Error saving spontaneous soiree: " + err);
-//                return ResHelper.sendError(res, ErrorCodes.ErrorSaving);
-//            }
-//            ResHelper.sendSuccess(res);
-//        });
-//
-//    });
-//
-//
-//});
 
 
 router.post('/findNextSoiree', function(req, res, next){

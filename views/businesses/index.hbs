@@ -3,31 +3,32 @@
 {{/extend}}
 
 
-{{#if reservations}}
-    <ul>
-        {{#each reservations}}
-            <li> {{this._soiree.soireeType}} {{this._soiree.scheduledTimeIdentifier}} {{this.confirmationCode}}</li>
-         {{/each}}
-    </ul>
-{{/if}}
+<!--{{#if reservations}}-->
+    <!--<ul>-->
+        <!--{{#each reservations}}-->
+            <!--<li> {{this._soiree.soireeType}} {{this._soiree.scheduledTimeIdentifier}} {{this.confirmationCode}}</li>-->
+         <!--{{/each}}-->
+    <!--</ul>-->
+<!--{{/if}}-->
 
+<div>
+    <div style="text-align:center;"><div id="successMessageDiv"></div></div>
 
-<div class="form-signin" id="confirmationCodeForm">
-    <h1 id="welcomeHeader">Welcome to {{title}}, {{business.businessName}}</h1>
-    <input type="text" name="confirmationCode" id="confirmationCodeInput" class="form-control" placeholder="Confirmation Code" autofocus/>
-    <button class="btn btn-primary btn-block" id="confirmationCodeButton" onclick="confirm()">Confirm </button>
+    <div class="form-signin" id="confirmationCodeForm">
+        <h1 id="welcomeHeader">Welcome to {{title}}, {{business.businessName}}</h1>
+        <input type="text" name="confirmationCode" id="confirmationCodeInput" class="form-control" placeholder="Confirmation Code" autofocus/>
+        <button class="btn btn-primary btn-block" id="confirmationCodeButton" onclick="confirm()">Confirm </button>
+    </div>
 </div>
+
+
 
 
 {{#extend "scripts"}}
 
     <script>
 
-//        $(function() {
-//            $('#confirmationCodeInput').keyup(function() {
-//                this.value = this.value.toUpperCase();
-//            });
-//        });
+        var lastUserConfirmedId;
 
         function confirm(){
             var codeInput = document.getElementById("confirmationCodeInput");
@@ -40,13 +41,14 @@
                             data: {confirmationCode: confirmationCode},
                             success: function (responseObj) {
                                 if (responseObj.status === 'success') {
-                                    var message = responseObj.description;
-                                    addSuccessMessage(message);
+                                    addConfirmedReservation(responseObj);
                                     clearField();
                                 }
                                 else if (responseObj.status === 'fail') {
+                                    var message = responseObj.message;
+                                    alert(message);
+                                    clearField();
                                 }
-                                alert(responseObj.description);
                             },
                             error: function () {
                                 alert("An error occurred. Please try again later.");
@@ -57,6 +59,32 @@
 
         }
 
+
+        function addConfirmedReservation(responseObj){
+            var html = "<p><strong>" + responseObj.message + "</strong></p>" +
+                    "<img class='successMessageDivImage' src='" + responseObj.userProfilePictureUrl + "'/>" +
+                    "<div class='successMessageText'><p><strong>Name:</strong> " + responseObj.userFullName + "</p>" +
+                    "<p> <strong>Age: </strong>" + responseObj.userAge + " </p>" +
+                    "<p><strong>Amount prepaid:</strong> " + responseObj.amountPrepaid + " </p></div>";
+//                    "<p><strong>Amount prepaid:</strong> $4.00 </p></div>";
+
+            var currUserId = responseObj.userId;
+            lastUserConfirmedId = responseObj.userId;
+
+            var sel = $("#successMessageDiv");
+            sel.html(html);
+            sel.fadeTo(1000, 1);
+            setTimeout(function(){
+                if (lastUserConfirmedId === currUserId){
+                    sel.fadeTo(1000, 0);
+                }
+            }, 60000);
+
+//            $("#successMessageDiv").fadeIn(500);
+//            var message = responseObj.message;
+//            addSuccessMessage(message);
+        }
+
         function clearField(){
             var textField = $("#confirmationCodeInput");
             textField.val('');
@@ -64,7 +92,6 @@
         }
 
         function addSuccessMessage(message){
-            alert('adding message: ' + message);
             $("#successMessage").text(message);
         }
     </script>

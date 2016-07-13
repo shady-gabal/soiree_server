@@ -20,17 +20,42 @@
     margin-top:10px;
 }
 
-
-#confirmationCodeForm{
-    position:absolute;
-    top:-10%;
-    left:0;
-    right:0;
-    bottom:0;
-    width:700px;
-    height:300px;
-    margin:auto;
+#successMessageDiv{
+    /*width: 600px;*/
+    display: inline-block;
+    height: 200px;
+    opacity:0;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    font-size: 24px;
+    border-width: 2px;
+    border-color: rgba(0,0,0,1);
 }
+
+.successMessageDivImage{
+    float: left;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+}
+
+.successMessageText{
+    float: right;
+    text-align: left;
+    margin-left: 10px;
+
+}
+/*#confirmationCodeForm{*/
+    /*position:absolute;*/
+    /*top:-10%;*/
+    /*left:0;*/
+    /*right:0;*/
+    /*bottom:0;*/
+    /*width:700px;*/
+    /*height:300px;*/
+    /*margin:auto;*/
+/*}*/
 
 ::-webkit-input-placeholder { /* WebKit browsers */
     text-transform: none;

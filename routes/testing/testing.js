@@ -97,11 +97,11 @@ router.get('/createTestUsers', function(req, res){
 
     var numToCreate = firstNames.length;
     var profilePictureUrls = [
-        "https://pbs.twimg.com/media/CZVV1DyUYAEZOWC.jpg"
-        , "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSIXORPXKeYVEcfig4DB60oqj3yblNiPZvkVSBi4J6d7-HqlVU5"
-        , "https://pbs.twimg.com/media/CdzAPxRWIAACmIr.jpg"
-        , "https://upload.wikimedia.org/wikipedia/commons/9/96/Carassius_wild_golden_fish_2013_G1.jpg"
-        , "https://s-media-cache-ak0.pinimg.com/736x/94/92/f3/9492f3f78bbc088940efe012c1bc24ef.jpg",
+        "https://pbs.twimg.com/profile_images/743138182607175680/ZJzktgBk_400x400.jpg"
+        , "http://i.telegraph.co.uk/multimedia/archive/03295/Tyrion_1_3295189b.jpg"
+        , "http://i.ndtvimg.com/i/2015-09/ned-stark_640x480_71443426196.jpg"
+        , "http://25.media.tumblr.com/tumblr_m4ns0bq5pO1r39huto1_500.png"
+        , "https://pbs.twimg.com/profile_images/598885932897558529/zXxnsZvo.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/a/a5/European_Rabbit,_Lake_District,_UK_-_August_2011.jpg",
         "https://sausagemeat.files.wordpress.com/2013/03/ae5f8c649a13084f0fc10b7542dc1f22.gif",
    "https://s.yimg.com/lq/i/us/sp/v/nba/players_l/20101116/3704.jpg?x=46&y=60&xc=1&yc=1&wc=164&hc=215&q=100&sig=uL0nsT4C.6jmThsRqojbzg--",
@@ -117,7 +117,7 @@ router.get('/createTestUsers', function(req, res){
 
         "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQYslwWJIGGYBEKcJbVRABtbimxKuwwb0pRZErNQrwI-E5wVQ7WcQ",
 
-        "https://i.ytimg.com/vi/9aXb1P26AXg/0.jpg",
+        "https://s.yimg.com/ny/api/res/1.2/HLVvlyNxert_quzFlaecNg--/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9NjUwO2g9MzYw/http://media.zenfs.com/en-US/homerun/uproxx_tv_739/451fd9c32682d80e54471c8da7dcdef0",
 
         "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRjykgDekEHamoSFs1XJsoZoafOqNgpF1hv_bhsXJsjegs_3Dsl",
         "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT12J5Lyv1Sg51Hj-I8tR09veX0L-f2ukPZlhlSHtaCkt1oB7EE"
@@ -369,7 +369,6 @@ router.get('/testPopulation', function(req, res){
 router.post('/switchTestUser', function(req, res){
     var _id = req.body.userId;
 
-    console.log(_id);
     for (var i = 0; i < _testUsers.length; i++){
        if (_testUsers[i]._id.equals(_id)){
            _user = _testUsers[i];

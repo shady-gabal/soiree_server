@@ -22,6 +22,8 @@ var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
+var h = require('app/helpers/h');
+
 
 //router.use(function(req, res, next){
     router.use(function(req, res, next){
@@ -105,21 +107,32 @@ router.post('/confirmSoireeReservation', function(req, res){
       //found reservation
         console.log("Confirming...");
         /* CONFIRM BLOCK */
-        reservation.confirm(confirmationCode, function(){
+        reservation.confirm(confirmationCode, function(user){
             responseObj.status = "success";
-            responseObj.description = "Successfully confirmed reservation";
-            req.flash('success', 'Successfully confirmed reservation.');
+
+            responseObj.userFullName = user.fullName;
+            responseObj.userProfilePictureUrl = user.profilePictureUrl;
+            var age = (h.Globals.devOrTest) ? (user.age ? user.age : 26) : user.age;
+            responseObj.userAge = age;
+
+            responseObj.message = "Successfully confirmed reservation!";
+            responseObj.userId = user.userId;
+
+            var amountPrepaid = "$" + (reservation.amount/100).toFixed(2);
+            responseObj.amountPrepaid = amountPrepaid;
+
+            //req.flash('success', 'Successfully confirmed reservation');
 
             res.json(responseObj);
         }, function(error){
             if (error){
                 console.log(error);
                 responseObj.status = "fail";
-                responseObj.description = "There was an error processing your request. Please try again.";
+                responseObj.message = "There was an error processing your request. Please try again.";
             }
             else{
                 responseObj.status = "fail";
-                responseObj.description = "Incorrect Confirmation Code";
+                responseObj.message = "Invalid Confirmation Code.";
             }
 
             res.json(responseObj);
@@ -131,11 +144,11 @@ router.post('/confirmSoireeReservation', function(req, res){
 
         if (err === ErrorCodes.NotFound) {
             responseObj.status = "fail";
-            responseObj.description = "Incorrect Confirmation Code";
+            responseObj.message = "Invalid Confirmation Code.";
         }
         else {
             responseObj.status = "fail";
-            responseObj.description = "There was an error processing your request. Please try again.";
+            responseObj.message = "There was an error processing your request. Please try again.";
         }
 
         res.json(responseObj);

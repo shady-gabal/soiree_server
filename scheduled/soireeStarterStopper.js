@@ -25,7 +25,7 @@ var scheduledTasks = function(){
     ////START OR CANCEL IF NECESSARY
     console.log('starting soirees starting...');
 
-    Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+    Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow, "$gt" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
         if (err){
             console.log("Error in scheduledSoirees: " + err);
         }
