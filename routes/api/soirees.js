@@ -36,6 +36,21 @@ router.post('/soireesNear', function (req, res, next) {
     });
 });
 
+router.get('/soireesNear', function (req, res) {
+    Soiree.find({}).limit(10).exec(function (err,soirees) {
+        if (err){
+            console.log("Error finding soirees near you: " + err);
+            return ResHelper.sendError(res, ErrorCodes.NotFound);
+        }
+        var soireesJson = [];
+        for (var i = 0; i < soirees.length; i++) {
+            var soiree = soirees[i];
+            soireesJson.push(soiree.jsonObject());
+        }
+        res.json({soirees : soireesJson});
+    });
+
+});
 
 router.post('/joinSoiree', function (req, res, next) {
     User.verifyUser(req, res, next, function (user) {
