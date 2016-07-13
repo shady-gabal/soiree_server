@@ -54,6 +54,7 @@
     "underscore": "",
     "validator": "",
     "xoauth2": "",
-    "q" : ""
+    "q" : "",
+    "git-hook-modules" : ""
   }
 }
