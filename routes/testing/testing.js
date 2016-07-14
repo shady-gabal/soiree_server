@@ -128,7 +128,7 @@ router.get('/createTestUsers', function(req, res){
         var last = i < lastNames.length ? lastNames[i] : lastNames[i%lastNames.length];
 
         var profilePictureUrl = profilePictureUrls[i % numToCreate];
-
+        var email = firstName + lastName + i + "@experiencesoiree.com";
 
         var user = new User({
             firstName : first,
@@ -137,7 +137,8 @@ router.get('/createTestUsers', function(req, res){
             location : LocationHelper.createPoint({longitude : 45, latitude: 45}),
             testUser : true,
             profilePictureUrl : profilePictureUrl,
-            verified: true
+            verified: true,
+            email : email
         });
 
         user.save(function(err, testUser){

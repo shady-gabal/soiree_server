@@ -28,7 +28,7 @@
     "get-env": "",
     "handlebars-helpers": "",
     "hbs": "",
-    "jsonwebtoken": "",
+    "jsonwebtoken": "7.1.3",
     "mathjs": "~3.2.1",
     "moment": "",
     "mongodb-uri": "",
