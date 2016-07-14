@@ -52,6 +52,18 @@ router.get('/',  function(req, res){
     //res.render('admins/index', { title: 'The Admin Dashboard', adminFirstName: req.user.firstName });
 });
 
+router.get('/createSoiree', function(req, res)){
+    Business.find({}).deepPopulate("_approvedBy").exec(function(err, businesses){
+        if (err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else{
+            ResHelper.render(req, res, 'admins/createSoiree', {soireeTypes : Globals.soireeTypes, businesses : businesses});
+        }
+    });
+}
+
 router.get('/registerBusiness', function(req, res){
     //console.log(res.locals);
     ResHelper.render(req, res, 'admins/registerBusiness', {soireeTypes: Globals.soireeTypes, mapsAPIKey : process.env.GOOGLE_MAPS_API_KEY});
