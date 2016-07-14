@@ -34,18 +34,6 @@ var h = require('app/helpers/h');
 
 //EMAIL VERIFICATION
 
-//router.get('/validateEmail', function(req, res){
-//   var email = req.query.email;
-//    if (email){
-//        if (validator.isEmail(email)){
-//            res.send("is email");
-//        }
-//        else res.send("is not email");
-//
-//    }
-//    else res.send("No email specified");
-//});
-
 router.post('/sendVerificationEmail', function(req, res, next){
     User.verifyUser(req, res, next, function(user){
         var email = req.body.email;
@@ -79,30 +67,6 @@ router.post('/sendVerificationEmail', function(req, res, next){
     });
 });
 
-//router.get('/sendVerificationEmail', function(req, res){
-//    var email = req.query.email;
-//    email = email.trim();
-//
-//    User.findTestUser(function(user){
-//        if (EmailHelper.validateEmail(email)){
-//            EmailHelper.sendVerificationEmail(email, user, function(){
-//                user.pendingVerification = true;
-//                user.save();
-//
-//                ResHelper.sendSuccess(res);
-//            }, function(err){
-//                console.log(err);
-//                ResHelper.sendError(res, ErrorCodes.Error);
-//            });
-//        }
-//        else{
-//            ResHelper.sendError(res, ErrorCodes.Error);
-//        }
-//    }, function(err){
-//        res.send("unable to find test user");
-//    });
-//
-//});
 
 router.post('/verifyCode', function(req, res, next){
    User.verifyUser(req, res, next, function(user) {
@@ -194,7 +158,6 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     contentType : idImageFile.mimetype,
                     fileName : idFileName,
                     directory: directory,
-                    adminsOnly: false,
                     _userVerification : userVerification._id,
                     path : Image.createPath(directory, idFileName)
                 });
@@ -205,7 +168,6 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
                     contentType : selfImageFile.mimetype,
                     fileName : selfFileName,
                     directory: directory,
-                    adminsOnly : false,
                     _userVerification : userVerification._id,
                     path : Image.createPath(directory, selfFileName)
                 });
