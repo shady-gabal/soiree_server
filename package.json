@@ -13,6 +13,7 @@
     "apn": "1.7.6",
     "bcrypt": "",
     "body-parser": "",
+    "bower": "",
     "braintree": "",
     "chai": "",
     "connect-flash": "",
