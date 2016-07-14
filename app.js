@@ -238,8 +238,7 @@ passport.use('soiree-access-token', new LocalStrategy(
         passwordField : 'soiree_access_token'
     },
     function(username, accessToken, done) {
-        console.log("Validating user...");
-        User.findUserByEncodedSoireeAccessToken(accessToken, done);
+        User.findUserByEncodedSoireeAccessToken(username, accessToken, done);
     }
 ));
 
