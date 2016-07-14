@@ -58,19 +58,24 @@ router.post('/createUser', function(req, res, next){
     passport.authenticate('facebook-token', function (err, userFound, info) {
 
       if (err) {
+        console.log(err);
         return h.ResHelper.sendError(res, h.ErrorCodes.UserVerificationError);
       }
       else if (!userFound){
-        User.createUserWithFacebook(req, function(user){
-            //user.checkDeviceUUIDAndDeviceToken(req, function(){
-              res.json({user : user.jsonObject(), firstSignUp: true});
-            //});
+
+        User.createUserWithFacebook(req, function(user, encodedAccessToken){
+              res.json({user : user.jsonObject(), firstSignUp: true, soireeAccessToken : encodedAccessToken});
         }, function(err, errorMessage){
           return h.ResHelper.sendError(res, h.ErrorCodes.UserCreationError, {errorMessage : errorMessage});
         });
+
       }
       else{
-        res.json({user : userFound.jsonObject()});
+        userFound.generateNewSoireeAccessToken(function(encodedAccessToken) {
+          res.json({user : userFound.jsonObject(), soireeAccessToken : encodedAccessToken});
+        }, function(){
+          ResHelper.sendError(res, ErrorCodes.Error);
+        });
       }
 
     })(req, res, next);

@@ -6,6 +6,7 @@ var router = express.Router();
 
 var BetaSignupEmailList = require('app/db/BetaSignupEmailList');
 var ResHelper = require('app/helpers/ResHelper.js');
+var h = require('app/helpers/h');
 
 function checkForList(){
     BetaSignupEmailList.findOne({}, function(err, list){
