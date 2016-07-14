@@ -66,19 +66,19 @@ function findImage(req, res){
             res.status(404).send("");
         }
         else{
-            console.log(req);
+            //console.log(req);
 
-            if (doc.adminsOnly && !Admin.isLoggedIn(req)){
-                console.log("admin not logged in - can't show image");
-                res.status(404).send("");
-            }
-            else{
+            //if (doc.adminsOnly && !Admin.isLoggedIn(req)){
+            //    console.log("admin not logged in - can't show image");
+            //    res.status(404).send("");
+            //}
+            //else{
                 console.log("sending image...");
 
                 req.headers['if-none-match'] = 'no-match-for-this';
                 res.contentType(doc.contentType);
                 res.status(200).send(doc.data);
-            }
+            //}
         }
     });
 };
