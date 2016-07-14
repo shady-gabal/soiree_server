@@ -82,6 +82,7 @@ describe('setting up tests', function () {
                 obj.latitude = 40.7128;
                 obj.longitude = 74;
                 obj.soiree_access_token = encodedToken;
+                obj.username = user.email;
 
                 global._userParams = obj;
 
