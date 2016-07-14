@@ -46,7 +46,7 @@ do
 	        echo "npm test failed on rev $newrev on master branch - push denied. Run tests locally and confirm they pass before pushing"
 	        exit $rc
 	    else 
-    		echo "just so you know, your current build fails testing, but since this branch is not master, push is allowed. "
+    		echo "WARNING: your current build fails testing, but since this branch is not master, push is allowed. "
 	    fi
     fi
 done

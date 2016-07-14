@@ -58,6 +58,7 @@ router.post('/createUser', function(req, res, next){
     passport.authenticate('facebook-token', function (err, userFound, info) {
 
       if (err) {
+        console.log(err);
         return h.ResHelper.sendError(res, h.ErrorCodes.UserVerificationError);
       }
       else if (!userFound){
