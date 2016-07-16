@@ -1047,18 +1047,54 @@ router.get('/uploadNotificationsSeen', function(req, res, next){
 
 router.get('/betaSignupEmailList', function(req,res){
    BetaSignupEmailList.findList(function(list){
-       res.json(list.emails);
+       var uniques = {};
+       var numSignups = list.emails.length;
+
+       var iosMales = [], iosFemales = [], androidMales = [], androidFemales = [];
+
+       for (var i = 0; i < list.emails.length; i++){
+           var curr = list.emails[i];
+           var id = curr.email + "_" + curr.os + "_" + curr.gender;
+           if (uniques[id]){
+               numSignups--;
+               continue;
+           }
+           uniques[id] = 1;
+
+           if (curr.os === 'android'){
+               if (curr.gender === 'male'){
+                   androidMales.push(curr.email);
+               }
+               else if (curr.gender === 'female'){
+                   androidFemales.push(curr.email);
+               }
+           }
+
+           else if (curr.os === 'ios'){
+               if (curr.gender === 'male'){
+                   iosMales.push(curr.email);
+               }
+               else if (curr.gender === 'female'){
+                   iosFemales.push(curr.email);
+               }
+           }
+       }
+       list.save(function(err){
+           console.log(err);
+       });
+
+       ResHelper.render(req, res, "admins/betaSignupEmailList", {iosMales : iosMales, iosFemales : iosFemales, androidMales : androidMales, androidFemales : androidFemales, numSignups: numSignups});
    }, function(){res.send("Error")});
 });
 
-router.get('/NotificaDupes', function(req, res){
-    BetaSignupEmailList.findList(function(list) {
-        list.emails = _.uniq(list.emails);
-        list.save(function(err){
-            res.send("Completed with err: " + err);
-        })
-    });
-});
+//router.get('/NotificaDupes', function(req, res){
+//    BetaSignupEmailList.findList(function(list) {
+//        list.emails = _.uniq(list.emails);
+//        list.save(function(err){
+//            res.send("Completed with err: " + err);
+//        });
+//    });
+//});
 
 router.get('/sendEmail', function(req, res){
     EmailHelper.sendVerificationEmail("shady@nyu.edu", _user, function(){
