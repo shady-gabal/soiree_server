@@ -1,44 +1,54 @@
 {{#extend "stylesheets"}}
    <!-- <link rel="stylesheet" href="/stylesheets/" /> -->
+<link rel="stylesheet" href="/bower_components/jquery-timepicker-wvega/jquery.timepicker.css" />
 {{/extend}}
 
 {{#extend "scripts"}}
 <!-- <script src="/javascripts/"></script> -->
+<script type="text/javascript" src="/bower_components/jquery-timepicker-wvega/jquery.timepicker.js"></script>
 <script>
+    $('#timepicker').timepicker({
+        interval: 15
+    });
 
+</script>
+<script type="text/javascript">
+    createEditableSelect(document.forms[0].text());
 </script>
 {{/extend}}
 
 <form class="form-signin" action='/admins/createSoiree' id="createSoireeForm" method='POST'>
-    <h2 class="form-signin-heading">Sign up a business</h2>
+    <h2 class="form-signin-heading">Create A Soiree</h2>
 
-    <input type="text" id="inputName" class="form-control" placeholder="Name" name='businessName' required autofocus>
+    <input type="text" id="inputName" class="form-control" placeholder="Title" name='soireeTitle' required autofocus>
 
-    <!--<label for="inputPhoneNumber" class="sr-only">Phone Number</label>-->
-    <input class="form-control" type='text' name='phoneNumber' id='inputPhoneNumber' placeholder="Phone Number" required/>
+    <input type="text" id="inputNumUsersMax" class="form-control" placeholder="Maximum Number Of People" name='numUsersMax' required>
 
-    <!--<label for="inputDescription" class="sr-only">Description</label>-->
-    <input type="text" id="inputDescription" class="form-control" placeholder="Description" name='description' required>
+    <input type="text" id="inputNumUsersMin" class="form-control" placeholder="Minimum Number Of People" name='numUsersMin' required>
 
+    <input id="date" type="date" class="form-control" placeholder= "Day" name = 'day' required>
 
-    <div id="locationField">
-        <input id="autocomplete" class="form-control" placeholder="Address" onFocus="geolocate()" type="text" name="address"/>
-    </div>
+    <input id="timepicker" type="text" class="form-control" placeholder= "Time" name = 'time' required>
 
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name='email' required>
+    <input list="soireeType" name="soireeType" placeholder="Soiree Type" type = "text">
+    <datalist id = "soireeType">
+         {{#each soireeTypes}}
+            <option class="inputSoireeType"  value = {{this}}>{{this}} </option>
+         {{/each}}
+    </datalist>
 
-    <label for="inputSoireeTypes" class="sr-only">Soiree Types</label>
-    {{#each soireeTypes}}
-        <div class="checkbox"><input type="checkbox" class="inputSoireeTypes" value="{{this}}" name='soireeTypes'><span class='inputSoireeTypeText'>{{this}}</span></div>
-    {{/each}}
-
+    <input list="business"  name="businessId" placeholder="Business" type = "text">
+    <datalist id = "business">
+        {{#each businesses}}
+            <option class="inputBusiness" value = {{this.businessId}}><span class='inputSoireeTypeText'>{{this.businessName}}</span> </option>
+        {{/each}}
+    </datalist>
 
 
 
     <!--<label for="inputPassword" class="sr-only">Password</label>-->
     <!--<input type="password" id="inputPassword" class="form-control" placeholder="Password" name='password' required>-->
 
-    <button class="btn btn-lg btn-primary btn-block submit_button" type="submit" id="registerButton">Register Business</button>
+    <button class="btn btn-lg btn-primary btn-block submit_button" type="submit" id="registerButton">Create Soiree</button>
 
 </form>

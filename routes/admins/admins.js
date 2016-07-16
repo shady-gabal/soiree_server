@@ -52,6 +52,81 @@ router.get('/',  function(req, res){
     //res.render('admins/index', { title: 'The Admin Dashboard', adminFirstName: req.user.firstName });
 });
 
+router.get('/createSoiree', function(req, res){
+    Business.find({}).deepPopulate("_approvedBy").exec(function(err, businesses){
+        if (err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else{
+
+            ResHelper.render(req, res, 'admins/createSoiree', {soireeTypes : Globals.soireeTypes, businesses : businesses});
+        }
+    });
+});
+
+router.post('/createSoiree', function(req, res){
+    console.log(req.body);
+    var title = req.body.soireeTitle;
+    var numUsersMax = req.body.numUsersMax;
+    var numUsersMin = req.body.numUsersMin;
+    var soireeType = req.body.soireeType;
+    var day = req.body.day;
+    var time = req.body.time;
+
+    var date = DateHelper.dateFromFormat(day + " " + time, "YYYY-MM-DD hh:mm a");
+
+    var businessId = req.body.businessId;
+    Business.findOne({businessId : businessId}).exec(function(err, business){
+        if(err){
+            console.log(err);
+            return res.redirect('/admins/createSoiree');
+        }
+        business.soireeTypes = soireeType;
+         Soiree.createSoireeWithType(soireeType, function(soiree){
+            return res.redirect('/admins/testing');
+        }, function(err){
+            console.log(err);
+            var errors = ErrorHelper.errorMessagesFromError(err);
+            req.flash('error', errors);
+            return res.redirect('/admins/createSoiree');
+        }, {
+            title: title,
+            numUsersMax: numUsersMax,
+            numUsersMin: numUsersMin,
+            business: business,
+            date: date
+        });
+    });
+
+    var currErrors = [];
+    if (!soireeType){
+        currErrors.push("Must choose a soiree type");
+    }
+    if(!title){
+        currErrors.push("Must Pick A Title");
+    }
+    if (!numUsersMax){
+        currErrors.push("Must Pick How Many Users To Allow");
+    }
+    if(!numUsersMin){
+        currErrors.push("Must Pick How Many Users Are Needed");
+    }
+    if (!businessId){
+        currErrors.push("Must Pick A Business");
+    }
+    if(!day){
+        currErrors.push("Must Pick A Day");
+    }
+    if(!time){
+        currErrors.push("Must Pick A Time");
+    }
+    if (currErrors.length > 0){
+        req.flash('error', currErrors);
+        return res.redirect('/admins/createSoiree');
+    }
+});
+
 router.get('/registerBusiness', function(req, res){
     //console.log(res.locals);
     ResHelper.render(req, res, 'admins/registerBusiness', {soireeTypes: Globals.soireeTypes, mapsAPIKey : process.env.GOOGLE_MAPS_API_KEY});
