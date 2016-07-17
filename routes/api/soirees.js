@@ -68,6 +68,24 @@ router.post('/joinSoiree', function (req, res, next) {
     });
 });
 
+router.post('/soireeWithId', function (req, res, next) {
+    User.verifyUser(req, res, next, function (user) {
+
+        if (!user.verified) {
+            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+        }
+
+        var soireeId = req.body.soireeId;
+
+        Soiree.findSoireeWithId(soireeId, function(soiree){
+            res.json({soiree : soiree.jsonObject(user)});
+        }, function(err){
+            return ResHelper.sendError(res, err);
+        });
+
+    });
+});
+
 
 
 router.post('/reservationForSoiree', function (req, res, next) {
