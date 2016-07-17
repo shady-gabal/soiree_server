@@ -6,11 +6,13 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{mapsAPIKey}}&libraries=places"></script>
 
     <script>
+        alert('{{mapsAPIKey}}');
+        alert("script processed");
         var autocomplete;
 
         function initAutocomplete(){
-            autocomplete = new google.maps.places.Autocomplete(
-                    /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+            alert("initAutocomplete()");
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
                     {types: ['geocode']});
 
             autocomplete.addListener('place_changed', getCoordinates);
@@ -18,6 +20,7 @@
         }
 
         function getCoordinates(){
+            alert("getCoordinates()");
             var place = autocomplete.getPlace();
 //            alert(JSON.stringify(place));
             var generalArea = place.address_components[2].long_name;
