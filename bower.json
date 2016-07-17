@@ -3,13 +3,13 @@
   "description": "This is Soiree",
   "main": "app.js",
   "authors": [
-    "Shady Gabal <shadygabal@gmail.com>"
+    "Shady Gabal <shady@experiencesoiree.com>"
   ],
-  "license": "MIT",
+  "license": "All rights reserved.",
   "keywords": [
     "soiree"
   ],
-  "homepage": "https://github.com/shady-gabal/untitled-rev-server",
+  "homepage": "https://github.com/experience-soiree/soiree_server",
   "moduleType": [],
   "private": true,
   "ignore": [
