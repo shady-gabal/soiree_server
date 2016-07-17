@@ -66,7 +66,6 @@ router.get('/createSoiree', function(req, res){
 });
 
 router.post('/createSoiree', function(req, res){
-    console.log(req.body);
     var title = req.body.soireeTitle;
     var numUsersMax = req.body.numUsersMax;
     var numUsersMin = req.body.numUsersMin;
@@ -84,6 +83,7 @@ router.post('/createSoiree', function(req, res){
         }
         business.soireeTypes = soireeType;
          Soiree.createSoireeWithType(soireeType, function(soiree){
+             console.log(" Created Soiree ");
             return res.redirect('/admins/testing');
         }, function(err){
             console.log(err);

@@ -75,16 +75,8 @@ router.get('/history', function(req,res){
                res.status(404).send("Error. Please reload.");
            }
            else{
-               var today = [];
-               var past7days = [];
-
-               business._confirmedReservations.forEach(function(reservation){
-                  if (DateHelper.isSameDay(new Date(), reservation.date)){
-                      today.push(reservation);
-                  }
-               });
-
-               ResHelper.render(req,res,'businesses/history',{business : business, today:today, past7days:past7days});
+               
+               ResHelper.render(req,res,'businesses/history',{business : business});
            }
        });
    }
