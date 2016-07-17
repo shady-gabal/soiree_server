@@ -9,8 +9,7 @@
         var autocomplete;
 
         function initAutocomplete(){
-            autocomplete = new google.maps.places.Autocomplete(
-                    /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
                     {types: ['geocode']});
 
             autocomplete.addListener('place_changed', getCoordinates);
