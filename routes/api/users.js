@@ -349,7 +349,7 @@ router.post('/userProfileForUserId', function(req, res, next){
     if (!userId) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
     User.findByUserId(userId, function(requestedUser){
-
+      console.log(" USER PROFILE " + requestedUser.userProfile);
       var profile = {
         "firstName" : requestedUser.firstName,
         "lastName" : requestedUser.lastName,
@@ -359,6 +359,7 @@ router.post('/userProfileForUserId', function(req, res, next){
         "gender" : requestedUser.gender,
         "soireeScore" : requestedUser.soireeScore,
         "interestedInString" : requestedUser.interestedInString
+        "description" :
       };
 
       res.json({userProfile : profile});
