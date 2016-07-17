@@ -21,50 +21,6 @@ router.get('/', function(req, res){
 });
 
 
-router.get('/createBusiness', function(req, res){
-    var email = req.query.email;
-    var password = req.query.password;
-
-    var longitude = 40.762755;
-    var latitude = -73.882201;
-
-    var businessObj = {
-        businessType : "Bar",
-        //_soirees : [],
-        businessName : "Paddy's Pub",
-        phoneNumber : '3472102276',
-        generalArea: "SoHo",
-        location : {type: "Point", coordinates:[longitude, latitude]},
-        email: "shady@wearethirdrail.com",
-        password: "9701"
-    };
-
-    Business.createBusiness(businessObj, email, password, function(business){
-        res.send("Created business: " + business);
-    }, function(err){
-        res.send("Error creating business: " + err);
-    });
-});
-//
-router.get('/createBusinesses', function(req, res){
-    var longitude = 40.762755;
-    var latitude = -73.882201;
-
-    var business = new Business({
-        businessType : "Bar",
-        _soirees : [],
-        businessName : "Paddy's Pub",
-        generalArea: "SoHo",
-        location : {type: "Point", coordinates:[longitude, latitude]}
-    });
-
-    business.save(function(){
-        res.send("Complete");
-    });
-});
-
-
-
 
 
 //router.get('/deleteBusinesses', function(req, res){

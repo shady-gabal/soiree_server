@@ -129,7 +129,7 @@ router.post('/createSoiree', function(req, res){
 
 router.get('/registerBusiness', function(req, res){
     //console.log(res.locals);
-    ResHelper.render(req, res, 'admins/registerBusiness', {soireeTypes: Globals.soireeTypes, mapsAPIKey : process.env.GOOGLE_MAPS_API_KEY});
+    ResHelper.render(req, res, 'admins/registerBusiness', {soireeTypes: Globals.soireeTypes, businessTypes : Globals.businessTypes, mapsAPIKey : process.env.GOOGLE_MAPS_API_KEY});
 });
 
 router.post('/registerBusiness', function(req, res){
@@ -145,6 +145,7 @@ router.post('/registerBusiness', function(req, res){
     var address = req.body.address;
     var soireeTypes = req.body.soireeTypes;
     var generalArea = req.body.generalArea;
+    var businessType = req.body.businessType;
 
     var currErrors = [];
     if (!soireeTypes || soireeTypes.length === 0){
@@ -152,6 +153,9 @@ router.post('/registerBusiness', function(req, res){
     }
     if (!email){
         currErrors.push("Email address required");
+    }
+    if (!businessType){
+        currErrors.push("Must select a business type");
     }
     else if (!EmailHelper.validateEmail(email)){
         currErrors.push("Email address invalid");

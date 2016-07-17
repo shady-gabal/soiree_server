@@ -765,27 +765,32 @@ router.get('/deleteCommunity', function(req, res){
 //    res.send("Done. Check logs for errors");
 //});
 
+
 router.get('/createBusiness', function(req, res){
-    var longitude = 40.762755;
-    var latitude = -73.882201;
+    var email = "shady@wearethirdrail.com";
+    var password = "9701";
 
-    var business = new Business({
-        businessType : "Bar",
-        _soirees : [],
+    var longitude = 40.717946;
+    var latitude = -74.013905;
+
+    var businessObj = {
+        businessType : "bar",
         businessName : "Paddy's Pub",
-        generalArea: "SoHo",
+        phoneNumber : '3473965627',
+        address : "345 Chambers Street, New York, NY 10282",
+        generalArea: "Battery Park",
         location : {type: "Point", coordinates:[longitude, latitude]},
-        //colleges : Globals.colleges,
-        phoneNumber: 3472102276
-    });
+        email: email,
+        soireeTypes : Globals.soireeTypes
+    };
 
-    Business.createBusiness(business, 'shady@wearethirdrail.com', '9701', function(_business){
-        res.send("Created");
+    Business.createBusiness(businessObj, email, password, req.admin, function(business){
+        res.send("Created business: " + business);
     }, function(err){
-        res.send("Complete with err: " + err);
-
+        res.send("Error creating business: " + err);
     });
 });
+
 
 //router.get('/createAdmin', function(req, res){
 //    var email = "shady@experiencesoiree.com";
@@ -1047,18 +1052,54 @@ router.get('/uploadNotificationsSeen', function(req, res, next){
 
 router.get('/betaSignupEmailList', function(req,res){
    BetaSignupEmailList.findList(function(list){
-       res.json(list.emails);
+       var uniques = {};
+       var numSignups = list.emails.length;
+
+       var iosMales = [], iosFemales = [], androidMales = [], androidFemales = [];
+
+       for (var i = 0; i < list.emails.length; i++){
+           var curr = list.emails[i];
+           var id = curr.email + "_" + curr.os + "_" + curr.gender;
+           if (uniques[id]){
+               numSignups--;
+               continue;
+           }
+           uniques[id] = 1;
+
+           if (curr.os === 'android'){
+               if (curr.gender === 'male'){
+                   androidMales.push(curr.email);
+               }
+               else if (curr.gender === 'female'){
+                   androidFemales.push(curr.email);
+               }
+           }
+
+           else if (curr.os === 'ios'){
+               if (curr.gender === 'male'){
+                   iosMales.push(curr.email);
+               }
+               else if (curr.gender === 'female'){
+                   iosFemales.push(curr.email);
+               }
+           }
+       }
+       list.save(function(err){
+           console.log(err);
+       });
+
+       ResHelper.render(req, res, "admins/betaSignupEmailList", {iosMales : iosMales, iosFemales : iosFemales, androidMales : androidMales, androidFemales : androidFemales, numSignups: numSignups});
    }, function(){res.send("Error")});
 });
 
-router.get('/NotificaDupes', function(req, res){
-    BetaSignupEmailList.findList(function(list) {
-        list.emails = _.uniq(list.emails);
-        list.save(function(err){
-            res.send("Completed with err: " + err);
-        })
-    });
-});
+//router.get('/NotificaDupes', function(req, res){
+//    BetaSignupEmailList.findList(function(list) {
+//        list.emails = _.uniq(list.emails);
+//        list.save(function(err){
+//            res.send("Completed with err: " + err);
+//        });
+//    });
+//});
 
 router.get('/sendEmail', function(req, res){
     EmailHelper.sendVerificationEmail("shady@nyu.edu", _user, function(){
