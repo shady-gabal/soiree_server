@@ -1,3 +1,10 @@
+{{#extend "stylesheets"}}
+    <style>
+        body{
+            font-family: Arial, Times New Roman;
+        }
+    </style>
+{{/extend}}
 {{#extend "scripts"}}
 
     <script>
@@ -432,6 +439,7 @@
 
                  <div>
                      <ul>
+                         <li>_id : {{this._id}}</li>
                          <li>numUsersMax : {{this.numUsersMax}}</li>
                          <li>_usersAttending ({{this._usersAttending.length}}): [{{#each this._usersAttending}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
                          <li>_usersUncharged ({{this._usersUncharged.length}}): [{{#each this._usersUncharged}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>

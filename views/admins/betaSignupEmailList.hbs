@@ -1,0 +1,62 @@
+{{#extend "stylesheets"}}
+   <!-- <link rel="stylesheet" href="/stylesheets/" /> -->
+{{/extend}}
+
+{{#extend "scripts"}}
+<!-- <script src="/javascripts/"></script> -->
+<script>
+
+</script>
+{{/extend}}
+
+<h1><strong>{{numSignups}}</strong> people signed up so far!</h1>
+<br /><br/><br/>
+<div id=iosSignups">
+    <h2> iOS </h2>
+
+    <h4> Males ({{iosMales.length}}) </h4>
+    <br />
+    <ul>
+        {{#each iosMales}}
+            <li> {{this}} </li>
+        {{/each}}
+    </ul>
+
+    <br />
+
+    <h4> Females ({{iosFemales.length}}) </h4>
+    <br />
+
+    <ul>
+        {{#each iosFemales}}
+            <li> {{this}} </li>
+        {{/each}}
+    </ul>
+</div>
+
+<br />
+<br />
+
+<div id="androidSignups">
+    <h2> Android </h2>
+
+    <h4> Males ({{androidMales.length}}) </h4>
+    <br />
+
+    <ul>
+        {{#each androidMales}}
+            <li> {{this}} </li>
+        {{/each}}
+    </ul>
+
+    <br />
+
+    <h4> Females ({{androidFemales.length}}) </h4>
+    <br />
+
+    <ul>
+        {{#each androidFemales}}
+            <li> {{this}} </li>
+        {{/each}}
+    </ul>
+</div>

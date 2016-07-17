@@ -153,7 +153,7 @@ passport.use(new facebookTokenStrategy({
         //passReqToCallback: true
     }, function(accessToken, refreshToken, profile, done) {
         console.log("accesstoken: " + accessToken + " refreshtoken: " + refreshToken + " fbuserid: " + profile.id);
-        //console.log(profile);
+        console.log(profile);
 
         User.findByFacebookUserId(profile.id, function (user) {
             if (user){
