@@ -359,7 +359,6 @@ router.post('/userProfileForUserId', function(req, res, next){
         "gender" : requestedUser.gender,
         "soireeScore" : requestedUser.soireeScore,
         "interestedInString" : requestedUser.interestedInString
-        "description" :
       };
 
       res.json({userProfile : profile});
