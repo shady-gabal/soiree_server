@@ -75,7 +75,6 @@ router.get('/history', function(req,res){
                res.status(404).send("Error. Please reload.");
            }
            else{
-               
                ResHelper.render(req,res,'businesses/history',{business : business});
            }
        });
