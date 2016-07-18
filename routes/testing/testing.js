@@ -128,7 +128,7 @@ router.get('/createTestUsers', function(req, res){
         var last = i < lastNames.length ? lastNames[i] : lastNames[i%lastNames.length];
 
         var profilePictureUrl = profilePictureUrls[i % numToCreate];
-        var email = firstName + lastName + i + "@experiencesoiree.com";
+        var email = first + last + i + "@experiencesoiree.com";
 
         var user = new User({
             firstName : first,
@@ -214,48 +214,6 @@ router.get('/findUser', function(req, res, next){
     }, function(err){
         ResHelper.sendError(res, err);
     });
-
-    //if (facebookAccessToken) {// if facebook
-    //    req.body.user = req.query;
-    //    console.log("facebook access token found - finduser");
-    //
-    //    passport.authenticate('facebook-token', function (err, user, info) {
-    //        if (err) {
-    //            console.log("User not found: " + err);
-    //            return ResHelper.sendError(res, ErrorCodes.Error);
-    //        }
-    //        else if (!user){
-    //            res.json({});
-    //        }
-    //        else{
-    //            //user.checkDeviceUUIDAndDeviceToken(req, function () {
-    //            res.json({user : user});
-    //            //});
-    //        }
-    //    })(req, res, next);
-    //
-    //}
-    //else if (soireeAccessToken){
-    //    req.body.user = req.query;
-    //    passport.authenticate('soiree-access-token', function (err, user, info) {
-    //        if (err) {
-    //            console.log("User not found: " + err);
-    //            return ResHelper.sendError(res, ErrorCodes.Error);
-    //        }
-    //        else if (!user){
-    //            console.log("No user found");
-    //            res.json({});
-    //        }
-    //        else{
-    //            //user.checkDeviceUUIDAndDeviceToken(req, function () {
-    //            res.json({user : user});
-    //            //});
-    //        }
-    //    })(req, res, next);
-    //}
-    //else{ //else if userpw
-    //    ResHelper.sendError(res, ErrorCodes.Error);
-    //}
 
 });
 
@@ -766,7 +724,7 @@ router.get('/deleteCommunity', function(req, res){
 //});
 
 
-router.get('/createBusiness', function(req, res){
+router.get('/createBusiness', function(req, res, next){
     var email = "shady@wearethirdrail.com";
     var password = "9701";
 
