@@ -141,6 +141,10 @@ router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, {
 
             UserVerification.remove({_user: user._id}, function(err){
 
+                if (err){
+                    console.log(err);
+                }
+
                 var userVerification = new UserVerification({
                     _user: user._id
                 });

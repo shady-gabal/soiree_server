@@ -45,22 +45,51 @@ var h = require('app/helpers/h');
 
 router.get('/', function(req, res){
 
-    //SoireeReservation.findUnconfirmedReservationsForBusiness(req.business, function(reservations){
-        //console.log("Fetched soiree reservations for business: " + req.business.name + " : " + reservations);
-    console.log(req.business);
-
-    req.business.deepPopulate("_unconfirmedReservations._soiree", function(err){
+    upcomingSoireesForBusiness(req.business, function(upcomingSoirees){
+        req.business.deepPopulate("_unconfirmedReservations._soiree", function(err){
             if (err){
                 return res.status(404).send("Error");
             }
-            ResHelper.render(req, res, 'businesses/index', {reservations : req.business._unconfirmedReservations});
+            ResHelper.render(req, res, 'businesses/index', {reservations : req.business._unconfirmedReservations, upcomingSoirees : upcomingSoirees});
 
         });
+    }, function(){
+       res.status(418).send("Error. Please try again.");
+    });
 
-    //}, function(err){
-    //    console.log("Error fetching soirees for business: " + req.business);
-    //    ResHelper.render(req, res, 'businesses/index', {});
-    //});
+
+});
+
+function upcomingSoireesForBusiness(business, successCallback, errorCallback){
+    Soiree.find({_business : business._id, date : {$gte : DateHelper.dateAtMidnightToday()}}).exec(function(err, soirees){
+        if (err){
+            console.log(err);
+            errorCallback();
+        }
+        else{
+            var ans = [];
+            soirees = soirees.sort(function(a, b){
+               return a.date.getTime() - b.date.getTime();
+            });
+            for (var i = 0; i < soirees.length; i++){
+                var soiree = soirees[i];
+
+                var obj = {};
+                obj.soireeId = soiree.soireeId;
+                obj.title = soiree.title;
+
+                obj.numUsersRegistered = soiree._users.length;
+
+                obj.timeString = soiree.timeString();
+                ans.push(obj);
+            }
+            successCallback(ans);
+        }
+    });
+}
+
+router.get('/upcomingSoirees', function(req, res){
+
 });
 
 router.get('/contact', function(req, res){
@@ -91,6 +120,22 @@ router.get('/history', function(req,res){
     else{
        res.redirect('/businessLogin');
    }
+});
+
+router.get('/viewSoiree/:soireeId', function(req, res){
+    var soireeId = req.params.soireeId;
+    if (!soireeId) return res.status(404).send("Soiree not found");
+
+    Soiree.findBySoireeId(soireeId, function(soiree){
+        if (soiree._business._id.equals(req.business._id)){
+            ResHelper.render(req, res, 'businesses/viewSoiree', {soiree : soiree});
+        }
+        else{
+            res.status(404).send("Unauthorized");
+        }
+    }, function(err){
+        res.status(404).send("Soiree not found");
+    });
 });
 
 router.post('/confirmSoireeReservation', function(req, res){
@@ -156,46 +201,6 @@ router.post('/confirmSoireeReservation', function(req, res){
 
 
     });
-
-    //
-    //SoireeReservation.findReservationWithConfirmationCode(req.business, confirmationCode, function(reservation){
-    //    if (reservation){
-    //        console.log("Confirming...");
-    //        reservation.confirm(confirmationCode, function(){
-    //            responseObj.status = "success";
-    //            responseObj.description = "Successfully confirmed reservation";
-    //
-    //            res.json(responseObj);
-    //        }, function(error){
-    //            if (error){
-    //                console.log(error);
-    //                responseObj.status = "fail";
-    //                responseObj.description = "There was an error processing your request. Please try again.";
-    //            }
-    //            else{
-    //                responseObj.status = "fail";
-    //                responseObj.description = "Incorrect Confirmation Code";
-    //            }
-    //
-    //            res.json(responseObj);
-    //        });
-    //
-    //    }
-    //    else{
-    //        responseObj.status = "fail";
-    //        responseObj.description = "Incorrect Confirmation Code";
-    //
-    //        res.json(responseObj);
-    //    }
-    //}, function(err){
-    //    console.log(err);
-    //    responseObj.status = "fail";
-    //    responseObj.description = "There was an error processing your request. Please try again.";
-    //
-    //    res.json(responseObj);
-    //});
-
-
 
 });
 
