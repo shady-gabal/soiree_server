@@ -181,6 +181,7 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
 
 });
 
+
 router.post('/updateProfile', function(req, res, next){
 
   User.verifyUser(req, res, next, function(user){
@@ -191,22 +192,22 @@ router.post('/updateProfile', function(req, res, next){
     }
 
     if (profile.question1){
-      user.profile.question1 = profile.question1;
+      user.profile.question1.question = profile.question1;
     }
     if (profile.question2){
-      user.profile.question2 = profile.question2;
+      user.profile.question2.question = profile.question2;
     }
     if (profile.question3){
-      user.profile.question3 = profile.question3;
+      user.profile.question3.question = profile.question3;
     }
     if (profile.answer1){
-      user.profile.answer1 = profile.answer1;
+      user.profile.question1.answer = profile.answer1;
     }
     if (profile.answer2){
-      user.profile.answer2 = profile.answer2;
+      user.profile.question2.answer = profile.answer2;
     }
     if (profile.answer3){
-      user.profile.answer3 = profile.answer3;
+      user.profile.question3.answer = profile.answer3;
     }
     if (profile.description){
       user.profile.description = profile.description;
@@ -218,6 +219,7 @@ router.post('/updateProfile', function(req, res, next){
         ResHelper.sendError(res, ErrorCodes.MongoError);
       }
       else{
+        console.log("UPDATED PROFILE");
         res.json({"userProfile" : user.userProfile()});
       }
     });
@@ -349,7 +351,7 @@ router.post('/userProfileForUserId', function(req, res, next){
     if (!userId) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
     User.findByUserId(userId, function(requestedUser){
-
+   
       var profile = {
         "firstName" : requestedUser.firstName,
         "lastName" : requestedUser.lastName,
@@ -358,7 +360,11 @@ router.post('/userProfileForUserId', function(req, res, next){
         "verified" : requestedUser.verified,
         "gender" : requestedUser.gender,
         "soireeScore" : requestedUser.soireeScore,
-        "interestedInString" : requestedUser.interestedInString
+        "interestedInString" : requestedUser.interestedInString,
+        "description" : requestedUser.profile.description,
+        "question1" : requestedUser.profile.question1,
+        "question2" : requestedUser.profile.question2,
+        "question3" : requestedUser.profile.question3
       };
 
       res.json({userProfile : profile});
