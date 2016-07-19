@@ -79,7 +79,7 @@ var socketAuthenticate = function(socket, data, callback){
     }
     else{
         console.log('verifying user');
-        User.verifyUser(makeshiftReq, null, function(){console.log("fake next called")}, successCallback, function(err){
+        User.authenticateUser(makeshiftReq, null, function(){console.log("fake next called")}, successCallback, function(err){
             console.log("Error verifying user: " + err);
             return callback(null, false);
         });

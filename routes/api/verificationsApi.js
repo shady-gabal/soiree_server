@@ -35,7 +35,7 @@ var h = require('app/helpers/h');
 //EMAIL VERIFICATION
 
 router.post('/sendVerificationEmail', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         var email = req.body.email;
         email = email.trim();
 
@@ -63,13 +63,13 @@ router.post('/sendVerificationEmail', function(req, res, next){
     }, function(err){
         console.log('error verifying user, not sending email... ' + err);
 
-        ResHelper.sendMessage(res, ErrorCodes.UserVerificationError);
+        ResHelper.sendMessage(res, ErrorCodes.UserAuthenticationError);
     });
 });
 
 
 router.post('/verifyCode', function(req, res, next){
-   User.verifyUser(req, res, next, function(user) {
+   User.authenticateUser(req, res, next, function(user) {
        if (!req.body.code) ResHelper.sendError(ErrorCodes.MissingData);
 
        if (user.verifyCode(req.body.code.toUpperCase()) || user.verified) {
@@ -128,7 +128,7 @@ router.get('/verificationPhoto', function(req, res){
 
 
 router.post('/uploadVerification', upload.fields([{ name: 'id', maxCount: 1 }, { name: 'self', maxCount: 1 }]) , function(req, res, next){
-    User.verifyUser(req, res, next, function(user) {
+    User.authenticateUser(req, res, next, function(user) {
         if (!user.verified) {
 
             var idImageFile = req.files["id"][0];
