@@ -352,28 +352,7 @@ router.post('/userProfileForUserId', function(req, res, next){
     if (!userId) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
     User.findByUserId(userId, function(requestedUser){
-<<<<<<< HEAD
-   
-      var profile = {
-        "firstName" : requestedUser.firstName,
-        "lastName" : requestedUser.lastName,
-        "userId" : requestedUser.userId,
-        "profilePictureUrl" : requestedUser.profilePictureUrl,
-        "verified" : requestedUser.verified,
-        "gender" : requestedUser.gender,
-        "soireeScore" : requestedUser.soireeScore,
-        "interestedInString" : requestedUser.interestedInString,
-        "description" : requestedUser.profile.description,
-        "question1" : requestedUser.profile.question1,
-        "question2" : requestedUser.profile.question2,
-        "question3" : requestedUser.profile.question3
-      };
-
-      res.json({userProfile : profile});
-=======
-
       res.json({userProfile : requestedUser.userProfile()});
->>>>>>> shady
 
     }, function(err){
         ResHelper.sendError(res, err);
