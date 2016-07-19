@@ -39,7 +39,7 @@ var h = require('app/helpers/h');
 router.post('/findUser', function(req, res, next){
   console.log("in findUser...");
 
-  User.verifyUser(req, res, next, function(user){
+  User.authenticateUser(req, res, next, function(user){
     res.json({user : user.jsonObject()});
   });
 
@@ -59,7 +59,7 @@ router.post('/createUser', function(req, res, next){
 
       if (err) {
         console.log(err);
-        return h.ResHelper.sendError(res, h.ErrorCodes.UserVerificationError);
+        return h.ResHelper.sendError(res, h.ErrorCodes.UserAuthenticationError);
       }
       else if (!userFound){
 
@@ -119,7 +119,7 @@ router.post('/changeProfilePictureUrl', function(req, res, next){
   var newProfilePictureUrl = req.body.profilePictureUrl;
   if (!newProfilePictureUrl) return h.ResHelper.sendError(res, ErrorCodes.InvalidInput);
 
-  User.verifyUser(req, res, next, function(user){
+  User.authenticateUser(req, res, next, function(user){
     user.profilePictureUrl = newProfilePictureUrl;
     user.save(function(err){
       if (err){
@@ -132,7 +132,7 @@ router.post('/changeProfilePictureUrl', function(req, res, next){
 
 router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', maxCount: 1 }]) , function(req, res, next){
 
-  User.verifyUser(req, res, next, function(user){
+  User.authenticateUser(req, res, next, function(user){
 
     Image.remove({_user : user._id}).exec(function(err){
       if (err){
@@ -184,7 +184,7 @@ router.post('/uploadProfilePicture', upload.fields([{ name: 'profilePicture', ma
 
 router.post('/updateProfile', function(req, res, next){
 
-  User.verifyUser(req, res, next, function(user){
+  User.authenticateUser(req, res, next, function(user){
 
     var profile = req.body.userProfile;
     if (!profile){
@@ -224,6 +224,7 @@ router.post('/updateProfile', function(req, res, next){
       }
     });
 
+
   });
 
 
@@ -234,7 +235,7 @@ router.post('/updateProfile', function(req, res, next){
 //Braintree
 
 router.post('/braintreeClientToken', function(req, res, next){
-  User.verifyUser(req, res, next, function(user) {
+  User.authenticateUser(req, res, next, function(user) {
 
     h.CreditCardHelper.generateBrainTreeClientToken(function(clientToken){
       res.json({clientToken: clientToken});
@@ -246,7 +247,7 @@ router.post('/braintreeClientToken', function(req, res, next){
 });
 
 router.post('/addBraintreeCard', function(req, res, next){
-  User.verifyUser(req, res, next, function(user) {
+  User.authenticateUser(req, res, next, function(user) {
 
     var paymentNonce = req.body.paymentNonce;
     if (!paymentNonce) {
@@ -263,7 +264,7 @@ router.post('/addBraintreeCard', function(req, res, next){
 });
 
 router.post('/removeBraintreeCard', function(req, res, next){
-  User.verifyUser(req, res, next, function(user) {
+  User.authenticateUser(req, res, next, function(user) {
 
     h.CreditCardHelper.removeBraintreeCard(user, function(_user){
       res.json({user : _user.jsonObject()})
@@ -277,7 +278,7 @@ router.post('/removeBraintreeCard', function(req, res, next){
 //Stripe
 
 router.post('/addStripeCard', function(req, res, next){
-  User.verifyUser(req, res, next, function(user) {
+  User.authenticateUser(req, res, next, function(user) {
 
     var stripeToken = req.body.stripeToken;
     if (!stripeToken) {
@@ -295,7 +296,7 @@ router.post('/addStripeCard', function(req, res, next){
 
 router.post('/removeStripeCard', function(req, res, next){
 
-  User.verifyUser(req, res, next, function(user) {
+  User.authenticateUser(req, res, next, function(user) {
 
     h.CreditCardHelper.removeStripeCard(user, function(_user){
       res.json({user : _user.jsonObject()})
@@ -341,7 +342,7 @@ router.post('/reportProblemForSoiree', function(req, res, next){
 /**** User Specific Data ****/
 
 router.post('/userProfileForUserId', function(req, res, next){
-  User.verifyUser(req, res, next, function(user){
+  User.authenticateUser(req, res, next, function(user){
 
     if (!user.verified){
       return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
@@ -351,6 +352,7 @@ router.post('/userProfileForUserId', function(req, res, next){
     if (!userId) return ResHelper.sendError(res, ErrorCodes.MissingData);
 
     User.findByUserId(userId, function(requestedUser){
+<<<<<<< HEAD
    
       var profile = {
         "firstName" : requestedUser.firstName,
@@ -368,6 +370,10 @@ router.post('/userProfileForUserId', function(req, res, next){
       };
 
       res.json({userProfile : profile});
+=======
+
+      res.json({userProfile : requestedUser.userProfile()});
+>>>>>>> shady
 
     }, function(err){
         ResHelper.sendError(res, err);
@@ -376,7 +382,7 @@ router.post('/userProfileForUserId', function(req, res, next){
   });
 });
 router.post('/fetchUserSoirees', function(req, res, next){
-  User.verifyUser(req, res, next, function(user){
+  User.authenticateUser(req, res, next, function(user){
 
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
 
@@ -434,7 +440,7 @@ router.post('/uploadDeviceToken', function(req, res, next){
     return h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
   }
 
-  User.verifyUser(req, res, next, function(user){
+  User.authenticateUser(req, res, next, function(user){
     user.deviceToken = deviceToken;
 
     user.save(function(err){

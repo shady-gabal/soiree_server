@@ -60,7 +60,7 @@ router.post('/posts', function(req, res, next){
         return ResHelper.sendError(res, ErrorCodes.MissingData);
     }
 
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
 
         var longitude = req.body.user.longitude;
         var latitude = req.body.user.latitude;
@@ -97,7 +97,7 @@ router.post('/postsForUser', function(req, res, next){
         return ResHelper.sendError(res, ErrorCodes.MissingData);
     }
 
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
 
         var userId = req.body.userId;
 
@@ -123,7 +123,7 @@ router.post('/postsForUser', function(req, res, next){
 });
 
 router.post('/postWithPostId', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
        var postId = req.body.postId;
        if (!postId)
         return ResHelper.sendError(res, ErrorCodes.MissingData);
@@ -139,7 +139,7 @@ router.post('/postWithPostId', function(req, res, next){
 
 router.post('/createPost', function(req, res, next){
     console.log('creating post...');
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         if (!user.verified) {
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
         }
@@ -161,14 +161,14 @@ router.post('/createPost', function(req, res, next){
         });
 
     }, function(err){
-        ResHelper.sendError(res, ErrorCodes.UserVerificationError);
+        ResHelper.sendError(res, ErrorCodes.UserAuthenticationError);
     });
 });
 
 /* Comments */
 
 router.post('/createComment', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         if (!user.verified)
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
@@ -192,79 +192,12 @@ router.post('/createComment', function(req, res, next){
 
 
 
-                                /* Emotioning/Unemotioning */
+                                /* Voting */
 
-//router.post('/uploadEmotionForPost', function(req, res, next){
-//    User.verifyUser(req, res, next, function(user){
-//        if (!user.verified)
-//            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
-//
-//        var vote = req.body.vote;
-//        var postId = req.body.postId;
-//
-//        if (vote && postId) {
-//
-//            CommunityPost.emotionPostWithId(postId, user, vote, function(modifiedPost){
-//                ResHelper.sendSuccess(res);
-//            }, function(err){
-//                ResHelper.sendError(res, err);
-//            });
-//
-//
-//            //CommunityPost.findOne({postId: postId}, function (err, post) {
-//            //    if (err || !post) {
-//            //        ResHelper.sendMessage(res, 404, "error finding post: " + err);
-//            //    }
-//            //    else {
-//            //
-//            //        post.vote(user, vote, function (_post) {
-//            //        }, function (err) {
-//            //            console.log(err);
-//            //        });
-//            //
-//            //    }
-//            //});
-//        }
-//    });
-//});
-
-//router.post('/uploadUnemotionForPost', function(req, res, next){
-//    User.verifyUser(req, res, next, function(user){
-//        if (!user.verified)
-//            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
-//
-//        var vote = req.body.vote;
-//        var postId = req.body.postId;
-//
-//        if (vote && postId) {
-//
-//            CommunityPost.unemotionPostWithId(postId, user, vote, function(modifiedPost){
-//                ResHelper.sendSuccess(res);
-//            }, function(err){
-//                ResHelper.sendError(res, err);
-//            });
-//
-//            //CommunityPost.findPostWithId(postId, function (post) {
-//            //
-//            //    post.unemotion(user, vote, function (_post) {
-//            //        ResHelper.sendSuccess(res);
-//            //    }, function (err) {
-//            //        ResHelper.sendError(res, ErrorCodes.ErrorQuerying);
-//            //    });
-//            //}, function(err){
-//            //    ResHelper.sendError(res, err);
-//            //});
-//        }
-//        else{
-//            return ResHelper.sendError(res, ErrorCodes.MissingData);
-//        }
-//    });
-//
-//});
 
 
 router.post('/upvotePost', function(req, res, next){
-   User.verifyUser(req, res, next, function(user){
+   User.authenticateUser(req, res, next, function(user){
        if (!user.verified)
            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
@@ -281,7 +214,7 @@ router.post('/upvotePost', function(req, res, next){
 
 
 router.post('/downvotePost', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         if (!user.verified)
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
@@ -298,7 +231,7 @@ router.post('/downvotePost', function(req, res, next){
 
 
 router.post('/upvoteComment', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         if (!user.verified)
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
@@ -314,7 +247,7 @@ router.post('/upvoteComment', function(req, res, next){
 });
 
 router.post('/downvoteComment', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         if (!user.verified)
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
@@ -331,7 +264,7 @@ router.post('/downvoteComment', function(req, res, next){
 
 
 //router.post('/uploadEmotionForComment', function(req, res, next){
-//    User.verifyUser(req, res, next, function(user){
+//    User.authenticateUser(req, res, next, function(user){
 //        if (!user.verified)
 //            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 //
@@ -360,7 +293,7 @@ router.post('/downvoteComment', function(req, res, next){
 //});
 //
 //router.post('/uploadUnemotionForComment', function(req, res, next){
-//    User.verifyUser(req, res, next, function(user){
+//    User.authenticateUser(req, res, next, function(user){
 //        if (!user.verified)
 //            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 //
