@@ -29,7 +29,7 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var questionnaire;
 
 router.post('/fetchQuestionnaire', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         if (!questionnaire) {
             console.log("fetching questionnaire...");
             var questionnairePath = path.join(__dirname, assetsFolderLocation + "questionnaire/questionnaire.json");

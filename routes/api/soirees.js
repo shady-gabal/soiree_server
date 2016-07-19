@@ -19,7 +19,7 @@ var ErrorCodes = require('app/helpers/ErrorCodes.js');
 var io = Globals.io;
 
 router.post('/soireesNear', function (req, res, next) {
-    User.verifyUser(req, res, next, function (user) {
+    User.authenticateUser(req, res, next, function (user) {
 
         Soiree.findSoireesForUser(req, user, function (soirees) {
             var soireesJson = [];
@@ -53,7 +53,7 @@ router.get('/soireesNear', function (req, res) {
 });
 
 router.post('/joinSoiree', function (req, res, next) {
-    User.verifyUser(req, res, next, function (user) {
+    User.authenticateUser(req, res, next, function (user) {
         if (!user.verified) {
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
         }
@@ -61,15 +61,15 @@ router.post('/joinSoiree', function (req, res, next) {
         var soireeId = req.body.soireeId;
         Soiree.joinSoireeWithId(soireeId, user, function (soiree) {
             res.json({soiree : soiree.jsonObject(user)});
-        }, function (error) {
-            ResHelper.sendError(res, error);
+        }, function (err) {
+            ResHelper.sendError(res, err);
         });
 
     });
 });
 
 router.post('/soireeWithId', function (req, res, next) {
-    User.verifyUser(req, res, next, function (user) {
+    User.authenticateUser(req, res, next, function (user) {
 
         if (!user.verified) {
             return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
@@ -89,7 +89,7 @@ router.post('/soireeWithId', function (req, res, next) {
 
 
 router.post('/reservationForSoiree', function (req, res, next) {
-    User.verifyUser(req, res, next, function (user) {
+    User.authenticateUser(req, res, next, function (user) {
         var soireeId = req.body.soireeId;
         if (!soireeId) {
             return ResHelper.sendError(res, ErrorCodes.MissingData);
@@ -116,7 +116,7 @@ router.post('/findNextSoiree', function(req, res, next){
     var idsToIgnore = req.body.idsToIgnore;
     if (!idsToIgnore) idsToIgnore = [];
 
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         Soiree.findNextSoiree(user, idsToIgnore, function(soiree){
             if (!soiree){
                 res.json({});
@@ -132,7 +132,7 @@ router.post('/findNextSoiree', function(req, res, next){
 });
 
 router.get('/rosterForSoiree', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
 
         var soireeId = req.query.soireeId;
 
@@ -172,7 +172,7 @@ router.get('/rosterForSoiree', function(req, res, next){
 
 
 router.post('/rosterForSoiree', function(req, res, next){
-   User.verifyUser(req, res, next, function(user){
+   User.authenticateUser(req, res, next, function(user){
 
        var soireeId = req.body.soireeId;
        if (!soireeId){

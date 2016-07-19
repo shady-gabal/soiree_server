@@ -30,7 +30,7 @@ var Globals = require('app/helpers/Globals.js');
 var ErrorCodes = require('app/helpers/ErrorCodes.js');
 
 router.post('/fetchNotifications', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
 
         var idsToIgnore = req.body.idsToIgnore;
 
@@ -64,7 +64,7 @@ router.post('/fetchNotifications', function(req, res, next){
 });
 
 router.post('/fetchUnseenNotifications', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
 
         Notification.find({_id : {"$in" : user._unseenNotifications}, seen: false, _user : user._id}).sort({"date" : "descending"}).exec(function(err, notifications){
             if (err){
@@ -83,7 +83,7 @@ router.post('/fetchUnseenNotifications', function(req, res, next){
 });
 
 router.post('/uploadNotificationsTapped', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
 
         var notificationsTapped = req.body.notificationsTapped;
         console.log("notificationsTapped: " + notificationsTapped);
@@ -117,7 +117,7 @@ router.post('/uploadNotificationsTapped', function(req, res, next){
 });
 
 router.post('/uploadNotificationsSeen', function(req, res, next){
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         var notificationsSeen = req.body.notificationsSeen;
         console.log('notifications seen: ' + notificationsSeen);
 
