@@ -92,6 +92,12 @@ hbs.registerHelper('extend', function(name, context) {
     block.push(context.fn(this)); // for older versions of handlebars, use block.push(context(this));
 });
 
+hbs.registerHelper('ifCond', function(v1, v2, options) {
+    if(v1 === v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
 hbs.registerHelper('block', function(name) {
     var val = (blocks[name] || []).join('\n');
 

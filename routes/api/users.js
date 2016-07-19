@@ -16,6 +16,7 @@ var Soiree = require('app/db/Soiree.js');
 var SoireeReservation = require('app/db/SoireeReservation.js');
 var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
+var UserFeedbackList = require ('app/db/UserFeedbackList.js');
 var UserVerification = require('app/db/UserVerification.js');
 var Notification = require('app/db/Notification.js');
 
@@ -103,9 +104,6 @@ router.post('/createUser', function(req, res, next){
 
 });
 
-router.post('/userFeedback', function(req, res){
-  res.json({});
-});
 
 router.post('/login', function(req, res, next){
   User.login(req, res, next, function(user, encodedAccessToken){
@@ -316,24 +314,70 @@ router.post('/removeStripeCard', function(req, res, next){
 /**** Reporting *****/
 
 router.post('/soireeFeedback', function(req, res, next){
+  var message = req.body.message;
+  var type = Globals.feedbackTypes.SOIREE;
+  var userId = req.body.userId;
   var soireeId = req.body.soireeId;
-  if (soireeId){
-    h.ResHelper.sendSuccess(res);
+  var pars = {
+    message : message,
+    type : type,
+    userId : userId,
+    soireeId : soireeId
   }
-  else h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
+  if(!message || !type || !userId || !soireeId){
+    h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
+  }
+  UserFeedbackList.addFeedback(pars, function(err){
+    console.log(err);
+  }, function(list){
+    console.log("Uploaded Soiree feedback ");
+    h.ResHelper.sendSuccess(res);
+  });
 });
 
 router.post('/reportProblemForSoiree', function(req, res, next){
+  var message = req.body.message;
+  var type = Globals.feedbackTypes.PROBLEM;
+  var userId = req.body.userId;
   var soireeId = req.body.soireeId;
-  if (soireeId){
-    h.ResHelper.sendSuccess(res);
+  var pars = {
+    message : message,
+    type : type,
+    userId : userId,
+    soireeId : soireeId
   }
-  else h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
+  if(!message || !type || !userId || !soireeId){
+    h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
+  }
+  UserFeedbackList.addFeedback(pars, function(err){
+    console.log(err);
+  }, function(list){
+    console.log("Uploaded Soiree Problem feedback ");
+    h.ResHelper.sendSuccess(res);
+  });
 });
 
-
-
-
+router.post('/userFeedback', function(req, res){
+  var message = req.body.message;
+  var type = Globals.feedbackTypes.TIP;
+  var userId = req.body.userId;
+  var soireeId = req.body.soireeId;
+  var pars = {
+    message : message,
+    type : type,
+    userId : userId,
+    soireeId : soireeId
+  }
+  if(!message || !type || !userId){
+    h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
+  }
+  UserFeedbackList.addFeedback(pars, function(err){
+    console.log(err);
+  }, function(list){
+    console.log("Uploaded User feedback ");
+    h.ResHelper.sendSuccess(res);
+  });
+});
 
 
 
