@@ -1,7 +1,23 @@
+
+{{#extend "head"}}
+    <meta http-equiv="refresh" content="300" >
+{{/extend}}
+
 {{#extend "stylesheets"}}
     <link rel="stylesheet" href="/stylesheets/businesses/index.css" />
 {{/extend}}
 
+<div id="upcomingSoireesDiv">
+    <span>You have <strong>{{upcomingSoirees.length}}</strong> upcoming soirees today</span>
+    <ul id="upcomingSoireesList">
+        {{#each upcomingSoirees}}
+            <li class="upcomingSoireeListItem">
+                <a href="/businesses/viewSoiree/{{this.soireeId}}" class="upcomingSoireeLink"> <span class="upcomingSoireeStrongItem">{{this.timeString}}</span>, with <span class="upcomingSoireeStrongItem">{{this.numUsersRegistered}} users</span> so far </a>
+            </li>
+        {{/each}}
+
+    </ul>
+</div>
 
 <!--{{#if reservations}}-->
     <!--<ul>-->

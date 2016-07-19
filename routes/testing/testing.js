@@ -128,7 +128,7 @@ router.get('/createTestUsers', function(req, res){
         var last = i < lastNames.length ? lastNames[i] : lastNames[i%lastNames.length];
 
         var profilePictureUrl = profilePictureUrls[i % numToCreate];
-        var email = firstName + lastName + i + "@experiencesoiree.com";
+        var email = first + last + i + "@experiencesoiree.com";
 
         var user = new User({
             firstName : first,
@@ -174,7 +174,7 @@ router.get('/shady', function(req, res){
 });
 
 router.get('/createVerifications', function(req, res, next){
-   //User.verifyUser(req, res, next, function(user){
+   //User.authenticateUser(req, res, next, function(user){
     for (var i = 0; i < _testUsers.length; i++){
         var user = _testUsers[i];
         var verification = new UserVerification({
@@ -193,6 +193,33 @@ router.get('/createVerifications', function(req, res, next){
    //});
 });
 
+router.get('/createPosts', function(req, res){
+   var postsPerUser = 5;
+
+    _testUsers.forEach(function(user){
+
+        for (var k = 0; k < postsPerUser; k++){
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
+
+            for( var i=0; i < 5; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            CommunityPost.createPost({
+                "location" : user.location,
+                "text" : text
+            }, user, function(post){
+                console.log("created post " + post.jsonObject(user));
+            }, function(err){
+                console.log(err);
+            });
+        }
+
+    });
+
+    res.send("OK");
+});
+
 router.get('/refreshUsers', function(req, res){
    refreshUsers(function(){
        res.send("OK");
@@ -209,53 +236,11 @@ router.get('/findUser', function(req, res, next){
     req.body.user = req.query;
     req.body.user.username = "username";
 
-    User.verifyUser(req, res, next, function(user){
+    User.authenticateUser(req, res, next, function(user){
         res.json({user : user});
     }, function(err){
         ResHelper.sendError(res, err);
     });
-
-    //if (facebookAccessToken) {// if facebook
-    //    req.body.user = req.query;
-    //    console.log("facebook access token found - finduser");
-    //
-    //    passport.authenticate('facebook-token', function (err, user, info) {
-    //        if (err) {
-    //            console.log("User not found: " + err);
-    //            return ResHelper.sendError(res, ErrorCodes.Error);
-    //        }
-    //        else if (!user){
-    //            res.json({});
-    //        }
-    //        else{
-    //            //user.checkDeviceUUIDAndDeviceToken(req, function () {
-    //            res.json({user : user});
-    //            //});
-    //        }
-    //    })(req, res, next);
-    //
-    //}
-    //else if (soireeAccessToken){
-    //    req.body.user = req.query;
-    //    passport.authenticate('soiree-access-token', function (err, user, info) {
-    //        if (err) {
-    //            console.log("User not found: " + err);
-    //            return ResHelper.sendError(res, ErrorCodes.Error);
-    //        }
-    //        else if (!user){
-    //            console.log("No user found");
-    //            res.json({});
-    //        }
-    //        else{
-    //            //user.checkDeviceUUIDAndDeviceToken(req, function () {
-    //            res.json({user : user});
-    //            //});
-    //        }
-    //    })(req, res, next);
-    //}
-    //else{ //else if userpw
-    //    ResHelper.sendError(res, ErrorCodes.Error);
-    //}
 
 });
 
@@ -272,7 +257,7 @@ router.get('/createUser', function(req, res, next){
         passport.authenticate('facebook-token', function (err, userFound, info) {
 
             if (err) {
-                return ResHelper.sendError(res, ErrorCodes.UserVerificationError);
+                return ResHelper.sendError(res, ErrorCodes.UserAuthenticationError);
             }
             else if (!userFound){
                 User.createUserWithFacebook(req, function(user){
@@ -420,13 +405,13 @@ router.get('/', function (req, res) {
             });
         };
 
-        CommunityPost.findPosts(req, null, _user, function(posts){
+        CommunityPost.find({}).deepPopulate("_comments").limit(50).exec(function(err, posts){
+           if (err){
+               console.log(err);
+           }
             cb(posts);
-        }, function(err){
-            console.log(err);
-            cb();
-        }, {deepPopulate : "_comments"});
 
+        });
 
     }, function(){
         res.send("error");
@@ -766,7 +751,7 @@ router.get('/deleteCommunity', function(req, res){
 //});
 
 
-router.get('/createBusiness', function(req, res){
+router.get('/createBusiness', function(req, res, next){
     var email = "shady@wearethirdrail.com";
     var password = "9701";
 
@@ -844,7 +829,7 @@ router.get('/allNotifications', function(req, res){
 });
 
 router.get('/fetchNotifications', function(req, res){
-    //User.verifyUser(req, res, next, function(user){
+    //User.authenticateUser(req, res, next, function(user){
 
     var idsToIgnore = req.body.idsToIgnore;
 
@@ -881,7 +866,7 @@ router.get('/fetchNotifications', function(req, res){
 });
 
 router.get('/fetchUnseenNotifications', function(req, res){
-    //User.verifyUser(req, res, next, function(user){
+    //User.authenticateUser(req, res, next, function(user){
 
     //make copy
     var notifIds = [];
@@ -1005,7 +990,7 @@ router.get('/testNotification', function(req, res){
 });
 
 router.get('/uploadNotificationsSeen', function(req, res, next){
-    //User.verifyUser(req, res, next, function(user){
+    //User.authenticateUser(req, res, next, function(user){
     var user = _user;
 
         var notificationsSeen = req.query.notificationsSeen;

@@ -46,6 +46,35 @@
     margin-left: 10px;
 
 }
+
+#upcomingSoireesDiv{
+    width:100%;
+    background-color: rgb(39,115,186);
+    padding: 20px;
+    color: white;
+}
+
+#upcomingSoireesList{
+    display: inline-block;
+    margin-bottom: 0px;
+
+}
+
+.upcomingSoireeStrongItem{
+    font-weight: bold;
+}
+
+.upcomingSoireeListItem{
+    display: inline;
+    margin-right: 25px;
+}
+
+.upcomingSoireeLink{
+    color: white;
+}
+.upcomingSoireeLink:hover{
+    color: lightgray;
+}
 /*#confirmationCodeForm{*/
     /*position:absolute;*/
     /*top:-10%;*/

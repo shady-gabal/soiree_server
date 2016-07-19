@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>{{title}}</title>
+    {{{block "head"}}}
+
     <link href='https://fonts.googleapis.com/css?family=Cedarville+Cursive' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
@@ -10,9 +12,6 @@
     <link rel='stylesheet' href='/stylesheets/shared/base.css' />
     {{{block "stylesheets"}}}
 
-    {{#each stylesheets}}
-        <link rel='stylesheet' href={{this}} />
-    {{/each}}
 </head>
 
 <body>
