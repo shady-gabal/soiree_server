@@ -115,14 +115,21 @@ router.get('/history', function(req,res){
 
 router.get('/recentConfirmations', function(req, res){
     if (req.business){
-        req.business.deepPopulate("_unconfirmedReservations _confirmedReservations", function(err, business){
+        req.business.deepPopulate("_unconfirmedReservations._user _confirmedReservations._user _unconfirmedReservations._soiree _confirmedReservations._soiree", function(err, business){
             if (err){
                 console.log(err);
                 res.status(404).send("Error. Please reload.");
             }
             else{
-                console.log(business);
-                ResHelper.render(req,res,'businesses/recentConfirmations',{business : business});
+                var reservations = [];
+                var confirmedReservations = business._confirmedReservations;
+                for(var i = confirmedReservations.length - 1; i >= 0; i--){
+                    var reservation = confirmedReservations[i];
+                    if(DateHelper.isSameDay(reservation.dateCreated, new Date())){
+                        reservations.push(reservation);
+                    }
+                }
+                ResHelper.render(req,res,'businesses/recentConfirmations',{reservations : reservations});
             }
         });
     }

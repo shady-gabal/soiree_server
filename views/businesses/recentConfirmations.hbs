@@ -1,21 +1,25 @@
 {{#extend "stylesheets"}}
-    <link rel="stylesheet" href="/stylesheets/" />
+
 {{/extend}}
 
 {{#extend "scripts"}}
-    <script src="/javascripts/"></script>
-    <script>
 
-    </script>
 {{/extend}}
-{{#if business._confirmedReservations}}
-<ul>{{#with business._confirmedReservations as reservation}}
-    {{#each reservation}}
-        <li><img src = '" + {{reservation.userProfilePictureUrl}} + "'/><li>
-        <li>Name: {{reservation.userFullName}}</li>
-        <li>Age: {{reservation.userAge}}</li>
-        <li>Amount Prepaid: {{reservation.amountPrepaid}}</li>
-    {{/each}}
-{{/with}}
-{{/if}}
+
+<ul>
+    {{#if reservations}}
+        {{#each reservations}}
+            {{#with this._user as |user|}}
+                <img src = '{{user.profilePictureUrl}}' height = '125' width = '125'/>
+                <li>User ID: {{user.userId}}</li>
+                <li>Name: {{user.firstName}} {{user.lastName}}</li>
+                <li>Age: {{user.age}}</li>
+            {{/with}}
+            <li>Amount Prepaid: {{this.amount}}</li>
+            <li>Soiree ID: {{this._soiree.soireeId}}</li>
+            <li>Soiree Title: {{this._soiree.title}}</li>
+        {{/each}}
+    {{else}}
+        <h1>No Recent Confirmations</h1>
+    {{/if}}
 </ul>
