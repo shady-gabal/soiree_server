@@ -8,3 +8,14 @@
 
     </script>
 {{/extend}}
+{{#if business._confirmedReservations}}
+<ul>{{#with business._confirmedReservations as reservation}}
+    {{#each reservation}}
+        <li><img src = '" + {{reservation.userProfilePictureUrl}} + "'/><li>
+        <li>Name: {{reservation.userFullName}}</li>
+        <li>Age: {{reservation.userAge}}</li>
+        <li>Amount Prepaid: {{reservation.amountPrepaid}}</li>
+    {{/each}}
+{{/with}}
+{{/if}}
+</ul>
