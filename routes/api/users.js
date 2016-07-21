@@ -315,68 +315,77 @@ router.post('/removeStripeCard', function(req, res, next){
 /**** Reporting *****/
 
 router.post('/soireeFeedback', function(req, res, next){
-  var message = req.body.message;
-  var type = Globals.feedbackTypes.SOIREE;
-  var userId = req.body.userId;
-  var soireeId = req.body.soireeId;
-  var pars = {
-    message : message,
-    type : type,
-    userId : userId,
-    soireeId : soireeId
-  }
-  if(!message || !type || !userId || !soireeId){
-    h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
-  }
-  UserFeedbackList.addFeedback(pars, function(err){
-    console.log(err);
-  }, function(list){
-    console.log("Uploaded Soiree feedback ");
-    h.ResHelper.sendSuccess(res);
+
+  User.authenticateUser(req, res, next, function(user){
+    var message = req.body.message;
+    var type = Globals.feedbackTypes.SOIREE;
+    var soireeId = req.body.soireeId;
+    var pars = {
+      message : message,
+      type : type,
+      user : user._id,
+      soireeId : soireeId
+    }
+    if(!message || !type || !soireeId){
+      h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
+    }
+    UserFeedbackList.addFeedback(pars, function(err){
+      console.log(err);
+    }, function(list){
+      console.log("Uploaded Soiree feedback ");
+      h.ResHelper.sendSuccess(res);
+    });
   });
+
 });
 
 router.post('/reportProblemForSoiree', function(req, res, next){
-  var message = req.body.message;
-  var type = Globals.feedbackTypes.PROBLEM;
-  var userId = req.body.userId;
-  var soireeId = req.body.soireeId;
-  var pars = {
-    message : message,
-    type : type,
-    userId : userId,
-    soireeId : soireeId
-  }
-  if(!message || !type || !userId || !soireeId){
-    h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
-  }
-  UserFeedbackList.addFeedback(pars, function(err){
-    console.log(err);
-  }, function(list){
-    console.log("Uploaded Soiree Problem feedback ");
-    h.ResHelper.sendSuccess(res);
+
+  User.authenticateUser(req, res, next, function(user){
+    var message = req.body.message;
+    var type = Globals.feedbackTypes.PROBLEM;
+    var soireeId = req.body.soireeId;
+    var pars = {
+      message : message,
+      type : type,
+      user : user._id,
+      soireeId : soireeId
+    }
+    if(!message || !type || !soireeId){
+      h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
+    }
+    UserFeedbackList.addFeedback(pars, function(err){
+      console.log(err);
+    }, function(list){
+      console.log("Uploaded Soiree Problem feedback ");
+      h.ResHelper.sendSuccess(res);
+    });
   });
+
+
 });
 
-router.post('/userFeedback', function(req, res){
-  var message = req.body.message;
-  var type = Globals.feedbackTypes.TIP;
-  var userId = req.body.userId;
-  var soireeId = req.body.soireeId;
-  var pars = {
-    message : message,
-    type : type,
-    userId : userId,
-    soireeId : soireeId
-  }
-  if(!message || !type || !userId){
-    h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
-  }
-  UserFeedbackList.addFeedback(pars, function(err){
-    console.log(err);
-  }, function(list){
-    console.log("Uploaded User feedback ");
-    h.ResHelper.sendSuccess(res);
+router.post('/userFeedback', function(req, res, next){
+  
+  User.authenticateUser(req, res, next, function(user){
+    var message = req.body.message;
+    var type = Globals.feedbackTypes.TIP;
+    var soireeId = req.body.soireeId;
+    var pars = {
+      message : message,
+      type : type,
+      user : user._id,
+      soireeId : soireeId
+    }
+    if(!message || !type){
+      h.ResHelper.sendError(res, h.ErrorCodes.MissingData);
+    }
+    UserFeedbackList.addFeedback(pars, function(err){
+      console.log(err);
+    }, function(list){
+      console.log("Uploaded User feedback ");
+      h.ResHelper.sendSuccess(res);
+    });
   });
 });
 
