@@ -113,6 +113,31 @@ router.get('/history', function(req,res){
    }
 });
 
+router.get('/recentConfirmations', function(req, res){
+    if (req.business){
+        req.business.deepPopulate("_unconfirmedReservations._user _confirmedReservations._user _unconfirmedReservations._soiree _confirmedReservations._soiree", function(err, business){
+            if (err){
+                console.log(err);
+                res.status(404).send("Error. Please reload.");
+            }
+            else{
+                var reservations = [];
+                var confirmedReservations = business._confirmedReservations;
+                for(var i = confirmedReservations.length - 1; i >= 0; i--){
+                    var reservation = confirmedReservations[i];
+                    if(DateHelper.isSameDay(reservation.dateCreated, new Date())){
+                        reservations.push(reservation);
+                    }
+                }
+                ResHelper.render(req,res,'businesses/recentConfirmations',{reservations : reservations});
+            }
+        });
+    }
+    else{
+        res.redirect('/businessLogin');
+    }
+});
+
 router.get('/viewSoiree/:soireeId', function(req, res){
     var soireeId = req.params.soireeId;
     if (!soireeId) return res.status(404).send("Soiree not found");
