@@ -48,7 +48,7 @@ router.post('/findUser', function(req, res, next){
 
 
 router.post('/createUser', function(req, res, next){
-  
+
   var facebookAccessToken = req.body.facebook_access_token;
   var emailSignupData = req.body.emailSignupData;
   
