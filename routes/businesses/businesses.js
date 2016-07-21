@@ -144,7 +144,14 @@ router.get('/viewSoiree/:soireeId', function(req, res){
 
     Soiree.findBySoireeId(soireeId, function(soiree){
         if (soiree._business._id.equals(req.business._id)){
-            ResHelper.render(req, res, 'businesses/viewSoiree', {soiree : soiree});
+            soiree.deepPopulate("_chargedReservations _unchargedReservations", function(err, soiree){
+                var totalAmountEarned = 0;
+                for(var i = 0; i < soiree._chargedReservations.length; i++){
+                    var chargedRes = soiree._chargedReservations[i];
+                    totalAmountEarned += chargedRes.amount;
+                }
+                ResHelper.render(req, res, 'businesses/viewSoiree', {soiree : soiree, totalAmountEarned : totalAmountEarned});
+            });
         }
         else{
             res.status(404).send("Unauthorized");

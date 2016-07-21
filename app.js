@@ -94,6 +94,19 @@ hbs.registerHelper('extend', function(name, context) {
 hbs.registerHelper('consoleLog', function(value){
     console.log(value);
 });
+hbs.registerHelper('add', function(val1, val2){
+    var sum = val1 + val2;
+    if(sum){
+        return sum;
+    }
+    if(val1){
+        return val1;
+    }
+    if(val2){
+        return val2;
+    }
+    return 0;
+})
 hbs.registerHelper('ifCond', function(v1, v2, options) {
     if(v1 === v2) {
         return options.fn(this);
