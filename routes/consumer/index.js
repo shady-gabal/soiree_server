@@ -28,7 +28,7 @@ router.get('/', function(req, res) {
     ResHelper.render(req, res, 'consumer/index', {});
 });
 
-router.get('/privacyPolicy', function(req, res){
+router.get('/privacy-policy', function(req, res){
     ResHelper.render(req, res, 'consumer/privacyPolicy', {});
 });
 
