@@ -198,8 +198,8 @@ router.post('/createComment', function(req, res, next){
 
 router.post('/upvotePost', function(req, res, next){
    User.authenticateUser(req, res, next, function(user){
-       if (!user.verified)
-           return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+       //if (!user.verified)
+       //    return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
        var postId = req.body.postId;
        if (!postId) return ResHelper.sendError(res, ErrorCodes.MissingData);
@@ -215,8 +215,8 @@ router.post('/upvotePost', function(req, res, next){
 
 router.post('/downvotePost', function(req, res, next){
     User.authenticateUser(req, res, next, function(user){
-        if (!user.verified)
-            return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
+        //if (!user.verified)
+        //    return ResHelper.sendError(res, ErrorCodes.UserNotVerified);
 
         var postId = req.body.postId;
         if (!postId) return ResHelper.sendError(res, ErrorCodes.MissingData);
