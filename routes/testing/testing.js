@@ -769,6 +769,7 @@ router.get('/createBusiness', function(req, res, next){
         soireeTypes : Globals.soireeTypes
     };
 
+
     Business.createBusiness(businessObj, email, password, req.admin, function(business){
         res.send("Created business: " + business);
     }, function(err){

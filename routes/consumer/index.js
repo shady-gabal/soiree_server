@@ -28,6 +28,10 @@ router.get('/', function(req, res) {
     ResHelper.render(req, res, 'consumer/index', {});
 });
 
+router.get('/privacyPolicy', function(req, res){
+    ResHelper.render(req, res, 'consumer/privacyPolicy', {});
+});
+
 router.get('/deleteList', function(req, res){
     BetaSignupEmailList.remove({}, function(err){
         res.send("Completed with err : " + err);
