@@ -425,6 +425,8 @@ function scheduleCron(){
 
 }
 
+app.set('etag', false); // turn off
+
 
 //var  http = require("http")
 //    , response = http.ServerResponse.prototype
