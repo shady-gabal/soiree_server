@@ -1,0 +1,37 @@
+{{#extend "stylesheets"}}
+{{/extend}}
+
+<ul>
+    {{#each types}}
+        {{#with this as |type|}}
+    <li>
+        <h3>{{type}}</h3>
+            <ul>
+                <li>
+                     {{#each ../feedbackByType}}
+                        {{#each this}}
+                                {{#ifCond this.type type}}
+                                    <ul>
+                                        {{#if this._soiree}}
+                                            <li>Soiree Date: {{this._soiree.date}}</li>
+                                            <li>Soiree Type: {{this._soiree.soireeType}}</li>
+                                        {{/if}}
+                                    <li>message: {{this.message}}</li>
+                                    <li>name: {{this._user.firstName}} {{this._user.lastName}}<br/><br/></li>
+                                </ul>
+                                {{/ifCond}}
+                        {{/each}}
+                      {{/each}}
+                 </li>
+            </ul>
+    </li>
+        {{/with}}
+       {{/each}}
+</ul>
+
+{{#extend "scripts"}}
+    <script>
+
+    </script>
+{{/extend}}
+

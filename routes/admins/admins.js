@@ -15,6 +15,7 @@ var mongoose = require('app/db/mongoose_connect.js');
 var Soiree = require('app/db/Soiree.js');
 var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
+var UserFeedbackList = require('app/db/UserFeedbackList.js');
 var Admin = require('app/db/Admin.js');
 
 var DateHelper = require('app/helpers/DateHelper.js');
@@ -52,6 +53,31 @@ router.get('/',  function(req, res){
     //res.render('admins/index', { title: 'The Admin Dashboard', adminFirstName: req.user.firstName });
 });
 
+router.get('/userFeedback', function(req, res){
+    var populateQuery = [{path : 'userFeedback._user, userFeedback._soiree', select : 'firstName lastName'}, {path : 'userFeedback._soiree', select : 'date soireeType soireeId'}];
+    UserFeedbackList.find({}).deepPopulate('userFeedback._user, userFeedback._soiree').exec(function(err, list){
+        if(err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else{
+            var feedbackByType = {};
+            var feedbackList = list[0].userFeedback;
+            for(var i = 0; i < feedbackList.length; i++){
+                var userFeedback = feedbackList[i];
+
+                var type = userFeedback.type;
+                if(!feedbackByType[type]){
+                    feedbackByType[type] = [];
+                }
+                feedbackByType[type].push(userFeedback);
+            }
+            var types = Object.keys(feedbackByType);
+            ResHelper.render(req, res, 'admins/userFeedback', {feedbackByType : feedbackByType, types : types});
+        }
+    });
+});
+
 router.get('/createSoiree', function(req, res){
     Business.find({}).deepPopulate("_approvedBy").exec(function(err, businesses){
         if (err){
@@ -59,7 +85,6 @@ router.get('/createSoiree', function(req, res){
             res.status(404).send(err);
         }
         else{
-
             ResHelper.render(req, res, 'admins/createSoiree', {soireeTypes : Globals.soireeTypes, businesses : businesses});
         }
     });
@@ -76,28 +101,6 @@ router.post('/createSoiree', function(req, res){
     var date = DateHelper.dateFromFormat(day + " " + time, "YYYY-MM-DD hh:mm a");
 
     var businessId = req.body.businessId;
-    Business.findOne({businessId : businessId}).exec(function(err, business){
-        if(err){
-            console.log(err);
-            return res.redirect('/admins/createSoiree');
-        }
-        business.soireeTypes = soireeType;
-         Soiree.createSoireeWithType(soireeType, function(soiree){
-             console.log(" Created Soiree ");
-            return res.redirect('/admins/testing');
-        }, function(err){
-            console.log(err);
-            var errors = ErrorHelper.errorMessagesFromError(err);
-            req.flash('error', errors);
-            return res.redirect('/admins/createSoiree');
-        }, {
-            title: title,
-            numUsersMax: numUsersMax,
-            numUsersMin: numUsersMin,
-            business: business,
-            date: date
-        });
-    });
 
     var currErrors = [];
     if (!soireeType){
@@ -125,6 +128,29 @@ router.post('/createSoiree', function(req, res){
         req.flash('error', currErrors);
         return res.redirect('/admins/createSoiree');
     }
+
+    Business.findOne({businessId : businessId}).exec(function(err, business){
+        if(err){
+            console.log(err);
+            return res.redirect('/admins/createSoiree');
+        }
+        business.soireeTypes = soireeType;
+         Soiree.createSoireeWithType(soireeType, function(soiree){
+             console.log(" Created Soiree ");
+            return res.redirect('/admins/testing');
+        }, function(err){
+            console.log(err);
+            var errors = ErrorHelper.errorMessagesFromError(err);
+            req.flash('error', errors);
+            return res.redirect('/admins/createSoiree');
+        }, {
+            title: title,
+            numUsersMax: numUsersMax,
+            numUsersMin: numUsersMin,
+            business: business,
+            date: date
+        });
+    });
 });
 
 router.get('/registerBusiness', function(req, res){
