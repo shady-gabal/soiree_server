@@ -138,6 +138,9 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
                         if (index !== -1){
                             user._unseenNotifications.splice(index,1);
                         }
+                        else{
+                            console.log("MISSED " + notification);
+                        }
                         if (!notification.seen){
                             notification.seen = true;
                             notification.save(Globals.saveErrorCallback);

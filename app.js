@@ -67,8 +67,10 @@ var testing = require('./routes/testing/testing.js');
 var images =  require('./routes/images/images.js');
 var showInProgress = require('./routes/testing/showInProgress.js');
 
+/* Scheduled */
 var soireeStarterStopper = require('./scheduled/soireeStarterStopper.js');
 var soireeCreator = require('./scheduled/soireeCreator.js');
+var soireeFeedbackNotifier = require('./scheduled/soireeFeedbackNotifier.js');
 
 /* Schedules Cron Tasks that start and end soirees */
 scheduleCron();
@@ -430,7 +432,7 @@ function scheduleCron(){
     try{
         new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
         new CronJob('0 1 0 * * *', soireeCreator, null, true, 'America/New_York');
-
+        new CronJob('0 10 23  * * *', soireeFeedbackNotifier , null, true, 'America/New_York');
     }
     catch(err){
         console.log(err);
