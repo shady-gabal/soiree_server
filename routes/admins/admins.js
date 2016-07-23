@@ -97,6 +97,8 @@ router.post('/createSoiree', function(req, res){
     var soireeType = req.body.soireeType;
     var day = req.body.day;
     var time = req.body.time;
+    var whatYouGet = req.body.whatYouGet;
+    var initialChargeString = req.body.initialCharge;
 
     var date = DateHelper.dateFromFormat(day + " " + time, "YYYY-MM-DD hh:mm a");
 
@@ -124,10 +126,18 @@ router.post('/createSoiree', function(req, res){
     if(!time){
         currErrors.push("Must Pick A Time");
     }
+    if (!whatYouGet){
+        currErrors.push("Must specify item user gets (ex: Entrance to venue and 1st drink free");
+    }
+    if (!initialChargeString){
+        currErrors.push("Must specify initial charge of soiree");
+    }
     if (currErrors.length > 0){
         req.flash('error', currErrors);
         return res.redirect('/admins/createSoiree');
     }
+
+    var initialCharge = parseFloat(initialChargeString);
 
     Business.findOne({businessId : businessId}).exec(function(err, business){
         if(err){
@@ -135,6 +145,7 @@ router.post('/createSoiree', function(req, res){
             return res.redirect('/admins/createSoiree');
         }
         business.soireeTypes = soireeType;
+
          Soiree.createSoireeWithType(soireeType, function(soiree){
              console.log(" Created Soiree ");
             return res.redirect('/admins/testing');
@@ -144,11 +155,13 @@ router.post('/createSoiree', function(req, res){
             req.flash('error', errors);
             return res.redirect('/admins/createSoiree');
         }, {
-            title: title,
-            numUsersMax: numUsersMax,
-            numUsersMin: numUsersMin,
-            business: business,
-            date: date
+             title: title,
+             numUsersMax: numUsersMax,
+             numUsersMin: numUsersMin,
+             business: business,
+             date: date,
+             whatYouGet : whatYouGet,
+             initialCharge : initialCharge
         });
     });
 });

@@ -30,19 +30,21 @@
 
     <input id="timepicker" type="text" class="form-control" placeholder= "Time" name = 'time' required>
 
-    <input list="soireeType" name="soireeType" placeholder="Soiree Type" type = "text">
+    <input list="soireeType" class="form-control" name="soireeType" placeholder="Soiree Type" type = "text">
     <datalist id = "soireeType">
          {{#each soireeTypes}}
             <option class="inputSoireeType"  value = {{this}}>{{this}} </option>
          {{/each}}
     </datalist>
 
-    <input list="business"  name="businessId" placeholder="Business" type = "text">
+    <input list="business" class="form-control" name="businessId" placeholder="Business" type = "text">
     <datalist id = "business">
         {{#each businesses}}
             <option class="inputBusiness" value = {{this.businessId}}><span class='inputSoireeTypeText'>{{this.businessName}}</span> </option>
         {{/each}}
     </datalist>
+    <input name="initialCharge" type="text" class="form-control" placeholder="Initial Charge (e.x. 0.99)" />
+    <input name="whatYouGet" type="text" class="form-control" placeholder="What the user gets" />
 
 
 

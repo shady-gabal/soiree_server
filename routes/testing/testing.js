@@ -949,17 +949,17 @@ router.get('/findNextSoiree', function(req, res, next){
     });
 });
 
-router.post('/createSoiree', function(req, res){
-    console.log('called');
-    var dateString = req.body.date;
-    var date = DateHelper.dateFromTime(dateString);
-
-    Soiree.createTest(function(){
-        res.send("OK");
-    }, function(err){
-       res.status(404).send("Error:" + err);
-    }, {date : date});
-});
+//router.post('/createSoiree', function(req, res){
+//    console.log('called');
+//    var dateString = req.body.date;
+//    var date = DateHelper.dateFromTime(dateString);
+//
+//    Soiree.createTest(function(){
+//        res.send("OK");
+//    }, function(err){
+//       res.status(404).send("Error:" + err);
+//    }, {date : date});
+//});
 
 router.get('/createMovieSoirees', function(req, res){
     var MovieSoiree = require('app/db/MovieSoiree');
