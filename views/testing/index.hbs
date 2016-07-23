@@ -376,6 +376,7 @@
 
     <ul>
         <li> testUser: {{this.testUser}} </li>
+        <li> age : {{_user.age}} </li>
         <li>_currentReservations : [{{#each _user._currentReservations}} &nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;| {{/each}}]</li>
         <li>_pastReservations : [{{#each _user._pastReservations}}&nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;|{{/each}}]</li>
         <li>_notifications : [{{#each _user._notifications}}&nbsp;&nbsp;{{this._id}}&nbsp;&nbsp;|{{/each}}]</li>
@@ -410,7 +411,7 @@
         <h2> Soirees </h2>
         {{#each this}}
              <li>
-                 {{this.soireeId}} : {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledStartTimeIdentifier}} -
+                 {{this.soireeId}} : {{this.title}} ({{this.soireeType}}) at {{this._business.businessName}} at {{this.scheduledStartTimeIdentifier}} -
                 {{#if this.userAlreadyJoined}}
                     <button> Joined </button>
                 {{else}}
@@ -448,6 +449,7 @@
                          <li> startTimeIdentifier : {{this.scheduledStartTimeIdentifier}} </li>
                          <li> endTimeIdentifier : {{this.scheduledEndTimeIdentifier}} </li>
                          <li> businessAddress : {{this.businessAddress}} </li>
+                         <li> restrictions : [ {{#each this.restrictions}} {{this}}, {{/each}} ] </li>
 
                      </ul>
                  </div>

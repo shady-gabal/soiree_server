@@ -43,14 +43,16 @@
             <option class="inputBusiness" value = {{this.businessId}}><span class='inputSoireeTypeText'>{{this.businessName}}</span> </option>
         {{/each}}
     </datalist>
-    <input name="initialCharge" type="text" class="form-control" placeholder="Initial Charge (e.x. 0.99)" />
+    <input name="initialCharge" type="text" class="form-control" placeholder="Initial Charge (e.g. 0.99)" />
     <input name="whatYouGet" type="text" class="form-control" placeholder="What the user gets" />
 
+    <br />
+    <label for="inputSoireeRestrictions">Soiree User Restrictions</label>
+    {{#each soireeRestrictions}}
+        <div class="checkbox"><input type="checkbox" class="inputSoireeRestrictions" value="{{this}}" name='soireeRestrictions'><span class='inputSoireeRestrictionText'>{{this}}</span></div>
+    {{/each}}
 
-
-    <!--<label for="inputPassword" class="sr-only">Password</label>-->
-    <!--<input type="password" id="inputPassword" class="form-control" placeholder="Password" name='password' required>-->
-
+    <br />
     <button class="btn btn-lg btn-primary btn-block submit_button" type="submit" id="registerButton">Create Soiree</button>
 
 </form>

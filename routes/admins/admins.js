@@ -85,7 +85,7 @@ router.get('/createSoiree', function(req, res){
             res.status(404).send(err);
         }
         else{
-            ResHelper.render(req, res, 'admins/createSoiree', {soireeTypes : Globals.soireeTypes, businesses : businesses});
+            ResHelper.render(req, res, 'admins/createSoiree', {soireeTypes : Globals.soireeTypes, soireeRestrictions : Globals.soireeRestrictions, businesses : businesses});
         }
     });
 });
@@ -99,6 +99,7 @@ router.post('/createSoiree', function(req, res){
     var time = req.body.time;
     var whatYouGet = req.body.whatYouGet;
     var initialChargeString = req.body.initialCharge;
+    var restrictions = req.body.soireeRestrictions ? req.body.soireeRestrictions : [];
 
     var date = DateHelper.dateFromFormat(day + " " + time, "YYYY-MM-DD hh:mm a");
 
@@ -161,7 +162,8 @@ router.post('/createSoiree', function(req, res){
              business: business,
              date: date,
              whatYouGet : whatYouGet,
-             initialCharge : initialCharge
+             initialCharge : initialCharge,
+             restrictions : restrictions
         });
     });
 });
