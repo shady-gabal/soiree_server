@@ -87,6 +87,47 @@ router.get('/deleteTestUsers', function(req, res){
     });
 });
 
+router.get('/testConcurrency', function(req, res){
+    var updateQuery = {$inc : {soireeScore : -200}};
+
+    //DOESNT WORK
+   User.findOneAndUpdate({_id : _user._id}, updateQuery, {new :true}, function(err, user){
+     if (err) console.log(err);
+
+       if(user.soireeScore >= 0){
+
+           console.log("200 soiree score points redeemed");
+           user.save(function(err){
+               console.log(err);
+           });
+       }
+       else{
+           User.findOneAndUpdate({_id : _user._id}, {$inc : {soireeScore : 200}}, function(err){});
+       }
+   });
+
+    User.findOneAndUpdate({_id : _user._id}, updateQuery, {new :true}, function(err, user){
+        if (err) console.log(err);
+
+        if(user.soireeScore >= 0){
+
+            console.log("200 soiree score points redeemed");
+            user.save(function(err){
+                console.log(err);
+            });
+        }
+        else{
+            User.findOneAndUpdate({_id : _user._id}, {$inc : {soireeScore : 200}}, function(err){});
+        }
+    });
+
+    res.send("K");
+});
+
+router.get("/testVirtual", function(req, res){
+    _user.t = 50;
+    res.send("OK");
+});
 
 router.get('/createTestUsers', function(req, res){
     _testUsers = [];
