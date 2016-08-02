@@ -25,7 +25,7 @@ var scheduledTasks = function(){
     ////START OR CANCEL IF NECESSARY
     console.log('starting soirees starting...');
 
-    Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow, "$gt" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+    Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
         if (err){
             console.log("Error in scheduledSoirees: " + err);
         }
@@ -34,13 +34,12 @@ var scheduledTasks = function(){
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
                 if (soiree.reachedNumUsersMin){
-                    soiree.startIfPossible();
+                   // soiree.startIfPossible();
+                    soiree.start();
                 }
                 else{
                     soiree.cancel();
                 }
-
-
             }
             console.log('done starting');
         }
@@ -74,7 +73,7 @@ var scheduledTasks = function(){
 
     //REMIND
 //remind people of upcoming soirees or cancel if necessary
-    Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
+    Soiree.find( { "scheduledStartTimeIdentifier" : {"$lte" : scheduledTimeIdentifierReminder, "$gt" : scheduledTimeIdentifierNow}, "started" : false, "ended" : false, "cancelled" : false} ).deepPopulate(deepPopulateFields).exec(function(err, soirees){
         if (err){
             console.log("Error in scheduledSoirees: " + err);
         }
@@ -83,9 +82,11 @@ var scheduledTasks = function(){
             for (var i = 0; i < soirees.length; i++){
                 var soiree = soirees[i];
                 //console.log("Reminding soiree " + soiree.soireeId + " with users attending: " + soiree.numUsersAttending);
-                if (soiree.reachedNumUsersMin && !soiree.openToUsers && !soiree.inProgress){
-                    soiree.open();
-                    soiree.remind(SOIREE_REMIND_BEFORE + "");
+                if (soiree.reachedNumUsersMin){
+                    if(!soiree.openToUsers && !soiree.inProgress) {
+                        soiree.open();
+                        soiree.remind();
+                    }
                 }
                 else{
                     soiree.cancel();

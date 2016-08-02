@@ -67,8 +67,10 @@ var testing = require('./routes/testing/testing.js');
 var images =  require('./routes/images/images.js');
 var showInProgress = require('./routes/testing/showInProgress.js');
 
+/* Scheduled */
 var soireeStarterStopper = require('./scheduled/soireeStarterStopper.js');
 var soireeCreator = require('./scheduled/soireeCreator.js');
+var soireeFeedbackNotifier = require('./scheduled/soireeFeedbackNotifier.js');
 
 /* Schedules Cron Tasks that start and end soirees */
 scheduleCron();
@@ -93,6 +95,30 @@ hbs.registerHelper('extend', function(name, context) {
 });
 hbs.registerHelper('consoleLog', function(value){
     console.log(value);
+});
+hbs.registerHelper('add', function(val1, val2){
+    var sum = val1 + val2;
+    if(sum){
+        return sum;
+    }
+    if(val1){
+        return val1;
+    }
+    if(val2){
+        return val2;
+    }
+    return 0;
+});
+hbs.registerHelper('dateStringFromDate', function(date){
+    
+    return date.toDateString();
+})
+hbs.registerHelper('sumReservations', function(reservations){
+   var sum = 0;
+    for(var i = 0; i < reservations.length; i++){
+        sum += reservations[i].amount;
+    }
+    return sum;
 });
 hbs.registerHelper('ifCond', function(v1, v2, options) {
     if(v1 === v2) {
@@ -417,7 +443,7 @@ function scheduleCron(){
     try{
         new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
         new CronJob('0 1 0 * * *', soireeCreator, null, true, 'America/New_York');
-
+        new CronJob('0 30 17 * * *', soireeFeedbackNotifier , null, true, 'America/New_York');
     }
     catch(err){
         console.log(err);

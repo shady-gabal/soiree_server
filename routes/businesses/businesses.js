@@ -98,13 +98,22 @@ router.get('/contact', function(req, res){
 
 router.get('/history', function(req,res){
    if (req.business){
-       req.business.deepPopulate("_unconfirmedReservations _confirmedReservations", function(err, business){
+       req.business.deepPopulate("_soirees._usersAttending._user _soirees._unchargedReservations._user _soirees._chargedReservations._user", function(err, business){
            if (err){
                console.log(err);
                res.status(404).send("Error. Please reload.");
            }
            else{
-               ResHelper.render(req,res,'businesses/history',{business : business});
+               var pastSoirees = [];
+               for(var i = 0; i < business._soirees.length; i++){
+                   var soiree = business._soirees[i];
+                   var soireeDateEndUTC = soiree.date.getTime() + soiree.duration * 60 * 1000;
+                   var currentUTC = Date.now();
+                   if(soireeDateEndUTC < currentUTC){
+                       pastSoirees.push(soiree);
+                   }
+               }
+               ResHelper.render(req,res,'businesses/history',{soirees : pastSoirees});
            }
        });
    }
@@ -144,7 +153,14 @@ router.get('/viewSoiree/:soireeId', function(req, res){
 
     Soiree.findBySoireeId(soireeId, function(soiree){
         if (soiree._business._id.equals(req.business._id)){
-            ResHelper.render(req, res, 'businesses/viewSoiree', {soiree : soiree});
+            soiree.deepPopulate("_chargedReservations _unchargedReservations", function(err, soiree){
+                var totalAmountEarned = 0;
+                for(var i = 0; i < soiree._chargedReservations.length; i++){
+                    var chargedRes = soiree._chargedReservations[i];
+                    totalAmountEarned += chargedRes.amount;
+                }
+                ResHelper.render(req, res, 'businesses/viewSoiree', {soiree : soiree, totalAmountEarned : totalAmountEarned});
+            });
         }
         else{
             res.status(404).send("Unauthorized");

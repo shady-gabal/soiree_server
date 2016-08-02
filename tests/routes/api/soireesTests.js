@@ -119,7 +119,7 @@ describe('soirees', function() {
                     assert.equal(soiree._unchargedReservations.length, 1, "soiree._unchargedReservations should have 1 reservation");
                     assert.equal(soiree._chargedReservations.length, 0, "soiree._chargedReservations should have no reservations");
 
-                    soiree.deepPopulate("__chargedReservations _unchargedReservations _business", function(err){
+                    soiree.deepPopulate("_chargedReservations _unchargedReservations _business", function(err){
                        if (err){
                            return done(err);
                        }
