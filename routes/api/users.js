@@ -63,7 +63,6 @@ router.post('/createUser', function(req, res, next){
         return h.ResHelper.sendError(res, h.ErrorCodes.UserAuthenticationError);
       }
       else if (!userFound){
-
         User.createUserWithFacebook(req, function(user, encodedAccessToken){
               res.json({user : user.jsonObject(), firstSignUp: true, soireeAccessToken : encodedAccessToken});
         }, function(err, errorMessage){
