@@ -485,7 +485,6 @@ router.post('/uploadDeviceToken', function(req, res, next){
         h.ResHelper.sendSuccess(res);
       }
     });
-
   });
 });
 

@@ -1,24 +1,21 @@
 {{#extend "stylesheets"}}
-    <link rel="stylesheet" href="/stylesheets/" />
+
 {{/extend}}
 
 {{#extend "scripts"}}
-<script src="/javascripts/"></script>
 <script>
 
 </script>
 {{/extend}}
 
-<ul>
-    {{#each soiree}}
-        <li>
-            <ul>
-                <h4></h4>
-                <ul>
-                    <li> : </li>
-                    <li></li>
-                </ul>
-            </ul>
-        </li>
-    {{/each}}
-</ul>
+
+{{#each soirees}}
+    <ul>
+        <h4>{{dateStringFromDate this.date}}</h4>
+        <li>Soiree ID: {{this.soireeId}}</li>
+        <li>{{this._unchargedReservations.length}} Users Not Charged: {{#each this._unchargedReservations}}{{this._user.firstName}} {{this._user.lastName}}, {{/each}}</li>
+        <li>{{this._chargedReservations.length}} Users Charged: {{#each this._chargedReservations}}{{this._user.firstName}} {{this._user.lastName}}, {{/each}}</li>
+        <li>Total Amount: ${{sumReservations this._chargedReservations}}</li>
+    </ul>
+{{/each}}
+

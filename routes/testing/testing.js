@@ -520,7 +520,8 @@ router.get('/startSoiree', function(req, res){
                 res.status(404).send("Error");
             }
             else{
-                soiree.startIfPossible();
+                //soiree.startIfPossible();
+                soiree.start();
                 res.send("OK");
             }
         });
