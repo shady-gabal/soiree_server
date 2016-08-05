@@ -22,6 +22,7 @@ var UserVerification = require('app/db/UserVerification.js');
 var Admin = require('app/db/Admin.js');
 var Notification = require('app/db/Notification.js');
 var BetaSignupEmailList = require('app/db/BetaSignupEmailList.js');
+var ConfirmationCodeslist = require('app/db/ConfirmationCodesList');
 
 var EmailHelper = require('app/helpers/EmailHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
@@ -1033,6 +1034,14 @@ router.get('/uploadNotificationsSeen', function(req, res, next){
 
         else ResHelper.sendSuccess(res);
     //});
+});
+
+router.get('/betaPartySignupList', function(req, res){
+    ConfirmationCodeslist.getList(function(list){
+       ResHelper.render(req, res, "admins/betaPartySignupList", {list : list, numSignups : list.confirmationCodes.length});
+    }, function(){
+        res.send("Error");
+    });
 });
 
 router.get('/betaSignupEmailList', function(req,res){
