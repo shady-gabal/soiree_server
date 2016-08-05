@@ -13,6 +13,8 @@ var Handlebars = require('hbs').handlebars;
 var CreditCardHelper = require('app/helpers/CreditCardHelper');
 var btGateway = require('app/misc/braintreeGateway');
 var braintree = require('braintree');
+var ConfirmationCodesList = require('app/db/ConfirmationCodesList');
+var EmailHelper = require('app/helpers/EmailHelper');
 
 function checkForList(){
     BetaSignupEmailList.findOne({}, function(err, list){
@@ -56,11 +58,19 @@ router.post('/party', function(req, res){
     }, function(err, result){
         if (err){
             console.log(err);
-
+            res.redirect('/party');
         }
         else{
+            ConfirmationCodesList.createConfirmationCode(email, function(code){
+                EmailHelper.sendEmailReservationConfirmation(email, code, function(){
+                    ResHelper.render(req, res, 'consumer/soireeCheckoutFinish', {code : code});
+                }, function(){
+                    ResHelper.render(req, res, 'consumer/soireeCheckoutFinish', {code : code});
+                });
 
-            res.redirect('/party/finish');
+            }, function(err){
+                res.redirect('/party');
+            });
         }
     });
 });
