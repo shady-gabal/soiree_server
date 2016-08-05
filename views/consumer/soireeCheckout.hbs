@@ -1,0 +1,111 @@
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="/stylesheets/consumer/party.css" />
+{{/extend}}
+
+{{#extend "scripts"}}
+ <script type="text/javascript" src="https://js.braintreegateway.com/v2/braintree.js"></script>
+
+<script>
+    var token = "{{clientToken}}";
+    var animLen = 500;
+
+    braintree.setup(token, "dropin", {
+        container: "bt-dropin",
+        amount : 21.00,
+        currency : 'USD',
+        styles : {
+            'input' : {
+                'background-color' : 'red'
+            }
+        }
+    });
+
+    function showPaymentForm(){
+
+        $("#details-container").fadeOut(animLen, function(){
+            $("#bt-form-padding").show();
+
+            $("#bt-dropin-wrapper").fadeIn(500, function(){
+
+            });
+
+        });
+    }
+
+    function back(){
+        $("#bt-dropin-wrapper").fadeOut(animLen, function(){
+            $("#details-container").fadeIn(500, function(){
+
+            });
+
+        });
+    }
+</script>
+
+{{/extend}}
+
+<div id="_container">
+    <div id="details-container">
+        <h1 id="details-header">Soirée Takes Over Broadway</h1>
+
+        <div id="details-address">
+            <h4> <strong>Thursday, August 11th</strong> at <strong>6:30 PM</strong></h4>
+            <h4> <strong>Broadway Comedy Club </strong></h4>
+            <h4> <strong>318 W 53rd St</strong></h4>
+            <h4> <strong>New York, NY 10019</strong></h4>
+        </div>
+
+        <div id="details-description">
+            <p class="details">Join us and a hundred other exclusive Insiders at the famous Broadway Comedy Club as we celebrate the launch of the Soirée beta, with two hours of laughs, cheap drinks, chatting with interesting strangers, and a sneak peek into the future of new friendships. Hosted by provocative up-and-coming comedian Juannell Riley and featuring the most unique lineup of comedians ever, you will NOT leave this show without several lines to tell your friends and co-workers tomorrow.</p>
+            <p class="details">Buy your ticket below, and make sure to download the Soirée app when it hits the app store August 8th to take advantage of an incredible deal that you will not find anywhere else!</p>
+        </div>
+
+
+
+        <div style="text-align:center">
+            <button class="button" id="open-payment-button" onClick="showPaymentForm()"><span>Reserve Your Spot</span></button>
+        </div>
+
+
+    </div>
+
+    <div id="bt-form-padding"></div>
+    <div id="bt-dropin-wrapper">
+
+        <div id="soiree-details">
+            <h4 style="text-align:center">Cost:</h4>
+            <h4 style="text-align:center"><strong>$21.00</strong></h4>
+            <br />
+            <h4>What you get:</h4>
+            <ul>
+                <li>2 hour long comedy show</li>
+                <li>2 free drinks</li>
+                <li>Pokemon Go Lures all night long</li>
+            </ul>
+
+            <br />
+            <h4><strong>Note: You must be 18+ to enter the club, and 21+ to buy drinks.</strong></h4>
+            <br />
+        </div>
+
+
+
+        <form id="paymentForm" action="/party" method="POST">
+            <div id="bt-dropin"></div>
+            <input type="email" id="email" name="email" placeholder="Email" required />
+            <button class="form-control"  id="payment-button" type="submit"><span>Join the Party</span></button>
+        </form>
+        <div style="text-align:center">
+
+        <button id="back-button" onclick="back()">Back</button>
+            </div>
+    </div>
+
+
+    <p id="fine-print">Any questions? Contact us at <a style="text-decoration: none;" href="mailto:support@experiencesoiree.com"><strong>support@experiencesoiree.com</strong></a> <br/> <a href="/privacy-policy"><strong>Privacy Policy</strong></a> </p>
+
+
+
+</div>
+
+

@@ -83,7 +83,7 @@ describe('users', function(){
                 var soireeAccessToken = res.body.soireeAccessToken;
                 assert.isOk(userJson, 'user should not be null');
                 assert.isOk(userJson.userId, 'user should have an ID value');
-                assert.isOk(soireeAccessToken),'user should have a soiree access token';
+                assert.isOk(soireeAccessToken,'user should have a soiree access token');
 
                 done();
             });
@@ -101,7 +101,7 @@ describe('users', function(){
             var soireeAccessToken = res.body.soireeAccessToken;
             assert.isOk(userJson, 'user should not be null');
             assert.isOk(userJson.userId, 'user should have an ID value');
-            assert.isOk(soireeAccessToken),'user should have a soiree access token';
+            assert.isOk(soireeAccessToken,'user should have a soiree access token');
 
             done();
         });
@@ -120,7 +120,6 @@ describe('users', function(){
     });
 
     it('should upload profile picture', function(done){
-        console.log(_userParams);
         var username = _userParams.username;
         var token = _userParams.soiree_access_token;
         request(app).post(base + '/uploadProfilePicture').field('user[soiree_access_token]', token)
@@ -263,7 +262,6 @@ describe('users', function(){
                    console.log(err);
                }
                 assert.isOk(user.deviceToken, 'user should have device token');
-
                 done();
             });
         });

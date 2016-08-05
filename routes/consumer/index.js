@@ -8,6 +8,12 @@ var BetaSignupEmailList = require('app/db/BetaSignupEmailList');
 var ResHelper = require('app/helpers/ResHelper.js');
 var h = require('app/helpers/h');
 
+var Handlebars = require('hbs').handlebars;
+
+var CreditCardHelper = require('app/helpers/CreditCardHelper');
+var btGateway = require('app/misc/braintreeGateway');
+var braintree = require('braintree');
+
 function checkForList(){
     BetaSignupEmailList.findOne({}, function(err, list){
         if (err){console.log(err);}
@@ -26,6 +32,41 @@ checkForList();
 /* GET home page. */
 router.get('/', function(req, res) {
     ResHelper.render(req, res, 'consumer/index', {});
+});
+
+router.get('/party', function(req, res){
+    CreditCardHelper.generateBrainTreeClientToken(function(token){
+        ResHelper.render(req, res, "consumer/soireeCheckout", {clientToken : new Handlebars.SafeString( token)});
+    }, function(){
+       res.send("Oops! Looks like there is too much demand for this webpage, and the server is having trouble keeping up. Please try again later.");
+    });
+
+});
+
+router.post('/party', function(req, res){
+    var nonce = req.body.payment_method_nonce;
+    var email = req.body.email;
+
+    btGateway.transaction.sale({
+        amount: 21.00,
+        paymentMethodNonce : nonce,
+        customer : {
+            email : email
+        }
+    }, function(err, result){
+        if (err){
+            console.log(err);
+
+        }
+        else{
+
+            res.redirect('/party/finish');
+        }
+    });
+});
+
+router.get('/party/finish', function(req, res){
+    ResHelper.render(req, res, 'consumer/soireeCheckoutFinish', {});
 });
 
 router.get('/privacy-policy', function(req, res){

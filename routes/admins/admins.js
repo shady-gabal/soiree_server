@@ -138,7 +138,7 @@ router.post('/createSoiree', function(req, res){
         return res.redirect('/admins/createSoiree');
     }
 
-    var initialCharge = parseFloat(initialChargeString);
+    var initialCharge = parseFloat(initialChargeString) * 100;
 
     Business.findOne({businessId : businessId}).exec(function(err, business){
         if(err){

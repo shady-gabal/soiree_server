@@ -1,5 +1,5 @@
 html,body{
-    background-image: url("/images/experiencesoiree_bg2.png");
+    background-image: url("/images/experiencesoiree_bg.png");
     background-repeat : no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -68,6 +68,18 @@ html{
     /*-webkit-border-radius: 5px;*/
     /*background-color:white;*/
     display: none;
+}
+
+#eventButton{
+    background-color: rgb(39,115,186);
+    color: white;
+}
+#eventButton:hover{
+    background-color: rgb(20,95,160);
+}
+#eventButton a{
+    text-decoration: none;
+    color: white;
 }
 
 .signupButton:hover{

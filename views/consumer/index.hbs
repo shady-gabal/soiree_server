@@ -33,8 +33,9 @@
         <div id="emailSignupDiv">
             <input type="email" name="email" placeholder="email address" id="emailSignupInput" autofocus />
 
-            <button type="button" class="signupButton" id="emailSignupSubmit" onclick="signupButtonTapped()">signup for the beta</button>
+            <button type="button" class="signupButton" id="emailSignupSubmit" onclick="signupButtonTapped()">send me a beta invite</button>
             <button type="button" class="signupButton" id="infoButton" onclick="infoButtonTapped()">(what is Soirée?)</button>
+            <button type="button" class="signupButton" id="eventButton" onclick="eventButtonTapped()"><a href="/party">August 11th Soirée - Join!</a></button>
 
             <h3 id="slogan">come have the best summer of your life.</h3>
 
@@ -195,6 +196,7 @@
             });
         };
 
+
         function validateEmail(email) {
 
             if (!email) return false;
@@ -206,11 +208,14 @@
             return false;
         }
 
+
+
         window.onload = function(){
             setTimeout(function(){$("#soiree").fadeIn(2000);}, 500);
             setTimeout(function(){$("#emailSignupInput").fadeIn(1500);}, 3500);
             setTimeout(function(){$("#emailSignupSubmit").fadeIn(1500);}, 4300);
             setTimeout(function(){$("#infoButton").fadeIn(1500);}, 4600);
+            setTimeout(function(){$("#eventButton").fadeIn(1500);}, 4900);
             setTimeout(function(){$("#slogan").fadeIn(1000);}, 5500);
 
             $("input:radio[name=gender]").click(function() {
