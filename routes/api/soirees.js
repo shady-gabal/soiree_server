@@ -105,7 +105,9 @@ router.post('/reservationForSoiree', function (req, res, next) {
             }
             else {
                 //TODO: make {reservation : }
-                res.json(reservation.jsonObject());
+                reservation.makeJsonObject(function(jsonObject){
+                    res.json({reservation : jsonObject});
+                });
             }
         });
     });

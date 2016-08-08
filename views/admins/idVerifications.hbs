@@ -32,7 +32,7 @@
                             if (verifications.length == 0 && !currentVerification){
                                 noMoreVerifications();
                             }
-                            else fetchMoreVerifications();
+//                            else fetchMoreVerifications();
                         }
                         if (showOnLoad){
                             showNextVerification();
@@ -61,7 +61,12 @@
                 $("#verification").html(verificationDiv);
 //                alert('3' + JSON.stringify(currentVerification));
 
-            }
+                if (verifications.length < MinNumVerifications) {
+                    fetchMoreVerifications();
+                }
+
+
+                }
             else{
                 noMoreVerifications();
             }

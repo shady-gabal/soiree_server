@@ -62,6 +62,10 @@ router.get('/userFeedback', function(req, res){
         }
         else{
             var feedbackByType = {};
+            if (list.length === 0){
+                return  ResHelper.render(req, res, 'admins/userFeedback', {});
+            }
+
             var feedbackList = list[0].userFeedback;
             for(var i = 0; i < feedbackList.length; i++){
                 var userFeedback = feedbackList[i];

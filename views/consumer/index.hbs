@@ -2,237 +2,253 @@
     <link rel="stylesheet" href="/stylesheets/consumer/index.css" />
 {{/extend}}
 
-<div id="infoDiv">
-    <h3 id="infoTextHeader">What is Soirée?</h3>
-
-    <div id="infoDivText">
-
-        <p class="infoText">Meeting new people nowadays relies mostly on apps like Tinder, OKCupid, and others. However, people who use these apps often spend hours on the app swiping left and right, only to get just a handful of matches and even fewer real world meetups.</p>
-
-        <p class="infoText">Rather than force you to waste your time going through endless words and profiles, we at Soirée believe that the best way to meet people is out in the real world.</p>
-
-        <p class="infoText">Soirée is an app that allows people to go on soirées, events with anywhere from 10-40 people designed make meeting new people easy, safe, and most of all, fun. After a single soirée, you’ll have met more new fun people than you would in a month’s worth of going out to bars!</p>
-
-        <!--<p class="infoText">Going on a soirée is as simple as picking one from the soirées happening near you and tapping a big button named 'Join'. Then prepay a couple dollars off your first drink, just to make sure that you really plan on showing up, and that's it! We'll give you a confirmation code, and when you get to the bar or restaurant, just show it to them and they'll take whatever you prepaid off your first drink.</p>-->
-
-        <p class="infoText">We're also the first app ever to make sure that everyone is exactly who they say they are by requiring users to verify themselves with a picture of their ID before they can go on soirees. It only takes a second, yet you’ll never have to worry about fake profiles, or people pretending to be someone else, ever again!</p>
-
-        <p class="infoText"><strong> We’re entering the iOS beta in the next few weeks - sign up now to reserve your spot! </strong></p>
-
-    </div>
-
-    <button type="button" id="infoBackButton" class="btn btn-lg btn-default backButton" onclick="infoBackButtonTapped()">Back</button>
-</div>
-
-
-
-<div id="container">
-    <div id="introDiv">
-        <h1 id="soiree"> Soirée </h1>
-
-        <div id="emailSignupDiv">
-            <input type="email" name="email" placeholder="email address" id="emailSignupInput" autofocus />
-
-            <button type="button" class="signupButton" id="emailSignupSubmit" onclick="signupButtonTapped()">send me a beta invite</button>
-            <button type="button" class="signupButton" id="infoButton" onclick="infoButtonTapped()">(what is Soirée?)</button>
-            <button type="button" class="signupButton" id="eventButton" onclick="eventButtonTapped()"><a href="/party">August 11th Soirée - Join!</a></button>
-
-            <h3 id="slogan">come have the best summer of your life.</h3>
-
-        </div>
-    </div>
-
-
-    <p class="radioButtonDivLabel"> Gender: </p>
-    <div id="gender" class="radioButtonDiv">
-        <label class="btn btn-lg btn-default radioButton"><input type="radio" name="gender" value="male" /> Male </label>
-        <label class="btn btn-lg btn-default radioButton"><input type="radio" name="gender" value="female" /> Female</label>
-    </div>
-
-    <p class="radioButtonDivLabel"> Operating System: </p>
-    <div id="os" class="radioButtonDiv">
-        <label class="btn btn-lg btn-default radioButton"><input type="radio" name="os" value="ios" /> iOS </label>
-        <label class="btn btn-lg btn-default radioButton"><input type="radio" name="os" value="android" /> Android</label>
-    </div>
-    <p class='message' id="workingMessage">Just a sec boo...</p>
-
-    <div id="successDiv">
-        <p class='message' id="successMessage">Congratulations! You've signed up for the Soirée beta. We'll contact you very soon with an invitation.</p>
-        <div class="buttonDiv">
-            <button type="button" id="backButton" class="btn btn-lg btn-default backButton" onclick="backButtonTapped()">Back</button>
-        </div>
-    </div>
-
-
-</div>
-
 {{#extend "scripts"}}
-    <script type="text/javascript">
-        var signingUp = false;
-        var buttonAnimationDuration = 1000;
-        var animatingNormal = false;
-        var animatingBusy = false;
+ <script type="text/javascript" src="https://js.braintreegateway.com/v2/braintree.js"></script>
 
-        var _animateButtonNormal = false;
-        var _animateButtonBusy = false;
+<script>
+    var pageCurrentlyShowing = "party";
+    var animLen = 300;
+    var loadedPaymentForm = false;
+    var showingPaymentForm = false;
 
-        var gender, os;
-
-        var originalText = $("#emailSignupSubmit").text();
-        var busyText = "just a sec boo...";
-
-        var str = "";
-
-        function startedRequest(callback){
-            signingUp = true;
-            var fadeOutInterval = 250;
-            $(".radioButtonDiv").fadeOut(fadeOutInterval);
-            $(".radioButtonDivLabel").fadeOut(fadeOutInterval);
-            setTimeout(function(){$("#workingMessage").fadeIn(fadeOutInterval, callback);}, fadeOutInterval);
-//            setTimeout(callback, fadeOutInterval*2);
-        };
-
-        function finishedRequest(callback){
-            signingUp = false;
-            $("#workingMessage").fadeOut(250,callback);
-        }
+    loadPaymentForm();
 
 
-        function signupButtonTapped(){
-            var email = $("#emailSignupInput").val();
-            if (!email){
-                alert("Wait a sec boo you need to enter an email address.");
-                return;
-            }
-            if (!validateEmail(email)){
-                alert("Sorry bae but it looks like you entered an invalid email address");
-                return;
-            }
-            var fadeOutInterval = 250;
-            var fadeInInterval = fadeOutInterval;
+    function showPaymentForm(){
+        showingPaymentForm = true;
 
-            $("#introDiv").fadeOut(fadeOutInterval);
+        $("#party-details-container").fadeOut(animLen, function(){
+            $("#bt-form-padding").show();
+            $("#bt-dropin-wrapper").fadeIn(500, function(){
 
-            setTimeout(function(){$(".radioButtonDivLabel").fadeIn(fadeInInterval);}, fadeOutInterval * 2);
-            setTimeout(function(){$(".radioButtonDiv").fadeIn(fadeInInterval);}, fadeOutInterval * 2);
-
-        }
-
-        function signedUp(){
-            var fadeOutInterval = 250;
-            var fadeInInterval = fadeOutInterval;
-            $("#successMessage").fadeIn(fadeInInterval);
-            setTimeout(function(){$("#backButton").fadeIn(fadeInInterval);}, fadeOutInterval*2);
-        };
-
-        function errorSigningUp(){
-            gender = null;
-            os = null;
-            $("input:radio[name=os]").prop('checked', false);
-            $("input:radio[name=gender]").prop('checked', false);
-            $("#introDiv").fadeIn(500);
-        };
-
-        function signupEmail(){
-            if (!signingUp && gender && os) {
-                startedRequest(function(){
-                    var email = $("#emailSignupInput").val();
-
-                    $.ajax({
-                        url: '/addEmail',
-                        method : 'POST',
-                        data : {email : email, gender: gender, os : os},
-                        success: function(){
-                            finishedRequest(signedUp);
-//                            signedUp();
-                        },
-                        error: function(err){
-                            finishedRequest(function(){
-                                if (err.responseText === "InvalidEmail"){
-                                    alert("Sorry bae but it looks like you entered an invalid email address");
-                                }
-                                else if (err.responseText === "EmailExists"){
-                                    alert("Hold up boo - it looks like this email address is already signed up");
-                                }
-                                else alert("There was an error signing you up. Sorry <3. Maybe try again? ");
-                                errorSigningUp();
-                            });
-
-
-                        }
-                    });
-                });
-
-            }
-        };
-
-        function checkIfFinished(){
-            if (['male', 'female'].indexOf(gender) !== -1 && ['ios', 'android'].indexOf(os) !== -1){
-                signupEmail();
-            }
-        }
-
-        function backButtonTapped(){
-            gender = null;
-            os = null;
-            $("input:radio[name=os]").prop('checked', false);
-            $("input:radio[name=gender]").prop('checked', false);
-
-            $("#backButton").fadeOut(500);
-            $("#successMessage").fadeOut(500, function(){
-                $("#introDiv").fadeIn(500);
             });
-        };
 
-        function infoButtonTapped(){
-          $("#introDiv").fadeOut(500, function(){
-             $("#infoDiv").fadeIn(500);
-          });
-        };
+        });
+    }
 
-        function infoBackButtonTapped(){
-            $("#infoDiv").fadeOut(500, function(){
-                $("#introDiv").fadeIn(500);
+    function backToPartySignup(){
+        showingPaymentForm = false;
+
+        $("#bt-dropin-wrapper").fadeOut(animLen, function(){
+            $("#party-details-container").fadeIn(500, function(){
+
             });
-        };
 
+        });
+    }
 
-        function validateEmail(email) {
+    function loadPaymentForm(){
+        if (!loadedPaymentForm){
+            loadedPaymentForm = true;
+            var token = "{{clientToken}}";
 
-            if (!email) return false;
-            email = email.trim();
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if (re.test(email)){
-                return true;
+            braintree.setup(token, "dropin", {
+                container: "bt-dropin",
+                singleUse : true,
+                amount : 21.00,
+                currency : 'USD'
+            });
+        }
+
+    }
+
+    function showPage(targetPage){
+        if (targetPage === pageCurrentlyShowing){
+            if (targetPage === "party" && showingPaymentForm){
+                backToPartySignup();
             }
-            return false;
+            return;
+        }
+
+        var containerToHide, containerToShow, tabToSelect, tabToDeselect;
+
+        if(pageCurrentlyShowing === "info"){
+            containerToHide = "#info-container";
+            tabToDeselect = "#infoTab";
+        }
+        else if (pageCurrentlyShowing === "party"){
+            if (showingPaymentForm) containerToHide = "#bt-dropin-wrapper";
+            else containerToHide = "#party-details-container";
+            tabToDeselect = "#partyTab";
+        }
+        else if (pageCurrentlyShowing === "different"){
+            containerToHide = "#different-container";
+            tabToDeselect = "#differentTab";
+
+        }
+        else if (pageCurrentlyShowing === "taste"){
+            containerToHide = "#taste-container";
+            tabToDeselect = "#tasteTab";
         }
 
 
 
-        window.onload = function(){
-            setTimeout(function(){$("#soiree").fadeIn(2000);}, 500);
-            setTimeout(function(){$("#emailSignupInput").fadeIn(1500);}, 3500);
-            setTimeout(function(){$("#emailSignupSubmit").fadeIn(1500);}, 4300);
-            setTimeout(function(){$("#infoButton").fadeIn(1500);}, 4600);
-            setTimeout(function(){$("#eventButton").fadeIn(1500);}, 4900);
-            setTimeout(function(){$("#slogan").fadeIn(1000);}, 5500);
+        if (targetPage === "info") {
+            containerToShow = "#info-container";
+            tabToSelect = "#infoTab";
+        }
+        else if (targetPage === "party") {
+            containerToShow = "#party-details-container";
+            tabToSelect = "#partyTab";
+        }
+        else if (targetPage === "different"){
+            containerToShow = "#different-container";
+            tabToSelect = "#differentTab";
 
-            $("input:radio[name=gender]").click(function() {
-                gender = $(this).val();
-                checkIfFinished();
+        }
+        else if (targetPage === "taste"){
+            containerToShow = "#taste-container";
+            tabToSelect = "#tasteTab";
+        }
+
+        pageCurrentlyShowing = targetPage;
+
+//        alert("hiding " + containerToHide + " showing " + containerToShow);
+
+
+        $(containerToHide).fadeOut(animLen, function() {
+            $(containerToShow).fadeIn(animLen, function () {
+
             });
+        });
 
-            $("input:radio[name=os]").click(function() {
-                os = $(this).val();
-                checkIfFinished();
-            });
+        $(tabToDeselect).removeClass("active");
+        $(tabToSelect).addClass("active");
 
-        };
+        if (targetPage === "party"){
+            loadPaymentForm();
+        }
+        if (showingPaymentForm){
+            showingPaymentForm = false;
+        }
 
 
-    </script>
+    }
+</script>
 
 {{/extend}}
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><span class="party-let" id="logo">Soirée</span></a>
+        </div>
+
+        <div id="navbar" class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav">
+                <li id="infoTab"><a href="javascript:;" onclick="showPage('info')">What is Soirée?</a></li>
+                <li id="differentTab"><a href="javascript:;" onclick="showPage('different')">How are we different?</a></li>
+                <li id="tasteTab"><a href="javascript:;" onclick="showPage('taste')">A taste of Soirée</a></li>
+                <li id="partyTab" class="active"><a href="javascript:;" onclick="showPage('party')">Party August 11th</a></li>
+
+                <li></li>
+
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+
+</nav>
+
+<div id="_container">
+    <!-- Info -->
+    <div id="info-container">
+        <div style="text-align:center"><h4><strong>What is Soirée?<strong></h4></div>
+
+    </div>
+
+    <!-- Taste -->
+    <div id="taste-container">
+        <div style="text-align:center"><h4><strong>A taste of Soirée<strong></h4></div>
+
+    </div>
+
+    <!-- Different -->
+    <div id="different-container">
+        <div style="text-align:center"><h4><strong>How are we different?</strong></h4></div>
+
+    </div>
+
+    <!-- Party -->
+    <div id="party-details-container">
+        <h1 id="party-details-header">Soirée Takes Over Broadway</h1>
+
+        <div id="party-details-address">
+            <h4> <strong>Thursday, August 11th</strong> at <strong>6:30 PM</strong></h4>
+            <h4> <strong>Broadway Comedy Club </strong></h4>
+            <h4> <strong>318 W 53rd St</strong></h4>
+            <h4> <strong>New York, NY 10019</strong></h4>
+        </div>
+
+        <div id="party-details-description">
+            <p class="party-details">Join us and a hundred other exclusive Insiders at the famous Broadway Comedy Club as we celebrate the launch of the Soirée beta, with two hours of laughs, cheap drinks, chatting with interesting strangers, and a sneak peek into the future of new friendships. Hosted by provocative up-and-coming comedian Juannell Riley and featuring the most unique lineup of comedians ever, you will NOT leave this show without several lines to tell your friends and co-workers tomorrow.</p>
+            <p class="party-details">Buy your ticket below, and make sure to download the Soirée app when it hits the app store August 8th to take advantage of an incredible deal that you will not find anywhere else!</p>
+        </div>
+
+
+
+        <div style="text-align:center">
+            <button class="button" id="open-payment-button" onClick="showPaymentForm()"><span>Reserve Your Spot</span></button>
+        </div>
+
+
+    </div>
+
+    <div id="bt-form-padding"></div>
+    <div id="bt-dropin-wrapper">
+
+        <div id="soiree-party-details">
+            <h4 style="text-align:center">Cost:</h4>
+            <h4 style="text-align:center"><strong>$21.00</strong></h4>
+            <br />
+            <h4>What you get:</h4>
+            <ul id="soiree-party-details-list">
+                <li>2 hour long comedy show</li>
+                <li>2 free drinks</li>
+                <li>Pokemon Go Lures all night long</li>
+            </ul>
+
+            <br />
+            <h4><strong>Note: You must be 18+ to enter the club, and 21+ to buy drinks.</strong></h4>
+            <br />
+        </div>
+
+
+
+        <form id="paymentForm" action="/party" method="POST">
+            <div id="bt-dropin"></div>
+            <input type="text" class="payment-field-additional" name="name" placeholder="Name" required />
+            <input type="email" class="payment-field-additional" name="email" placeholder="Email" required />
+            <!--<input type="text" class="payment-field-additional" name="email" placeholder="Phone Number" required />-->
+
+
+            <div class="radioButtonDiv">
+            <span class="radioButtonDivLabel"> My phone runs on: </span>
+            <label class="btn btn-lg btn-default radioButton"><input type="radio" name="os" value="ios" required/> iOS </label>
+                <label class="btn btn-lg btn-default radioButton"><input type="radio" name="os" value="android" required /> Android</label>
+            </div>
+
+            <div class="radioButtonDiv">
+                <span class="radioButtonDivLabel"> I identify my gender as: </span>
+                <label class="btn btn-lg btn-default radioButton"><input type="radio" name="gender" value="male" required/> Male </label>
+                <label class="btn btn-lg btn-default radioButton"><input type="radio" name="gender" value="female" required /> Female </label>
+                <label class="btn btn-lg btn-default radioButton"><input type="radio" name="gender" value="neither" required /> Neither </label>
+            </div>
+
+            <button class="form-control"  id="payment-button" type="submit"><span>Join the Party</span></button>
+        </form>
+        <div style="text-align:center">
+
+        <button id="back-button" onclick="backToPartySignup()">Back</button>
+            </div>
+    </div>
+
+
+    <p id="fine-print">Any questions? Contact us at <a style="text-decoration: none;" href="mailto:support@experiencesoiree.com"><strong>support@experiencesoiree.com</strong></a> <br/> <a href="/privacy-policy"><strong>Privacy Policy</strong></a> </p>
+
+
+
+</div>
 
 

@@ -33,21 +33,23 @@ checkForList();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    ResHelper.render(req, res, 'consumer/index', {});
+    CreditCardHelper.generateBrainTreeClientToken(function(token){
+        ResHelper.render(req, res, "consumer/index", {clientToken : new Handlebars.SafeString( token)});
+    }, function(){
+        res.send("Oops! Looks like there is too much demand for this webpage, and the server is having trouble keeping up. Please try again later.");
+    });
 });
 
 router.get('/party', function(req, res){
-    CreditCardHelper.generateBrainTreeClientToken(function(token){
-        ResHelper.render(req, res, "consumer/soireeCheckout", {clientToken : new Handlebars.SafeString( token)});
-    }, function(){
-       res.send("Oops! Looks like there is too much demand for this webpage, and the server is having trouble keeping up. Please try again later.");
-    });
-
+    res.redirect('/');
 });
 
 router.post('/party', function(req, res){
     var nonce = req.body.payment_method_nonce;
     var email = req.body.email;
+    var name = req.body.name;
+    var os = req.body.os;
+    var gender = req.body.gender;
 
     btGateway.transaction.sale({
         amount: 21.00,
@@ -61,7 +63,7 @@ router.post('/party', function(req, res){
             res.redirect('/party');
         }
         else{
-            ConfirmationCodesList.createConfirmationCode(email, function(code){
+            ConfirmationCodesList.createConfirmationCode(req.body, function(code){
                 EmailHelper.sendEmailReservationConfirmation(email, code, function(){
                     ResHelper.render(req, res, 'consumer/soireeCheckoutFinish', {code : code});
                 }, function(){

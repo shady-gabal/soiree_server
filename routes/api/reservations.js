@@ -15,7 +15,6 @@ var ErrorCodes = require('app/helpers/ErrorCodes');
 
 router.post('/confirmReservation', function(req, res, next){
     var reservationId = req.body.reservationId;
-    var confirmerInitials = req.body.confirmerInitials;
 
    User.authenticateUser(req, res, next, function(user){
        SoireeReservation.findOne({reservationId : reservationId}).exec(function(err, reservation){
@@ -25,7 +24,7 @@ router.post('/confirmReservation', function(req, res, next){
           }
 
            if (reservation._user === user._id && !reservation.confirmed){
-               reservation.confirm(confirmerInitials, function(){
+               reservation.confirm(function(){
                    ResHelper.sendSuccess(res);
                }, function(err2){
                    console.log(err2);

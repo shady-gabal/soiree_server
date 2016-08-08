@@ -1,223 +1,295 @@
 html,body{
-    background-image: url("/images/experiencesoiree_bg.png");
+    background-image: url("/images/checkout_bg.jpg");
     background-repeat : no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    color: white;
     /*display: none;*/
 }
 
-html{
-    min-height: 100%;
+
+/* Navbar */
+/* Customize the navbar links to be fill the entire space of the .navbar */
+.navbar .navbar-inner {
+    padding: 0;
 }
 
-#slogan{
-    text-align: center;
-    width: 400px;
-    font-size: 42px;
-    font-family: "Cedarville Cursive", "Party LET", "Arial";
-    color: white;
-    text-shadow:1px 1px #000;
-    display: none;
-    margin: 25px auto;
+.party-let{
+    font-family: "Party LET", "Cedarville Cursive", "Arial";
 }
+
+#logo{
+    font-size: 36px;
+    width: 20%;
+}
+
+.navbar .nav {
+    margin: 0;
+    display: table;
+    width: 90%;
+}
+
+.navbar .nav li {
+    display: table-cell;
+    /*width: 1%;*/
+    float: none;
+}
+
+.navbar .nav li a {
+    font-weight: bold;
+    text-align: center;
+    /*border-left: 1px solid rgba(255, 255, 255, .75);*/
+    /*border-right: 1px solid rgba(0, 0, 0, .1);*/
+}
+
+.navbar .nav li:first-child a {
+    border-left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.navbar .nav li:last-child a {
+    border-right: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.navbar{
+    /*background-color: black;*/
+    background: rgba(0,0,0,.75);
+
+}
+
+
 
 
 #container{
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    height: 100%;
+}
+
+#_colorContainer{
+    width: 100%;
+    height:100%;
+    background: rgba(0,0,0,.75);
+
+}
+
+#messageContainer{
+    background: rgba(0,0,0,.75);
     position: absolute;
-    top:10%;
+    top:0;
     bottom: 0;
     left: 0;
     right: 0;
-    /*background-color: black;*/
-
-    margin: auto;
+    font-weight: 300;
+    width: 60%;
+    height: 430px;
+    margin:auto;
+    font-size: 20px;
+    padding: 20px;
+    border-radius: 10px;
 }
 
-#container.load{
-    opacity: 1;
+.text-container{
+    font-size: 18px;
 }
-
-#emailSignupDiv{
-    text-align: center;
-    display: block;
-}
-
-#emailSignupInput{
-    width: 400px;
-    height: 50px;
-    font-size: 28px;
-    text-align: center;
-    margin: auto auto;
-    font-family: "Open Sans", "Helvetica Neue Light", "Arial";
+/* Info */
+#info-container{
     display: none;
-    margin-top: -25px;
-    border-radius: 5px;
+
 }
 
-.signupButton{
+/* Taste */
+#taste-container{
+    display: none;
+
+}
+
+/* Different */
+#different-container{
+    display: none;
+
+}
+
+/* Party */
+#party-details-header{
     text-align: center;
-    margin: auto auto;
-    width: 400px;
-    height: 50px;
-    font-size: 28px;
-    display: block;
-    margin-top: 10px;
-    font-family: "Open Sans", "Helvetica Neue Light", "Arial";
-    /*-webkit-border-radius: 5px;*/
-    /*background-color:white;*/
-    display: none;
-}
-
-#eventButton{
-    background-color: rgb(39,115,186);
-    color: white;
-}
-#eventButton:hover{
-    background-color: rgb(20,95,160);
-}
-#eventButton a{
-    text-decoration: none;
-    color: white;
-}
-
-.signupButton:hover{
-    background-color: #DDD;
-    border-width:1px;
-}
-
-#infoButton{
-    background-color: rgba(214,65,31, 1);
-    /*color:white;*/
-    border-width: 1px;
-}
-
-#infoButton:hover{
-    background-color: rgb(190,55,25);
-    /*background-color: rgba(214,65,31,1);*/
-
-}
-
-#soiree{
-    color: white;
-    font-size: 200px;
-    text-align: center;
-    font-family: "Party LET", "Cedarville Cursive", "Open Sans", "Arial";
-    margin-bottom: -20px;
-    padding-bottom: 0px;
-    display: none;
-    text-shadow:1px 1px #000;
-
-}
-
-.message{
-    display: none;
-    font-family: "Cedarville Cursive", "Party LET", "Arial";
     font-size: 42px;
-    color: white;
-    text-shadow:1px 1px #000;
-    text-align: center;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 50px;
+    font-weight: bold;
 }
 
-.radioButtonDivLabel{
-    display: none;
-    font-size: 48px;
-    text-align: center;
-    font-family: "Cedarville Cursive", "Party LET", "Arial";
-    color: white;
-    text-shadow:1px 1px #000;
+#party-details-address{
+    width: 60%;
     margin: auto;
-    cursor: pointer;
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 26px;
+}
 
+#soiree-party-details-list{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#open-payment-button{
+    margin: auto;
+    margin-top: 30px;
+    text-align: center;
+    background-color: rgb(39,115,186);
+    width: 60%;
+    font-size: 20px;
+    height: 60px;
+}
+
+#open-payment-button:hover{
+    background-color: rgb(29,95,160);
+}
+
+p.party-details{
+    margin-bottom: 10px;
+}
+#payment-button{
+    hidden: true;
+    font-weight: 100;
+    height: 40px;
+    font-size: 18px;
+    /*text-transform: uppercase;*/
+    background-color: rgb(36, 194, 92);
+    color: white;
+    border: none;
+    margin-top: 20px;
+
+}
+
+#back-button{
+    color: black;
+    margin-top: 25px;
+    background-color: transparent;
+    border: none;
+    color: rgba(255,255,255,0.75);
+
+}
+
+#soiree-party-details{
+    padding-top:0;
+    margin-top: 0;
+    /*text-align: center;*/
+}
+
+#bt-form-padding{
+    height: 25%;
+    /*opacity:0;*/
+    display:none;
+    margin-bottom: 0;
+    margin-top:0;
+    padding: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#bt-dropin-wrapper{
+    margin: auto;
+    width: 60%;
+    min-height: 90%;
+
+    /*display: block;*/
+    /*background-color: rgba(0,0,0,0.5);*/
+    padding-top: 9%;
+    padding-bottom: 9%;
+    margin-bottom: 15px;
+
+    /*position: absolute;*/
+    /*top:-20%;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+
+    display: none;
+}
+
+#party-details-description{
+    width: 90%;
+    font-weight: 100;
+    margin: auto;
+    font-size: 18px;
+}
+
+#_container{
+    background-color: rgba(0,0,0,0.75);
+
+    /*background-color: rgba(0,0,0,0.75);*/
+
+    width:50%;
+    margin: auto;
+}
+
+#party-details-container{
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    padding: 50px 20px;
+    font-weight: 600;
+}
+
+#party-details-container h4{
+    font-weight: 300;
+    font-size: 22px;
+}
+
+.button{
+    background-color: #5CD493;
+    border: none;
+    border-radius: 2px;
+    /*display: inline-block;*/
+    color: #fff;
+}
+
+.payment-field-additional{
+    width: 100%;
+    height: 60px;
+    font-size: 16px;
+    background-color: rgb(232,232,232);
+    border:none;
+    border-top: 1px solid rgba(160,160,160,.1);
+    font-weight: 100;
+    padding-left: 15px;
+    padding-top: 15px;
+    color: rgba(0,0,0,.8);
+}
+
+#fine-print{
+    font-size: 10px;
+    margin-top: 25px;
+    color: rgba(255,255,255,.75);
+    text-align: center;
+    padding-bottom: 20px;
+    margin-top: 0px;
 }
 
 .radioButtonDiv{
-    display: none;
-    font-family: "Cedarville Cursive", "Party LET", "Arial";
-    width: 450px;
-    height: 50px;
-    color: white;
-    font-size: 48px;
-    margin:auto;
-    padding:auto;
-    text-shadow:1px 1px #000;
-    margin-bottom: 75px;
-    cursor: pointer;
-
+    margin-top: 10px;
 }
 
-.radioButton{
-    width:200px;
-    font-size: 36px;
-    background-color: rgb(214,65,31);
-    color: white;
-    text-shadow:1px 1px #000;
-    cursor: pointer;
-
-}
-
-/*.radioButton:hover{*/
-    /*background-color: rgb(190,55,25);*/
-    /*color: #DDD;*/
-/*}*/
-
-#infoBackButton{
-    display:block;
-}
-
-#backButton{
-
-}
-
-.backButton{
-    display:block;
-    display:none;
-    margin:auto;
-    margin-top: 15px;
-    /*font-family: "Open Sans", "Helvetica Neue Light", "Arial";*/
-    font-family: "Cedarville Cursive", "Party LET", "Arial";
-    /*color: white;*/
-    font-size: 32px;
-    /*background-color: rgb(214,65,31);*/
-    /*text-shadow:1px 1px #666;*/
-    width:400px;
-
-}
-
-.infoText{
-    /*font-weight: bold;*/
-    margin-top: 25px;
-}
-
-#infoDivText{
-    margin: 35px auto;
-}
-
-#infoTextHeader{
-    text-align:center;
-    text-decoration: underline;
-    font-size: 48px;
-    font-family: "Cedarville Cursive", "Party LET", "Arial";
-    color: white;
+.radioButtonDivLabel{
+    font-size: 18px;
+    display: block;
+    /*font-weight: 300;*/
+    margin-bottom: 10px;
 }
 
 
-#infoDiv{
-    color: white;
-    font-family: "Open Sans", "Helvetica Neue Light", "Arial";
-    font-size:28px;
-    display:none;
-    width: 100%;
-    height: 100%;
-    padding: 50px 20%;
-    margin: 0px auto;
-    background-color: rgba(0,0,0,.5);
-    text-shadow: 1px 1px #000;
+::-webkit-input-placeholder { /* Chrome */
+    color: rgba(0,0,0,0.5);
 }
-
-
-.buttonDiv{
-    text-align:center;
+:-ms-input-placeholder { /* IE 10+ */
+    color: rgba(0,0,0,0.5);
 }
-
+::-moz-placeholder { /* Firefox 19+ */
+    color: rgba(0,0,0,0.5);
+    opacity: 1;
+}
+:-moz-placeholder { /* Firefox 4 - 18 */
+    color: rgba(0,0,0,0.5);
+    opacity: 1;
+}

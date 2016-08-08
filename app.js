@@ -444,7 +444,7 @@ function scheduleCron(){
 
     try{
         new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
-        new CronJob('0 1 0 * * *', soireeCreator, null, true, 'America/New_York');
+        //new CronJob('0 1 0 * * *', soireeCreator, null, true, 'America/New_York');
         new CronJob('0 30 17 * * *', soireeFeedbackNotifier , null, true, 'America/New_York');
     }
     catch(err){
