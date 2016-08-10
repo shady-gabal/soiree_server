@@ -17,6 +17,8 @@ var SoireeReservation = require('app/db/SoireeReservation.js');
 var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
 var Admin = require('app/db/Admin.js');
+var Event = require ('app/db/Event.js');
+
 
 var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
@@ -87,6 +89,24 @@ function upcomingSoireesForBusiness(business, successCallback, errorCallback){
         }
     });
 }
+
+router.get('/confirmationCode', function(req, res){
+    upcomingSoireesForBusiness(req.business, function(upcomingSoirees){
+        req.business.deepPopulate("_unconfirmedReservations._soiree", function(err){
+            if (err){
+                return res.status(404).send("Error");
+            }
+            ResHelper.render(req, res, 'businesses/confirmationCode', {reservations : req.business._unconfirmedReservations, upcomingSoirees : upcomingSoirees});
+
+        });
+    }, function(){
+        res.status(418).send("Error. Please try again.");
+    });
+});
+
+router.get('/schedule',function(req, res){
+   ResHelper.render(req, res, 'businesses/schedule',{});
+});
 
 router.get('/upcomingSoirees', function(req, res){
 
@@ -169,6 +189,60 @@ router.get('/viewSoiree/:soireeId', function(req, res){
         res.status(404).send("Soiree not found");
     });
 });
+
+router.get('/data', function(req, res){
+    db.event.find().toArray(function(err, data){
+        //set id property for all records
+        for (var i = 0; i < data.length; i++)
+            data[i].id = data[i]._id;
+
+        //output response
+        res.send(data);
+    });
+});
+
+
+router.post('/data', function(req, res){
+    var data = req.body;
+    //deep populate?
+    //create schema
+    //insert
+    //add to set
+
+    //get operation type
+    var mode = data["!nativeeditor_status"];
+    //get id of record
+    var sid = data.id;
+    var tid = sid;
+
+    //remove properties which we do not want to save in DB
+    delete data.id;
+    delete data.gr_id;
+    delete data["!nativeeditor_status"];
+
+
+    //output confirmation response
+    function update_response(err, result){
+        if (err)
+            mode = "error";
+        else if (mode == "inserted")
+            tid = data._id;
+
+        res.setHeader("Content-Type","text/xml");
+        res.send("<data><action type='"+mode+"' sid='"+sid+"' tid='"+tid+"'/></data>");
+    }
+
+    //run db operation
+    if (mode == "updated")
+        db.event.updateById( sid, data, update_response);
+    else if (mode == "inserted")
+        db.event.insert(data, update_response);
+    else if (mode == "deleted")
+        db.event.removeById( sid, update_response);
+    else
+        res.send("Not supported operation");
+});
+
 
 router.post('/confirmSoireeReservation', function(req, res){
     var confirmationCode = req.body.confirmationCode;

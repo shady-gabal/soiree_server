@@ -22,6 +22,7 @@
     "cron": "",
     "crypto-js": "",
     "debug": "",
+    "dhtmlx-scheduler": "",
     "dotenv": "^1.2.0",
     "enum": "",
     "express": "",
