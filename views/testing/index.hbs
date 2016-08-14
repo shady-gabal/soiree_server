@@ -376,6 +376,7 @@
 
     <ul>
         <li> testUser: {{this.testUser}} </li>
+        <li> age : {{_user.age}} </li>
         <li>_currentReservations : [{{#each _user._currentReservations}} &nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;| {{/each}}]</li>
         <li>_pastReservations : [{{#each _user._pastReservations}}&nbsp;&nbsp; {{this.reservationId}} &nbsp;&nbsp;|{{/each}}]</li>
         <li>_notifications : [{{#each _user._notifications}}&nbsp;&nbsp;{{this._id}}&nbsp;&nbsp;|{{/each}}]</li>
@@ -386,6 +387,7 @@
         <li>pending verification: {{_user.pendingVerification}}</li>
         <li> gender : {{_user.gender}}, isMale : {{_user.isMale}}, isFemale: {{_user.isFemale}} </li>
         <li> deviceToken: {{_user.deviceToken}}</li>
+        <li> soireeScore : {{_user.soireeScore}} </li>
 
     </ul>
 
@@ -410,7 +412,7 @@
         <h2> Soirees </h2>
         {{#each this}}
              <li>
-                 {{this.soireeId}} : {{this.soireeType}} at {{this._business.businessName}} at {{this.scheduledStartTimeIdentifier}} -
+                 {{this.soireeId}} : {{this.title}} ({{this.soireeType}}) at {{this._business.businessName}} at {{this.scheduledStartTimeIdentifier}} -
                 {{#if this.userAlreadyJoined}}
                     <button> Joined </button>
                 {{else}}
@@ -440,6 +442,7 @@
                  <div>
                      <ul>
                          <li>_id : {{this._id}}</li>
+                         <li> category : {{this.category}} </li>
                          <li>numUsersMax : {{this.numUsersMax}}</li>
                          <li>_usersAttending ({{this._usersAttending.length}}): [{{#each this._usersAttending}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
                          <li>_usersUncharged ({{this._usersUncharged.length}}): [{{#each this._usersUncharged}} {{this.firstName}} {{this.lastName}}, {{/each}}]</li>
@@ -448,6 +451,7 @@
                          <li> startTimeIdentifier : {{this.scheduledStartTimeIdentifier}} </li>
                          <li> endTimeIdentifier : {{this.scheduledEndTimeIdentifier}} </li>
                          <li> businessAddress : {{this.businessAddress}} </li>
+                         <li> restrictions : [ {{#each this.restrictions}} {{this}}, {{/each}} ] </li>
 
                      </ul>
                  </div>

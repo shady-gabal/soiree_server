@@ -17,15 +17,14 @@
         function fetchMoreVerifications(){
             $.ajax({url: '/admins/verifications/fetchVerifications', method : "GET", data:{}})
                     .done(function(responseArrDirty){
-//                        alert("fetched verifications: " + JSON.stringify(responseArrDirty));
                         var responseArr = responseArrDirty.filter(function(reservation){
-//                           alert('checking' + JSON.stringify(reservation));
                            if (reservation._user){
                                return true;
                            }
                             else return false;
                         });
-//                        alert('done with responseArr: ' + JSON.stringify(responseArr));
+
+//                        var responseArr = responseArrDirty;
 
                         verifications = verifications.concat(responseArr);
                         if (responseArr.length < MinNumVerifications){
@@ -33,6 +32,7 @@
                             if (verifications.length == 0 && !currentVerification){
                                 noMoreVerifications();
                             }
+//                            else fetchMoreVerifications();
                         }
                         if (showOnLoad){
                             showNextVerification();
@@ -61,7 +61,12 @@
                 $("#verification").html(verificationDiv);
 //                alert('3' + JSON.stringify(currentVerification));
 
-            }
+                if (verifications.length < MinNumVerifications) {
+                    fetchMoreVerifications();
+                }
+
+
+                }
             else{
                 noMoreVerifications();
             }

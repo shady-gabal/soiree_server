@@ -13,8 +13,14 @@
 <div>
     <ul>
         <li> Soiree Id : {{soiree.soireeId}}</li>
-        <li> Number of users signed up so far: {{numUsersSignedUp}}</li>
-        <li> Total amount earned so far : {{totalAmountEarned}}</li>
-        <li> Starts at: </li>
+        <li> Number of users signed up so far: {{add soiree._chargedReservations.length soiree._unchargedReservations.length}} </li>
+        <li> Number of users charged: {{#if soiree._chargedReservations.length}} {{soiree._chargedReservations.length}}
+        {{else}} 0 {{/if}}</li>
+        <li> Number of users uncharged: {{#if soiree._unchargedReservations.length}} {{soiree._unchargedReservations.length}}
+        {{else}} 0 {{/if}}</li>
+        <li> Total amount earned so far : {{#if totalAmountEarned}} {{totalAmountEarned}}
+        {{else}} 0 {{/if}}</li>
+        <li> Starts at: {{soiree.scheduledStartTimeIdentifier}}</li>
+        <li> Ends at: {{soiree.scheduledEndTimeIdentifier}}</li>
     </ul>
 </div>

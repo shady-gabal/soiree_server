@@ -120,7 +120,7 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
     User.authenticateUser(req, res, next, function(user){
         var notificationsSeen = req.body.notificationsSeen;
         console.log('notifications seen: ' + notificationsSeen);
-
+        
         if (notificationsSeen && notificationsSeen.length > 0) {
 
             Notification.find({"_id" : {"$in" : notificationsSeen}, "_user" : user._id, "seen" : false}).exec(function(err, notifications){
@@ -129,14 +129,17 @@ router.post('/uploadNotificationsSeen', function(req, res, next){
                     ResHelper.sendError(res, ErrorCodes.Error);
                 }
                 else if (notifications && notifications.length > 0){
-
+                    console.log(user._unseenNotifications);
                     for (var i = 0; i < notifications.length; i++){
-                        console.log('notifications fetched: ' + notifications);
-
+                       // console.log('notifications fetched: ' + notifications);
+                
                         var notification = notifications[i];
                         var index = user._unseenNotifications.indexOf(notification._id);
                         if (index !== -1){
-                            user._unseenNotifications.splice(i,1);
+                            user._unseenNotifications.splice(index,1);
+                        }
+                        else{
+                            console.log("MISSED " + notification);
                         }
                         if (!notification.seen){
                             notification.seen = true;

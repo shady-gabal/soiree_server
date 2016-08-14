@@ -95,7 +95,7 @@ describe('setting up tests', function () {
 });
 
 function clearDB(cb){
-    var modelNames = ["User", "Soiree", "SoireeReservation", "CommunityComment", "CommunityPost", "Business", "Admin", "Image", "Notification", "SoireeHost", "UserVerification", "SubwayLine"];
+    var modelNames = ["User", "Soiree", "SoireeReservation", "CommunityComment", "CommunityPost", "Business", "Admin", "Image", "Notification", "SoireeHost", "UserVerification", "SubwayLine", "UserFeedbackList"];
     var numReturned = 0;
 
     var saveCb = function(err){
