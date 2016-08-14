@@ -346,28 +346,6 @@ passport.deserializeUser(function(user, done) {
 
 var Event = require('app/db/Event.js');
 
-// app.get('/init', function(req, res){
-//     var eventData = {
-//         text:"My test event A",
-//         start_date: new Date(2016,7,10,4,0),
-//         end_date:   new Date(2016,7,11,14,0)
-//     };
-//
-//     var event = new Event(eventData);
-//     event.save(function(err, data){
-//         if(err){
-//             console.log(err);
-//         }
-//         else console.log(data);
-//     });
-//
-//
-//     /*... skipping similar code for other test events...*/
-//
-//     res.send("Test events were added to the database")
-// });
-
-
 app.get('/data', function(req, res){
     // Event.remove({}).exec(function(err){
     //     if(err){
@@ -377,16 +355,42 @@ app.get('/data', function(req, res){
 
     Event.find({},function(err, data){
         //set id property for all records
-      //  for (var i = 0; i < data.length; i++)
-          //  data[i].id = data[i]._id;
-        
+       for (var i = 0; i < data.length; i++){
+            data[i].id = data[i]._id;
+        }
+
         //output response
         res.send(data);
+
     });
 });
 
+app.get('/defaultSchedule', function(req, res){
+   Event.find({default : true}, function(err, data){
+       if(err){
+           console.log(err);
+       }
+       //set id property for all records
+       for (var i = 0; i < data.length; i++){
+           data[i].id = data[i]._id;
+       }
+
+       //output response
+       res.send(data);
+   });
+});
+
+
 app.post('/data', function(req, res){
     
+   createOrUpdateEvent(req, res, false);
+});
+
+app.post('/saveDefaultEvent', function(req, res){
+    createOrUpdateEvent(req, res, true);
+});
+
+function createOrUpdateEvent(req, res, isDefault){
     var data = req.body;
 
     //get operation type
@@ -408,20 +412,10 @@ app.post('/data', function(req, res){
         else if (mode == "inserted")
             tid = data._id;
 
-       // data.id = data._id;
+        // data.id = data._id;
 
         res.setHeader("Content-Type","text/xml");
         res.send("<data><action type='"+mode+"' sid='"+sid+"' tid='"+tid+"'/></data>");
-    }
-
-    //Convert end_date and start_date to UTC timetto///p'
-    //Convert UTC time to event_length format
-    var eventLength = data.event_length;
-    if(!eventLength){
-        var endDate = new Date(data.end_date).getTime();
-        var startDate = new Date(data.start_date).getTime();
-        var eventLength = (endDate - startDate) / 1000;
-        data.end_date = '9999-02-01 00:00';
     }
 
     //run db operation
@@ -431,43 +425,75 @@ app.post('/data', function(req, res){
         end_date : data.end_date,
         text : data.text,
         details : data.details,
-        rec_pattern : 'week_1___0',
-        rec_type : 'day_7___',
-        event_length : eventLength,
-        event_pid : data.event_pid
+        default : isDefault
     };
+
     if(mode == 'deleted'){
 
 
         Res.send('Not supported operation');
     }
-    else{
-        Event.findOneAndUpdate({id : sid},{
-            id : sid,
-            start_date : data.start_date,
-            end_date : '9999-02-01 00:00',
-            text : data.text,
-            details : data.details,
-           // rec_pattern : 'week_1___0',
-            rec_type : 'day_7___',
-            event_length : eventLength,
-            event_pid : data.event_pid
-        },
+    else if(mode == 'inserted'){
+        Event.findOneAndUpdate({start_date : data.start_date},newEventSchema,
             {
                 upsert : true,
                 new : true
             },
-        function(err, event){
-            if(err){
-                console.log(err);
-            }
-            update_response(err, event);
-        });
+            function(err, event){
+                if(err){
+                    console.log(err);
+                }
+                update_response(err, event);
+            });
+    }
+    else if(mode == 'updated'){
+        Event.findOneAndUpdate({id : sid},newEventSchema,
+            {
+                new : true
+            },
+            function(err, event){
+                if(err){
+                    console.log(err);
+                }
+                update_response(err, event);
+            });
+    }
+}
+
+app.post('/findEventByStartDate',function(req, res){
+    var startDates = req.body.startDates;
+    var endDates = req.body.endDates;
+    if(!startDates || !endDates){
+        res.json({});
+    }
+    var numEvents = startDates.length;
+    var callbackCounter = 0;
+    var startDatesNotFound = [];
+    var endDatesNotFound = [];
+    var callback = function(){
+        if(++callbackCounter == numEvents){
+            res.json({"startDates" : startDatesNotFound, "endDates" : endDatesNotFound });
+        }
+    }
+    for(var i = 0; i < startDates.length; i++){
+        var startDate = startDates[i];
+        var endDate = endDates[i];
+        findEventsByStartDate(startDate, endDate, startDatesNotFound, endDatesNotFound, callback);
     }
 });
 
-
-
+function findEventsByStartDate(startDate, endDate, startDatesNotFound, endDatesNotFound, callback){
+    Event.findOne({start_date : startDate}, function(err, event){
+        if(err){
+            console.log(err);
+        }
+        if(!event){
+            startDatesNotFound.push(startDate);
+            endDatesNotFound.push(endDate);
+        }
+        callback(err, event);
+    });
+}
 
 
 

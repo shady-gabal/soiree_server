@@ -1,10 +1,17 @@
 /*
+
 @license
+
 dhtmlxScheduler v.4.3.1 
+
+
 
 This software is covered by GPL license. You also can obtain Commercial or Enterprise license to use it in non-GPL project - please contact sales@dhtmlx.com. Usage without proper license is prohibited.
 
+
+
 (c) Dinamenta, UAB.
+
 */
 scheduler.config.occurrence_timestamp_in_utc=!1,scheduler.config.recurring_workdays=[1,2,3,4,5],scheduler.form_blocks.recurring={_get_node:function(e){return"string"==typeof e&&(e=document.getElementById(e)),"none"==e.style.display&&(e.style.display=""),e},_outer_html:function(e){function t(e){var t,a=document.createElement("div");return a.appendChild(e.cloneNode(!0)),t=a.innerHTML,a=null,t}return e.outerHTML||t(e)},render:function(e){if(e.form){var t=scheduler.form_blocks.recurring,a=t._get_node(e.form),r=t._outer_html(a);
 

@@ -9,7 +9,7 @@
         }
     </style>
     <style>
-         .dhx_cal_date{
+         .dhx_cal_next_button, .dhx_cal_prev_button, .dhx_cal_today_button, .dhx_cal_date{
             display:none;
         }
     </style>
@@ -21,34 +21,30 @@
 
 {{#extend "scripts"}}
 <script src="/codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8" ></script>
-<script src="/codebase/ext/dhtmlxscheduler_recurring.js"></script>
+
+
     <script>
         function init() {
+
             scheduler.config.xml_date="%Y-%m-%d %H:%i";
-            scheduler.config.drag_resize = false;
+            scheduler.config.drag_resize = true;
             scheduler.config.icons_edit = ['icon_save', 'icon_cancel'];
-            scheduler.config.icons_select = ['icon_details', 'icon_edit'];
+            scheduler.config.icons_select = ['icon_edit'];
             scheduler.config.hour_date = "%g:%i%a";
-            scheduler.config.details_on_create = true;
-            scheduler.config.details_on_dblclick = true;
+            scheduler.config.day_date = "%l";
+            scheduler.config.edit_on_create = false;
+            scheduler.config.details_on_dblclick = false;
             scheduler.templates.event_text = function(start, end, ev){
                 ev.text = "Able To Host Soirée";
                 return ev.text;
             };
-            scheduler.init('scheduler_here',new Date(2016,7,7),"week");
+
+            scheduler.init('scheduler_here',new Date(),"week");
 
             scheduler.templates.xml_date = function(value){ return new Date(value); };
-            scheduler.load("/data", "json");
+            scheduler.load("/defaultSchedule", "json");
 
-            scheduler.attachEvent("onEventAdded",function(id, e){
-                scheduler.load("/data", "json");
-                location.reload(true);
-            });
-            scheduler.attachEvent("onLightbox", function(){
-                var recurring = scheduler.formSection("recurring").node.parentNode;
-                recurring.style.display = "none";
-            });
-            var dp = new dataProcessor("/data");
+            var dp = new dataProcessor("/saveDefaultEvent");
             dp.init(scheduler);
             dp.setTransactionMode("POST", false);
 

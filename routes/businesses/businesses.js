@@ -104,8 +104,12 @@ router.get('/confirmationCode', function(req, res){
     });
 });
 
-router.get('/schedule',function(req, res){
-   ResHelper.render(req, res, 'businesses/schedule',{});
+router.get('/defaultSchedule',function(req, res){
+   ResHelper.render(req, res, 'businesses/defaultSchedule',{});
+});
+
+router.get('/actualSchedule', function(req, res){
+   ResHelper.render(req, res, 'businesses/actualSchedule',{});
 });
 
 router.get('/upcomingSoirees', function(req, res){
