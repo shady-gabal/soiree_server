@@ -49,7 +49,7 @@ router.post('/findUser', function(req, res, next){
 
 
 router.post('/createUser', function(req, res, next){
-  
+
   var facebookAccessToken = req.body.facebook_access_token;
   var emailSignupData = req.body.emailSignupData;
   
@@ -63,7 +63,6 @@ router.post('/createUser', function(req, res, next){
         return h.ResHelper.sendError(res, h.ErrorCodes.UserAuthenticationError);
       }
       else if (!userFound){
-
         User.createUserWithFacebook(req, function(user, encodedAccessToken){
               res.json({user : user.jsonObject(), firstSignUp: true, soireeAccessToken : encodedAccessToken});
         }, function(err, errorMessage){
@@ -418,46 +417,69 @@ router.post('/fetchUserSoirees', function(req, res, next){
 
       user.findSoireesAttendingAndAttended(function(soireesAttending, soireesAttended){
 
-        //SoireeReservation.addReservationsForSoirees(soireesAttending, user, function(reservationsDict){
+        var obj = {};
+        var pastArr = [], presentArr = [], futureArr = [], cancelledArr = [];
 
-          var obj = {};
-            var pastArr = [], presentArr = [], futureArr = [], cancelledArr = [];
+        var finished = function(){
+          obj["present"] = presentArr;
+          obj["future"] = futureArr;
 
-            for (var i = 0; i < soireesAttended.length; i++){
-              var soiree = soireesAttended[i];
-              if (soiree.cancelled){
-                cancelledArr.push(soiree.jsonObject(user));
-              }
-              else{
-                pastArr.push(soiree.jsonObject(user));
+          res.json(obj);
+        };
+
+        //past and cancelled soirees
+          for (var i = 0; i < soireesAttended.length; i++){
+            var soiree = soireesAttended[i];
+            if (soiree.cancelled){
+              cancelledArr.push(soiree.jsonObject(user));
+            }
+            else{
+              pastArr.push(soiree.jsonObject(user));
+            }
+          }
+
+          obj["past"] = pastArr;
+          obj["cancelled"] = cancelledArr;
+
+          var numReturned = 0;
+
+        if (soireesAttending.length == 0){
+          return finished();
+        }
+
+        //present soirees
+          for (var j = 0; j < soireesAttending.length; j++) {
+            var soiree = soireesAttending[j];
+            var jsonDict = soiree.jsonObject(user);
+
+            if (!soiree._reservation){
+              if (++numReturned === soireesAttending.length){
+                finished();
               }
             }
-            obj["past"] = pastArr;
-            obj["cancelled"] = cancelledArr;
+            else{
+              soiree._reservation.makeJsonObject(function(jsonObject){
+                jsonDict["reservation"] = jsonObject;
 
-            for (var j = 0; j < soireesAttending.length; j++) {
-              var soiree = soireesAttending[j];
-              var jsonDict = soiree.jsonObject(user);
-              if (!h.MongooseHelper.isObjectId(soiree._reservation)){
-                jsonDict["reservation"] = soiree._reservation.jsonObject();
-              }
+                if (soiree.openToUsers) {
+                  presentArr.push(jsonDict);
+                }
+                else {
+                  futureArr.push(jsonDict);
+                }
 
-              if (soiree.openToUsers) {
-                presentArr.push(jsonDict);
-              }
-              else {
-                futureArr.push(jsonDict);
-              }
+                if (++numReturned === soireesAttending.length){
+                  finished();
+                }
+              });
             }
-            obj["present"] = presentArr;
-            obj["future"] = futureArr;
 
-           res.json(obj);
+
+          }
+
         });
 
       });
-
-  //});
 });
 
 

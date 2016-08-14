@@ -61,8 +61,8 @@ router.post('/joinSoiree', function (req, res, next) {
         var soireeId = req.body.soireeId;
         Soiree.joinSoireeWithId(soireeId, user, function (soiree) {
             res.json({soiree : soiree.jsonObject(user)});
-        }, function (err) {
-            ResHelper.sendError(res, err);
+        }, function (err, errorMessage) {
+            ResHelper.sendError(res, err, {errorMessage : errorMessage});
         });
 
     });
@@ -105,7 +105,9 @@ router.post('/reservationForSoiree', function (req, res, next) {
             }
             else {
                 //TODO: make {reservation : }
-                res.json(reservation.jsonObject());
+                reservation.makeJsonObject(function(jsonObject){
+                    res.json({reservation : jsonObject});
+                });
             }
         });
     });

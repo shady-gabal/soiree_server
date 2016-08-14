@@ -22,6 +22,7 @@ var UserVerification = require('app/db/UserVerification.js');
 var Admin = require('app/db/Admin.js');
 var Notification = require('app/db/Notification.js');
 var BetaSignupEmailList = require('app/db/BetaSignupEmailList.js');
+var ConfirmationCodeslist = require('app/db/ConfirmationCodesList');
 
 var EmailHelper = require('app/helpers/EmailHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
@@ -87,6 +88,47 @@ router.get('/deleteTestUsers', function(req, res){
     });
 });
 
+router.get('/testConcurrency', function(req, res){
+    var updateQuery = {$inc : {soireeScore : -200}};
+
+    //DOESNT WORK
+   User.findOneAndUpdate({_id : _user._id}, updateQuery, {new :true}, function(err, user){
+     if (err) console.log(err);
+
+       if(user.soireeScore >= 0){
+
+           console.log("200 soiree score points redeemed");
+           user.save(function(err){
+               console.log(err);
+           });
+       }
+       else{
+           User.findOneAndUpdate({_id : _user._id}, {$inc : {soireeScore : 200}}, function(err){});
+       }
+   });
+
+    User.findOneAndUpdate({_id : _user._id}, updateQuery, {new :true}, function(err, user){
+        if (err) console.log(err);
+
+        if(user.soireeScore >= 0){
+
+            console.log("200 soiree score points redeemed");
+            user.save(function(err){
+                console.log(err);
+            });
+        }
+        else{
+            User.findOneAndUpdate({_id : _user._id}, {$inc : {soireeScore : 200}}, function(err){});
+        }
+    });
+
+    res.send("K");
+});
+
+router.get("/testVirtual", function(req, res){
+    _user.t = 50;
+    res.send("OK");
+});
 
 router.get('/createTestUsers', function(req, res){
     _testUsers = [];
@@ -124,6 +166,8 @@ router.get('/createTestUsers', function(req, res){
     ];
 
     for (var i = 0; i < numToCreate; i++){
+        var birthday = i < 2 ? "06/25/1998" : "07/23/1990";
+
         var first = i < firstNames.length ? firstNames[i] : firstNames[i%firstNames.length];
         var last = i < lastNames.length ? lastNames[i] : lastNames[i%lastNames.length];
 
@@ -138,7 +182,8 @@ router.get('/createTestUsers', function(req, res){
             testUser : true,
             profilePictureUrl : profilePictureUrl,
             verified: true,
-            email : email
+            email : email,
+            birthday : birthday
         });
 
         user.save(function(err, testUser){
@@ -770,6 +815,7 @@ router.get('/createBusiness', function(req, res, next){
         soireeTypes : Globals.soireeTypes
     };
 
+
     Business.createBusiness(businessObj, email, password, req.admin, function(business){
         res.send("Created business: " + business);
     }, function(err){
@@ -900,41 +946,6 @@ router.get('/addNotification', function(req, res){
 });
 
 
-//router.get('/createScheduledSoireeJobs', function(req, res){
-    //var numJobs = req.query.numJobs ? req.query.numJobs : 10;
-    //for (var i = 0; i < numJobs; i++){
-    //
-    //    var randStartIndex = parseInt(Math.random() * (Globals.scheduledSoireeAvailableTimes.length - 5));
-    //    var randEndIndex = parseInt(Math.random() * (Globals.scheduledSoireeAvailableTimes.length - randStartIndex)) + randStartIndex;
-    //
-    //    var randCollegeIndex = parseInt(Math.random() * Globals.colleges.length);
-    //    var college = Globals.colleges[randCollegeIndex];
-    //
-    //    var startTime = Globals.scheduledSoireeAvailableTimes[randStartIndex];
-    //    var endTime = Globals.scheduledSoireeAvailableTimes[randEndIndex];
-    //
-    //    var startDate = DateHelper.dateFromTime(startTime);
-    //    var endDate = DateHelper.dateFromTime(endTime);
-    //
-    //    var randTypeIndex = parseInt(Math.random() * Globals.soireeTypes.length);
-    //    var soireeType = Globals.soireeTypes[randTypeIndex];
-    //
-    //    var ssJob = new ScheduledSoireeJob({
-    //        availableTimes : {start:startDate, end: endDate},
-    //        soireeType: soireeType,
-    //        _user : _user._id
-    //    });
-    //
-    //    ssJob.save(function(err){
-    //        console.log("saved ssjob with err: " + err);
-    //    })
-    //
-    //}
-    //
-    //res.send("Done");
-
-//});
-
 router.get('/performScheduledSoireeJobs', function(req, res){
    ScheduledSoireeJob.perform();
     res.send("OK");
@@ -949,17 +960,6 @@ router.get('/findNextSoiree', function(req, res, next){
     });
 });
 
-router.post('/createSoiree', function(req, res){
-    console.log('called');
-    var dateString = req.body.date;
-    var date = DateHelper.dateFromTime(dateString);
-
-    Soiree.createTest(function(){
-        res.send("OK");
-    }, function(err){
-       res.status(404).send("Error:" + err);
-    }, {date : date});
-});
 
 router.get('/createMovieSoirees', function(req, res){
     var MovieSoiree = require('app/db/MovieSoiree');
@@ -1034,6 +1034,14 @@ router.get('/uploadNotificationsSeen', function(req, res, next){
 
         else ResHelper.sendSuccess(res);
     //});
+});
+
+router.get('/betaPartySignupList', function(req, res){
+    ConfirmationCodeslist.getList(function(list){
+       ResHelper.render(req, res, "admins/betaPartySignupList", {list : list, numSignups : list.confirmationCodes.length});
+    }, function(){
+        res.send("Error");
+    });
 });
 
 router.get('/betaSignupEmailList', function(req,res){

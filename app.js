@@ -52,6 +52,7 @@ var questionnaire = require('./routes/api/questionnaire');
 var community = require('./routes/api/community');
 var verificationsApi = require('./routes/api/verificationsApi');
 var notifications = require('./routes/api/notifications');
+var reservations = require('./routes/api/reservations');
 
 /* Admin Facing */
 var admins = require('./routes/admins/admins.js');
@@ -509,6 +510,7 @@ app.use('/api/users/notifications', notifications);
 app.use('/api/businesses', businessesApi);
 app.use('/api/community', community);
 app.use('/api/verifications', verificationsApi);
+app.use('/api/reservations', reservations);
 
 
 
@@ -600,7 +602,7 @@ function scheduleCron(){
 
     try{
         new CronJob('0 0-59/10 * * * *', soireeStarterStopper, null, true, 'America/New_York');
-        new CronJob('0 1 0 * * *', soireeCreator, null, true, 'America/New_York');
+        //new CronJob('0 1 0 * * *', soireeCreator, null, true, 'America/New_York');
         new CronJob('0 30 17 * * *', soireeFeedbackNotifier , null, true, 'America/New_York');
     }
     catch(err){
@@ -608,6 +610,8 @@ function scheduleCron(){
     }
 
 }
+
+app.set('etag', false); // turn off
 
 
 

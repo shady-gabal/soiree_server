@@ -1,0 +1,238 @@
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="/stylesheets/consumer/betaSignup.css" />
+{{/extend}}
+
+<div id="infoDiv">
+    <h3 id="infoTextHeader">What is Soirée?</h3>
+
+    <div id="infoDivText">
+
+        <p class="infoText">Meeting new people nowadays relies mostly on apps like Tinder, OKCupid, and others. However, people who use these apps often spend hours on the app swiping left and right, only to get just a handful of matches and even fewer real world meetups.</p>
+
+        <p class="infoText">Rather than force you to waste your time going through endless words and profiles, we at Soirée believe that the best way to meet people is out in the real world.</p>
+
+        <p class="infoText">Soirée is an app that allows people to go on soirées, events with anywhere from 10-40 people designed make meeting new people easy, safe, and most of all, fun. After a single soirée, you’ll have met more new fun people than you would in a month’s worth of going out to bars!</p>
+
+        <!--<p class="infoText">Going on a soirée is as simple as picking one from the soirées happening near you and tapping a big button named 'Join'. Then prepay a couple dollars off your first drink, just to make sure that you really plan on showing up, and that's it! We'll give you a confirmation code, and when you get to the bar or restaurant, just show it to them and they'll take whatever you prepaid off your first drink.</p>-->
+
+        <p class="infoText">We're also the first app ever to make sure that everyone is exactly who they say they are by requiring users to verify themselves with a picture of their ID before they can go on soirees. It only takes a second, yet you’ll never have to worry about fake profiles, or people pretending to be someone else, ever again!</p>
+
+        <p class="infoText"><strong> We’re entering the iOS beta in the next few weeks - sign up now to reserve your spot! </strong></p>
+
+    </div>
+
+    <button type="button" id="infoBackButton" class="btn btn-lg btn-default backButton" onclick="infoBackButtonTapped()">Back</button>
+</div>
+
+
+
+<div id="container">
+    <div id="introDiv">
+        <h1 id="soiree"> Soirée </h1>
+
+        <div id="emailSignupDiv">
+            <input type="email" name="email" placeholder="email address" id="emailSignupInput" autofocus />
+
+            <button type="button" class="signupButton" id="emailSignupSubmit" onclick="signupButtonTapped()">send me a beta invite</button>
+            <button type="button" class="signupButton" id="infoButton" onclick="infoButtonTapped()">(what is Soirée?)</button>
+            <button type="button" class="signupButton" id="eventButton" onclick="eventButtonTapped()"><a href="/party">August 11th Soirée - Join!</a></button>
+
+            <h3 id="slogan">come have the best summer of your life.</h3>
+
+        </div>
+    </div>
+
+
+    <p class="radioButtonDivLabel"> Gender: </p>
+    <div id="gender" class="radioButtonDiv">
+        <label class="btn btn-lg btn-default radioButton"><input type="radio" name="gender" value="male" /> Male </label>
+        <label class="btn btn-lg btn-default radioButton"><input type="radio" name="gender" value="female" /> Female</label>
+    </div>
+
+    <p class="radioButtonDivLabel"> Operating System: </p>
+    <div id="os" class="radioButtonDiv">
+        <label class="btn btn-lg btn-default radioButton"><input type="radio" name="os" value="ios" /> iOS </label>
+        <label class="btn btn-lg btn-default radioButton"><input type="radio" name="os" value="android" /> Android</label>
+    </div>
+    <p class='message' id="workingMessage">Just a sec boo...</p>
+
+    <div id="successDiv">
+        <p class='message' id="successMessage">Congratulations! You've signed up for the Soirée beta. We'll contact you very soon with an invitation.</p>
+        <div class="buttonDiv">
+            <button type="button" id="backButton" class="btn btn-lg btn-default backButton" onclick="backButtonTapped()">Back</button>
+        </div>
+    </div>
+
+
+</div>
+
+{{#extend "scripts"}}
+    <script type="text/javascript">
+        var signingUp = false;
+        var buttonAnimationDuration = 1000;
+        var animatingNormal = false;
+        var animatingBusy = false;
+
+        var _animateButtonNormal = false;
+        var _animateButtonBusy = false;
+
+        var gender, os;
+
+        var originalText = $("#emailSignupSubmit").text();
+        var busyText = "just a sec boo...";
+
+        var str = "";
+
+        function startedRequest(callback){
+            signingUp = true;
+            var fadeOutInterval = 250;
+            $(".radioButtonDiv").fadeOut(fadeOutInterval);
+            $(".radioButtonDivLabel").fadeOut(fadeOutInterval);
+            setTimeout(function(){$("#workingMessage").fadeIn(fadeOutInterval, callback);}, fadeOutInterval);
+//            setTimeout(callback, fadeOutInterval*2);
+        };
+
+        function finishedRequest(callback){
+            signingUp = false;
+            $("#workingMessage").fadeOut(250,callback);
+        }
+
+
+        function signupButtonTapped(){
+            var email = $("#emailSignupInput").val();
+            if (!email){
+                alert("Wait a sec boo you need to enter an email address.");
+                return;
+            }
+            if (!validateEmail(email)){
+                alert("Sorry bae but it looks like you entered an invalid email address");
+                return;
+            }
+            var fadeOutInterval = 250;
+            var fadeInInterval = fadeOutInterval;
+
+            $("#introDiv").fadeOut(fadeOutInterval);
+
+            setTimeout(function(){$(".radioButtonDivLabel").fadeIn(fadeInInterval);}, fadeOutInterval * 2);
+            setTimeout(function(){$(".radioButtonDiv").fadeIn(fadeInInterval);}, fadeOutInterval * 2);
+
+        }
+
+        function signedUp(){
+            var fadeOutInterval = 250;
+            var fadeInInterval = fadeOutInterval;
+            $("#successMessage").fadeIn(fadeInInterval);
+            setTimeout(function(){$("#backButton").fadeIn(fadeInInterval);}, fadeOutInterval*2);
+        };
+
+        function errorSigningUp(){
+            gender = null;
+            os = null;
+            $("input:radio[name=os]").prop('checked', false);
+            $("input:radio[name=gender]").prop('checked', false);
+            $("#introDiv").fadeIn(500);
+        };
+
+        function signupEmail(){
+            if (!signingUp && gender && os) {
+                startedRequest(function(){
+                    var email = $("#emailSignupInput").val();
+
+                    $.ajax({
+                        url: '/addEmail',
+                        method : 'POST',
+                        data : {email : email, gender: gender, os : os},
+                        success: function(){
+                            finishedRequest(signedUp);
+//                            signedUp();
+                        },
+                        error: function(err){
+                            finishedRequest(function(){
+                                if (err.responseText === "InvalidEmail"){
+                                    alert("Sorry bae but it looks like you entered an invalid email address");
+                                }
+                                else if (err.responseText === "EmailExists"){
+                                    alert("Hold up boo - it looks like this email address is already signed up");
+                                }
+                                else alert("There was an error signing you up. Sorry <3. Maybe try again? ");
+                                errorSigningUp();
+                            });
+
+
+                        }
+                    });
+                });
+
+            }
+        };
+
+        function checkIfFinished(){
+            if (['male', 'female'].indexOf(gender) !== -1 && ['ios', 'android'].indexOf(os) !== -1){
+                signupEmail();
+            }
+        }
+
+        function backButtonTapped(){
+            gender = null;
+            os = null;
+            $("input:radio[name=os]").prop('checked', false);
+            $("input:radio[name=gender]").prop('checked', false);
+
+            $("#backButton").fadeOut(500);
+            $("#successMessage").fadeOut(500, function(){
+                $("#introDiv").fadeIn(500);
+            });
+        };
+
+        function infoButtonTapped(){
+          $("#introDiv").fadeOut(500, function(){
+             $("#infoDiv").fadeIn(500);
+          });
+        };
+
+        function infoBackButtonTapped(){
+            $("#infoDiv").fadeOut(500, function(){
+                $("#introDiv").fadeIn(500);
+            });
+        };
+
+
+        function validateEmail(email) {
+
+            if (!email) return false;
+            email = email.trim();
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (re.test(email)){
+                return true;
+            }
+            return false;
+        }
+
+
+
+        window.onload = function(){
+            setTimeout(function(){$("#soiree").fadeIn(2000);}, 500);
+            setTimeout(function(){$("#emailSignupInput").fadeIn(1500);}, 3500);
+            setTimeout(function(){$("#emailSignupSubmit").fadeIn(1500);}, 4300);
+            setTimeout(function(){$("#infoButton").fadeIn(1500);}, 4600);
+            setTimeout(function(){$("#eventButton").fadeIn(1500);}, 4900);
+            setTimeout(function(){$("#slogan").fadeIn(1000);}, 5500);
+
+            $("input:radio[name=gender]").click(function() {
+                gender = $(this).val();
+                checkIfFinished();
+            });
+
+            $("input:radio[name=os]").click(function() {
+                os = $(this).val();
+                checkIfFinished();
+            });
+
+        };
+
+
+    </script>
+
+{{/extend}}
+
+

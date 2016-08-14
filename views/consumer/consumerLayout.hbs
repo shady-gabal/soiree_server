@@ -10,15 +10,33 @@
       {{{block "stylesheets"}}}
 
   </head>
-  <body id="body">
+  <body>
+  {{#if errs}}
+      <div class='alert alert-danger' role='alert'>
+          <ul>
+              {{#if errors}}
+                  <li>{{errors}}</li>
+              {{/if}}
+          </ul>
+      </div>
+  {{/if}}
 
+  {{#if success}}
+      <div class='alert alert-success' role='alert' id="successMessage">
+          {{success}}
+      </div>
+  {{/if}}
+
+  <div id="container">
       {{{body}}}
+  </div>
 
-      <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-      <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-      {{{block "scripts"}}}
-
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  {{{block "scripts"}}}
   </body>
+
+
 </html>
 
 
