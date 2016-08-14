@@ -1,0 +1,107 @@
+{{#extend "head"}}
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <style type="text/css" media="screen">
+        html, body{
+            margin:0px;
+            padding:0px;
+            height:100%;
+            overflow:hidden;
+        }
+    </style>
+    <style>
+        .dhx_cal_date{
+            display:none;
+        }
+    </style>
+{{/extend}}
+
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="/codebase/dhtmlxscheduler.css">
+{{/extend}}
+
+{{#extend "scripts"}}
+    <script src="/codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8" ></script>
+
+    <script>
+
+        function findOrCreateEvent(nextWeekStartDates, nextWeekEndDates){
+            $.ajax({url : '/defaultSchedule', method : "GET"}
+            ).done(function(data){
+
+            }).fail(function(err){
+               alert(err);
+            });
+            $.ajax({url:'/findEventByStartDate', method : "POST", data : {"startDates" : nextWeekStartDates, "endDates" : nextWeekEndDates}
+            }).done(function(data){
+                var startDates = data.startDates;
+                var endDates = data.endDates;
+
+                for(var i = 0; i < startDates.length; i++){
+                    var start = new Date(startDates[i]);
+                    var end = new Date(endDates[i]);
+
+                    scheduler.addEvent({
+                        start_date : start,
+                        end_date :   end
+                    });
+                }
+            }).fail(function(err){
+                alert("ajax error");
+            });
+        };
+
+        function init() {
+            $('.dhx_cal_next_button').click(function(){
+                var beginDate = scheduler.getState().min_date;
+                var endDate = scheduler.getState().max_date;
+                var events = scheduler.getEvents(beginDate, endDate);
+                var startDates = [];
+                var endDates = [];
+                for(var i = 0; i < events.length; i++) {
+                    var ev = events[i];
+                    var nextWeekStartDate = scheduler.date.add(new Date(ev.start_date), 1, 'week');
+                    var nextWeekEndDate = scheduler.date.add(new Date(ev.end_date), 1, 'week');
+
+                    startDates.push(nextWeekStartDate);
+                    endDates.push(nextWeekEndDate);
+                }
+                    findOrCreateEvent(startDates, endDates);
+            });
+            scheduler.config.xml_date="%Y-%m-%d %H:%i";
+            scheduler.config.drag_resize = true;
+            scheduler.config.drag_create = false;
+            scheduler.config.icons_edit = ['icon_save', 'icon_cancel'];
+            scheduler.config.icons_select = ['icon_details', 'icon_edit'];
+            scheduler.config.hour_date = "%g:%i%a";
+            scheduler.templates.event_text = function(start, end, ev){
+                ev.text = "Able To Host Soirée";
+                return ev.text;
+            };
+
+            scheduler.init('scheduler_here',new Date(),"week");
+
+            scheduler.templates.xml_date = function(value){ return new Date(value); };
+            scheduler.load("/data", "json");
+
+            var dp = new dataProcessor("/data");
+            dp.init(scheduler);
+            dp.setTransactionMode("POST", false);
+        }
+    </script>
+{{/extend}}
+
+<body onload="init();">
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+    <div class="dhx_cal_navline">
+        <div class="dhx_cal_prev_button">&nbsp;</div>
+        <div class="dhx_cal_next_button">&nbsp;</div>
+        <div class="dhx_cal_today_button"></div>
+        <div class="dhx_cal_date"></div>
+    </div>
+    <div class="dhx_cal_header">
+    </div>
+    <div class="dhx_cal_data">
+    </div>
+</div>
+</body>
+

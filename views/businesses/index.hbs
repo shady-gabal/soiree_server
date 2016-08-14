@@ -28,16 +28,19 @@
 <!--{{/if}}-->
 
 <div>
-    <div style="text-align:center;"><div id="successMessageDiv"></div></div>
-
-    <div class="form-signin" id="confirmationCodeForm">
-        <h1 id="welcomeHeader">Welcome to {{title}}, {{business.businessName}}</h1>
-        <input type="text" name="confirmationCode" id="confirmationCodeInput" class="form-control" placeholder="Confirmation Code" autofocus/>
-        <button class="btn btn-primary btn-block" id="confirmationCodeButton" onclick="confirm()">Confirm </button>
-    </div>
+        <div id="dailySoireesDiv">
+            {{#each upcomingSoirees}}
+                <li class="dailySoireeListItem">
+                    <a href="/businesses/viewSoiree/{{this.soireeId}}" class="dailySoireeLink">Today at <span class="dailySoireeStrongItem">{{this.timeString}}</span>: <span class="dailySoireeStrongItem">{{this.title}}</span></a>
+                    <button onclick="">Guest List</button>
+                    <button onclick="">Seen</button>
+                    <br>
+                    <a href="/businesses/viewSoiree/{{this.soireeId}}" class="dailySoireeLink">Number Of Users Registered: <span class="dailySoireeStrongItem">{{this.numUsersRegistered}}</span></a>
+                </li>
+                <br>
+            {{/each}}
+        </div>
 </div>
-
-
 
 
 {{#extend "scripts"}}

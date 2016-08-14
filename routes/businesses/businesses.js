@@ -17,6 +17,8 @@ var SoireeReservation = require('app/db/SoireeReservation.js');
 var Business = require('app/db/Business.js');
 var User = require('app/db/User.js');
 var Admin = require('app/db/Admin.js');
+var Event = require ('app/db/Event.js');
+
 
 var DateHelper = require('app/helpers/DateHelper.js');
 var ResHelper = require('app/helpers/ResHelper.js');
@@ -87,6 +89,28 @@ function upcomingSoireesForBusiness(business, successCallback, errorCallback){
         }
     });
 }
+
+router.get('/confirmationCode', function(req, res){
+    upcomingSoireesForBusiness(req.business, function(upcomingSoirees){
+        req.business.deepPopulate("_unconfirmedReservations._soiree", function(err){
+            if (err){
+                return res.status(404).send("Error");
+            }
+            ResHelper.render(req, res, 'businesses/confirmationCode', {reservations : req.business._unconfirmedReservations, upcomingSoirees : upcomingSoirees});
+
+        });
+    }, function(){
+        res.status(418).send("Error. Please try again.");
+    });
+});
+
+router.get('/defaultSchedule',function(req, res){
+   ResHelper.render(req, res, 'businesses/defaultSchedule',{});
+});
+
+router.get('/actualSchedule', function(req, res){
+   ResHelper.render(req, res, 'businesses/actualSchedule',{});
+});
 
 router.get('/upcomingSoirees', function(req, res){
 
@@ -170,6 +194,126 @@ router.get('/viewSoiree/:soireeId', function(req, res){
     });
 });
 
+
+router.get('/data', function(req, res){
+    db.event.find().toArray(function(err, data){
+        //set id property for all records
+        for (var i = 0; i < data.length; i++)
+            data[i].id = data[i]._id;
+
+        //output response
+        res.send(data);
+    });
+});
+
+
+router.post('/data', function(req, res){
+    var data = req.body;
+    //deep populate?
+    //create schema
+    //insert
+    //add to set
+
+    //get operation type
+    var mode = data["!nativeeditor_status"];
+    //get id of record
+    var sid = data.id;
+    var tid = sid;
+
+    //remove properties which we do not want to save in DB
+    delete data.id;
+    delete data.gr_id;
+    delete data["!nativeeditor_status"];
+
+
+    //output confirmation response
+    function update_response(err, result){
+        if (err)
+            mode = "error";
+        else if (mode == "inserted")
+            tid = data._id;
+
+        res.setHeader("Content-Type","text/xml");
+        res.send("<data><action type='"+mode+"' sid='"+sid+"' tid='"+tid+"'/></data>");
+    }
+
+    //run db operation
+    if (mode == "updated")
+        db.event.updateById( sid, data, update_response);
+    else if (mode == "inserted")
+        db.event.insert(data, update_response);
+    else if (mode == "deleted")
+        db.event.removeById( sid, update_response);
+    else
+        res.send("Not supported operation");
+});
+
+
+router.post('/confirmSoireeReservation', function(req, res){
+    var confirmationCode = req.body.confirmationCode;
+    console.log("Attempting to confirm " + confirmationCode);
+    if (!confirmationCode){
+        return res.status(404).send("Error");
+    }
+
+    confirmationCode = confirmationCode.toUpperCase();
+    var responseObj = {};
+
+    req.business.findReservationWithConfirmationCode(confirmationCode, function(reservation){
+      //found reservation
+        console.log("Confirming...");
+        /* CONFIRM BLOCK */
+        reservation.confirm(confirmationCode, function(user){
+            responseObj.status = "success";
+
+            responseObj.userFullName = user.fullName;
+            responseObj.userProfilePictureUrl = user.profilePictureUrl;
+            var age = (h.Globals.devOrTest) ? (user.age ? user.age : 26) : user.age;
+            responseObj.userAge = age;
+
+            responseObj.message = "Successfully confirmed reservation!";
+            responseObj.userId = user.userId;
+
+            var amountPrepaid = "$" + (reservation.amount/100).toFixed(2);
+            responseObj.amountPrepaid = amountPrepaid;
+
+            //req.flash('success', 'Successfully confirmed reservation');
+
+            res.json(responseObj);
+        }, function(error){
+            if (error){
+                console.log(error);
+                responseObj.status = "fail";
+                responseObj.message = "There was an error processing your request. Please try again.";
+            }
+            else{
+                responseObj.status = "fail";
+                responseObj.message = "Invalid Confirmation Code.";
+            }
+
+            res.json(responseObj);
+        });
+        /* END CONFIRM BLOCK */
+
+    }, function(err) { //error callback for finding soirees
+        console.log(err);
+
+        if (err === ErrorCodes.NotFound) {
+            responseObj.status = "fail";
+            responseObj.message = "Invalid Confirmation Code.";
+        }
+        else {
+            responseObj.status = "fail";
+            responseObj.message = "There was an error processing your request. Please try again.";
+        }
+
+        res.json(responseObj);
+
+
+
+    });
+
+});
 //router.post('/confirmSoireeReservation', function(req, res){
 //    var confirmationCode = req.body.confirmationCode;
 //    console.log("Attempting to confirm " + confirmationCode);

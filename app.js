@@ -135,6 +135,7 @@ hbs.registerHelper('block', function(name) {
     return val;
 });
 
+
 /****** SETUP COOKIES/BODYPARSER ********/
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -341,6 +342,163 @@ passport.deserializeUser(function(user, done) {
     }
 });
 
+
+//TEST BUSINESS EVENT SCHEDULING
+
+var Event = require('app/db/Event.js');
+
+app.get('/data', function(req, res){
+    // Event.remove({}).exec(function(err){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    // });
+
+    Event.find({},function(err, data){
+        //set id property for all records
+       for (var i = 0; i < data.length; i++){
+            data[i].id = data[i]._id;
+        }
+
+        //output response
+        res.send(data);
+
+    });
+});
+
+app.get('/defaultSchedule', function(req, res){
+   Event.find({default : true}, function(err, data){
+       if(err){
+           console.log(err);
+       }
+       //set id property for all records
+       for (var i = 0; i < data.length; i++){
+           data[i].id = data[i]._id;
+       }
+
+       //output response
+       res.send(data);
+   });
+});
+
+
+app.post('/data', function(req, res){
+    
+   createOrUpdateEvent(req, res, false);
+});
+
+app.post('/saveDefaultEvent', function(req, res){
+    createOrUpdateEvent(req, res, true);
+});
+
+function createOrUpdateEvent(req, res, isDefault){
+    var data = req.body;
+
+    //get operation type
+    var mode = data["!nativeeditor_status"];
+    //get id of record
+    var sid = data.id;
+    var tid = sid;
+
+    //remove properties which we do not want to save in DB
+    delete data.id;
+    delete data.gr_id;
+    delete data["!nativeeditor_status"];
+
+
+    //output confirmation response
+    function update_response(err, data){
+        if (err)
+            mode = "error";
+        else if (mode == "inserted")
+            tid = data._id;
+
+        // data.id = data._id;
+
+        res.setHeader("Content-Type","text/xml");
+        res.send("<data><action type='"+mode+"' sid='"+sid+"' tid='"+tid+"'/></data>");
+    }
+
+    //run db operation
+    var newEventSchema = {
+        id : sid,
+        start_date : data.start_date,
+        end_date : data.end_date,
+        text : data.text,
+        details : data.details,
+        default : isDefault
+    };
+
+    if(mode == 'deleted'){
+
+
+        Res.send('Not supported operation');
+    }
+    else if(mode == 'inserted'){
+        Event.findOneAndUpdate({start_date : data.start_date},newEventSchema,
+            {
+                upsert : true,
+                new : true
+            },
+            function(err, event){
+                if(err){
+                    console.log(err);
+                }
+                update_response(err, event);
+            });
+    }
+    else if(mode == 'updated'){
+        Event.findOneAndUpdate({id : sid},newEventSchema,
+            {
+                new : true
+            },
+            function(err, event){
+                if(err){
+                    console.log(err);
+                }
+                update_response(err, event);
+            });
+    }
+}
+
+app.post('/findEventByStartDate',function(req, res){
+    var startDates = req.body.startDates;
+    var endDates = req.body.endDates;
+    if(!startDates || !endDates){
+        res.json({});
+    }
+    var numEvents = startDates.length;
+    var callbackCounter = 0;
+    var startDatesNotFound = [];
+    var endDatesNotFound = [];
+    var callback = function(){
+        if(++callbackCounter == numEvents){
+            res.json({"startDates" : startDatesNotFound, "endDates" : endDatesNotFound });
+        }
+    }
+    for(var i = 0; i < startDates.length; i++){
+        var startDate = startDates[i];
+        var endDate = endDates[i];
+        findEventsByStartDate(startDate, endDate, startDatesNotFound, endDatesNotFound, callback);
+    }
+});
+
+function findEventsByStartDate(startDate, endDate, startDatesNotFound, endDatesNotFound, callback){
+    Event.findOne({start_date : startDate}, function(err, event){
+        if(err){
+            console.log(err);
+        }
+        if(!event){
+            startDatesNotFound.push(startDate);
+            endDatesNotFound.push(endDate);
+        }
+        callback(err, event);
+    });
+}
+
+
+
+
 /**************** Routes *****************/
 
 /******* API ********/
@@ -454,6 +612,7 @@ function scheduleCron(){
 }
 
 app.set('etag', false); // turn off
+
 
 
 //var  http = require("http")
