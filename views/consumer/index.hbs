@@ -69,11 +69,6 @@
             else containerToHide = "#party-details-container";
             tabToDeselect = "#partyTab";
         }
-        else if (pageCurrentlyShowing === "different"){
-            containerToHide = "#different-container";
-            tabToDeselect = "#differentTab";
-
-        }
         else if (pageCurrentlyShowing === "taste"){
             containerToHide = "#taste-container";
             tabToDeselect = "#tasteTab";
@@ -88,11 +83,6 @@
         else if (targetPage === "party") {
             containerToShow = "#party-details-container";
             tabToSelect = "#partyTab";
-        }
-        else if (targetPage === "different"){
-            containerToShow = "#different-container";
-            tabToSelect = "#differentTab";
-
         }
         else if (targetPage === "taste"){
             containerToShow = "#taste-container";
@@ -129,9 +119,7 @@
 
             <ul class="nav navbar-nav">
                 <li id="infoTab" class="active"><a href="javascript:;" onclick="showPage('info')">What is Soirée?</a></li>
-                <li id="differentTab"><a href="javascript:;" onclick="showPage('different')">How are we different?</a></li>
                 <li id="tasteTab"><a href="javascript:;" onclick="showPage('taste')">A taste of Soirée</a></li>
-x
                 <li></li>
 
             </ul>
@@ -191,12 +179,6 @@ x
 
         <h4 class="social-soirees-section"><strong>Movie Soirées:</strong></h4>
         <p class="info-text">Nobody wants to go to the movies alone. But you’re not really alone – theatres are full of strangers sitting together for hours. Buying a Soirée ticket links you with other friendly moviegoers. Stop hearing friends say they’re busy, watch the movie you want on your own time - and make a whole new group of friends!</p>
-
-    </div>
-
-    <!-- Different -->
-    <div id="different-container" class="tab-div">
-        <div style="text-align:center"><h2 class="tab-header"><strong>How are we different?</strong></h2></div>
 
     </div>
 
