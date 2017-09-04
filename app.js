@@ -138,7 +138,7 @@ hbs.registerHelper('block', function(name) {
 
 /****** SETUP COOKIES/BODYPARSER ********/
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + 'public/images/favicon.ico'));
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
